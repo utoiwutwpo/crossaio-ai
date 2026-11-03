@@ -1,0 +1,50 @@
+/* CrossAIO 共享动态效果 — Helium 10 + GitHub 风格 */
+/* 所有落地页统一引入 */
+
+/* 滚动渐入 */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-delay { transition-delay: .15s; }
+.reveal-delay2 { transition-delay: .3s; }
+
+/* 卡片 hover 上浮 */
+.card-hover { transition: .2s; }
+.card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(37,99,235,.12); }
+
+/* 按钮光晕 */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  animation: shine 3s ease-in-out infinite;
+}
+@keyframes shine { 0% { left: -100%; } 50%, 100% { left: 100%; } }
+
+/* GitHub 风格代码窗口 */
+.gh-code {
+  background: #0d1117; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.gh-code .gh-head {
+  display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+  background: #161b22; border-bottom: 1px solid #30363d;
+}
+.gh-code .gh-dot { width: 12px; height: 12px; border-radius: 50%; }
+.gh-code .gh-dot.r { background: #ff5f56; }
+.gh-code .gh-dot.y { background: #ffbd2e; }
+.gh-code .gh-dot.g { background: #27c93f; }
+.gh-code .gh-title { margin-left: 12px; font-size: 12.5px; color: #8b949e; font-family: monospace; }
+.gh-code pre {
+  padding: 18px 20px; font-family: 'Fira Code', Consolas, monospace;
+  font-size: 12.5px; line-height: 1.8; color: #e6edf3; overflow-x: auto; margin: 0;
+}
+
+/* GitHub 徽章 */
+.gh-badge {
+  display: inline-block; border-radius: 999px; padding: 2px 10px;
+  font-size: 11.5px; font-weight: 600; border: 1px solid; margin-right: 6px;
+}
+.gh-badge.blue { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.gh-badge.green { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+.gh-badge.yellow { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+.gh-badge.pink { background: #fce7f3; border-color: #fbcfe8; color: #9d174d; }

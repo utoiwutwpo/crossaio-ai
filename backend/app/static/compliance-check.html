@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/compliance-check">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/compliance-check">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/compliance-check">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/compliance-check">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/compliance-check">
+<title>一键合规体检 — 体检 → 欧代标注 → 技术文件清单 | CrossAIO</title>
+<meta name="description" content="GPSR 强执法下平台前置校验拦截不合规 listing。30 秒一键体检：风险等级、合规就绪分、缺项清单、欧代标注、技术文件清单（10 年存档）、当地语言警示语包。免注册免费体验。">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --bar:#1a5cf0;--warn:#d97706;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem{position:relative}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a.solo::after{display:none}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .navitem.active>a{color:var(--blue)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:280px;background:#fff;border-radius:12px;
+    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a.on{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+  @media(max-width:980px){.menu{display:none}}
+
+  .hero-wrap{background:radial-gradient(1100px 600px at 78% 30%,rgba(124,58,237,.45),transparent 62%),
+       radial-gradient(900px 500px at 10% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:76px 32px 88px;display:grid;
+    grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;color:#fff;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
+  .hero h1{font-size:44px;line-height:1.22;font-weight:800;letter-spacing:-.01em;margin-bottom:18px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:16px;color:#d3d9ea;max-width:520px;margin-bottom:28px}
+  .flow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+  .flow span{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 16px;font-size:13px;font-weight:600}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 32px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45)}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 30px;font-size:15.5px;font-weight:600;cursor:pointer}
+  .hero .tiny{margin-top:20px;font-size:12.5px;color:#9aa6c4}
+  .hero .tiny b{color:#e2e8f0}
+
+  /* 右侧：交付物预览卡 */
+  .audit-card{background:#fff;border-radius:16px;color:var(--ink);width:100%;max-width:420px;margin-left:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);font-size:13px;overflow:hidden}
+  .audit-card .head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)}
+  .audit-card .head .cdot{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .audit-card .head b{font-size:13.5px}
+  .audit-card .head .win{margin-left:auto;color:#94a3b8;font-size:12px;letter-spacing:3px}
+  .audit-card .body{padding:16px}
+  .score-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .ring{width:74px;height:74px;border-radius:50%;background:conic-gradient(var(--ok) 0 62%,#e2e8f0 62% 100%);display:flex;align-items:center;justify-content:center;flex:none}
+  .ring i{width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:17px}
+  .score-row .t b{display:block;font-size:14px}
+  .score-row .t span{font-size:12px;color:var(--muted)}
+  .drow{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:12.5px}
+  .drow .k{font-weight:600}
+  .drow .s{font-size:11px;color:var(--muted)}
+  .badge{border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
+  .badge.ok{background:#dcfce7;color:var(--ok)}
+  .badge.lock{background:#fef3c7;color:var(--warn)}
+  .audit-card .foot{border-top:1px solid var(--border);padding:10px 16px;font-size:11px;color:#94a3b8;text-align:center}
+
+  section{max-width:1240px;margin:0 auto;padding:72px 24px}
+  .sec-head{text-align:center;margin-bottom:36px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:32px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:15px}
+
+  .stats{background:var(--navy);color:#fff;padding:56px 24px}
+  .stats .row{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+  .stat .n{font-size:40px;font-weight:800;color:#a5b4fc}
+  .stat .l{font-size:13px;color:#c7d0e8}
+  @media(max-width:760px){.hero{grid-template-columns:1fr;padding:56px 24px}.stats .row{grid-template-columns:repeat(2,1fr)}.audit-card{margin:0 auto}}
+
+  .panel{max-width:640px;margin:0 auto;background:#fff;border:1px solid var(--border);border-radius:16px;
+    box-shadow:0 14px 44px rgba(15,23,42,.10);padding:28px}
+  .panel label{display:block;font-size:12.5px;font-weight:700;margin:14px 0 6px;color:#334155}
+  .panel input,.panel select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-size:14px;outline:none}
+  .panel input:focus,.panel select:focus{border-color:var(--blue)}
+  .hint{font-size:12px;color:var(--muted)}
+  #out{margin-top:18px}
+  .r-block{border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+  .r-block h4{font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .risk{border-radius:999px;padding:2px 12px;font-size:12px;font-weight:700}
+  .risk.high{background:#fee2e2;color:var(--err)}
+  .risk.medium{background:#fef3c7;color:var(--warn)}
+  .risk.low{background:#dcfce7;color:var(--ok)}
+  .gapline{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px}
+  .gapline:last-child{border-bottom:none}
+  .sev{flex:none;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700;margin-top:2px}
+  .sev.critical{background:#fee2e2;color:var(--err)}
+  .sev.high{background:#ffedd5;color:#c2410c}
+  .sev.medium{background:#fef3c7;color:var(--warn)}
+  .gapline .why{display:block;font-size:12px;color:var(--muted)}
+  .langs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .langs span{background:#eff6ff;color:var(--blue);border-radius:6px;padding:2px 10px;font-size:12px;font-weight:700}
+  .locked{position:relative;filter:blur(0);}
+  .locked .lockrow{display:flex;justify-content:space-between;align-items:center}
+  .locked .fake{height:12px;border-radius:6px;background:#eef2f7;margin:8px 0}
+  .locked .veil{position:absolute;inset:0;background:rgba(255,255,255,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;border-radius:12px}
+  .veil b{background:#fff;border:1px solid var(--border);box-shadow:0 10px 30px rgba(15,23,42,.14);
+    border-radius:999px;padding:9px 22px;font-size:13px;color:var(--blue);cursor:pointer}
+  .upsell{background:linear-gradient(115deg,#0a0f2e,#3b1a86);color:#fff;border-radius:12px;padding:16px 18px;font-size:13.5px;line-height:1.7}
+  .upsell button{margin-top:10px}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:960px;margin:0 auto}
+  @media(max-width:820px){.compare{grid-template-columns:1fr}}
+  .pcard{border:1.5px solid var(--border);border-radius:16px;padding:26px;background:#fff}
+  .pcard.pro{border-color:var(--blue);box-shadow:0 16px 50px rgba(37,99,235,.16)}
+  .pcard h3{font-size:18px;margin-bottom:4px}
+  .pcard .price{font-size:30px;font-weight:800;margin:8px 0 14px}
+  .pcard ul{list-style:none;font-size:13.5px;color:#334155}
+  .pcard li{padding:6px 0;border-bottom:1px dashed var(--border)}
+  .pcard li::before{content:"✓";color:var(--ok);font-weight:800;margin-right:8px}
+  .pcard li.no{color:#94a3b8}.pcard li.no::before{content:"✕";color:#cbd5e1}
+  .faq details{max-width:860px;margin:0 auto 12px;border:1px solid var(--border);border-radius:12px;padding:16px 20px;background:#fff}
+  .faq summary{font-weight:700;font-size:14.5px;cursor:pointer}
+  .faq p{margin-top:8px;font-size:13.5px;color:var(--muted)}
+  footer{background:var(--navy);color:#c7d0e8;padding:36px 24px;text-align:center;font-size:13px}
+</style>
+</head>
+<body>
+<div class="topbar">GPSR (EU 2023/988) 已进入全面强执法 —— 平台前置校验拦截不合规 listing。<a href="#check" style="color:#fff"><b>先体检再上架 →</b></a></div>
+
+<nav>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem"><a>产品能力</a>
+      <div class="dropdown">
+        <a href="/features/gpsr"><span>🛡️ GPSR 合规引擎<small>CE 类目 → 警示语 → 合规块 → 回填</small></span></a>
+        <a href="/features/listing-generator"><span>📦 Listing 生成器<small>四件套 + 字数硬校验 + 评分</small></span></a>
+        <a href="/features/matrix"><span>🌍 多平台矩阵<small>一次输入 → 13 平台批量本地化</small></span></a>
+        <a href="/features/review-rewrite"><span>📈 差评改写闭环<small>主题定位 → 五点修复 + 语义评分</small></span></a>
+        <a href="/features/ai-service"><span>💬 AI 客服 + 统一收件箱<small>Art.50 披露内嵌 + eBay 接入</small></span></a>
+        <a href="/features/safety-redline"><span>🚨 政策安全红线层<small>威胁/勒索识别 → 转人工留证</small></span></a>
+        <a href="/features"><span>🗂️ 产品能力总览<small>六大能力 · 每个能力一个独立页面</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>覆盖平台</a>
+      <div class="dropdown">
+        <a href="/rules/allegro"><span>🇵🇱 Allegro 规则详情<small>波兰语政策 + UOKiK 监管</small></span></a>
+        <a href="/rules/emag"><span>🇷🇴 eMAG 规则详情<small>罗马尼亚语政策 + ANPC 监管</small></span></a>
+        <a href="/rules/cdiscount"><span>🇫🇷 Cdiscount 规则详情<small>法语政策（Loi Toubon）</small></span></a>
+        <a href="/rules/otto"><span>🇩🇪 Otto 规则详情<small>德语政策 + ProdSG</small></span></a>
+        <a href="/rules/kaufland"><span>🇩🇪 Kaufland 规则详情<small>德/捷/斯四国站点</small></span></a>
+        <a href="/rules/bol"><span>🇳🇱 bol.com 规则详情<small>荷兰语政策 + ACM 监管</small></span></a>
+        <a href="/rules"><span>📋 全部 13 平台速查表<small>字数 / 语言 / GPSR 要点</small></span></a>
+      </div>
+    </div>
+    <div class="navitem active"><a>免费工具</a>
+      <div class="dropdown">
+        <a href="/compliance-check" class="on"><span>✅ 一键合规体检<small>体检 → 欧代标注 → 技术文件清单，30 秒出报告</small></span></a>
+        <a href="/gpsr-check"><span>🛡️ GPSR 合规体检<small>免注册 30 秒，只报问题不收费</small></span></a>
+        <a href="/rules"><span>📋 平台规则速查表<small>13 平台字数/语言/GPSR 要点</small></span></a>
+        <a href="/skills"><span>🎁 开源 Skills<small>GPSR 检查器 + 规则库，MIT 免费</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="/pricing">定价</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/compliance-check" data-lang="zh" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">中文</a>
+      <a href="/en/compliance-check" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/compliance-check" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
+      <a href="/fr/compliance-check" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    </div>
+    <a class="login-link" href="/signin">登录</a>
+    <a href="/signup"><button class="pill-nav">免费注册</button></a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">✅ Compliance Audit · 一键合规体检</div>
+      <h1>不是又一个<span class="accent">体检清单</span>，<br>是把合规<span class="accent">交付物</span>一次做完</h1>
+      <p class="sub">2024–2025 约 15%–20% 中小卖家因合规门槛退出欧洲。GPSR 强执法 + 平台前置校验，
+        缺欧代 / 缺技术文件 / 警示语语言不符 = 失购物车、屏蔽搜索、强制下架。一键体检，30 秒出报告。</p>
+      <div class="flow">
+        <span>① 合规体检</span><span>→</span><span>② 欧代标注行</span><span>→</span>
+        <span>③ 技术文件清单</span><span>→</span><span>④ 当地语言警示语包</span>
+      </div>
+      <div class="cta-row">
+        <button class="pill-blue" onclick="document.getElementById('check').scrollIntoView()">免费开始体检 →</button>
+        <a href="/pricing"><button class="pill-ghost">查看付费交付物</button></a>
+      </div>
+      <div class="tiny">免注册 · 每天 3 次免费 · 无需信用卡 · <b>欧代信息自动来自你的欧代台账</b></div>
+    </div>
+    <div class="audit-card">
+      <div class="head"><span class="cdot">✅</span><b>合规体检报告 · 示例</b><span class="win">● ● ●</span></div>
+      <div class="body">
+        <div class="score-row">
+          <div class="ring"><i>62</i></div>
+          <div class="t"><b>合规就绪分 62 / 100</b><span>Kids Building Blocks Toy · Allegro</span></div>
+        </div>
+        <div class="drow"><div><div class="k">🚨 欧代（欧盟授权代表）</div><div class="s">产品 / 包装 / Listing 三处统一标注</div></div><span class="badge ok">已解锁</span></div>
+        <div class="drow"><div><div class="k">📄 技术文件清单（8 项）</div><div class="s">风险评估 · DoC · 追溯 · 10 年存档</div></div><span class="badge ok">已解锁</span></div>
+        <div class="drow"><div><div class="k">🌐 警示语包 × 4 语言</div><div class="s">PL / DE / CS / HU 当地语言版本</div></div><span class="badge ok">已解锁</span></div>
+        <div class="drow"><div><div class="k">⏱️ Safety Gate 15 天上报协议</div><div class="s">Art.35 事故上报流程提示</div></div><span class="badge ok">已解锁</span></div>
+      </div>
+      <div class="foot">报告为工程辅助建议，不能替代法律意见</div>
+    </div>
+  </div>
+</div>
+
+<!-- 信任统计 -->
+<div class="stats">
+  <div class="row">
+    <div class="stat"><div class="n">800+</div><div class="l">GPSR 硬性条款（2026 强执法）</div></div>
+    <div class="stat"><div class="n">15-20%</div><div class="l">中小卖家因合规门槛退出欧洲</div></div>
+    <div class="stat"><div class="n">48h</div><div class="l">监管问询全链路追溯时限</div></div>
+    <div class="stat"><div class="n">10 年</div><div class="l">技术文件法定保存年限</div></div>
+  </div>
+</div>
+
+<!-- 免费体检（免注册） -->
+<section id="check" style="padding-top:64px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">免费 · 免注册 · 无需信用卡</div>
+    <h2 class="sec-title">30 秒一键合规体检</h2>
+    <p class="sec-sub" style="margin:0 auto">免费版出「体检摘要」：风险等级 + 就绪分 + 缺项清单。
+      付费解锁交付物：欧代标注行、技术文件清单、当地语言警示语包、平台原生合规块。</p>
+  </div>
+  <div class="panel">
+    <label>产品标题 *</label><input id="a_name" placeholder="例如：Wireless Bluetooth Earbuds with Charging Case">
+    <label>核心关键词（逗号分隔）*</label><input id="a_kw" placeholder="例如：bluetooth, earbuds, wireless">
+    <label>主要平台</label>
+    <select id="a_platform">
+      <option value="amazon">Amazon 欧洲站</option><option value="amazon_us">Amazon 美国站</option><option value="ebay">eBay</option>
+      <option value="cdiscount">Cdiscount（法国）</option><option value="otto">Otto（德国）</option>
+      <option value="allegro">Allegro（波兰）</option><option value="emag">eMAG（罗马尼亚）</option>
+      <option value="tiktok">TikTok Shop（欧美）</option><option value="walmart">Walmart（美国）</option>
+      <option value="fruugo">Fruugo（泛欧）</option><option value="kaufland">Kaufland（德/中东欧）</option>
+      <option value="zalando">Zalando（欧洲时尚）</option><option value="bol">bol.com（荷/比）</option>
+    </select>
+    <button class="pill-blue" id="btnGo" style="width:100%;margin-top:22px">开始一键体检 →</button>
+    <div class="hint" style="text-align:center;margin-top:10px">游客每天 3 次 · 注册后自动关联你的欧代台账，报告内嵌真实欧代信息</div>
+    <div id="out"></div>
+  </div>
+</section>
+
+<!-- 付费墙对比 -->
+<section id="paywall" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">免费 vs 付费交付物</div>
+    <h2 class="sec-title">免费告诉你差什么，付费把交付物做完</h2>
+    <p class="sec-sub">合规不是体检一次就结束——是可交付的档案。</p>
+  </div>
+  <div class="compare">
+    <div class="pcard">
+      <h3>Free</h3>
+      <div class="price">€0</div>
+      <ul>
+        <li>风险等级 + CE 类目识别</li>
+        <li>合规就绪分（0-100）</li>
+        <li>缺项清单与违规后果</li>
+        <li>平台原生规则卡（政策名/监管机构）</li>
+        <li>Safety Gate 15 天上报协议提示</li>
+        <li class="no">欧代标注行（三处标注指引）</li>
+        <li class="no">技术文件清单（8 项 · 10 年存档）</li>
+        <li class="no">当地语言警示语包</li>
+        <li class="no">可粘贴的平台原生合规块</li>
+      </ul>
+      <a href="/signup"><button class="pill-nav ghost" style="width:100%;margin-top:16px">免费注册</button></a>
+    </div>
+    <div class="pcard pro">
+      <h3>Starter 起 <span style="font-size:12px;background:#eff6ff;color:var(--blue);border-radius:6px;padding:2px 8px;vertical-align:middle">解锁全部交付物</span></h3>
+      <div class="price">€19<span style="font-size:14px;color:var(--muted);font-weight:600">/月起</span></div>
+      <ul>
+        <li>免费版全部能力</li>
+        <li>欧代标注行（自动取你的欧代台账，产品/包装/Listing 三处统一）</li>
+        <li>技术文件清单（8 项：风险评估/DoC/BOM/追溯…含保存年限与截止）</li>
+        <li>当地语言警示语包（7 语种内置，可粘贴）</li>
+        <li>平台原生合规块（Allegro/eMAG/Cdiscount/Otto/Kaufland/bol）</li>
+        <li>体检历史保存 + 每日 7×24 监控日报</li>
+        <li>listing 生成 / 多平台矩阵 / AI 客服全部同档解锁</li>
+      </ul>
+      <a href="/pricing"><button class="pill-nav" style="width:100%;margin-top:16px">升级解锁 →</button></a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">常见问题</div>
+    <h2 class="sec-title">关于一键合规体检</h2>
+  </div>
+  <details open>
+    <summary>体检和 /gpsr-check 的免费 GPSR 体检有什么区别？</summary>
+    <p>GPSR 体检只回答「GPSR 合规块怎么写」；一键合规体检是完整闭环：额外覆盖欧代标注位置（产品/包装/Listing 三处统一）、
+      技术文件档案（Art.9(2)，10 年保存）、监管 48 小时追溯时限与 Safety Gate 15 天上报协议，并把你的欧代台账数据自动嵌入全部交付物。</p>
+  </details>
+  <details>
+    <summary>欧代信息从哪来？会是我的真实数据吗？</summary>
+    <p>是。在工作台「欧代台账」添加欧代并设为默认后，体检报告、合规块、警示语包会自动内嵌你欧代的公司名/地址/邮箱——不再有 [欧代公司名称] 占位符。
+      未配置欧代时，报告会把「缺欧代」列为 critical 缺项。</p>
+  </details>
+  <details>
+    <summary>技术文件清单包含什么？</summary>
+    <p>8 项：产品描述与规格、风险评估报告、物料清单与供应商信息、检测报告与证书、标签样张与当地语言说明书、
+      批次追溯记录、符合性声明（DoC）、欧代任命协议。每项标注法定保存年限（10 年/6 年）与提交截止场景。</p>
+  </details>
+  <details>
+    <summary>体检结果能直接贴到平台后台吗？</summary>
+    <p>付费解锁的合规块与警示语包按「可粘贴」标准生成；Starter 及以上还可经回填适配层生成各平台 API 的结构化 payload
+      （真实写回需配置平台凭证，默认 dry-run 不联网）。</p>
+  </details>
+  <details>
+    <summary>这个报告能替代法律意见吗？</summary>
+    <p>不能。报告为工程辅助建议，具体类目适用指令以欧盟官方文本与认证机构意见为准。我们把规则工程化，但不虚报「法律合规认证」。</p>
+  </details>
+</section>
+
+<footer>
+  CrossAIO · 跨境电商 AI 助手 · GPSR 合规闭环 &nbsp;|&nbsp;
+  <a href="/features/gpsr" style="color:#a5b4fc">产品能力</a> ·
+  <a href="/rules" style="color:#a5b4fc">平台规则</a> ·
+  <a href="/pricing" style="color:#a5b4fc">定价</a> ·
+  <a href="/skills" style="color:#a5b4fc">开源 Skills</a>
+</footer>
+
+<script>
+const PLATFORM_LABELS = {
+  amazon:"Amazon 欧洲站", amazon_us:"Amazon 美国站", ebay:"eBay", cdiscount:"Cdiscount",
+  otto:"Otto", allegro:"Allegro", emag:"eMAG", tiktok:"TikTok Shop", walmart:"Walmart",
+  fruugo:"Fruugo", kaufland:"Kaufland", zalando:"Zalando", bol:"bol.com"
+};
+const RISK_LABEL = {high:"高风险", medium:"中风险", low:"低风险"};
+
+document.getElementById('btnGo').addEventListener('click', async () => {
+  const name = document.getElementById('a_name').value.trim();
+  const kw = document.getElementById('a_kw').value.trim().split(/[,，]/).map(s=>s.trim()).filter(Boolean);
+  const platform = document.getElementById('a_platform').value;
+  const out = document.getElementById('out');
+  if(!name || kw.length===0){ out.innerHTML = '<div class="r-block" style="border-color:#fecaca;background:#fef2f2;color:#b91c1c">请填写产品标题和至少 1 个核心关键词</div>'; return; }
+  const btn = document.getElementById('btnGo');
+  btn.disabled = true; btn.textContent = '体检中…';
+  try{
+    const r = await fetch('/api/v1/compliance/audit-guest', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({product_name:name, keywords:kw, platform})
+    });
+    const d = await r.json();
+    if(!r.ok){ out.innerHTML = `<div class="r-block" style="border-color:#fecaca;background:#fef2f2;color:#b91c1c">${d.detail||'体检失败，请稍后再试'}</div>`; return; }
+    render(d, name, platform);
+  }catch(e){
+    out.innerHTML = '<div class="r-block" style="border-color:#fecaca;background:#fef2f2;color:#b91c1c">网络异常，请稍后再试</div>';
+  }finally{
+    btn.disabled = false; btn.textContent = '开始一键体检 →';
+  }
+});
+
+function render(d, name, platform){
+  const langs = (d.required_languages||[]).map(l=>`<span>${l.toUpperCase()}</span>`).join('');
+  const gaps = (d.gaps||[]).map(g=>`
+    <div class="gapline"><span class="sev ${g.severity}">${g.severity==='critical'?'致命':g.severity==='high'?'高':'中'}</span>
+      <div><b>${g.label}</b><span class="why">后果：${g.consequence}</span></div></div>`).join('');
+  const card = d.platform_card || {};
+  const sg = d.safety_gate_protocol || {};
+  const locked = !d.unlocked;
+  const lockVeil = locked ? `
+      <div class="veil"><b onclick="location.href='/pricing'">🔒 升级 Starter 解锁交付物 →</b></div>` : '';
+  const deliverables = `
+    <div class="r-block locked" style="position:relative">
+      <h4>🇪🇺 欧代标注行（产品/包装/Listing 三处统一）</h4>
+      <div class="fake" style="width:85%"></div><div class="fake" style="width:70%"></div><div class="fake" style="width:78%"></div>
+      ${lockVeil}
+    </div>
+    <div class="r-block locked" style="position:relative">
+      <h4>📄 技术文件清单（8 项 · 10 年存档）</h4>
+      <div class="fake" style="width:75%"></div><div class="fake" style="width:88%"></div><div class="fake" style="width:64%"></div>
+      ${lockVeil}
+    </div>
+    <div class="r-block locked" style="position:relative">
+      <h4>🌐 当地语言警示语包 + 平台原生合规块</h4>
+      <div class="fake" style="width:80%"></div><div class="fake" style="width:72%"></div>
+      ${lockVeil}
+    </div>`;
+  out.innerHTML = `
+    <div class="r-block" style="display:flex;justify-content:space-between;align-items:center">
+      <div><b style="font-size:15px">${name}</b><div class="hint">${PLATFORM_LABELS[platform]||platform} · 一键合规体检报告</div></div>
+      <span class="risk ${d.risk_level}">${RISK_LABEL[d.risk_level]||d.risk_level}</span>
+    </div>
+    <div class="r-block"><h4>📊 合规就绪分 <b style="color:${d.compliance_score>=70?'var(--ok)':d.compliance_score>=45?'var(--warn)':'var(--err)'}">${d.compliance_score}/100</b>
+      ${d.critical_gap_count?`<span class="sev critical" style="margin-left:8px">致命缺项 ${d.critical_gap_count}</span>`:''}</h4>
+      ${gaps}</div>
+    <div class="r-block"><h4>🌐 必需警示语语言</h4><div class="langs">${langs}</div></div>
+    ${card.policy_name?`<div class="r-block"><h4>🏛️ 平台原生规则卡</h4>
+      <div style="font-size:13px;line-height:1.8"><b>${card.policy_name}</b>（当地监管：${card.authority||'—'}）<br>
+      共 ${card.rule_count||'—'} 条平台特有规则 · 违规后果：${card.enforcement||'—'}</div></div>`:''}
+    <div class="r-block"><h4>⏱️ Safety Gate 上报协议</h4>
+      <div style="font-size:13px;line-height:1.8">${sg.rule||''}<br>
+      <span class="hint">安全事件关键词示例：${(sg.keywords_hint||[]).slice(0,4).join(' / ')}</span></div></div>
+    ${deliverables}
+    ${d.upsell_note?`<div class="upsell">${d.upsell_note}<br><a href="/pricing"><button class="pill-blue" style="padding:10px 26px;font-size:13.5px">升级解锁交付物 →</button></a></div>`:''}
+    <div class="hint" style="text-align:center">${d.disclaimer||''}</div>`;
+  out.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+</script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/">
+<title>CrossAIO — Die KI-Compliance-Engine für Ihren Europa-Handel: GPSR-Listing-Check + 13-Plattform-Matrix</title>
+<meta name="description" content="CrossAIO ist eine KI-Engine für Verkäufer im Europa-Handel: GPSR-Compliance-Check, Warnhinweise in Landessprache, EU-Verantwortlicher, Listing-Massen-Generierung und mehrsprachige Anzeigentexte. 13 Plattformen in einem Arbeitsbereich. GPSR-Check ohne Registrierung.">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --bar:#1a5cf0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+
+  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem{position:relative}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:240px;background:#fff;border-radius:12px;
+    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+
+  .hero-wrap{background:radial-gradient(1100px 600px at 78% 30%,rgba(124,58,237,.45),transparent 62%),
+       radial-gradient(900px 500px at 10% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
+    position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:84px 32px 96px;display:grid;
+    grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;color:#fff;z-index:2}
+  .orbits{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .orbit{position:absolute;top:50%;right:-180px;width:760px;height:760px;margin-top:-380px;border:1px solid rgba(255,255,255,.10);border-radius:50%}
+  .orbit.o2{width:560px;height:560px;margin-top:-280px;right:-80px}
+  .orbit.o3{width:380px;height:380px;margin-top:-190px;right:20px}
+  .spin{position:absolute;inset:0;animation:rot linear infinite}
+  .orbit.o1 .spin{animation-duration:26s}
+  .orbit.o2 .spin{animation-duration:18s;animation-direction:reverse}
+  .orbit.o3 .spin{animation-duration:12s}
+  .spin i{position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%}
+  .orbit.o1 .spin i{background:#4ade80;box-shadow:0 0 18px 4px rgba(74,222,128,.65)}
+  .orbit.o2 .spin i{background:#60a5fa;box-shadow:0 0 18px 4px rgba(96,165,250,.65)}
+  .orbit.o3 .spin i{background:#c084fc;box-shadow:0 0 16px 4px rgba(192,132,252,.7)}
+  @keyframes rot{to{transform:rotate(360deg)}}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
+  .hero h1{font-size:46px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:18px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:16px;color:#d3d9ea;max-width:500px;margin-bottom:30px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 32px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 30px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
+  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+  .hero .tiny{margin-top:20px;font-size:12.5px;color:#9aa6c4}
+  .hero .tiny b{color:#e2e8f0}
+
+  .chat{background:#fff;border-radius:16px;color:var(--ink);width:100%;max-width:400px;margin-left:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);font-size:13px;overflow:hidden}
+  .chat .head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)}
+  .chat .head .cdot{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .chat .head b{font-size:13.5px}
+  .chat .head .win{margin-left:auto;color:#94a3b8;font-size:12px;letter-spacing:3px}
+  .chat .body{padding:14px 16px 16px;min-height:280px}
+  .chat .greet{font-size:14px;margin-bottom:4px}
+  .chat .hint-q{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .chips{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+  .chip{border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:12.5px;color:#334155;cursor:pointer;transition:.15s;background:#fff}
+  .chip:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+  .bubble{background:#eef4ff;border-radius:12px 12px 12px 4px;padding:11px 13px;font-size:12.5px;color:#1e3a8a;line-height:1.6}
+  .bubble b{color:#123c7d}
+  .bubble .tag{display:inline-block;background:#fee2e2;color:var(--err);border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700;margin:4px 4px 0 0}
+  .bubble .tag.ok{background:#dcfce7;color:var(--ok)}
+  .typing{display:inline-flex;gap:4px;padding:10px 12px}
+  .typing i{width:6px;height:6px;border-radius:50%;background:#93a8d8;animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+  .fade-in{animation:fadein .5s ease both}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .chat .foot{border-top:1px solid var(--border);padding:10px 16px;display:flex;gap:8px;font-size:11px;color:#94a3b8}
+  .chat .foot span{border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+
+  .guides{max-width:1240px;margin:-52px auto 0;padding:0 24px;position:relative;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .gcard{background:#fff;border-radius:14px;box-shadow:0 12px 40px rgba(15,23,42,.12);overflow:hidden;transition:transform .18s}
+  .gcard:hover{transform:translateY(-4px)}
+  .gcard .thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:42px}
+  .gcard .body{padding:18px 20px 20px}
+  .gcard h3{font-size:16px;font-weight:700;margin-bottom:6px}
+  .gcard p{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .gcard a{font-size:13px;color:var(--blue);font-weight:600}
+
+  section{max-width:1240px;margin:0 auto;padding:72px 24px}
+  .sec-head{text-align:center;margin-bottom:36px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:32px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:15px}
+  .tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;border-bottom:2px solid var(--border);margin-bottom:40px}
+  .tab{background:none;border:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);padding:12px 20px;border-bottom:2px solid transparent;margin-bottom:-2px}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+  .featpane{display:none;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .featpane.active{display:grid}
+  .featpane h3{font-size:24px;font-weight:800;line-height:1.35;margin-bottom:18px}
+  .featpane ul{list-style:none;margin-bottom:22px}
+  .featpane li{padding:7px 0 7px 30px;position:relative;font-size:14px}
+  .featpane li::before{content:"✓";position:absolute;left:0;top:7px;color:var(--ok);font-weight:800}
+  .featpane li span{color:var(--muted)}
+  .featpane .pagenum{font-size:13px;color:var(--muted);margin-top:8px}
+  .fvisual{background:linear-gradient(160deg,#eff6ff,#f5f3ff);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:12px}
+  .fcard{background:#fff;border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(30,27,75,.07);font-size:13px;transition:.2s}
+  .fcard:hover{transform:translateX(4px);box-shadow:0 8px 24px rgba(30,27,75,.12)}
+  .fcard .k{color:var(--muted);font-size:12px}
+  .fcard .v{font-weight:700;font-size:15px}
+  .fcard .v.blue{color:var(--blue)}.fcard .v.up{color:var(--ok)}.fcard .v.bad{color:var(--err)}
+  .stats{background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .stats .row{max-width:1240px;margin:0 auto;padding:52px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+  .stat .n{font-size:44px;font-weight:800;color:var(--blue)}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:4px}
+  .sites{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .site{border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;background:#fff;transition:.15s}
+  .site:hover{border-color:var(--blue-light);box-shadow:0 8px 24px rgba(37,99,235,.10);transform:translateY(-2px)}
+  .site .mark{flex:0 0 auto;display:flex;align-items:center}
+  .site .meta{font-size:12px;color:var(--muted);text-align:right;line-height:1.5}
+  .site .meta b{display:block;font-size:13px;color:var(--ink)}
+  .mark-note{font-size:11px;color:#94a3b8;text-align:center;margin-top:14px}
+  #check .panel{max-width:680px;margin:0 auto;background:var(--soft);border:1px solid var(--border);border-radius:20px;padding:36px}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  input,select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid var(--blue);border-color:transparent}
+  .msg{padding:12px 16px;border-radius:10px;font-size:14px;margin-top:16px}
+  .msg.err{background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
+  th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px}
+  .badge{display:inline-block;background:#eef2ff;color:var(--blue);border-radius:999px;padding:2px 12px;font-size:12px;font-weight:600;margin:0 6px 6px 0}
+  .compare .nowin{color:var(--err);font-weight:600}
+  .compare .win{color:var(--ok);font-weight:600}
+  .pricing-card{background:radial-gradient(600px 300px at 90% 0%,rgba(139,92,246,.5),transparent 60%),linear-gradient(120deg,#0b1030,#251a5e);border-radius:24px;color:#fff;text-align:center;padding:56px 32px}
+  .pricing-card h2{font-size:30px;font-weight:800;margin-bottom:10px}
+  .pricing-card .price{font-size:44px;font-weight:800;color:#a78bfa;margin:14px 0 6px}
+  .pricing-card .price small{font-size:15px;color:#94a3b8;font-weight:400}
+  .pricing-card p{color:#cbd5e1;font-size:14px}
+  details.faq{border-bottom:1px solid var(--border)}
+  details.faq summary{list-style:none;cursor:pointer;font-size:15px;font-weight:600;padding:18px 0;display:flex;justify-content:space-between}
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq summary::after{content:"+";color:var(--muted);font-size:18px}
+  details.faq[open] summary::after{content:"–"}
+  details.faq .a{padding:0 0 18px;color:var(--muted);font-size:14px}
+  footer{border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--muted);padding:28px 24px;margin-top:24px}
+
+  .aiact-banner{background:linear-gradient(120deg,#0b1030,#251a5e);color:#fff;border-radius:14px;max-width:1240px;margin:18px auto 0;padding:18px 24px;display:flex;gap:14px;align-items:flex-start}
+  .aiact-banner .ic{font-size:26px;line-height:1}
+  .aiact-banner b{color:#a78bfa}
+  .aiact-banner p{font-size:13.5px;color:#cbd5e1;margin:0;line-height:1.7}
+  .aiact-banner a{color:#93c5fd;font-weight:600}
+  .aiact-note{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;border-radius:10px;padding:11px 14px;font-size:13px;margin-top:14px;line-height:1.7}
+  .aiact-note b{color:#1d4ed8}
+
+  @media (max-width:960px){
+    .hero{grid-template-columns:1fr;padding:56px 24px 72px}
+    .hero h1{font-size:32px}
+    .chat{margin:0 auto}
+    .menu{display:none}
+    .guides{grid-template-columns:1fr}
+    .featpane{grid-template-columns:1fr;gap:28px}
+    .stats .row{grid-template-columns:repeat(2,1fr)}
+    .sites{grid-template-columns:1fr}
+  }
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<div class="topbar">🎓 Kostenloser GPSR-Selbstcheck jetzt verfügbar — fehlt ein Punkt, droht das De-Listing <b onclick="location.href='#check'">→ Jetzt kostenlos prüfen</b></div>
+
+<div class="aiact-banner">
+  <span class="ic">⚖️</span>
+  <p><b>Der EU-KI-Act, Art. 50, ist in Kraft (2. August 2026):</b> Verkäufer, die Käufer mit einem KI-Kundenservice bedienen, müssen offen anzeigen: „Sie sprechen mit einer KI". Bei Verstößen drohen Bußgelder von bis zu 15 Mio. € oder 3 % des weltweiten Umsatzes. Der CrossAIO-KI-Kundenservice hat diese Hinweise <b>nativ eingebaut</b> — in Landessprache und maschinenlesbar. Vergleichbare Tools (Responso / eDesk u. a.) bieten dies kaum. <a href="/de/pricing">Compliance-Vorteil ansehen →</a></p>
+</div>
+
+<nav>
+  <a class="logo" href="/de/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem"><a>Produkt</a>
+      <div class="dropdown">
+        <a href="/de/features/gpsr"><span>🛡️ GPSR-Compliance-Engine<small>CE-Kategorien → Warnhinweise → Compliance-Block → Backfill</small></span></a>
+        <a href="/de/features/listing-generator"><span>📦 Listing-Generator<small>Komplettset + Wortzahl-Prüfung + Score</small></span></a>
+        <a href="/de/features/matrix"><span>🌍 Multi-Plattform-Matrix<small>Eine Eingabe → 13 Plattformen lokalisiert</small></span></a>
+        <a href="/de/features/review-rewrite"><span>📈 Bewertungs-Umschreibung<small>Themenzuordnung → 5-Punkte-Fixes + semantischer Score</small></span></a>
+        <a href="/de/features/ai-service"><span>💬 KI-Kundenservice<small>AI-Act-Art.-50-Offenlegung eingebaut + eBay</small></span></a>
+        <a href="/de/features/safety-redline"><span>🚨 Sicherheits-Rotlinie<small>Bedrohung/Erpressung erkennen → an Mensch übergeben</small></span></a>
+        <a href="/de/features/inbox"><span>📥 Zentrales Postfach<small>Nachrichten von 13 Plattformen · Muttersprache antworten</small></span></a>
+        <a href="/de/features/ad-copy"><span>📣 Anzeigentext-Generator<small>Verbotene-Wörter-Prüfung + A/B-Varianten</small></span></a>
+        <a href="/de/features/listing-watch"><span>📡 Listing-Monitoring<small>Tägliche Auto-Prüfung · sofortige Risikoalarme</small></span></a>
+        <a href="/de/features"><span>🗂️ Fähigkeiten-Übersicht<small>Neun Fähigkeiten · eine Seite pro Fähigkeit</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>Plattformen</a>
+      <div class="dropdown">
+        <a href="/de/rules/allegro"><span>🇵🇱 Allegro-Regeln<small>Polnische Richtlinien + UOKiK-Aufsicht</small></span></a>
+        <a href="/de/rules/emag"><span>🇷🇴 eMAG-Regeln<small>Rumänische Richtlinien + ANPC-Aufsicht</small></span></a>
+        <a href="/de/rules/cdiscount"><span>🇫🇷 Cdiscount-Regeln<small>Französische Richtlinien (Loi Toubon) + DGCCRF</small></span></a>
+        <a href="/de/rules/otto"><span>🇩🇪 Otto-Regeln<small>Deutsche Richtlinien + ProdSG + GS-Zeichen</small></span></a>
+        <a href="/de/rules/kaufland"><span>🇩🇪 Kaufland-Regeln<small>DE/CZ/SK-Vier-Länder-Sites</small></span></a>
+        <a href="/de/rules/bol"><span>🇳🇱 bol.com-Regeln<small>Niederländische Richtlinien + ACM-Aufsicht</small></span></a>
+        <a href="/de/rules"><span>📋 Alle 13 Plattformen Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>Kostenlose Tools</a>
+      <div class="dropdown">
+        <a href="/de/compliance-check"><span>✅ Compliance-Check<small>Check → EU-Vertreter → technische Dateiliste, 30-s-Bericht</small></span></a>
+        <a href="/de/gpsr-check"><span>🛡️ GPSR-Compliance-Check<small>Kostenlos, ohne Registrierung, 30 Sekunden</small></span></a>
+        <a href="/de/rules"><span>📋 Plattform-Regeln Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
+        <a href="/de/skills"><span>🎁 Open-Source-Skills<small>GPSR-Prüfer + Regelwerk, MIT kostenlos</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="/de/pricing" style="text-decoration:none">Preise</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/" data-lang="de" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">DE</a>
+      <a href="/fr/" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    </div>
+    <a href="/de/signin" class="login-link">Anmelden</a>
+    <a href="/de/signup"><button class="pill-nav">Kostenlos registrieren</button></a>
+  </div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="orbits">
+    <div class="orbit o1"><div class="spin"><i></i></div></div>
+    <div class="orbit o2"><div class="spin"><i></i></div></div>
+    <div class="orbit o3"><div class="spin"><i></i></div></div>
+  </div>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">🤖 CrossAIO · Europäische Compliance-Engine</div>
+      <h1>Ein KI-Assistent — für Ihr<br>Europa-Geschäft<span class="accent"> konformes Wachstum.</span></h1>
+      <p class="sub">Überwacht Ihre Listings wie ein Operations-Spezialist: erkennt GPSR-Compliance-Lücken, zeigt De-Listing-Risiken auf, generiere Reparaturtexte — rund um die Uhr, 7×24.</p>
+      <div class="cta-row">
+        <a href="/de/signup"><button class="pill-blue">Kostenlos registrieren</button></a>
+        <button class="pill-ghost" onclick="location.href='#features'">Mehr erfahren</button>
+      </div>
+      <p class="tiny">✓ Check <b>ohne Registrierung</b> direkt durchführbar &nbsp;·&nbsp; ✓ <b>Kein Shopify nötig</b> &nbsp;·&nbsp; ✓ 13 Plattformen abgedeckt (12 europäische + US-Marktplatz)</p>
+    </div>
+    <div class="chat">
+      <div class="head"><span class="cdot">🤖</span><b>CrossAIO</b><span class="win">▢ ⋮ ✕</span></div>
+      <div class="body" id="chatBody">
+        <div class="greet"><b>👋 Hallo!</b></div>
+        <div class="hint-q">Ich kann Folgendes für Sie tun:</div>
+        <div class="chips">
+          <div class="chip" onclick="location.href='#check'">🛡️ Mein Spielzeug-Listing prüfen</div>
+          <div class="chip" onclick="location.href='#check'">🔍 Produkte ohne deutschen Warnhinweis finden</div>
+          <div class="chip" onclick="location.href='#features'">📈 Listings für 9 Plattformen auf einmal generieren</div>
+        </div>
+        <div id="chatMsgs"></div>
+      </div>
+      <div class="foot"><span>🛡️ Compliance</span><span>📦 Listing</span><span>🌍 9 Plattformen</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="guides">
+  <div class="gcard">
+    <div class="thumb" style="background:linear-gradient(150deg,#eff6ff,#dbeafe)">🛡️</div>
+    <div class="body"><h3>GPSR-Compliance-Selbstcheck</h3><p>Die EU 2023/988 ist anwendbar. Welche Produkte CE brauchen und welche Sprachen die Warnhinweise haben müssen — alles in einem Artikel.</p><a href="#check">Kostenloser Check — 30 Sekunden Selbstprüfung →</a></div>
+  </div>
+  <div class="gcard">
+    <div class="thumb" style="background:linear-gradient(150deg,#f5f3ff,#ede9fe)">🌍</div>
+    <div class="body"><h3>Leitfaden: 13 Plattformen &amp; Lokalisierung</h3><p>Allegro verlangt Polnisch, Otto Deutsch — Titelzeichen, Sprachen und Regeln jeder Plattform im Schnellüberblick.</p><a href="#sites">Plattformabdeckung ansehen →</a></div>
+  </div>
+  <div class="gcard">
+    <div class="thumb" style="background:linear-gradient(150deg,#f0fdf4,#dcfce7)">🤖</div>
+    <div class="body"><h3>Handbuch: KI-Texte &amp; Kundenservice</h3><p>Produktbeschreibung, 5 Bulletpoints, Suchbegriffe, automatisierte Antworten auf Käuferanfragen und Anzeigentexte für drei Plattformen in einem Durchgang.</p><a href="#features">Produktfunktionen ansehen →</a></div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Produktfunktionen</div>
+    <h2 class="sec-title">Volle Unterstützung für Ihr Europa-Geschäft</h2>
+    <p class="sec-sub">Vom Compliance-Check bis zum mehrsprachigen Text — ein KI-Workbench für alles</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-pane="p1" id="tabbtn-p1">🛡️ GPSR-Compliance</button>
+    <button class="tab" data-pane="p2" id="tabbtn-p2">📦 Listing-Texte</button>
+    <button class="tab" data-pane="p3" id="tabbtn-p3">🌍 Mehr-Plattform-Matrix</button>
+    <button class="tab" data-pane="p4" id="tabbtn-p4">💬 KI-Kundenservice</button>
+    <button class="tab" data-pane="p5" id="tabbtn-p5">📣 Anzeigentexte</button>
+  </div>
+
+  <div class="featpane active" id="p1">
+    <div>
+      <h3>GPSR-Compliance-Engine:<br>Fehlt ein Punkt, droht das De-Listing — prüfen Sie zuerst</h3>
+      <ul>
+        <li>Automatische Erkennung aus der Regelbibliothek für 7 CE-Kategorien <span>— Spielzeug / Funkgeräte / Elektronik / PSA / Baby &amp; Kind / Lebensmittelkontakt / Kosmetik</span></li>
+        <li>Automatische Warnhinweise in Landessprache <span>— 7 Sprachen integriert, direkt ins Listing übernehmbar</span></li>
+        <li>GPSR-Pflicht-Checkliste Punkt für Punkt <span>— EU-Verantwortlicher / Produktkennzeichnung / CE-Kennzeichnung / Bedienungsanleitung</span></li>
+        <li>Der Check ist kostenlos und <span>ohne Registrierung</span>, verbraucht kein Generierungs-Guthaben</li>
+      </ul>
+      <button class="pill-blue" onclick="location.href='#check'">Kostenlosen Check starten →</button>
+      <div class="pagenum">1 / 5</div>
+    </div>
+    <div class="fvisual">
+      <div class="fcard"><div><div class="k">Risikostufe</div><div class="v bad">🔴 Hochrisiko (CE-Kategorie)</div></div><span>⚠️</span></div>
+      <div class="fcard"><div><div class="k">Anwendbare Richtlinie</div><div class="v">EN 71 + GPSD</div></div><span>Spielzeug</span></div>
+      <div class="fcard"><div><div class="k">Sprache der Warnhinweise</div><div class="v blue">PL — Polnisch</div></div><span>Allegro</span></div>
+      <div class="fcard"><div><div class="k">EU-Verantwortlicher</div><div class="v bad">Fehlt</div></div><span>Prüfpflicht</span></div>
+      <div class="fcard"><div><div class="k">Compliance-Block generieren</div><div class="v up">Mit Starter freischaltbar</div></div><span>ab €29/Monat</span></div>
+    </div>
+  </div>
+
+  <div class="featpane" id="p2">
+    <div>
+      <h3>Listing-Textgenerierung:<br>Konformes Listing in 5 Sekunden</h3>
+      <ul>
+        <li>Titel / 5 Bulletpoints / Beschreibung / Suchbegriffe im Backend in einem Durchgang</li>
+        <li>Harte Zeichenlimits jeder Plattform werden geprüft <span>— bei Überschreitung wird automatisch umformuliert</span></li>
+        <li>Plattform-Compliance-Check + Optimierungsscore <span>— vor dem Einstellen wissen Sie, ob es abgestraft wird</span></li>
+        <li>16 Sprachen <span>— deckt die wichtigsten europäischen Märkte ab</span></li>
+      </ul>
+      <button class="pill-blue" onclick="location.href='/de/app'">Workbench testen →</button>
+      <div class="pagenum">2 / 5</div>
+    </div>
+    <div class="fvisual">
+      <div class="fcard"><div><div class="k">Titelzeichen</div><div class="v blue">187 / 200</div></div><span>Amazon EU</span></div>
+      <div class="fcard"><div><div class="k">Bulletpoints</div><div class="v">5 Stück ✓</div></div><span>mit Keywords</span></div>
+      <div class="fcard"><div><div class="k">Plattform-Compliance</div><div class="v up">✅ Bestanden</div></div><span>0 Verstöße</span></div>
+      <div class="fcard"><div><div class="k">Optimierungsscore</div><div class="v up">92 / 100</div></div><span>Semantische Abdeckung 8/8</span></div>
+    </div>
+  </div>
+
+  <div class="featpane" id="p3">
+    <div>
+      <h3>Europäische Mehr-Plattform-Matrix:<br>Eine Eingabe, 13 Plattformen in einem Durchgang</h3>
+      <ul>
+        <li>Amazon EU + US / eBay / Allegro / Otto / Cdiscount / eMAG / TikTok-Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com</li>
+        <li>Sprache wird je Plattform automatisch zugeordnet <span>— Allegro→Polnisch, Otto→Deutsch, Cdiscount→Französisch</span></li>
+        <li>Einzelne Plattform-Fehler blockieren die übrigen nicht — je Plattform einzelne Zählung</li>
+        <li><b>Kein Shopify nötig</b> <span>— eigenes Workbench, sofort nach Registrierung nutzbar</span></li>
+      </ul>
+      <button class="pill-blue" onclick="location.href='/de/app'">Meine Matrix generieren →</button>
+      <div class="pagenum">3 / 5</div>
+    </div>
+    <div class="fvisual">
+      <div class="fcard"><div><div class="k">Allegro 🇵🇱</div><div class="v blue">pl</div></div><span>75 Zeichen hartes Limit</span></div>
+      <div class="fcard"><div><div class="k">Otto 🇩🇪</div><div class="v blue">de</div></div><span>reiner deutscher Marktplatz</span></div>
+      <div class="fcard"><div><div class="k">eMAG 🇷🇴</div><div class="v blue">ro</div></div><span>150 Zeichen</span></div>
+      <div class="fcard"><div><div class="k">Fruugo 🇪🇺</div><div class="v blue">en</div></div><span>paneuropäisches Hauptverzeichnis</span></div>
+    </div>
+  </div>
+
+  <div class="featpane" id="p4">
+    <div>
+      <h3>KI-Kundenservice:<br>Käuferanfragen automatisch beantworten, 7×24</h3>
+      <ul>
+        <li>Automatische Absichtserkennung <span>— Versand / Retoure / Beschwerde / Vor dem Kauf</span></li>
+        <li>Stimmungsanalyse: bei hochriskanten negativen Nachrichten wird die Übergabe an einen Menschen vorgeschlagen</li>
+        <li>Bei Versandfragen wird die Bestellnummer automatisch extrahiert</li>
+        <li>Kundenservice-Kosten von über €2000/Monat <span>auf den Preis eines Kaffees gesenkt</span></li>
+      </ul>
+      <button class="pill-blue" onclick="location.href='/de/app'">Workbench erleben →</button>
+      <div class="pagenum">4 / 5</div>
+    </div>
+    <div class="fvisual">
+      <div class="fcard"><div><div class="k">Käuferanfrage</div><div class="v">„Where is my order?"</div></div><span>EN</span></div>
+      <div class="fcard"><div><div class="k">Absichtserkennung</div><div class="v blue">Versandfrage</div></div><span>Konfidenz 0.95</span></div>
+      <div class="fcard"><div><div class="k">Bestellnummer</div><div class="v">#402-188</div></div><span>✓</span></div>
+      <div class="fcard"><div><div class="k">Stimmung</div><div class="v up">Ruhig</div></div><span>keine Übergabe nötig</span></div>
+    </div>
+  </div>
+
+  <div class="featpane" id="p5">
+    <div>
+      <h3>Anzeigentexte:<br>Nach den harten Zeichenlimits der Plattformen in einem Durchgang</h3>
+      <ul>
+        <li>Facebook / Google / TikTok — für drei Plattformen angepasst</li>
+        <li>Haupttext, Titel, Beschreibung, CTA und Hashtags komplett mitgeliefert</li>
+        <li>Harte Zeichenprüfung <span>— wird von der Plattform nicht abgeschnitten</span></li>
+        <li>Kein langes Tüfteln am Textformat für externes Advertising</li>
+      </ul>
+      <button class="pill-blue" onclick="location.href='/de/app'">Anzeigentexte generieren →</button>
+      <div class="pagenum">5 / 5</div>
+    </div>
+    <div class="fvisual">
+      <div class="fcard"><div><div class="k">Facebook</div><div class="v">Haupttext 118 Zeichen</div></div><span>Limit 125 ✓</span></div>
+      <div class="fcard"><div><div class="k">Google</div><div class="v">Titel 28 Zeichen</div></div><span>Limit 30 ✓</span></div>
+      <div class="fcard"><div><div class="k">TikTok</div><div class="v">Text + 5 Hashtags</div></div><span>Limit 100 ✓</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats" id="stats">
+  <div class="row">
+    <div class="stat"><div class="n">13</div><div class="l">Abdeckung der wichtigsten europäischen + US-Plattformen</div></div>
+    <div class="stat"><div class="n">7</div><div class="l">CE-Kategorien in der Regelbibliothek</div></div>
+    <div class="stat"><div class="n">7</div><div class="l">Warnhinweise in Landessprache integriert</div></div>
+    <div class="stat"><div class="n">16</div><div class="l">Sprachen für die Listing-Generierung</div></div>
+  </div>
+</div>
+
+<section id="sites">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Abgedeckte Plattformen</div>
+    <h2 class="sec-title">Amazon EU + US und 11 weitere Plattformen — alle Regeln integriert</h2>
+    <p class="sec-sub">Titelzeichen, Sprachen und Compliance-Regeln jeder Plattform werden nach den Seller-Center-Dokumenten laufend gepflegt</p>
+  </div>
+  <div class="sites">
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 122 40" width="118" height="39" role="img" aria-label="Amazon"><text x="0" y="21" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="23" letter-spacing="-1.2" fill="#232F3E">amazon</text><path d="M6 27 C 34 38, 76 38, 100 25" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M100 25 l -0.5 7 M100 25 l -8 -0.5" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg>
+    </span><span class="meta"><b>EU + US-Marktplatz</b>EN/DE/FR/IT/ES u. a. in 9 Ländern + 🇺🇸 USA · en</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 104 40" width="96" height="37" role="img" aria-label="eBay"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="30" letter-spacing="-1"><tspan fill="#E53238">e</tspan><tspan fill="#0064D2">b</tspan><tspan fill="#F5AF02">a</tspan><tspan fill="#86B817">y</tspan></text></svg>
+    </span><span class="meta"><b>eBay</b>EN/DE/FR/IT/ES · en</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 110 40" width="104" height="38" role="img" aria-label="Allegro"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="-1" fill="#FF5A00">allegro</text></svg>
+    </span><span class="meta"><b>Allegro</b>🇵🇱 Polen/Tschechien/Ungarn · pl</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 96 40" width="92" height="38" role="img" aria-label="Otto"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="2.5" fill="#D4021D">OTTO</text></svg>
+    </span><span class="meta"><b>Otto</b>🇩🇪 Deutschland · de</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 128 40" width="122" height="38" role="img" aria-label="Cdiscount"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" letter-spacing="-0.5"><tspan fill="#FFCF00">C</tspan><tspan fill="#004890">discount</tspan></text></svg>
+    </span><span class="meta"><b>Cdiscount</b>🇫🇷 Frankreich · fr</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 100 40" width="96" height="38" role="img" aria-label="eMAG"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#F26722">e</tspan><tspan fill="#005B94">MAG</tspan></text></svg>
+    </span><span class="meta"><b>eMAG</b>🇷🇴 Rumänien/Ungarn/Bulgarien · ro</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 120 40" width="106" height="38" role="img" aria-label="TikTok Shop"><g transform="translate(2,6)"><rect x="0" y="0" width="28" height="28" rx="7" fill="#010101"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#25F4EE" transform="translate(-0.8,-0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#FE2C55" transform="translate(0.8,0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#fff"/></g><text x="36" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="19" letter-spacing="-0.5" fill="#010101">TikTok</text></svg>
+    </span><span class="meta"><b>TikTok Shop</b>🇬🇧🇺🇸 UK/US + 🇪🇸🇮🇹🇩🇪🇫🇷 EU · en</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 106 40" width="100" height="38" role="img" aria-label="Fruugo"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#94C11F">fru</tspan><tspan fill="#5FA02E">ugo</tspan></text></svg>
+    </span><span class="meta"><b>Fruugo</b>paneuropäisch in 20+ Ländern · en</span></div>
+
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 128 40" width="124" height="39" role="img" aria-label="Walmart"><text x="0" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="24" letter-spacing="-0.5" fill="#0071CE">Walmart</text><g transform="translate(112,19)"><g fill="#FFC220"><rect x="-2" y="-10" width="4" height="7.2" rx="2"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(60)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(120)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(180)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(240)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(300)"/></g></g></svg>
+    </span><span class="meta"><b>Walmart</b>🇺🇸 USA · en</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 150 40" width="132" height="36" role="img" aria-label="Kaufland"><rect x="0" y="4" width="32" height="32" rx="4" fill="#E10911"/><text x="16" y="29" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">K</text><text x="38" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="24" fill="#E10911">Kaufland</text></svg>
+    </span><span class="meta"><b>Kaufland</b>🇩🇪 DE/AT/CZ/SK · de</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="Zalando"><text x="0" y="29" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="30" fill="#FF6900" font-style="italic">zalando</text></svg>
+    </span><span class="meta"><b>Zalando</b>🇪🇺 Europäische Mode · en→mehrsprachig</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="bol.com"><text x="0" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" fill="#0000A4">bol.</text><text x="58" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" fill="#F29B00">com</text></svg>
+    </span><span class="meta"><b>bol.com</b>🇳🇱 Niederlande/Belgien · nl</span></div>
+  </div>
+  <p class="mark-note">* Plattformkennzeichen sind stilisierte Wortmarken in den Markenfarben (Erläuterungszweck); Markenrechte liegen bei den jeweiligen Plattform-Eigentümern. Im Produktionsbetrieb durch offiziell lizenzierte Assets zu ersetzen.</p>
+</section>
+
+<section id="check" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Kostenlos · Ohne Registrierung · Keine Kreditkarte · Kein Guthabenverbrauch</div>
+    <h2 class="sec-title">30-Sekunden-GPSR-Compliance-Check</h2>
+    <p class="sec-sub" style="margin:0 auto">Produkt eingeben — sofortige Risikostufe, anwendbare Richtlinien und Pflicht-Checkliste. Ohne Anmeldung direkt prüfen.</p>
+  </div>
+  <div class="panel">
+    <label>Amazon ASIN (optional, 10 Stellen)</label><input id="g_asin" placeholder="B0C1234XYZ" maxlength="10" style="text-transform:uppercase">
+    <label>Produkttitel *</label><input id="g_name" placeholder="z. B. Kids Building Blocks Toy">
+    <label>Kernbegriffe (durch Komma getrennt) *</label><input id="g_kw" placeholder="z. B. toy, puzzle, kids">
+    <label>Hauptplattform</label>
+    <select id="g_platform">
+      <option value="amazon">Amazon EU-Marktplatz</option><option value="amazon_us">Amazon US-Marktplatz</option><option value="ebay">eBay</option>
+      <option value="cdiscount">Cdiscount (Frankreich)</option><option value="otto">Otto (Deutschland)</option>
+      <option value="allegro">Allegro (Polen)</option><option value="emag">eMAG (Rumänien)</option>
+      <option value="tiktok">TikTok Shop (EU/US)</option><option value="walmart">Walmart (USA)</option>
+      <option value="fruugo">Fruugo (paneuropäisch)</option><option value="kaufland">Kaufland (DE/Mittelosteuropa)</option>
+      <option value="zalando">Zalando (Europäische Mode)</option><option value="bol">bol.com (NL/BE)</option>
+    </select>
+    <button class="pill-blue" id="btnGo" style="width:100%;margin-top:22px">Kostenlosen Check starten →</button>
+    <div class="hint" style="text-align:center;margin-top:10px">Gäste dürfen täglich 3 Mal kostenlos prüfen · mit Konto lassen sich Verläufe speichern und der Compliance-Block freischalten</div>
+    <div id="out"></div>
+  </div>
+</section>
+
+<section id="compare" class="compare" style="padding-top:8px">
+  <div class="sec-eyebrow">Warum wir</div>
+  <h2 class="sec-title">Kein Shop-Anschluss, kein Geld verbrennen, direkt die Compliance im Blick</h2>
+  <table>
+    <tr><th></th><th>Shop-gebundene Tools (z. B. Marqetir)</th><th style="color:var(--ok)">CrossAIO</th></tr>
+    <tr><td><b>Start</b></td><td class="nowin">Erst Shopify/Woo-Shop anbinden</td><td class="win">Kein Shopify nötig — direkt loslegen</td></tr>
+    <tr><td><b>Erst testen, dann zahlen</b></td><td class="nowin">Erst registrieren und Shop anbinden, um Funktionen zu sehen</td><td class="win">Erst kostenlos prüfen, dann registrieren</td></tr>
+    <tr><td><b>Startkosten</b></td><td class="nowin">€159+/Monat</td><td class="win">Kostenloser Check + ab €29/Monat</td></tr>
+    <tr><td><b>GPSR-Compliance</b></td><td class="nowin">Wird nicht abgedeckt</td><td class="win">Compliance-Block in jedem Listing eingebettet</td></tr>
+    <tr><td><b>Plattformabdeckung</b></td><td>12+ europäische Plattformen</td><td>13 Plattformen (12 europäische + Amazon US, inkl. Kaufland/Zalando/bol)</td></tr>
+    <tr><td><b>Semantische Suchanpassung</b></td><td class="nowin">Nicht vorhanden</td><td class="win">Abdeckungsscore für Rufus-/iZi-Fragestellungen</td></tr>
+  </table>
+</section>
+
+<section id="pricing" style="padding-top:8px">
+  <div class="pricing-card">
+    <h2>Der Check nennt die Lücke. Die Reparatur übernimmt die KI.</h2>
+    <p>Nach dem Upgrade wird ein direkt ins Listing übernehmbarer GPSR-Compliance-Block generiert:<br>Warnhinweise in Landessprache + Platzhalter EU-Verantwortlicher + Produktkennzeichnung, einmalig und für mehrere Plattformen angepasst.</p>
+    <div class="price">€29<small>/Monat ab</small></div>
+    <p>Zum Vergleich: Eine Compliance-Beratung kostet €500+ pro Einsatz — ein De-Listing kostet Sie mehr als ein ganzes Jahres-Abo.</p>
+    <a href="/de/signup"><button class="pill-blue" style="margin-top:22px">Kostenlos registrieren und starten →</button></a>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:8px">
+  <div class="sec-eyebrow">Häufige Fragen</div>
+  <h2 class="sec-title" style="font-size:26px;margin-bottom:8px">FAQ</h2>
+  <details class="faq"><summary>Brauche ich für den Check eine Registrierung?</summary><div class="a">Nein. Sie füllen die Produktdaten direkt aus und erhalten das Ergebnis. Gäste dürfen täglich 3 Mal kostenlos prüfen. Mit einem kostenlosen Konto lassen sich Prüfverläufe speichern und die Funktionen zur Textgenerierung weiter nutzen.</div></details>
+  <details class="faq"><summary>Was ist die GPSR? Und wann wird sie Pflicht?</summary><div class="a">Die EU 2023/988, „Allgemeine Produktsicherungsverordnung", ist seit dem 13. Dezember 2024 anwendbar. Für online verkaufte Produkte sind Informationen zum EU-Verantwortlichen und Sicherheitsinformationen in Landessprache vorgeschrieben; CE-Kategorien brauchen die CE-Kennzeichnung. Fehlende Angaben können zum De-Listing durch die Plattform führen.</div></details>
+  <details class="faq"><summary>Ist der Check wirklich kostenlos? Verbraucht er Generierungs-Guthaben?</summary><div class="a">Ja, der Check ist kostenlos und verbraucht kein Guthaben. Der Bericht mit Risikostufe wird vollständig ausgewiesen; der einfügbare Compliance-Block ist mit dem Tarif Starter oder höher freischaltbar.</div></details>
+  <details class="faq"><summary>Muss ich meinen Shop anbinden?</summary><div class="a">Nein. CrossAIO ist ein eigenes Workbench — kein Shopify nötig. Das ist der Kernunterschied zu shop-gebundenen Tools wie Marqetir.</div></details>
+  <details class="faq"><summary>Zieht die Eingabe einer ASIN automatisch mein Listing?</summary><div class="a">Derzeit nicht. Die ASIN dient nur der Verknüpfung; die Bewertung basiert auf dem von Ihnen eingegebenen Titel und den Begriffen. Wir ziehen Ihre Amazon-Backend-Daten weder und speichern sie nicht.</div></details>
+  <details class="faq"><summary>Kann der Bericht eine Compliance-Beratung ersetzen?</summary><div class="a">Nein. Der Bericht ist eine technische Hilfestellung und hilft Ihnen, Lücken schnell zu finden. Für die endgültige Compliance-Einschätzung gelten der offizielle EU-Text und die Stellungnahme benannter Stellen.</div></details>
+</section>
+
+<footer>CrossAIO — Listing-Qualitäts- und Compliance-Engine für alle europäischen Plattformen · <a href="/de/" style="color:var(--blue)">Startseite</a> · <a href="/de/app" style="color:var(--blue)">Workbench öffnen</a> · <a href="/de/pricing" style="color:var(--blue)">Preise</a> · <a href="/de/signin" style="color:var(--blue)">Anmelden</a><br>
+Der Bericht ist eine technische Hilfestellung und keine Rechtsberatung; maßgeblich sind die offiziellen EU-Texte.</footer>
+
+<script>
+const API = "/api/v1";
+const RISK = {high:"🔴 Hochrisiko (CE-Kategorie)", medium:"🟡 Mittleres Risiko", low:"🟢 Niedriges Risiko"};
+
+// ---- Validation loop tracking: landing view + UTM memory (silent on failure) ----
+(function(){
+  try{
+    const q = new URLSearchParams(location.search);
+    const utm = {};
+    ["utm_source","utm_medium","utm_campaign"].forEach(k=>{ if(q.get(k)) utm[k]=q.get(k); });
+    if(Object.keys(utm).length) localStorage.setItem("cb_utm", JSON.stringify(utm));
+    fetch(API+"/analytics/track",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({event_type:"landing_view", platform:null, ...utm})}).catch(()=>{});
+  }catch(e){}
+})();
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+
+// ---- Tabs ----
+function activate(pane){
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.pane===pane));
+  document.querySelectorAll(".featpane").forEach(p=>p.classList.toggle("active", p.id===pane));
+}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>activate(t.dataset.pane));
+function pick(p){ document.getElementById("g_platform").value = p; }
+
+// ---- KI-Chat-Animation (Loop) ----
+const CHAT_STEPS = [
+  {html:`<div class="bubble fade-in"><b>CrossAIO:</b> Ihr „Baby Monitor" hat bei Otto ein GPSR-Risiko:<br>
+    <span class="tag">Fehlt: deutscher Warnhinweis</span><span class="tag">Fehlt: EU-Verantwortlicher</span><span class="tag ok">Produktkennzeichnung ✓</span><br>
+    Ich generiere den deutschen Compliance-Block…</div>`, delay:600},
+  {html:`<div class="bubble fade-in" style="margin-top:8px"><b>✅ Reparatur erstellt:</b> Georg-Büchner-Str. 8, 65439 … (Platzhalter EU-Verantwortlicher) + „Warnhinweis: Nicht für Kinder unter 3 Jahren…" — direkt ins Listing übernehmbar.</div>`, delay:2600},
+];
+let chatTimer = setInterval(playChat, 9000);
+async function playChat(){
+  const box = document.getElementById("chatMsgs");
+  box.innerHTML = `<div class="typing fade-in"><i></i><i></i><i></i></div>`;
+  await new Promise(r=>setTimeout(r,1100));
+  box.innerHTML = "";
+  for(const step of CHAT_STEPS){
+    box.insertAdjacentHTML("beforeend", step.html);
+    await new Promise(r=>setTimeout(r, step.delay));
+  }
+}
+playChat();
+
+// ---- Gäste-Check: ohne Registrierung direkt prüfen ----
+document.getElementById("btnGo").onclick = async () => {
+  const out = document.getElementById("out");
+  const name = document.getElementById("g_name").value.trim();
+  const asin = document.getElementById("g_asin").value.trim().toUpperCase();
+  const kws = document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if(!name || !kws.length) return out.innerHTML = `<div class="msg err">Bitte Produkttitel und Begriffe angeben</div>`;
+  if(asin && !/^[A-Z0-9]{10}$/.test(asin)) return out.innerHTML = `<div class="msg err">Die ASIN muss 10 Zeichen aus Buchstaben/Ziffern haben</div>`;
+  const btn = document.getElementById("btnGo"); btn.disabled = true; btn.textContent = "Prüfung läuft…";
+  try{
+    const r = await fetch(API+"/products/gpsr/check-guest", {method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({product_name:name, keywords:kws, platform:document.getElementById("g_platform").value, asin:asin||null})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Prüfung fehlgeschlagen, bitte später erneut versuchen");
+    const checklist = d.checklist.map(c=>`<tr><td>${c.required?"Prüfpflicht":"Empfohlen"}</td><td><b>${esc(c.name)}</b><br><span class="hint">${esc(c.detail)}</span></td></tr>`).join("");
+    out.innerHTML = `<div class="msg" style="background:#fff;border:1px solid var(--border)">
+      ${asin?`<span class="badge">ASIN: ${esc(asin)}</span>`:""}
+      <span class="badge">${RISK[d.risk_level]||d.risk_level}</span>
+      <span class="badge">${esc(d.matched_categories)}</span>
+      <span class="badge">Warnhinweis-Sprachen: ${d.required_languages.map(l=>l.toUpperCase()).join(" / ")}</span>
+      ${d.ce_directives.length?`<p style="margin-top:8px"><b>Anwendbare Richtlinien:</b>${d.ce_directives.map(esc).join("; ")}</p>`:""}
+      <table><tr><th style="width:60px">Stufe</th><th>Prüfpunkte</th></tr>${checklist}</table>
+      ${d.upsell_note?`<div class="msg err" style="margin-top:12px">${esc(d.upsell_note)}<br>
+        <a href="/de/signup" style="color:var(--blue);font-weight:600">Konto erstellen / Upgrade, um den Compliance-Block freizuschalten →</a></div>`:""}
+      <div class="aiact-note">⚖️ <b>Hinweis zur Lücke nach dem EU-KI-Act:</b> Dieser Check deckt nur die GPSR-Produktsicherheit ab. Wenn Sie Käufer mit einem KI-Kundenservice bedienen, verlangt der EU-KI-Act, Art. 50 (in Kraft seit 2. August 2026), dass jede Antwort offen zeigt: „Sie sprechen mit einer KI". Bei Verstößen drohen Bußgelder von bis zu 15 Mio. € oder 3 % des weltweiten Umsatzes. Der CrossAIO-KI-Kundenservice hat diese Hinweise in Landessprache und maschinenlesbar nativ eingebaut — Vergleichbare Tools bieten dies kaum. <a href="/de/pricing" style="color:#1d4ed8;font-weight:600">Compliance-Vorteil ansehen →</a></div>
+    </div>`;
+  }catch(e){ out.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+  btn.disabled = false; btn.textContent = "Kostenlosen Check starten →";
+};
+</script>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de conformité pour vendeurs — GPSR / délégué UE / avertissements / marquage CE / notice | CrossAIO</title>
+<meta name="description" content="Checklist de conformité GPSR européenne à cocher en 5 minutes : délégué UE, avertissements de sécurité en langue locale, marquage CE, notice, identification du modèle, déclaration UE de conformité, enregistrement EPR, etc. Vérifiez point par point si votre listing est conforme — et laissez CrossAIO vous aider à le corriger.">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/compliance-check">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/compliance-check">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/compliance-check">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/compliance-check">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/compliance-check">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --bar:#1a5cf0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+
+  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a:hover{background:#f1f5f9}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---- Hero ---- */
+  .hero-wrap{background:radial-gradient(900px 480px at 80% 20%,rgba(124,58,237,.40),transparent 60%),
+       radial-gradient(800px 420px at 8% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#2a1560 100%);
+    position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:64px 32px 72px;text-align:center;color:#fff;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:16px}
+  .hero h1{font-size:38px;line-height:1.22;font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:15.5px;color:#d3d9ea;max-width:660px;margin:0 auto 24px}
+  .hero .tiny{font-size:12.5px;color:#9aa6c4}
+  .hero .tiny b{color:#e2e8f0}
+
+  section{max-width:1240px;margin:0 auto;padding:56px 24px}
+  .sec-head{text-align:center;margin-bottom:34px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:28px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:14.5px}
+
+  /* ---- Barre de progression ---- */
+  .progress-wrap{position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:40;padding:14px 0}
+  .progress-inner{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .progress-label{font-size:13.5px;font-weight:700}
+  .bar{flex:1;min-width:200px;height:10px;background:#eef1f4;border-radius:999px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:999px;transition:width .3s}
+  #progressText{font-size:13.5px;font-weight:700;color:var(--blue)}
+  .cta-inline{display:flex;gap:8px;align-items:center}
+  .cta-inline .btn{background:var(--blue);color:#fff;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;border:none}
+  .cta-inline .btn:hover{background:var(--blue-dark)}
+  .cta-inline .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--border)}
+  .cta-inline .btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---- Cartes de la checklist ---- */
+  .check-wrap{max-width:900px;margin:0 auto}
+  .check-group{margin-bottom:36px}
+  .check-group h3{font-size:18px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  .check-group h3 .n{width:28px;height:28px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+  .check-group .gdesc{font-size:13.5px;color:var(--muted);margin-bottom:16px;padding-left:38px}
+  .check-card{border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;transition:.15s;background:#fff}
+  .check-card:hover{border-color:var(--blue);box-shadow:0 6px 20px rgba(37,99,235,.08)}
+  .check-card .box{flex-shrink:0;width:22px;height:22px;border:2px solid #cdd5e0;border-radius:6px;cursor:pointer;margin-top:3px;display:flex;align-items:center;justify-content:center;transition:.15s}
+  .check-card.done{background:#f0fdf4;border-color:#86efac}
+  .check-card.done .box{background:var(--ok);border-color:var(--ok);color:#fff}
+  .check-card .body{flex:1}
+  .check-card .body .t{font-size:15px;font-weight:700;margin-bottom:4px}
+  .check-card .body .d{font-size:13px;color:#475569;line-height:1.6}
+  .check-card .body .d a{color:var(--blue);font-weight:600}
+  .tag{display:inline-block;background:#eef2ff;border:1px solid #c7d2fe;color:var(--blue);border-radius:999px;padding:1px 10px;font-size:11px;font-weight:700;margin-left:8px;vertical-align:1px}
+  .tag.legal{background:#fef2f2;border-color:#fecaca;color:var(--err)}
+
+  /* ---- CTA de fin ---- */
+  .cta-final{text-align:center;padding:48px 24px 72px;background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;border-radius:20px;max-width:1100px;margin:0 auto 56px}
+  .cta-final h2{font-size:26px;font-weight:800;margin-bottom:12px}
+  .cta-final p{color:#c7cee4;margin-bottom:22px;font-size:14.5px;max-width:620px;margin-left:auto;margin-right:auto}
+  .cta-final .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .cta-final .btn{background:#fff;color:var(--navy);border-radius:999px;padding:12px 28px;font-size:14.5px;font-weight:700;cursor:pointer}
+  .cta-final .btn:hover{background:#f1f5f9}
+  .cta-final .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+  .cta-final .btn.ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+
+  @media(max-width:760px){
+    .hero h1{font-size:28px}
+    .menu{display:none}
+  }
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<div class="topbar">📋 Checklist de conformité à cocher en 5 minutes — <b>motif le plus fréquent d'arrêt de compte</b> en Europe : délégué UE manquant et avertissements en mauvaise langue</div>
+
+<nav>
+  <a class="logo" href="/fr/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem"><a class="nav-a" href="/fr/">Accueil</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/pricing">Tarifs</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/gpsr-check">Vérification gratuite</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/rules">Référentiel de règles</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/skills">Skills open source</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/compliance-check" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/compliance-check" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/compliance-check" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
+      <a href="/fr/compliance-check" data-lang="fr" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">FR</a>
+    </div>
+    <a class="login-link" href="/fr/signin">Connexion</a>
+    <a href="/fr/signup"><button class="pill-nav">Inscription gratuite</button></a>
+  </div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="eyebrow">📋 Checklist de conformité GPSR</div>
+    <h1>Cochez la conformité GPSR de votre listing<br><span class="accent">en 5 minutes</span></h1>
+    <p class="sub">Règle (UE) 2023/988 (GPSR) : si un produit est considéré « dangereux », le vendeur doit en informer la Safety Gate de l'UE dans un délai de 15 jours. <b>Plus de 80 % des nouveaux vendeurs</b> n'ont pas encore préparé le délégué UE et les avertissements en langue locale avant la mise en ligne — et ce sont ces items qui sont vérifiés en priorité par les plateformes et les autorités du marché.</p>
+    <p class="tiny">✓ 10 items légaux · <b>non</b> un service de consultation juridique · reposez-vous d'abord sur cette checklist</p>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">Progression</span>
+    <div class="bar"><i id="bar"></i></div>
+    <span id="progressText">0 / 10</span>
+    <div class="cta-inline">
+      <button class="btn" onclick="goFix()">Déjà noté un écart ? →</button>
+      <button class="btn ghost" onclick="copyReport()">Copier le rapport</button>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="check-wrap">
+
+    <div class="check-group">
+      <h3><span class="n">1</span> Délégué UE et responsable</h3>
+      <div class="gdesc">Obligatoire pour tout produit entrant en UE. Le nom et le contact du délégué doivent figurer sur le produit, l'emballage ou le listing.</div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Un délégué UE a été nommé (sponsorisé) <span class="tag legal">Obligatoire</span></div>
+          <div class="d">Sans délégué UE, Amazon Europe / Otto / Allegro refusent la mise en ligne. Il existe des services de délégué UE externes (coût ~300–800 €/an). <b>CrossAIO vous aide à générer le bloc de conformité avec le délégué sur le listing.</b></div>
+        </div>
+      </div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">L'e-mail / le téléphone du délégué UE est affiché sur le listing <span class="tag legal">Obligatoire</span></div>
+          <div class="d">Pas seulement dans le document technique : doit être visible sur la fiche produit. Les plateformes demandent en vérification un e-mail de contact valide.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3><span class="n">2</span> Avertissements de sécurité en langue locale</h3>
+      <div class="gdesc">Le GPSR exige des avertissements compréhensibles dans la langue de chaque pays où le produit est vendu. Une version anglaise seule ne passe pas.</div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Les avertissements sont traduits dans la langue de chaque pays de vente <span class="tag legal">Obligatoire</span></div>
+          <div class="d">Exemples : vendu en Allemagne → allemand ; vendu en France → français ; en Italie → italien. <b>CrossAIO génère automatiquement les avertissements dans les langues requises par pays.</b></div>
+        </div>
+      </div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Les pictogrammes d'avertissement respectent la norme ISO 7000</div>
+          <div class="d">⚠ / ♻ / 🔒… les pictogrammes doivent être universels, sans dépendance à la langue. C'est un item souvent oublié.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3><span class="n">3</span> Marquage CE et déclaration UE de conformité</h3>
+      <div class="gdesc">Jouets, électronique, jouets pour l'eau, EPI, machines de petite taille, etc. sont soumis à une directive CE spécifique. Le marquage CE + la déclaration UE de conformité sont indispensables.</div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Le marquage CE est présent sur le produit (ou l'emballage) <span class="tag legal">Obligatoire</span></div>
+          <div class="d">Sans marquage CE, la douane et la Safety Gate de l'UE peuvent refuser la mise sur le marché. <b>CrossAIO identifie automatiquement si votre produit relève d'une catégorie CE.</b></div>
+        </div>
+      </div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">La déclaration UE de conformité (DoC) est disponible</div>
+          <div class="d">Généralement fournie par le fabricant. À garder sous la main pour la vérification par la plateforme ou le retrait du marché.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3><span class="n">4</span> Notice et identification du modèle</h3>
+      <div class="gdesc">Le GPSR exige que le produit soit traçable : notice, numéro de modèle, et idéalement photo de l'emballage.</div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Le listing comporte une notice (ou un lien) dans la langue locale <span class="tag legal">Obligatoire</span></div>
+          <div class="d">Pour les jouets et l'électronique, l'absence de notice est le motif n°1 de retrait d'offre. CrossAIO génère un bloc de conformité bilingue EN/FR à coller.</div>
+        </div>
+      </div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Le numéro de modèle (SKU) est affiché sur la fiche</div>
+          <div class="d">En cas d'incident, les autorités doivent retrouver le modèle. CrossAIO génère le modèle dans le même bloc de conformité.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3><span class="n">5</span> Informations produits et enregistrement complémentaires</h3>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Pour les batteries / appareils électriques, enregistrement EPR / DEEE prévu</div>
+          <div class="d">France / Allemagne exigent l'immatriculation EPR (batteries et appareils électriques) et le numéro WEEE. C'est un item récurrent dans les vérifications Amazon DE/FR.</div>
+        </div>
+      </div>
+
+      <div class="check-card" data-c>
+        <div class="box">✓</div>
+        <div class="body">
+          <div class="t">Le bloc de conformité GPSR est prêt à coller sur le listing</div>
+          <div class="d">Il doit rassembler : délégué UE + contact + avertissements multilingues + modèle + déclaration. <b>CrossAIO génère ce bloc automatiquement.</b></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="cta-final">
+    <h2>Vous avez coché un écart sur un item ?</h2>
+    <p>CrossAIO identifie automatiquement la catégorie CE, les langues d'avertissement, génère le bloc de conformité prêt à coller, et surveille chaque jour vos listings.</p>
+    <div class="row">
+      <a href="/fr/signup"><button class="btn">Démarrez la correction gratuite — 5 fois par jour</button></a>
+      <a href="/fr/gpsr-check"><button class="btn ghost">Ou la vérification de conformité gratuite en 30 secondes →</button></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="cols">
+    <a href="/fr/">Accueil</a><a href="/fr/rules">Référentiel de règles</a><a href="/fr/pricing">Tarifs</a><a href="/fr/gpsr-check">Vérification gratuite</a><a href="/fr/skills">Skills open source</a>
+  </div>
+  CrossAIO — moteur de qualité de listings et de conformité pour toutes les plateformes européennes
+</footer>
+
+<script>
+document.querySelectorAll("[data-c] .box, [data-c]").forEach(c=>{
+  c.addEventListener("click",()=>{
+    const card=c.closest(".check-card")||c;
+    card.classList.toggle("done");
+    updateProgress();
+  });
+});
+function updateProgress(){
+  const done=document.querySelectorAll(".check-card.done").length;
+  document.getElementById("bar").style.width=(done/10*100)+"%";
+  document.getElementById("progressText").textContent=done+" / 10";
+}
+function goFix(){ location.href="/fr/signup"; }
+function copyReport(){
+  const done=document.querySelectorAll(".check-card.done").length;
+  const todo=document.querySelectorAll(".check-card:not(.done) .body .t");
+  let txt="Rapport de checklist GPSR — CrossAIO\n\nConformité cochée : "+done+" / 10\n\nItems restants à compléter :\n";
+  todo.forEach(t=>txt+="  □ "+t.textContent.trim().split(" ")[0]+"\n");
+  txt+="\nGénéré avec la checklist gratuite de CrossAIO.";
+  navigator.clipboard.writeText(txt).then(()=>alert("Rapport copié ✓"));
+}
+</script>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

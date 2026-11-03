@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/app">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/app">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/app">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/app">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/app">
+<title>CrossAIO Workbench — KI-Generierung · GPSR-Check · Postfach · Anzeigen | CrossAIO</title>
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --amber:#d97706;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  a{text-decoration:none;color:inherit}
+  header{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;padding:22px 32px}
+  .hb{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .badge{background:rgba(255,255,255,.14);border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600}
+  #sitelinks{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  #sitelinks a{color:#c7cee4;font-size:13.5px;padding:8px 12px;border-radius:8px;font-weight:600}
+  #sitelinks a:hover{background:rgba(255,255,255,.1);color:#fff}
+  #userbar{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px;color:#c7cee4}
+  #userbar .plan{background:#a78bfa;color:#1e1b4b;border-radius:999px;padding:3px 12px;font-weight:700;font-size:12px}
+  #userbar a{color:#c7cee4}
+  #userbar a:hover{color:#fff}
+  .pill-out{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 14px;font-size:12.5px;cursor:pointer;background:transparent;color:#fff}
+  .pill-out:hover{background:rgba(255,255,255,.1)}
+
+  .wb{max-width:1240px;margin:0 auto;padding:28px 24px 60px}
+  nav.wbnav{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--border);margin-bottom:24px}
+  .tab{background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);padding:11px 16px;border-bottom:2px solid transparent;margin-bottom:-2px}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+  .lpjump{font-size:12px;color:var(--muted);margin-left:auto;align-self:center}
+  .lpjump a{color:var(--blue)}
+
+  .pane{display:none}
+  .pane.active{display:block}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+  .card{border:1px solid var(--border);border-radius:14px;padding:20px}
+  .card h3{font-size:15.5px;margin-bottom:12px}
+  label{display:block;font-size:12.5px;font-weight:600;margin:10px 0 5px;color:#334155}
+  input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);border-color:transparent}
+  textarea{min-height:90px;resize:vertical}
+  .btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:14px}
+  .btn:hover{background:var(--blue-dark)}
+  .btn:disabled{background:#9dbef0;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:12px;display:none}
+  .msg.err{display:block;background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.ok{display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+
+  .out{margin-top:14px;background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:16px;white-space:pre-wrap;font-size:13px;display:none}
+  .out.show{display:block}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+  th,td{border-bottom:1px solid var(--border);padding:9px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:12px}
+  .risk-high{color:var(--err);font-weight:700}
+  .risk-med{color:var(--amber);font-weight:700}
+  .risk-low{color:var(--ok);font-weight:700}
+
+  .meter{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:6px}
+  .meter>i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#8b5cf6)}
+
+  .inbox-row{display:flex;gap:12px;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;cursor:pointer}
+  .inbox-row:hover{border-color:var(--blue);background:#eff6ff}
+  .inbox-row .meta{font-size:11.5px;color:var(--muted)}
+  .intent{display:inline-block;background:#eef2ff;color:var(--blue);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}
+  .sentiment-neg{color:var(--err);font-weight:700}
+  .sentiment-neu{color:var(--muted)}
+
+  .sub-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+  .sub-tabs button{border:1px solid var(--border);background:#fff;border-radius:999px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-weight:600;color:#334155}
+  .sub-tabs button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+  .plan-card{background:linear-gradient(120deg,#0b1030,#251a5e);color:#fff;border-radius:18px;padding:28px}
+  .plan-card h3{color:#a78bfa}
+  .plan-card .price{font-size:36px;font-weight:800;margin:8px 0}
+  .plan-card ul{list-style:none;font-size:13.5px}
+  .plan-card li{padding:5px 0 5px 24px;position:relative}
+  .plan-card li::before{content:"✓";position:absolute;left:0;color:#4ade80;font-weight:800}
+
+  footer.wb-footer{border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--muted);padding:24px;margin-top:32px}
+  footer.wb-footer a{color:var(--blue)}
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<header>
+  <div class="hb">
+    <span class="logo"><span class="dot">🤖</span>CrossAIO Workbench</span>
+    <span class="badge">Ki-Generierung · GPSR-Check · Postfach</span>
+    <div id="sitelinks">
+      <!--FEATURE_NAV-->
+    </div>
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/app" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7cee4">中文</a>
+      <a href="/en/app" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7cee4">EN</a>
+      <a href="/de/app" data-lang="de" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#a78bfa;color:#1e1b4b">DE</a>
+      <a href="/fr/app" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7cee4">FR</a>
+    </div>
+    <div id="userbar">
+      <span id="uPlan" class="plan">Free</span>
+      <span id="uEmail"></span>
+      <a href="/de/pricing">Preise</a>
+      <button class="pill-out" id="btnLogout">Abmelden</button>
+    </div>
+  </div>
+</header>
+
+<div class="wb">
+  <nav class="wbnav">
+    <button class="tab active" data-tab="listing">📦 Listing-Texte</button>
+    <button class="tab" data-tab="gpsr">🛡️ GPSR-Check</button>
+    <button class="tab" data-tab="cs">💬 KI-Kundenservice</button>
+    <button class="tab" data-tab="inbox">📥 Postfach</button>
+    <button class="tab" data-tab="ads">📣 Anzeigentexte</button>
+    <button class="tab" data-tab="review">⭐ Bewertungs-Scan</button>
+    <button class="tab" data-tab="monitor">📡 Monitoring</button>
+    <button class="tab" data-tab="billing">💳 Abo</button>
+    <span class="lpjump">Sie sind hier: Workbench · <a href="/de/">← Zurück zur Landingpage</a></span>
+  </nav>
+
+  <!-- ========== Listing-Texte ========== -->
+  <section class="pane active" id="pane-listing">
+    <div class="grid2">
+      <div class="card">
+        <h3>📦 Listing-Texte generieren</h3>
+        <label>Produktname *</label>
+        <input id="l_name" placeholder="z. B. Kids Building Blocks Toy">
+        <label>Kernbegriffe (durch Komma getrennt) *</label>
+        <input id="l_kw" placeholder="z. B. toy, puzzle, kids">
+        <label>Zielplattform</label>
+        <select id="l_platform">
+          <option value="amazon">Amazon EU-Marktplatz</option><option value="amazon_us">Amazon US-Marktplatz</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount (Frankreich)</option><option value="otto">Otto (Deutschland)</option>
+          <option value="allegro">Allegro (Polen)</option><option value="emag">eMAG (Rumänien)</option>
+          <option value="tiktok">TikTok Shop (EU/US)</option><option value="walmart">Walmart (USA)</option>
+          <option value="fruugo">Fruugo (paneuropäisch)</option><option value="kaufland">Kaufland (DE/Mittelosteuropa)</option>
+          <option value="zalando">Zalando (Europäische Mode)</option><option value="bol">bol.com (NL/BE)</option>
+        </select>
+        <label>Zielsprache</label>
+        <select id="l_lang">
+          <option value="de">Deutsch</option><option value="en">Englisch</option><option value="fr">Französisch</option>
+          <option value="it">Italienisch</option><option value="es">Spanisch</option><option value="pl">Polnisch</option>
+          <option value="ro">Rumänisch</option><option value="nl">Niederländisch</option>
+        </select>
+        <button class="btn" id="btnListing">Generieren →</button>
+        <div class="msg" id="l_msg"></div>
+      </div>
+      <div class="card">
+        <h3>Ergebnis</h3>
+        <div class="out" id="l_out"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GPSR-Check ========== -->
+  <section class="pane" id="pane-gpsr">
+    <div class="grid2">
+      <div class="card">
+        <h3>🛡️ GPSR-Compliance-Check</h3>
+        <label>Produkttitel *</label>
+        <input id="g_name" placeholder="z. B. Kids Building Blocks Toy">
+        <label>Kernbegriffe (durch Komma getrennt) *</label>
+        <input id="g_kw" placeholder="z. B. toy, puzzle, kids">
+        <label>Plattform</label>
+        <select id="g_platform">
+          <option value="amazon">Amazon EU-Marktplatz</option><option value="amazon_us">Amazon US-Marktplatz</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount (Frankreich)</option><option value="otto">Otto (Deutschland)</option>
+          <option value="allegro">Allegro (Polen)</option><option value="emag">eMAG (Rumänien)</option>
+          <option value="tiktok">TikTok Shop (EU/US)</option><option value="walmart">Walmart (USA)</option>
+          <option value="fruugo">Fruugo (paneuropäisch)</option><option value="kaufland">Kaufland (DE/Mittelosteuropa)</option>
+          <option value="zalando">Zalando (Europäische Mode)</option><option value="bol">bol.com (NL/BE)</option>
+        </select>
+        <button class="btn" id="btnGpsr">Prüfung starten →</button>
+        <div class="msg" id="g_msg"></div>
+      </div>
+      <div class="card">
+        <h3>Bericht</h3>
+        <div class="out" id="g_out"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== KI-Kundenservice ========== -->
+  <section class="pane" id="pane-cs">
+    <div class="grid2">
+      <div class="card">
+        <h3>💬 KI-Kundenservice — Entwurf &amp; Stimmung</h3>
+        <label>Käuferanfrage *</label>
+        <textarea id="cs_msg" placeholder="z. B. Where is my order? I ordered 5 days ago and nothing arrived."></textarea>
+        <label>Produktname (optional)</label>
+        <input id="cs_name" placeholder="z. B. Kids Building Blocks Toy">
+        <button class="btn" id="btnCs">Antwort entwerfen →</button>
+        <div class="msg" id="cs_msgbox"></div>
+      </div>
+      <div class="card">
+        <h3>Entwurf</h3>
+        <div class="out" id="cs_out"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Postfach ========== -->
+  <section class="pane" id="pane-inbox">
+    <div class="card">
+      <h3>📥 Postfach — Käuferanfragen</h3>
+      <div class="hint" style="margin-bottom:10px">Absichtserkennung &amp; Stimmungsanalyse — beim Öffnen einer Anfrage wird der Antwortentwurf geladen</div>
+      <div id="inboxList"><p class="hint">Wird geladen…</p></div>
+    </div>
+  </section>
+
+  <!-- ========== Anzeigentexte ========== -->
+  <section class="pane" id="pane-ads">
+    <div class="card">
+      <h3>📣 Anzeigentexte (Facebook / Google / TikTok)</h3>
+      <div class="grid2">
+        <div>
+          <label>Produktname *</label>
+          <input id="a_name" placeholder="z. B. Kids Building Blocks Toy">
+          <label>Kernbegriffe (durch Komma getrennt) *</label>
+          <input id="a_kw" placeholder="z. B. toy, puzzle, kids">
+          <label>Plattform</label>
+          <select id="a_platform">
+            <option value="facebook">Facebook</option><option value="google">Google</option><option value="tiktok">TikTok</option>
+          </select>
+          <button class="btn" id="btnAds">Anzeigentext generieren →</button>
+          <div class="msg" id="a_msg"></div>
+        </div>
+        <div>
+          <div class="out" id="a_out"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Bewertungs-Scan ========== -->
+  <section class="pane" id="pane-review">
+    <div class="card">
+      <h3>⭐ Bewertungs-Scan — Sicherheitsrelevante Begriffe</h3>
+      <label>Bewertungstext *</label>
+      <textarea id="r_text" placeholder="Fügen Sie den zu scannenden Bewertungstext ein"></textarea>
+      <button class="btn" id="btnReview">Scannen →</button>
+      <div class="msg" id="r_msg"></div>
+      <div class="out" id="r_out"></div>
+    </div>
+  </section>
+
+  <!-- ========== Monitoring ========== -->
+  <section class="pane" id="pane-monitor">
+    <div class="card">
+      <h3>📡 Listing-Monitoring — Täglicher Scan</h3>
+      <div class="hint" style="margin-bottom:12px">Listings werden täglich auf GPSR-Konformität und Zeichenlimits geprüft</div>
+      <div id="monList"><p class="hint">Wird geladen…</p></div>
+    </div>
+  </section>
+
+  <!-- ========== Abo ========== -->
+  <section class="pane" id="pane-billing">
+    <div class="grid2">
+      <div class="plan-card">
+        <h3>Starter</h3>
+        <div class="price">€29<small style="font-size:14px;color:#94a3b8"> / Monat</small></div>
+        <ul>
+          <li>200 KI-Generierungen pro Monat</li>
+          <li>GPSR-Compliance-Block, unbegrenzt</li>
+          <li>Postfach: 100 Käuferanfragen pro Monat</li>
+          <li>7-Tage-Verlauf der Generierungen</li>
+        </ul>
+        <button class="btn" id="btnUpgrade" style="background:#a78bfa;color:#1e1b4b">Upgrade starten →</button>
+      </div>
+      <div class="card">
+        <h3>💳 Aktueller Tarif &amp; Guthaben</h3>
+        <div id="billingInfo"><p class="hint">Wird geladen…</p></div>
+        <div class="msg" id="b_msg"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="wb-footer">
+  CrossAIO Workbench · <a href="/de/">Startseite</a> · <a href="/de/pricing">Preise</a> · <a href="/de/gpsr-check">Kostenloser Check</a> · <a href="/de/signin">Anmelden</a><br>
+  Berichte sind technische Hilfestellung und keine Rechtsberatung; maßgeblich sind die offiziellen EU-Texte.
+</footer>
+
+<script>
+const API = "/api/v1";
+let token = localStorage.getItem("cb_token");
+if(!token){ location.href = "/de/signin"; }
+
+function authHeaders(){ return {"Content-Type":"application/json", "Authorization":"Bearer "+token}; }
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// ---------- Tabs ----------
+document.querySelectorAll(".wbnav .tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".wbnav .tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
+  b.classList.add("active");
+  document.getElementById("pane-"+b.dataset.tab).classList.add("active");
+});
+
+// ---------- Nutzerinfo ----------
+(async function(){
+  try{
+    const r = await fetch(API+"/users/me", {headers:authHeaders()});
+    if(r.status===401){ localStorage.removeItem("cb_token"); location.href="/de/signin"; return; }
+    const d = await r.json();
+    document.getElementById("uEmail").textContent = d.email||"";
+    document.getElementById("uPlan").textContent = (d.plan||"Free");
+    document.getElementById("billingInfo").innerHTML =
+      `<p><b>Tarif:</b> ${esc(d.plan||"Free")}</p>` +
+      `<p><b>Guthaben (Monat):</b> ${d.generations_left ?? "-"}</p>` +
+      `<p class="hint">Abrechnung über Stripe / PayPal — jederzeit kündbar</p>`;
+  }catch(e){}
+})();
+
+document.getElementById("btnLogout").onclick = () => {
+  localStorage.removeItem("cb_token");
+  location.href = "/de/";
+};
+
+// ---------- Listing-Texte ----------
+document.getElementById("btnListing").onclick = async () => {
+  const btn = document.getElementById("btnListing"); btn.disabled = true; btn.textContent = "Generiere…";
+  const out = document.getElementById("l_out"), msg = document.getElementById("l_msg");
+  msg.className = "msg"; out.classList.remove("show");
+  try{
+    const r = await fetch(API+"/products/generate-listing", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({
+        product_name:document.getElementById("l_name").value.trim(),
+        keywords:document.getElementById("l_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+        platform:document.getElementById("l_platform").value,
+        language:document.getElementById("l_lang").value
+      })});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Generierung fehlgeschlagen");
+    out.textContent = d.text || JSON.stringify(d, null, 2);
+    out.classList.add("show");
+    msg.className = "msg ok"; msg.textContent = "Generierung abgeschlossen";
+  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
+  btn.disabled = false; btn.textContent = "Generieren →";
+};
+
+// ---------- GPSR-Check ----------
+document.getElementById("btnGpsr").onclick = async () => {
+  const btn = document.getElementById("btnGpsr"); btn.disabled = true; btn.textContent = "Prüfe…";
+  const out = document.getElementById("g_out"), msg = document.getElementById("g_msg");
+  msg.className = "msg"; out.classList.remove("show");
+  try{
+    const r = await fetch(API+"/products/gpsr/check", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({
+        product_name:document.getElementById("g_name").value.trim(),
+        keywords:document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+        platform:document.getElementById("g_platform").value
+      })});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Prüfung fehlgeschlagen");
+    out.textContent = JSON.stringify(d, null, 2);
+    out.classList.add("show");
+    msg.className = "msg ok"; msg.textContent = "Prüfung abgeschlossen";
+  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
+  btn.disabled = false; btn.textContent = "Prüfung starten →";
+};
+
+// ---------- KI-Kundenservice ----------
+document.getElementById("btnCs").onclick = async () => {
+  const btn = document.getElementById("btnCs"); btn.disabled = true; btn.textContent = "Entwerfe…";
+  const out = document.getElementById("cs_out"), msg = document.getElementById("cs_msgbox");
+  msg.className = "msg"; out.classList.remove("show");
+  try{
+    const r = await fetch(API+"/cs/draft", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({
+        message:document.getElementById("cs_msg").value.trim(),
+        product_name:document.getElementById("cs_name").value.trim() || null
+      })});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Entwurf fehlgeschlagen");
+    out.textContent = d.draft || JSON.stringify(d, null, 2);
+    out.classList.add("show");
+    msg.className = "msg ok"; msg.textContent = "Entwurf erstellt";
+  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
+  btn.disabled = false; btn.textContent = "Antwort entwerfen →";
+};
+
+// ---------- Postfach ----------
+(async function(){
+  const box = document.getElementById("inboxList");
+  try{
+    const r = await fetch(API+"/cs/inbox", {headers:authHeaders()});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Postfach nicht ladbar");
+    if(!d.items || !d.items.length){ box.innerHTML = '<p class="hint">Keine Käuferanfragen vorhanden</p>'; return; }
+    box.innerHTML = d.items.map((m,i)=>`
+      <div class="inbox-row" onclick="openMsg(${i})">
+        <div style="flex:1">
+          <div><b>${esc(m.subject||"(ohne Betreff)")}</b> <span class="intent">${esc(m.intent||"-")}</span></div>
+          <div class="meta">${esc(m.from||"")} · ${esc(m.received_at||"")}</div>
+          <div class="meta">${esc((m.message||"").slice(0,120))}…</div>
+        </div>
+        <div style="text-align:right"><span class="sentiment-${m.sentiment==='neg'?'neg':m.sentiment==='pos'?'low':'neu'}">${esc(m.sentiment||"-")}</span></div>
+      </div>`).join("");
+    window._inbox = d.items;
+  }catch(e){ box.innerHTML = '<p class="msg err" style="display:block">'+esc(e.message)+'</p>'; }
+})();
+window.openMsg = async function(i){
+  const m = window._inbox[i];
+  if(!m || m._draft) return;
+  try{
+    const r = await fetch(API+"/cs/draft", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({message:m.message, product_name:m.product_name||null})});
+    const d = await r.json();
+    m._draft = d.draft || JSON.stringify(d,null,2);
+    alert("Antwortentwurf:\n\n" + m._draft);
+  }catch(e){ alert("Entwurf fehlgeschlagen: "+e.message); }
+};
+
+// ---------- Anzeigentexte ----------
+document.getElementById("btnAds").onclick = async () => {
+  const btn = document.getElementById("btnAds"); btn.disabled = true; btn.textContent = "Generiere…";
+  const out = document.getElementById("a_out"), msg = document.getElementById("a_msg");
+  msg.className = "msg"; out.classList.remove("show");
+  try{
+    const r = await fetch(API+"/ads/generate", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({
+        product_name:document.getElementById("a_name").value.trim(),
+        keywords:document.getElementById("a_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+        platform:document.getElementById("a_platform").value
+      })});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Generierung fehlgeschlagen");
+    out.textContent = d.text || JSON.stringify(d, null, 2);
+    out.classList.add("show");
+    msg.className = "msg ok"; msg.textContent = "Anzeigentext erstellt";
+  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
+  btn.disabled = false; btn.textContent = "Anzeigentext generieren →";
+};
+
+// ---------- Bewertungs-Scan ----------
+document.getElementById("btnReview").onclick = async () => {
+  const btn = document.getElementById("btnReview"); btn.disabled = true; btn.textContent = "Scanne…";
+  const out = document.getElementById("r_out"), msg = document.getElementById("r_msg");
+  msg.className = "msg"; out.classList.remove("show");
+  try{
+    const r = await fetch(API+"/reviews/scan", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({text:document.getElementById("r_text").value.trim()})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Scan fehlgeschlagen");
+    out.textContent = JSON.stringify(d, null, 2);
+    out.classList.add("show");
+    msg.className = d.flagged ? "msg err" : "msg ok";
+    msg.textContent = d.flagged ? "Warnung: sicherheitsrelevante Begriffe erkannt" : "Keine sicherheitsrelevanten Begriffe erkannt";
+  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
+  btn.disabled = false; btn.textContent = "Scannen →";
+};
+
+// ---------- Monitoring ----------
+(async function(){
+  const box = document.getElementById("monList");
+  try{
+    const r = await fetch(API+"/monitor/listings", {headers:authHeaders()});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Monitoring nicht ladbar");
+    if(!d.listings || !d.listings.length){ box.innerHTML = '<p class="hint">Noch keine Listings im Monitoring</p>'; return; }
+    box.innerHTML = '<table><tr><th>Produkt</th><th>Plattform</th><th>Risiko</th><th>Letzter Scan</th></tr>' +
+      d.listings.map(l=>`<tr><td>${esc(l.product_name||"-")}</td><td>${esc(l.platform||"-")}</td>
+        <td class="risk-${(l.risk_level==='high'?'high':l.risk_level==='medium'?'med':'low')}">${esc(l.risk_level||"-")}</td>
+        <td>${esc(l.last_scan||"-")}</td></tr>`).join("") + "</table>";
+  }catch(e){ box.innerHTML = '<p class="msg err" style="display:block">'+esc(e.message)+'</p>'; }
+})();
+
+// ---------- Upgrade ----------
+document.getElementById("btnUpgrade").onclick = async () => {
+  const btn = document.getElementById("btnUpgrade"), msg = document.getElementById("b_msg");
+  btn.disabled = true; btn.textContent = "Leite weiter…";
+  try{
+    const r = await fetch(API+"/billing/checkout", {method:"POST", headers:authHeaders(),
+      body:JSON.stringify({plan:"starter"})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Checkout fehlgeschlagen");
+    if(d.url) location.href = d.url;
+    else { msg.className = "msg ok"; msg.textContent = "Checkout bereitgestellt"; }
+  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
+  btn.disabled = false; btn.textContent = "Upgrade starten →";
+};
+</script>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

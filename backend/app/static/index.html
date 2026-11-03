@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/app">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/app">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/app">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/app">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/app">
+<title>CrossAIO — 跨境电商AI助手</title>
+<style>
+  :root{
+    --bg:#eef2ff;--card:rgba(255,255,255,.72);--border:rgba(255,255,255,.95);--text:#1e293b;--muted:#64748b;
+    --primary:#7c3aed;--primary-dark:#6d28d9;--ok:#059669;--warn:#d97706;--err:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:linear-gradient(160deg,#eef2ff 0%,#f0f9ff 45%,#faf5ff 100%);color:var(--text);min-height:100vh;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 15% 20%,rgba(168,85,247,.10),transparent 45%),radial-gradient(circle at 85% 70%,rgba(34,211,238,.10),transparent 45%)}
+  header{background:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.95);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(16px);position:relative;z-index:1;box-shadow:0 2px 14px rgba(148,163,184,.10)}
+  header h1{font-size:18px}
+  header h1 span{color:var(--primary)}
+  #userbar{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  #sitelinks{display:flex;gap:14px;align-items:center;font-size:13px}
+  #sitelinks .fnavitem{position:relative}
+  #sitelinks .flabel{cursor:pointer;padding:6px 10px;border-radius:8px;font-weight:600;color:var(--text);display:inline-block;user-select:none}
+  #sitelinks .flabel:hover{background:#eff6ff;color:var(--primary)}
+  #sitelinks .fdrop{position:absolute;top:100%;right:0;min-width:320px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s;z-index:90}
+  #sitelinks .fnavitem:hover .fdrop{opacity:1;visibility:visible;transform:translateY(0)}
+  /* ---- 平台凭证接入中心：滚动胶囊条 + 点击定位 ---- */
+  #credBanner .credchips{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;
+    padding:4px 2px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  #credBanner .credchips::-webkit-scrollbar{height:6px}
+  #credBanner .credchips::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  #credBanner .credchip{flex:0 0 auto;cursor:pointer;padding:4px 12px;border-radius:14px;
+    font-size:12px;font-weight:700;white-space:nowrap;transition:transform .15s,box-shadow .15s}
+  #credBanner .credchip.ok{background:#e6f7ea;color:#1a7f37}
+  #credBanner .credchip.todo{background:#fff4e0;color:#a15c00}
+  #credBanner .credchip:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.18)}
+  #credBanner details.credflash{border-color:#2563eb !important;box-shadow:0 0 0 3px rgba(37,99,235,.25)}
+  .credflash{animation:credPulse 1.6s ease}
+  @keyframes credPulse{0%,100%{box-shadow:none}25%,75%{box-shadow:0 0 0 4px rgba(37,99,235,.35)}}
+  /* ---- 自动化流水线卡片：按订阅自动识别 × 自动处理 ---- */
+  #autoCard .autochips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  #autoCard .autochip{cursor:pointer;padding:5px 12px;border-radius:14px;font-size:12.5px;
+    border:1px solid var(--border);background:#f8fafc;transition:all .15s}
+  #autoCard .autochip:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.15)}
+  #autoCard .autochip.active{background:#e6f7ea;color:#1a7f37;border-color:#b7e4c0}
+  #autoCard .autochip.ready{background:#eaf2ff;color:#1d4ed8;border-color:#c7d2fe}
+  #autoCard .autochip.manual{background:#f1f5f9;color:#475569}
+  #autoCard .autochip.no_credential{background:#fff4e0;color:#a15c00;border-color:#fde0b0}
+  #autoCard .autochip.locked_plan{background:#fdeaea;color:#b91c1c;border-color:#f5c2c2}
+  #autoCard .autochip.waiting_connector{background:#fdf6e3;color:#92400e;border-color:#efe3b0}
+  #sitelinks .fdrop a{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;color:#334155;padding:10px 12px;border-radius:8px;text-decoration:none}
+  #sitelinks .fdrop a:hover{background:#eff6ff;color:var(--primary)}
+  #sitelinks .fdrop a::after{content:"›";color:#cbd5e1;font-size:15px}
+  #sitelinks .fdrop a small{display:block;font-weight:400;font-size:11px;color:var(--muted);text-align:left}
+  nav{display:flex;gap:8px;padding:10px 18px;max-width:1080px;margin:12px auto 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;position:relative;background:rgba(255,255,255,.5);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.9);border-radius:14px;box-shadow:0 4px 20px rgba(148,163,184,.14)}
+  nav::before{content:"";position:absolute;top:-1px;left:10px;right:10px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#22d3ee,#a855f7,transparent);opacity:.7;pointer-events:none}
+  nav button.navtab{display:inline-flex;align-items:center;gap:8px;border:none;padding:9px 15px;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap;flex:0 0 auto;border-radius:11px;position:relative;transition:all .18s;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,rgba(34,211,238,.5),rgba(168,85,247,.5)) border-box;border:1px solid transparent;box-shadow:0 2px 8px rgba(148,163,184,.10)}
+  nav button.navtab.active{color:#fff;font-weight:700;background:linear-gradient(120deg,rgba(124,58,237,.92),rgba(34,211,238,.92));box-shadow:0 6px 22px rgba(124,58,237,.35),0 0 12px rgba(34,211,238,.35);transform:translateY(-1px)}
+  nav button.navtab:hover{color:var(--primary);transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,102,241,.28)}
+  nav .lpjump{color:#a78bfa;font-size:12px;text-decoration:none;opacity:.6;transition:.18s}
+  nav span.navitem:hover .lpjump{opacity:1;color:var(--primary);transform:translateX(2px);display:inline-block}
+  details.howto{border:1px solid rgba(199,210,254,.9);background:linear-gradient(120deg,rgba(245,248,255,.9),rgba(240,249,255,.9));border-radius:12px;padding:10px 14px;margin:10px 0 6px;font-size:13px;backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(148,163,184,.10)}
+  details.howto summary{cursor:pointer;font-weight:700;color:var(--primary);font-size:13px;display:flex;align-items:center;gap:6px}
+  details.howto summary::before{content:"▶";font-size:11px;color:#a78bfa;transition:transform .2s;display:inline-block}
+  details.howto[open] summary::before{transform:rotate(90deg)}
+  details.howto ol{margin:8px 0 4px 20px;padding:0}
+  details.howto li{margin:4px 0}
+  details.howto .note{color:#a15c00;font-size:12px;margin-top:6px}
+  main{max-width:1080px;margin:0 auto;padding:20px 24px 48px;position:relative;z-index:1}
+  .card{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.95);border-radius:16px;padding:24px;margin-top:16px;backdrop-filter:blur(14px);box-shadow:0 4px 20px rgba(148,163,184,.14)}
+  .hidden{display:none}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  input,select,textarea{width:100%;padding:9px 12px;border:1px solid rgba(255,255,255,.95);border-radius:8px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.85);color:var(--text);backdrop-filter:blur(8px)}
+  textarea{resize:vertical;min-height:70px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  button.btn{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;margin-top:18px}
+  button.btn:hover{background:var(--primary-dark)}
+  button.btn:disabled{background:#9ca3af;cursor:not-allowed}
+  button.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+  .msg{padding:10px 14px;border-radius:8px;font-size:14px;margin-top:14px}
+  .msg.err{background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.ok{background:#ecfdf5;color:var(--ok);border:1px solid #a7f3d0}
+  .result{margin-top:18px;border-top:1px dashed var(--border);padding-top:16px;font-size:14px;line-height:1.7}
+  .result h3{font-size:15px;margin-bottom:8px;color:var(--primary)}
+  .badge{display:inline-block;background:#eff6ff;color:var(--primary);border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
+  .chat-box{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;margin-top:14px}
+  .bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+  .bubble.user{align-self:flex-end;background:var(--primary);color:#fff}
+  .bubble.ai{align-self:flex-start;background:#f3f4f6;color:var(--text)}
+  .meta{font-size:12px;color:var(--muted);margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:14px}
+  th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px}
+  .price{font-size:26px;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+
+  /* 统一收件箱 */
+  .inbox-wrap{display:grid;grid-template-columns:340px 1fr;gap:16px;margin-top:16px;min-height:420px}
+  .inbox-list{border:1px solid rgba(255,255,255,.95);border-radius:12px;overflow-y:auto;max-height:520px;background:rgba(255,255,255,.7);backdrop-filter:blur(12px)}
+  .inbox-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer}
+  .inbox-item:hover{background:#f8fafc}
+  .inbox-item.active{background:#eff6ff}
+  .inbox-item .top{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .inbox-item .plat{font-weight:700;font-size:12px;color:#fff;background:var(--primary);border-radius:6px;padding:1px 7px}
+  .inbox-item .subj{font-size:13px;margin-top:4px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .inbox-item .meta2{font-size:11px;color:var(--muted);margin-top:3px}
+  .inbox-thread{border:1px solid rgba(255,255,255,.95);border-radius:12px;padding:16px;background:rgba(255,255,255,.7);overflow-y:auto;max-height:520px;backdrop-filter:blur(12px)}
+  .inbox-thread .empty{color:var(--muted);text-align:center;margin-top:80px;font-size:14px}
+  .msg-row{margin-bottom:14px}
+  .msg-row .who{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:3px}
+  .msg-bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;max-width:92%}
+  .msg-row.in .msg-bubble{background:#f3f4f6}
+  .msg-row.out{text-align:right}
+  .msg-row.out .msg-bubble{background:#eff6ff;display:inline-block;text-align:left}
+  .msg-row .tags{margin-top:4px;display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:11px;border-radius:999px;padding:1px 8px}
+  .tag.gpsr{background:#fef3c7;color:#92400e}
+  .tag.esc{background:#fee2e2;color:#991b1b}
+  .tag.ai{background:#dcfce7;color:#166534}
+  .composer{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
+  .composer textarea{width:100%;min-height:64px}
+  .filter-chip{border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;color:var(--muted)}
+  .filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .thread-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .thread-head .plat{font-weight:700;font-size:12px;color:#fff;background:var(--primary);border-radius:6px;padding:2px 8px}
+  @media(max-width:760px){.inbox-wrap{grid-template-columns:1fr}}
+  .wb-footer{display:flex;gap:18px;align-items:center;flex-wrap:wrap;max-width:1080px;margin:24px auto 0;padding:16px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+  .wb-footer a{color:var(--muted);text-decoration:none}
+  .wb-footer a:hover{color:var(--primary)}
+  details.cred-details{border:1px solid var(--border);border-radius:8px;padding:10px 14px;background:#fafbfc}
+  details.cred-details summary::-webkit-details-marker{display:none}
+  details.cred-details[open] summary{margin-bottom:6px}
+  #credBanner details summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
+  #credBanner details summary::before{content:"▶";display:inline-block;transition:transform .2s;font-size:11px;color:var(--muted)}
+  #credBanner details[open] summary::before{transform:rotate(90deg)}
+</style>
+</head>
+<body>
+<header>
+  <h1><a href="/" style="text-decoration:none;color:inherit">🤖 CrossAIO</a> — 跨境电商AI助手</h1>
+  <span class="badge" title="对比绑店型工具（如 Marqetir）：注册即用，无需绑定任何商店">独立工作台 · No Shopify required</span>
+  <div id="sitelinks">
+    <!--FEATURE_NAV-->
+    <a href="/" class="hint" style="text-decoration:none">首页</a>
+    <a href="/rules" class="hint" style="text-decoration:none">规则速查</a>
+    <a href="/pricing" class="hint" style="text-decoration:none">定价</a>
+    <a href="/skills" class="hint" style="text-decoration:none">开源 Skills</a>
+    <a href="/gpsr-check" class="hint" style="text-decoration:none">免费体检落地页</a>
+  </div>
+  <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center;margin-top:10px">
+    <a href="/app" data-lang="zh" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">中文</a>
+    <a href="/en/app" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7d0e8">EN</a>
+    <a href="/de/app" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7d0e8">DE</a>
+    <a href="/fr/app" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7d0e8">FR</a>
+  </div>
+  <div id="userbar"></div>
+</header>
+
+<!-- 登录/注册 -->
+<section id="auth" class="card" style="max-width:420px;margin:60px auto">
+  <h2 style="margin-bottom:4px">登录 / 注册</h2>
+  <p class="hint">免费版每天 5 次调用，无需信用卡。</p>
+  <label>邮箱</label><input id="email" type="email" placeholder="you@example.com">
+  <label>密码（≥8位）</label><input id="password" type="password" placeholder="********">
+  <div class="row">
+    <button class="btn" id="btnLogin">登录</button>
+    <button class="btn ghost" id="btnRegister">注册</button>
+  </div>
+  <div id="authMsg"></div>
+</section>
+
+<!-- 主应用 -->
+<div id="app" class="hidden">
+<nav>
+  <span class="navitem"><button class="navtab active" data-tab="desc">📦 产品描述</button><a class="lpjump" href="/features/listing-generator" title="查看产品介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="gpsr">🛡️ GPSR 合规体检</button><a class="lpjump" href="/features/gpsr" title="查看介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="cs">💬 AI 客服</button><a class="lpjump" href="/features/ai-service" title="查看介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="inbox">📥 统一收件箱</button><a class="lpjump" href="/features/inbox" title="查看介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="ad">📣 广告文案</button><a class="lpjump" href="/features/ad-copy" title="查看介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="review">🔄 差评改写</button><a class="lpjump" href="/features/review-rewrite" title="查看介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="watch">📡 Listing 监控</button><a class="lpjump" href="/features/listing-watch" title="查看介绍页 ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="bill">💳 订阅</button><a class="lpjump" href="/pricing" title="查看定价页 ↗">↗</a></span>
+</nav>
+<main>
+
+  <!-- 平台凭证接入提示（所有注册用户可见，数据源 /compliance/credentials） -->
+  <div id="credBanner" class="card hidden" style="margin-bottom:16px;border-left:4px solid #a15c00"></div>
+  <div id="autoCard" class="card hidden" style="margin-bottom:16px;border-left:4px solid #1a7f37">
+    <h2 style="font-size:16px;margin:0 0 4px">🤖 自动化流水线 <span class="badge">按订阅自动识别 · 自动处理</span></h2>
+    <p class="hint" style="margin:4px 0">凭证接入后，店铺问题自动串连 6 大功能：监控体检识别风险 → 高风险自动生成 GPSR 合规块 → 买家消息自动生成合规回复 → 差评/广告联动建议。</p>
+    <div id="autoQuota" class="hint" style="margin:2px 0"></div>
+    <div class="autochips" id="autoChips"></div>
+    <div class="row" style="gap:8px;align-items:center">
+      <button class="btn" id="btnAutoRun" style="margin:0">▶ 立即跑一轮自动处理</button>
+      <span class="hint" style="margin:0">体检→合规块→自动回复→建议，一次完成</span>
+    </div>
+    <div id="autoResult" class="result" style="margin-top:8px"></div>
+  </div>
+
+  <!-- 产品描述 -->
+  <div id="tab-desc" class="card">
+    <h2>📦 产品描述生成器</h2>
+    <details class="howto"><summary>❓ 怎么用（3 步）</summary>
+      <ol>
+        <li>填 <b>产品名称</b> + <b>核心关键词</b>（逗号分隔，如 wireless, bluetooth）。</li>
+        <li>选 <b>目标平台</b> 和 <b>目标语言</b>（11 种语言，标题字数按平台规则自动限制）。</li>
+        <li>点「生成产品描述」→ 输出标题 / 五点描述 / 详情页 / 后台搜索词 + 优化分 + 可直接粘贴的 GPSR 合规块。</li>
+      </ol>
+      <div class="note">🌍 多国矩阵：勾选下方平台 → 点「生成多平台矩阵」，一次生成多平台多语言版本；每平台各计 1 次用量，Allegro→波兰语、Otto→德语等自动匹配。</div>
+    </details>
+    <p class="hint">按平台规则生成标题 + 五点描述 + 详情页 + 搜索词，支持 11 种语言。</p>
+    <label>产品名称 *</label><input id="d_name" placeholder="Wireless Noise Cancelling Headphones">
+    <label>核心关键词（逗号分隔）*</label><input id="d_kw" placeholder="wireless, bluetooth, noise cancelling">
+    <div class="row">
+      <div><label>目标平台</label>
+        <select id="d_platform">
+          <option value="amazon">Amazon 欧洲站</option><option value="amazon_us">Amazon 美国站</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount（法国）</option><option value="otto">Otto（德国）</option>
+          <option value="allegro">Allegro（波兰）</option><option value="emag">eMAG（罗马尼亚）</option>
+          <option value="kaufland">Kaufland（德/中东欧）</option><option value="zalando">Zalando（欧洲时尚）</option><option value="bol">bol.com（荷/比）</option>
+          <option value="walmart">Walmart（美国）</option>
+          <option value="fruugo">Fruugo（泛欧）</option>
+          <option value="tiktok">TikTok Shop</option>
+        </select></div>
+      <div><label>目标语言</label>
+        <select id="d_lang">
+          <option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option>
+          <option value="es">Español</option><option value="it">Italiano</option><option value="ar">العربية</option>
+          <option value="tr">Türkçe</option><option value="hi">हिन्दी</option><option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option><option value="bn">বাংলা</option>
+        </select></div>
+    </div>
+    <button class="btn" id="btnDesc">生成产品描述</button>
+    <div id="descMsg"></div><div id="descResult"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">🌍 欧洲多国矩阵（一次产品 → 多平台多语言）</h3>
+    <p class="hint">每平台各计 1 次用量；Allegro→波兰语、Otto→德语、Cdiscount→法语、eMAG→罗马尼亚语、TikTok Shop→英语自动匹配。</p>
+    <div id="matrixPlatforms" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:13px"></div>
+    <button class="btn" id="btnMatrix">生成多平台矩阵</button>
+    <div id="matrixMsg"></div><div id="matrixResult"></div>
+  </div>
+
+  <!-- GPSR 合规体检 -->
+  <div id="tab-gpsr" class="card hidden">
+    <h2>🛡️ GPSR 合规体检 <span class="badge">免费</span></h2>
+    <details class="howto"><summary>❓ 怎么用（3 步）</summary>
+      <ol>
+        <li>填 <b>产品名称</b> + <b>核心关键词</b>（决定命中的 CE 类目，如 toy, puzzle）。</li>
+        <li>选 <b>目标平台</b>。</li>
+        <li>点「开始免费体检」→ 得到风险等级 / 适用 EU 指令 / 法定检查清单 / 所需警示语语言，Free 版可直接复制合规块。</li>
+      </ol>
+      <div class="note">🔑 凭证<b>全站共用</b>：合规块写回平台 Listing 只需在页面顶部「平台凭证接入中心」把该平台接入<b>一次</b>，全部功能（体检 / 监控 / 收件箱 / 客服…）自动复用同一份凭证，无需在各功能里重复接入。 <button class="btn ghost" style="margin:2px 0 0;padding:3px 10px;font-size:12px" onclick="goCredCenter()">去接入中心 →</button></div>
+    </details>
+    <p class="hint">EU 2023/988 已强制执行：缺欧代/当地语言警示语的 listing 会被平台下架。
+      输入产品即可获得风险等级、适用指令与法定检查清单。体检免费不消耗额度。
+      <span style="color:#a15c00">提示：合规块真实写回平台 Listing —— 在顶部接入中心接入一次即可，全功能自动复用。</span></p>
+    <label>产品名称 *</label><input id="g_name" placeholder="Kids Building Blocks Toy">
+    <label>核心关键词（逗号分隔）*</label><input id="g_kw" placeholder="toy, puzzle, kids">
+    <div class="row">
+      <div><label>目标平台</label>
+        <select id="g_platform">
+          <option value="amazon">Amazon 欧洲站</option><option value="amazon_us">Amazon 美国站</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount（法国）</option><option value="otto">Otto（德国）</option>
+          <option value="allegro">Allegro（波兰）</option><option value="emag">eMAG（罗马尼亚）</option>
+          <option value="kaufland">Kaufland（德/中东欧）</option><option value="zalando">Zalando（欧洲时尚）</option><option value="bol">bol.com（荷/比）</option>
+          <option value="walmart">Walmart（美国）</option>
+          <option value="fruugo">Fruugo（泛欧）</option>
+        </select></div>
+    </div>
+    <button class="btn" id="btnGpsr">开始免费体检</button>
+    <div id="gpsrMsg"></div><div id="gpsrResult"></div>
+  </div>
+
+  <!-- AI客服 -->
+  <div id="tab-cs" class="card hidden">
+    <h2>💬 AI 客服演示</h2>
+    <details class="howto"><summary>❓ 怎么用（2 步）</summary>
+      <ol>
+        <li>输入 <b>买家消息</b>（如 Where is my order #123-...?），可附 <b>订单号</b>。</li>
+        <li>选 <b>销售平台</b>（决定 GPSR 披露语言）→ 点「发送」→ 自动识别意图/情绪，输出合规回复；高风险自动建议转人工。</li>
+      </ol>
+      <div class="note">回复自动附带 EU AI Act Art.50 当地语言 AI 披露；GPSR 安全事件（过热/窒息等）会标记 🛡️ 并给出处置步骤。</div>
+    </details>
+    <p class="hint">自动识别意图（物流/退货/投诉/咨询）与情绪，高风险自动建议转人工。</p>
+    <div class="chat-box" id="chatBox"></div>
+    <label>买家消息</label><input id="cs_msg" placeholder="Where is my order #123-4567890-1234567?">
+    <label>销售平台（决定 GPSR 合规披露语言）</label>
+    <select id="cs_platform">
+      <option value="amazon">Amazon 欧洲站</option>
+      <option value="ebay">eBay</option>
+      <option value="otto">Otto（德国）</option>
+      <option value="allegro">Allegro（波兰）</option>
+      <option value="emag">eMAG（罗马尼亚）</option>
+      <option value="cdiscount">Cdiscount（法国）</option>
+      <option value="kaufland">Kaufland（德/中东欧）</option>
+      <option value="bol">bol.com（荷/比）</option>
+      <option value="zalando">Zalando（欧洲时尚）</option>
+      <option value="tiktok">TikTok Shop</option>
+      <option value="fruugo">Fruugo（泛欧）</option>
+      <option value="miravia">Miravia（西班牙）</option>
+      <option value="walmart">Walmart（美国）</option>
+    </select>
+    <div class="row">
+      <div><label>订单号（可选）</label><input id="cs_order" placeholder="123-4567890-1234567"></div>
+      <div style="align-self:end"><button class="btn" id="btnCs" style="width:100%">发送</button></div>
+    </div>
+  </div>
+
+  <!-- 广告文案 -->
+  <div id="tab-ad" class="card hidden">
+    <h2>📣 广告文案生成器</h2>
+    <details class="howto"><summary>❓ 怎么用（2 步）</summary>
+      <ol>
+        <li>填 <b>产品名称</b> / <b>目标受众</b>（如 fitness enthusiasts）/ <b>独特卖点</b>。</li>
+        <li>选平台（facebook / google / tiktok）→ 点「生成广告文案」→ 输出主文案 + 标题 + 描述 + CTA + 话题标签，字数自动适配各平台限制。</li>
+      </ol>
+    </details>
+    <p class="hint">Facebook / Google / TikTok 平台字数自动适配。</p>
+    <label>产品名称 *</label><input id="a_name" placeholder="Smart Water Bottle">
+    <div class="row">
+      <div><label>平台</label><select id="a_platform"><option>facebook</option><option>google</option><option>tiktok</option></select></div>
+      <div><label>目标受众 *</label><input id="a_audience" placeholder="fitness enthusiasts"></div>
+    </div>
+    <label>独特卖点 *</label><input id="a_usp" placeholder="Tracks hydration and glows to remind you to drink">
+    <button class="btn" id="btnAd">生成广告文案</button>
+    <div id="adMsg"></div><div id="adResult"></div>
+  </div>
+
+  <!-- 差评改写 + 属性校验 -->
+  <div id="tab-review" class="card hidden">
+    <h2>🔄 差评 → Listing 改写</h2>
+    <details class="howto"><summary>❓ 怎么用（两块功能）</summary>
+      <ol>
+        <li><b>差评分析</b>：粘贴差评原文（每行一条）→ 可选填星级与材质 → 点「分析差评并生成修复」→ 输出问题主题 + 每个主题的五点描述修复文案；命中安全词会触发 🚨 GPSR 安全事件预警和处置步骤。</li>
+        <li><b>属性树校验</b>：选平台 → 点「加载属性树」→ 按提示填写 → 点「校验属性完整度」→ 得到硬阻断/格式错误/建议补齐清单，避免类目必填缺失被驳回。</li>
+      </ol>
+      <div class="note">差评分析每次消耗 1 次生成额度；属性校验不消耗。</div>
+    </details>
+    <p class="hint">粘贴差评原文 → 自动定位 listing 缺口 → 输出可直接粘贴的五点描述修复。每次消耗 1 次生成额度。</p>
+    <label>差评原文（每行一条）*</label>
+    <textarea id="rv_text" style="min-height:110px" placeholder="Battery dies quickly, and it's too small compared to pictures. No instructions included."></textarea>
+    <div class="row">
+      <div><label>平均星级（可选）</label>
+        <select id="rv_rating"><option value="">不填</option><option value="1">⭐</option><option value="2">⭐⭐</option><option value="3">⭐⭐⭐</option></select></div>
+      <div><label>产品材质（可选，用于改写）</label><input id="rv_material" placeholder="ABS + silicone"></div>
+    </div>
+    <button class="btn" id="btnReview">分析差评并生成修复</button>
+    <div id="rvMsg"></div><div id="rvResult"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">✍️ 差评回复改写（公开回复 + 私信安抚）</h3>
+    <p class="hint">按平台规则生成可粘贴的差评回复：Amazon / eBay 模板自动切换，输出前做合规自查（禁止补偿/返现换好评、禁止站外引流），全程留痕。<b>只生成不自动发送</b>，由你确认后复制到平台。每次消耗 1 次生成额度。</p>
+    <div class="row">
+      <div><label>平台</label><select id="rr_platform">
+        <option value="amazon">Amazon</option><option value="ebay">eBay</option>
+      </select></div>
+      <div><label>模式</label><select id="rr_mode">
+        <option value="both">公开回复 + 私信安抚</option><option value="public">仅公开回复</option><option value="private">仅私信安抚</option>
+      </select></div>
+    </div>
+    <label>Listing 标识（ASIN / item id / 链接，可选）</label>
+    <input id="rr_listing" placeholder="B0XXXXXXXX / item-12345" style="width:100%">
+    <label>差评原文 *</label>
+    <textarea id="rr_text" style="min-height:80px" placeholder="Paste the negative review text here..."></textarea>
+    <button class="btn" id="btnRewrite">生成改写（自查 + 留痕）</button>
+    <div id="rrMsg"></div><div id="rrResult"></div>
+    <h4 style="margin:14px 0 4px">历史记录</h4>
+    <div id="rrHistory"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">✅ 平台属性树校验</h3>
+    <p class="hint">类目必填参数缺失/填错 = 审核直接驳回。按平台检查属性完整度。</p>
+    <div class="row">
+      <div><label>平台</label><select id="at_platform">
+        <option value="allegro">Allegro</option><option value="emag">eMAG</option>
+        <option value="tiktok">TikTok Shop</option><option value="kaufland">Kaufland</option>
+        <option value="zalando">Zalando</option><option value="bol">bol.com</option><option value="amazon">Amazon（通用）</option><option value="amazon_us">Amazon US</option>
+      </select></div>
+      <div style="align-self:end"><button class="btn ghost" id="btnAttrLoad" style="margin:0;width:100%">加载属性树</button></div>
+    </div>
+    <div id="attrFields" style="margin-top:10px"></div>
+    <button class="btn" id="btnAttrValidate" style="display:none">校验属性完整度</button>
+    <div id="attrResult"></div>
+  </div>
+
+  <!-- Listing 监控（7x24） -->
+  <div id="tab-watch" class="card hidden">
+    <h2>📡 Listing 监控 <span class="badge">7x24</span></h2>
+    <details class="howto"><summary>❓ 怎么用（3 步）</summary>
+      <ol>
+        <li>在下方「添加 listing 到监控仓库」填 SKU / 产品名称 / 平台 / 关键词，最好粘贴<b>现有标题和描述</b>（引擎据此检测欧代、警示语等 GPSR 要素）→ 点「添加并立即体检」。</li>
+        <li>每天点「⚡ 立即体检并生成今日日报」（或等定时任务）→ 日报列出风险恶化 / 新增 / 改善的 listing。</li>
+        <li>列表中点「详情」查看具体风险项 + 修复建议 + 可直接粘贴的 GPSR 合规块；支持单条「重检」和「删除」。</li>
+      </ol>
+      <div class="note">体检为确定性规则引擎，不消耗生成额度；配置 SMTP 后日报自动邮件推送。</div>
+    </details>
+    <p class="hint">把 listing 存入监控仓库 → 引擎每天自动体检 GPSR 合规与平台规则 →
+      风险等级变化生成日报（可配 SMTP 邮件推送）。体检为确定性规则，不消耗生成额度。</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap">
+      <button class="btn" id="btnWatchRun" style="margin:0">⚡ 立即体检并生成今日日报</button>
+      <button class="btn ghost" id="btnWatchRefresh" style="margin:0">刷新列表</button>
+      <button class="btn ghost" id="btnWatchReport" style="margin:0">查看最新日报</button>
+    </div>
+    <div id="watchReportBox" style="margin-top:12px"></div>
+    <h3 style="margin-top:18px">添加 listing 到监控仓库</h3>
+    <div class="row">
+      <div style="flex:1"><label>SKU / 标识</label><input id="w_sku" placeholder="SKU-001"></div>
+      <div style="flex:2"><label>产品名称 *</label><input id="w_name" placeholder="Kids Building Blocks Toy"></div>
+      <div style="flex:1"><label>平台 *</label><select id="w_platform"></select></div>
+    </div>
+    <label>核心关键词（逗号分隔）</label><input id="w_kw" placeholder="toy, building block, kids">
+    <label>现有标题（可选，用于字数校验）</label><input id="w_title" placeholder="粘贴当前 listing 标题">
+    <label>现有描述 / 五点（可选，用于 GPSR 要素检测）</label>
+    <textarea id="w_desc" style="min-height:70px" placeholder="粘贴当前 listing 描述，引擎会检测欧代、警示语、说明书等要素是否已写明"></textarea>
+    <button class="btn" id="btnWatchAdd">➕ 添加并立即体检</button>
+    <div id="watchMsg"></div>
+    <h3 style="margin-top:18px">监控列表 <span class="hint" id="watchCount"></span></h3>
+    <div id="watchList"></div>
+    <div id="watchDetail" style="margin-top:12px"></div>
+  </div>
+
+  <!-- 订阅 -->
+  <div id="tab-bill" class="card hidden">
+    <h2>💳 订阅管理</h2>
+    <details class="howto"><summary>❓ 怎么用</summary>
+      <ol>
+        <li>上方显示当前套餐与今日用量（免费版每天 5 次）。</li>
+        <li>点套餐行的「选择」即可切换：Starter €29（1 平台 · 1000 次/月）/ Pro €49（3 平台 · 全功能 · 200 次/天）/ Business €149（无限平台 · API）。</li>
+      </ol>
+      <div class="note">当前为演示模式：未配置 Stripe Key 时切换为本地模拟，不产生真实扣费。</div>
+    </details>
+    <div id="subInfo" class="result"></div>
+    <table>
+      <tr><th>套餐</th><th>价格/月</th><th>功能</th><th></th></tr>
+      <tr><td><b>Starter</b></td><td class="price">€29</td><td>1 平台 · 产品描述 · 1000次/月</td>
+        <td><button class="btn" data-plan="starter" style="margin:0;padding:6px 14px">选择</button></td></tr>
+      <tr><td><b>Pro</b></td><td class="price">€49</td><td>3 平台 · 全功能 · 200次/天</td>
+        <td><button class="btn" data-plan="pro" style="margin:0;padding:6px 14px">选择</button></td></tr>
+      <tr><td><b>Business</b></td><td class="price">€149</td><td>无限平台 · API 接入 · 专属客服</td>
+        <td><button class="btn" data-plan="business" style="margin:0;padding:6px 14px">选择</button></td></tr>
+    </table>
+    <p class="hint">⚠️ 演示模式：未配置 Stripe/PayPal Key 时升级为本地模拟，仅用于联调。</p>
+  </div>
+
+  <!-- 统一收件箱 -->
+  <div id="tab-inbox" class="card hidden">
+    <h2>📥 统一收件箱 <span class="badge">13 平台统一</span></h2>
+    <details class="howto"><summary>❓ 怎么用（3 步）</summary>
+      <ol>
+        <li>点「<b>载入演示会话</b>」体验多平台统一视图（正式环境接好平台凭证后买家消息自动导入，无需手动）。</li>
+        <li>用顶部 <b>平台筛选胶囊</b> 只看某个平台的会话。</li>
+        <li>点左侧会话查看消息流 → 在下方输入回复发送；回复自动经过 GPSR 安全指引 + EU AI Act Art.50 披露 + 平台语言匹配三重工作流。</li>
+      </ol>
+      <div class="note">🔑 凭证<b>全站共用</b>：实时消息同步只需在顶部「平台凭证接入中心」把对应平台接入<b>一次</b>，收件箱 / 客服 / 监控等全部功能自动复用同一份凭证。 <button class="btn ghost" style="margin:2px 0 0;padding:3px 10px;font-size:12px" onclick="goCredCenter()">去接入中心 →</button></div>
+    </details>
+    <p class="hint">把 Amazon / eBay / Allegro / eMAG / Otto 等全部平台的买家会话汇于一处。
+      回复自动经过组合工作流：GPSR 安全指引 + <b>EU AI Act Art.50</b> 当地语言披露 + 平台语言自动匹配。
+      <br><span style="color:var(--muted)">注：实时消息同步连接器（各平台 API 拉取）为独立模块，尚未接入；可先用「演示数据」体验统一视图。凭证接入一次即全功能复用。</span></p>
+    <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;flex-wrap:wrap;gap:6px" id="inboxFilters"></div>
+      <button class="btn ghost" id="btnInboxSeed" style="margin:0">载入演示会话</button>
+      <button class="btn ghost" id="btnInboxRefresh" style="margin:0">刷新</button>
+    </div>
+    <div class="inbox-wrap">
+      <div class="inbox-list" id="inboxList"></div>
+      <div class="inbox-thread" id="inboxThread">
+        <div class="empty">← 选择左侧会话查看消息流</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+<footer class="wb-footer">
+  <span>© 2026 CrossAIO</span>
+  <a href="/privacy">隐私政策</a>
+  <a href="/terms">服务条款</a>
+  <a href="/pricing">定价</a>
+  <span id="buildStamp" style="margin-left:auto;opacity:.65;font-size:12px">build 2026-10-30-cred4</span>
+</footer>
+</div>
+
+<script>
+const API = "/api/v1";
+console.log("[CrossAIO] build 2026-10-30-cred2 · cred=scroll");
+// Google OAuth 回调：URL 携带 token 时落库并清理地址栏（避免 token 残留可被分享/记录）
+(function(){
+  const q = new URLSearchParams(location.search);
+  const t = q.get("token");
+  if(t){
+    localStorage.setItem("cb_token", t);
+    q.delete("token");
+    const s = q.toString();
+    history.replaceState(null, "", "/app" + (s ? "?" + s : ""));
+  }
+})();
+let TOKEN = localStorage.getItem("cb_token") || "";
+let ME = null;
+
+function setMsg(id, text, cls){ const el=document.getElementById(id); el.innerHTML = text?`<div class="msg ${cls}">${text}</div>`:""; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]); }
+function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":"application/json"}; }
+async function api(path, opts={}){
+  const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
+  const data = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(data.detail || r.statusText);
+  return data;
+}
+
+function showApp(){
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  // 登录后根据 URL ?tab=xxx 激活对应面板
+  const t=new URLSearchParams(location.search).get("tab");
+  if(t && TABS.includes(t)) activateTab(t);
+}
+function renderUserbar(){
+  const el = document.getElementById("userbar");
+  el.innerHTML = ME ? `<span>${ME.email} · ${ME.plan.toUpperCase()}${ME.daily_limit?`（今日 ${ME.usage_today??0}/${ME.daily_limit}）`:""}</span>
+    <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()">退出</button>` : "";
+}
+function logout(){ localStorage.removeItem("cb_token"); location.reload(); }
+
+async function auth(path){
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  if(!email||!password) return setMsg("authMsg","请输入邮箱和密码","err");
+  try{
+    const d = await api(path,{method:"POST",body:JSON.stringify({email,password})});
+    TOKEN=d.access_token; localStorage.setItem("cb_token",TOKEN);
+    ME = await api("/users/me");
+    renderUserbar();
+    showApp(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+  }catch(e){ setMsg("authMsg", e.message, "err"); }
+}
+document.getElementById("btnLogin").onclick=()=>auth("/users/login");
+document.getElementById("btnRegister").onclick=()=>auth("/users/register");
+
+// 顶部导航：原生 <a> 链接，点击 = 在台内无刷新切换面板 + URL 同步 + 滚动到面板
+const TABS = ["desc","gpsr","cs","inbox","ad","review","watch","bill"];
+function activateTab(name){
+  if(!TABS.includes(name)) name = "desc";
+  document.querySelectorAll("nav [data-tab]").forEach(x=>{
+    x.classList.toggle("active", x.dataset.tab===name);
+  });
+  TABS.forEach(t=>document.getElementById("tab-"+t).classList.toggle("hidden", t!==name));
+  if(name==="inbox") loadInbox();
+  // URL 同步：刷新/分享链接直达对应面板
+  history.pushState(null, "", "/app?tab="+name);
+  // 自动滚动到面板顶部，让用户看到切换结果
+  const panel = document.getElementById("tab-"+name);
+  if(panel) panel.scrollIntoView({behavior:"smooth", block:"start"});
+}
+// 事件委托：nav 内任何带 data-tab 的元素（button 主入口 / a 兼容旧版）点击 = 无刷新切换
+document.querySelector("nav").addEventListener("click", e=>{
+  const el = e.target.closest("[data-tab]");
+  if(!el) return;
+  if(el.tagName === "A") e.preventDefault();   // 链接形态拦截跳转，仅切面板
+  activateTab(el.dataset.tab);
+});
+// 自检标记
+try{ var _st=document.getElementById("buildStamp"); if(_st) _st.textContent += " · 交互已就绪 ✓"; }catch(_e){}
+// /app?tab=xxx 深链：刷新后直达对应面板
+document.addEventListener("DOMContentLoaded",()=>{
+  const t=new URLSearchParams(location.search).get("tab");
+  if(t && TABS.includes(t) && !document.getElementById("app").classList.contains("hidden")) activateTab(t);
+});
+
+// 产品描述
+document.getElementById("btnDesc").onclick=async()=>{
+  setMsg("descMsg",""); document.getElementById("descResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("d_name").value.trim(),
+    keywords:document.getElementById("d_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    platform:document.getElementById("d_platform").value,
+    language:document.getElementById("d_lang").value,
+  };
+  if(!body.product_name||!body.keywords.length) return setMsg("descMsg","请填写产品名称和关键词","err");
+  const btn=document.getElementById("btnDesc"); btn.disabled=true; btn.textContent="生成中…";
+  try{
+    const d=await api("/products/descriptions/generate",{method:"POST",body:JSON.stringify(body)});
+    document.getElementById("descResult").innerHTML=renderDescCard(d);
+  }catch(e){ setMsg("descMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="生成产品描述";
+};
+
+// 欧洲多国矩阵
+const MATRIX_DEFAULTS = ["amazon","ebay","cdiscount","otto","allegro","emag","tiktok","fruugo"];
+(function initMatrix(){
+  const box = document.getElementById("matrixPlatforms");
+  fetch(API+"/products/platforms").then(r=>r.json()).then(reg=>{
+    box.innerHTML = Object.entries(reg).map(([k,v])=>{
+      const checked = MATRIX_DEFAULTS.includes(k) ? "checked" : "";
+      return `<label style="display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer">
+        <input type="checkbox" value="${k}" ${checked}> ${v.display} <span class="hint">(${v.language}, ≤${v.title_max})</span></label>`;
+    }).join("");
+  });
+})();
+function renderDescCard(d){
+  return `<div class="result">
+    <span class="badge">${d.platform}</span><span class="badge">${(d.language||"").toUpperCase()}</span>
+    <span class="badge">优化分 ${d.optimization_score}</span>
+    <span class="badge">${d.platform_compliant?"✅ 平台合规":"⚠️ "+(d.violations||[]).join("；")}</span>
+    ${d.semantic_score!=null?`<span class="badge">🔍 Rufus 语义 ${d.semantic_score}</span>`:""}
+    ${d.gpsr_risk_level?`<span class="badge">🛡️ GPSR ${d.gpsr_risk_level}</span>`:""}
+    <h3>标题（${d.character_count} 字符）</h3><p>${d.title}</p>
+    <h3>五点描述</h3><ol>${d.bullet_points.map(b=>`<li><b>${b.heading}</b> — ${b.content}</li>`).join("")}</ol>
+    <h3>详情页描述</h3><p>${d.description}</p>
+    <h3>后台搜索词</h3><p>${d.search_terms}</p>
+    ${d.semantic_score!=null?`<h3>🔍 Rufus/iZi 语义搜索适配（买家高频问题覆盖度）</h3>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="badge" style="font-size:13.5px;padding:5px 12px">语义覆盖分 <b>${d.semantic_score}</b> / 100</span>
+        <span class="hint">${d.semantic_score>=80?"✅ 全网零竞品的语义适配：可命中 Rufus/iZi 高频问题":(d.semantic_score>=50?"🟡 覆盖中等，建议补齐缺口":"🔴 覆盖偏低，需优化")}</span>
+      </div>
+      ${(d.semantic_gaps||[]).length?`<p class="hint" style="margin-top:7px;color:#a15c00">买家高频问题缺口（${d.semantic_gaps.length} 项）：<b>${d.semantic_gaps.map(esc).join(" · ")}</b></p>`:`<p class="hint" style="margin-top:7px;color:#15803d">✅ 8 类买家高频问题已全部覆盖，无缺口</p>`}`:""}
+    ${d.gpsr_block?`<h3>🛡️ GPSR 合规块（随 listing 一并发布）</h3><pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${d.gpsr_block}</pre>`:""}</div>`;
+}
+document.getElementById("btnMatrix").onclick=async()=>{
+  setMsg("matrixMsg",""); document.getElementById("matrixResult").innerHTML="";
+  const platforms=[...document.querySelectorAll("#matrixPlatforms input:checked")].map(i=>i.value);
+  if(!platforms.length) return setMsg("matrixMsg","至少勾选一个平台","err");
+  const name=document.getElementById("d_name").value.trim();
+  const keywords=document.getElementById("d_kw").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if(!name||!keywords.length) return setMsg("matrixMsg","请先填写上方产品名称和关键词","err");
+  const btn=document.getElementById("btnMatrix"); btn.disabled=true; btn.textContent="生成中…";
+  try{
+    const d=await api("/products/descriptions/market-matrix",{method:"POST",body:JSON.stringify({
+      product_name:name, keywords, platforms})});
+    document.getElementById("matrixResult").innerHTML=
+      `<div class="msg ok">完成：${d.succeeded}/${d.requested} 个平台生成成功${d.errors.length?"，"+d.errors.map(e=>e.platform+": "+e.error).join("；"):""}</div>`
+      + d.results.map(renderDescCard).join("");
+  }catch(e){ setMsg("matrixMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="生成多平台矩阵";
+};
+
+// GPSR 合规体检
+const RISK_LABEL = {high:"🔴 高风险（CE 类目）", medium:"🟡 中风险", low:"🟢 低风险"};
+document.getElementById("btnGpsr").onclick=async()=>{
+  setMsg("gpsrMsg",""); document.getElementById("gpsrResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("g_name").value.trim(),
+    keywords:document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    platform:document.getElementById("g_platform").value,
+  };
+  if(!body.product_name||!body.keywords.length) return setMsg("gpsrMsg","请填写产品名称和关键词","err");
+  const btn=document.getElementById("btnGpsr"); btn.disabled=true; btn.textContent="体检中…";
+  try{
+    const d=await api("/products/gpsr/check",{method:"POST",body:JSON.stringify(body)});
+    const checklist = d.checklist.map(c=>
+      `<tr><td>${c.required?"必查":"建议"}</td><td><b>${c.name}</b><br><span class="hint">${c.detail}</span></td></tr>`).join("");
+    document.getElementById("gpsrResult").innerHTML=`<div class="result">
+      <span class="badge">${RISK_LABEL[d.risk_level]||d.risk_level}</span>
+      <span class="badge">${d.matched_categories}</span>
+      <span class="badge">警示语语言：${d.required_languages.map(l=>l.toUpperCase()).join(" / ")}</span>
+      ${d.ce_directives.length?`<h3>适用指令</h3><p>${d.ce_directives.join("<br>")}</p>`:""}
+      ${d.category_notes?`<h3>类目要点</h3><p>${d.category_notes}</p>`:""}
+      <h3>法定检查清单</h3><table><tr><th>级别</th><th>项目</th></tr>${checklist}</table>
+      ${d.gpsr_block
+        ? `<h3>✅ 可粘贴的 GPSR 合规块</h3><pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${d.gpsr_block}</pre>`
+        : (d.upsell_note?`<div class="msg err">${d.upsell_note}<br><button class="btn" onclick="activateTab('bill')" style="padding:6px 16px">升级解锁 →</button></div>`:"")}
+    </div>`;
+  }catch(e){ setMsg("gpsrMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="开始免费体检";
+};
+
+// AI 客服
+function addBubble(text, who, meta){
+  const box=document.getElementById("chatBox");
+  const div=document.createElement("div");
+  div.className="bubble "+who;
+  div.textContent=text;
+  if(meta){ const m=document.createElement("div"); m.className="meta"; m.textContent=meta; div.appendChild(m); }
+  box.appendChild(div); box.scrollTop=box.scrollHeight;
+}
+document.getElementById("btnCs").onclick=async()=>{
+  const msg=document.getElementById("cs_msg").value.trim();
+  if(!msg) return;
+  addBubble(msg,"user"); document.getElementById("cs_msg").value="";
+  addBubble("思考中…","ai");
+  try{
+    const d=await api("/customer-service/messages",{method:"POST",body:JSON.stringify({
+      customer_message:msg,
+      order_id:document.getElementById("cs_order").value.trim()||null,
+      platform:document.getElementById("cs_platform").value})});
+    const box=document.getElementById("chatBox"); box.lastChild.remove();
+    let meta=`意图:${d.intent} · 情绪:${d.sentiment}`;
+    if(d.gpsr_incident) meta+=" · 🛡️ GPSR 安全事件";
+    if(d.ai_act_disclosure) meta+=" · 🤖 AI Act 已披露";
+    if(d.needs_escalation) meta+=" · ⚠️ 建议转人工";
+    addBubble(d.reply,"ai",meta);
+  }catch(e){ document.getElementById("chatBox").lastChild.textContent="❌ "+e.message; }
+};
+
+// 广告文案
+document.getElementById("btnAd").onclick=async()=>{
+  setMsg("adMsg",""); document.getElementById("adResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("a_name").value.trim(),
+    platform:document.getElementById("a_platform").value,
+    target_audience:document.getElementById("a_audience").value.trim(),
+    unique_selling_point:document.getElementById("a_usp").value.trim(),
+  };
+  if(!body.product_name||!body.target_audience||!body.unique_selling_point)
+    return setMsg("adMsg","请填写完整必填项","err");
+  try{
+    const d=await api("/ads/generate",{method:"POST",body:JSON.stringify(body)});
+    document.getElementById("adResult").innerHTML=`
+      <div class="result">
+        <h3>主文案（${d.character_counts.primary_text} 字符）</h3><p>${d.primary_text}</p>
+        <h3>标题（${d.character_counts.headline}）</h3><p>${d.headline}</p>
+        <h3>描述（${d.character_counts.description}）</h3><p>${d.description}</p>
+        <p><b>CTA:</b> ${d.cta} &nbsp; ${d.hashtags.join(" ")}</p>
+      </div>`;
+  }catch(e){ setMsg("adMsg", e.message, "err"); }
+};
+
+// 差评 → Listing 改写
+document.getElementById("btnReview").onclick=async()=>{
+  setMsg("rvMsg",""); document.getElementById("rvResult").innerHTML="";
+  const reviews=document.getElementById("rv_text").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  if(!reviews.length) return setMsg("rvMsg","请粘贴至少一条差评","err");
+  const rating=document.getElementById("rv_rating").value;
+  const btn=document.getElementById("btnReview"); btn.disabled=true; btn.textContent="分析中…";
+  try{
+    const d=await api("/products/review-insights",{method:"POST",body:JSON.stringify({
+      reviews,
+      rating: rating?parseInt(rating):null,
+      material: document.getElementById("rv_material").value.trim()||null,
+    })});
+    const sevLabel={critical:"🔴 致命",high:"🟠 高",medium:"🟡 中",low:"🟢 低"};
+    const sAlert = d.safety_alert && d.safety_alert.incident_detected ? `
+      <div style="border:2px solid #c0392b;border-radius:10px;padding:14px;margin-top:10px;background:#fdf0ef">
+        <b style="color:#c0392b">🚨 GPSR 安全事件预警 — 检测到安全相关差评（${d.safety_alert.hits.length} 处命中：${d.safety_alert.categories_hit.join("、")}）</b>
+        <p style="margin:8px 0 4px">${d.safety_alert.deadline_note}</p>
+        <ol style="margin:6px 0 0 18px">${d.safety_alert.action_steps.map(s=>`<li style="margin:4px 0">${s}</li>`).join("")}</ol>
+        <p class="hint" style="margin-top:6px">命中证据：${d.safety_alert.hits.map(h=>`"${h.word}"`).slice(0,8).join("、")}</p>
+      </div>`:"";
+    document.getElementById("rvResult").innerHTML=`<div class="result">
+      <span class="badge">分析 ${d.reviews_analyzed} 条</span>
+      <span class="badge">情绪 ${d.sentiment}</span>
+      <p style="margin-top:8px">${d.summary}</p>
+      ${sAlert}
+      ${d.themes.map(t=>`
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:10px">
+          <b>${sevLabel[t.severity]||t.severity} ${t.theme}</b>
+          <span class="hint"> 证据：${t.evidence_keywords.join("、")}</span>
+          <p style="margin-top:6px">📌 ${t.listing_action}</p>
+          <p style="margin-top:6px;background:#f8fafc;border-radius:8px;padding:8px 12px">
+            ✍️ 五点修复：<b>${t.bullet_fix.heading}</b> — ${t.bullet_fix.content}</p>
+        </div>`).join("")}
+    </div>`;
+  }catch(e){ setMsg("rvMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="分析差评并生成修复";
+};
+
+// ===== P0-4 差评回复改写（公开/私信双输出 + 规则自查 + 留痕；只生成不自动发送） =====
+const RR_STATUS = {pending:"🟡 待人工确认", approved:"🟢 自查通过", exported:"✅ 已导出"};
+function _b64(s){ return btoa(unescape(encodeURIComponent(s))); }
+function _unb64(s){ return decodeURIComponent(escape(atob(s))); }
+function copyRewrite(btn){
+  try{ navigator.clipboard.writeText(_unb64(btn.dataset.copy)).then(()=>{ btn.textContent="已复制 ✓"; setTimeout(()=>btn.textContent="复制",1200); }); }
+  catch(e){ btn.textContent="复制失败"; }
+}
+async function loadRewriteHistory(){
+  try{
+    const d=await api("/reviews/rewrite/history?page_size=10");
+    document.getElementById("rrHistory").innerHTML = d.items.length
+      ? `<table style="width:100%;font-size:13px"><tr><th>平台</th><th>状态</th><th>差评（节选）</th><th>时间</th></tr>` +
+        d.items.map(x=>`<tr><td>${esc(x.platform)}</td><td>${RR_STATUS[x.status]||esc(x.status)}</td>
+          <td>${esc(x.review_snippet)}</td><td>${String(x.created_at||"").slice(0,16).replace("T"," ")}</td></tr>`).join("") + `</table>`
+      : '<p class="hint">暂无改写记录。</p>';
+  }catch(e){ document.getElementById("rrHistory").innerHTML=`<p class="hint">历史加载失败：${esc(e.message)}</p>`; }
+}
+document.getElementById("btnRewrite").onclick=async()=>{
+  const btn=document.getElementById("btnRewrite"), msgEl=document.getElementById("rrMsg");
+  const text=document.getElementById("rr_text").value.trim();
+  if(!text) return setMsg("rrMsg","请粘贴差评原文","err");
+  btn.disabled=true; btn.textContent="⏳ 生成中…"; setMsg("rrMsg","","");
+  try{
+    const d=await api("/reviews/rewrite",{method:"POST",body:JSON.stringify({
+      platform:document.getElementById("rr_platform").value,
+      mode:document.getElementById("rr_mode").value,
+      listing_ref:document.getElementById("rr_listing").value.trim(),
+      review_snippet:text})});
+    const rc=d.rule_check||{};
+    const riskHtml=(rc.attention||[]).map(a=>`<div class="msg" style="color:#a15c00">⚠️ ${esc(a)}</div>`).join("")+
+      (rc.risk||[]).map(r=>`<div class="msg" style="color:#b91c1c">🔴 自查风险：${esc(r.rule)}（片段：${esc(r.snippet)}）</div>`).join("");
+    const note=rc.note?`<span class="hint"> — ${esc(rc.note)}</span>`:"";
+    let html=`<div class="msg ${d.status==="approved"?"ok":""}" style="margin-top:8px">${RR_STATUS[d.status]||esc(d.status)}${note}</div>${riskHtml}`;
+    if(d.public_reply) html+=`<div style="margin-top:10px"><b>公开回复：</b>
+      <div class="copybox" style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-top:4px;white-space:pre-wrap">${esc(d.public_reply)}</div>
+      <button class="btn ghost" style="margin-top:4px;padding:3px 10px;font-size:12px" data-copy="${_b64(d.public_reply)}" onclick="copyRewrite(this)">复制</button></div>`;
+    if(d.private_message) html+=`<div style="margin-top:10px"><b>私信安抚：</b>
+      <div class="copybox" style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-top:4px;white-space:pre-wrap">${esc(d.private_message)}</div>
+      <button class="btn ghost" style="margin-top:4px;padding:3px 10px;font-size:12px" data-copy="${_b64(d.private_message)}" onclick="copyRewrite(this)">复制</button></div>`;
+    document.getElementById("rrResult").innerHTML=html;
+    loadRewriteHistory();
+  }catch(e){ setMsg("rrMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="生成改写（自查 + 留痕）";
+};
+loadRewriteHistory();
+
+// 平台属性树校验
+document.getElementById("btnAttrLoad").onclick=async()=>{
+  const platform=document.getElementById("at_platform").value;
+  setMsg("attrResult","");
+  try{
+    const d=await api(`/products/attributes/${platform}`);
+    document.getElementById("attrFields").innerHTML=d.attributes.map(a=>`
+      <div style="margin-top:8px">
+        <label>${a.label} ${a.required==="hard"?'<span style="color:var(--err)">*</span>':""}
+          <span class="hint">${a.help||""}${a.example?`（示例：${a.example}）`:""}</span></label>
+        <input data-akey="${a.key}" placeholder="${a.example||a.type}">
+      </div>`).join("");
+    const vb=document.getElementById("btnAttrValidate");
+    vb.style.display="inline-block"; vb.dataset.platform=platform;
+  }catch(e){ setMsg("attrResult", e.message, "err"); }
+};
+document.getElementById("btnAttrValidate").onclick=async()=>{
+  const platform=document.getElementById("at_platform").value;
+  const attributes={};
+  document.querySelectorAll("#attrFields input[data-akey]").forEach(i=>{
+    if(i.value.trim()) attributes[i.dataset.akey]=i.value.trim();
+  });
+  try{
+    const d=await api("/products/attributes/validate",{method:"POST",body:JSON.stringify({
+      platform, category:"generic", attributes})});
+    document.getElementById("attrResult").innerHTML=`<div class="result">
+      <span class="badge">${d.ready_to_list?"✅ 可以上传":"🚫 有硬阻断"}</span>
+      <span class="badge">完整度 ${d.completeness}%</span>
+      <span class="badge">已查 ${d.checked_total} 项</span>
+      ${d.blockers.length?`<h3 style="color:var(--err)">🚫 硬阻断（不修复会被驳回）</h3><p>${d.blockers.join("<br>")}</p>`:""}
+      ${d.invalid.length?`<h3>格式错误</h3><p>${d.invalid.map(i=>`${i.label}：${i.error}`).join("<br>")}</p>`:""}
+      ${d.missing.filter(m=>m.severity==="soft").length?`<h3>建议补齐</h3><p>${d.missing.filter(m=>m.severity==="soft").map(m=>m.label).join("、")}</p>`:""}
+    </div>`;
+  }catch(e){ setMsg("attrResult", e.message, "err"); }
+};
+
+// 订阅
+function trackEvent(ev, meta){
+  try{ fetch(API+"/analytics/track",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({event_type:ev, meta:meta||{}})}).catch(()=>{}); }catch(e){}
+}
+async function loadSubscription(){
+  try{
+    const s=await api("/billing/subscription");
+    document.getElementById("subInfo").innerHTML=
+      `<p>当前套餐：<b>${s.plan.toUpperCase()}</b>（€${s.monthly_price_usd}/月） · 状态：${s.stripe_status||"-"}<br>
+       今日用量：${s.usage_today} / ${s.daily_limit} · 月度上限：${s.monthly_limit??"无限"}</p>`;
+    // 【P0-3】订阅漏斗埋点：免费用户用量接近上限时视为展示升级引导 CTA
+    if(s.plan==="free" && s.daily_limit>0 && s.usage_today >= s.daily_limit*0.8){
+      trackEvent("upgrade_cta_shown",{usage_today:s.usage_today, daily_limit:s.daily_limit});
+    }
+  }catch(e){}
+}
+document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
+  trackEvent("subscribe_click",{plan:b.dataset.plan});
+  try{
+    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan})});
+    // 生产路径：Stripe / PayPal 返回支付链接 → 直接跳转收银台
+    if(r.mode==="stripe" && r.checkout_url){ window.location.href=r.checkout_url; return; }
+    if(r.mode==="paypal" && r.approve_url){ window.location.href=r.approve_url; return; }
+    // 本地模拟降级（未配置支付 Key）
+    ME.plan=b.dataset.plan; renderUserbar();
+    setMsg("subInfo","已切换到 "+b.dataset.plan+"（本地模拟）","ok"); loadSubscription();
+  }catch(e){ setMsg("subInfo", e.message, "err"); }
+});
+
+// ===== Listing 监控（7x24）=====
+const LEVEL_BADGE = {high:"🔴", medium:"🟡", low:"🟢"};
+(async function initWatchPlatform(){
+  const sel=document.getElementById("w_platform");
+  try{
+    const reg=await (await fetch(API+"/products/platforms")).json();
+    sel.innerHTML=Object.entries(reg).map(([k,v])=>`<option value="${k}">${v.display}</option>`).join("");
+  }catch(e){ sel.innerHTML='<option value="amazon">Amazon 欧洲站</option>'; }
+})();
+async function loadWatchList(){
+  try{
+    const d=await api("/listings");
+    document.getElementById("watchCount").textContent=`（${d.listings.length} / ${d.limit} 条，按风险排序）`;
+    document.getElementById("watchList").innerHTML = d.listings.length ? `<table>
+      <tr><th>状态</th><th>SKU</th><th>产品</th><th>平台</th><th>风险分</th><th>问题数</th><th>上次体检</th><th></th></tr>
+      ${d.listings.map(w=>`<tr>
+        <td>${LEVEL_BADGE[w.risk_level]||""} ${w.risk_level}</td><td>${w.sku||"-"}</td>
+        <td>${w.product_name}</td><td>${w.platform}</td><td>${w.risk_score}</td>
+        <td>${w.risk_count}</td><td class="hint">${(w.last_checked_at||"").slice(0,16).replace("T"," ")}</td>
+        <td style="white-space:nowrap">
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchDetail('${w.id}')">详情</button>
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchRecheck('${w.id}')">重检</button>
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchDelete('${w.id}')">删除</button></td>
+      </tr>`).join("")}</table>`
+      : '<p class="hint">还没有监控中的 listing。添加第一条，引擎就会开始每天自动体检。</p>';
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+}
+window.watchDetail = async id=>{
+  try{
+    const w=await api("/listings/"+id);
+    document.getElementById("watchDetail").innerHTML=`<div class="result">
+      <h3>${LEVEL_BADGE[w.risk_level]||""} ${w.product_name} <span class="badge">${w.platform}</span> <span class="badge">风险分 ${w.risk_score}</span></h3>
+      ${w.risk_items.length?`<ol>${w.risk_items.map((i,n)=>`<li><b>${i.severity==="high"?"🔴":i.severity==="medium"?"🟡":"🟢"} ${i.message}</b><br>
+        <span class="hint">修复：${(w.fix_hints.find(f=>f.code===i.code)||{}).fix||"-"}</span></li>`).join("")}</ol>`
+        :"<p>✅ 未发现风险项</p>"}
+      <h3>🛡️ GPSR 合规块（直接粘贴进 listing）</h3>
+      <pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${w.gpsr_block}</pre></div>`;
+    document.getElementById("watchDetail").scrollIntoView({behavior:"smooth"});
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+window.watchRecheck = async id=>{
+  try{ await api("/listings/"+id+"/recheck",{method:"POST"}); loadWatchList(); setMsg("watchMsg","已重新体检","ok"); }
+  catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+window.watchDelete = async id=>{
+  try{ await api("/listings/"+id,{method:"DELETE"}); loadWatchList();
+       document.getElementById("watchDetail").innerHTML=""; setMsg("watchMsg","已移除监控","ok"); }
+  catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+function renderWatchReport(r){
+  if(!r) return '<p class="hint">还没有日报。点击「立即体检并生成今日日报」。</p>';
+  return `<div class="result"><h3>📊 风险日报 ${r.report_date}
+    ${r.email_sent?'<span class="badge">📧 已邮件推送</span>':'<span class="badge">邮件未配置（SMTP）</span>'}</h3>
+    <p>监控 <b>${r.total_listings}</b> 条：🔴 ${r.high_count} · 🟡 ${r.medium_count} · 🟢 ${r.low_count}</p>
+    ${r.new_risks.length?`<h4>⚠️ 需处理（等级恶化/新增）</h4><ul>${r.new_risks.map(x=>`<li><b>${x.sku||x.product_name}</b>（${x.platform}）：${x.from} → <b style="color:var(--err)">${x.to}</b><br><span class="hint">${(x.top_items||[]).join("；")}</span></li>`).join("")}</ul>`:'<p>✅ 无新增风险</p>'}
+    ${r.improved.length?`<h4>🎉 改善</h4><ul>${r.improved.map(x=>`<li>${x.product_name}：${x.from} → ${x.to}</li>`).join("")}</ul>`:""}</div>`;
+}
+document.getElementById("btnWatchAdd").onclick=async()=>{
+  setMsg("watchMsg","");
+  const body={
+    sku:document.getElementById("w_sku").value.trim(),
+    product_name:document.getElementById("w_name").value.trim(),
+    platform:document.getElementById("w_platform").value,
+    keywords:document.getElementById("w_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    title:document.getElementById("w_title").value.trim(),
+    description:document.getElementById("w_desc").value.trim(),
+  };
+  if(!body.product_name) return setMsg("watchMsg","请填写产品名称","err");
+  const btn=document.getElementById("btnWatchAdd"); btn.disabled=true; btn.textContent="体检中…";
+  try{
+    const d=await api("/listings",{method:"POST",body:JSON.stringify(body)});
+    setMsg("watchMsg",`已添加并完成首次体检：风险分 ${d.listing.risk_score}（${d.listing.risk_level}）`,"ok");
+    document.getElementById("w_name").value=""; document.getElementById("w_sku").value="";
+    loadWatchList(); window.watchDetail(d.listing.id);
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="➕ 添加并立即体检";
+};
+document.getElementById("btnWatchRun").onclick=async()=>{
+  const btn=document.getElementById("btnWatchRun"); btn.disabled=true; btn.textContent="体检中…";
+  try{
+    const r=await api("/watch/run",{method:"POST"});
+    document.getElementById("watchReportBox").innerHTML=renderWatchReport(r);
+    loadWatchList(); setMsg("watchMsg","体检轮完成，日报已生成","ok");
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="⚡ 立即体检并生成今日日报";
+};
+document.getElementById("btnWatchRefresh").onclick=loadWatchList;
+document.getElementById("btnWatchReport").onclick=async()=>{
+  try{
+    const d=await api("/watch/report/latest");
+    document.getElementById("watchReportBox").innerHTML=renderWatchReport(d.report);
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+
+// ---------------- 自动化流水线（按订阅自动识别 × 自动处理） ----------------
+const _AUTO_STATE_TXT = {active:"⚙️ 自动运行中", ready:"✅ 就绪", manual:"✋ 按需工具",
+  no_credential:"🔌 待接凭证", locked_plan:"🔒 需升级套餐", waiting_connector:"⏳ 等待连接器"};
+async function loadAutomationStatus(){
+  try{
+    const d = await api("/automation/status");
+    const card = document.getElementById("autoCard");
+    card.classList.remove("hidden");
+    const q = d.platform_quota;
+    document.getElementById("autoQuota").innerHTML =
+      `当前套餐 <b>${d.plan.toUpperCase()}</b> · 平台接入配额 <b>${q.used}/${q.limit===null?"无限":q.limit}</b>` +
+      (d.connected_platforms.length?` · 已接入：${d.connected_platforms.join(", ")}`:"");
+    document.getElementById("autoChips").innerHTML = Object.entries(d.features).map(([fid,f])=>
+      `<span class="autochip ${f.state}" title="${esc(f.detail)}" `+
+      `data-autotab="${fid}" data-state="${f.state}">${f.label} <b>${_AUTO_STATE_TXT[f.state]}</b></span>`).join("");
+    document.querySelectorAll("#autoChips .autochip").forEach(ch=>ch.onclick=()=>{
+      const fid=ch.dataset.autotab, st=ch.dataset.state;
+      const tabMap={watch:"watch",gpsr:"watch",cs:"cs",inbox:"inbox",ad:"ad",review:"review"};
+      if(st==="locked_plan"){ activateTab("bill"); return; }
+      if(st==="no_credential"||st==="waiting_connector"){ document.getElementById("credBanner").scrollIntoView({behavior:"smooth"}); return; }
+      if(tabMap[fid]) activateTab(tabMap[fid]);
+    });
+  }catch(e){ console.warn("automation status:", e.message); }
+}
+async function runPipeline(){
+  const btn=document.getElementById("btnAutoRun"), out=document.getElementById("autoResult");
+  btn.disabled=true; btn.textContent="⏳ 流水线执行中…";
+  try{
+    const r = await api("/automation/run",{method:"POST"});
+    const s = r.summary;
+    out.innerHTML = `<div class="msg ok">✔ 流水线完成：识别问题 <b>${s.problems_found}</b> 个 ·
+      GPSR 合规块 <b>${s.gpsr_blocks_ready}</b> · 自动回复 <b>${s.auto_replies_sent}</b> 条${s.email_sent?" · 日报邮件已发送":""}</div>` +
+      (s.skipped.length?`<div class="msg" style="color:#a15c00">⏭ 跳过：${s.skipped.map(x=>esc(x.reason)).join("；")}</div>`:"") +
+      (r.report.new_risks?.length?`<div class="msg" style="color:#b91c1c">🔴 新增风险 ${r.report.new_risks.length} 项（详见 📡 监控日报）</div>`:"") +
+      (s.suggestions.map(x=>`<div class="msg">💡 ${esc(x.reason)}（→ ${esc(x.action)}）</div>`).join(""));
+    loadAutomationStatus(); loadWatchList();
+  }catch(e){ out.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+  btn.disabled=false; btn.textContent="▶ 立即跑一轮自动处理";
+}
+document.getElementById("btnAutoRun").onclick=runPipeline;
+
+// ---------------- 平台凭证接入中心（13 平台自助） ----------------
+let _credLoaded = false;
+function _credChip(slug, p){
+  // 可点击胶囊：点击展开并滚动到对应接入面板
+  return `<span class="credchip ${p.ready?"ok":"todo"}" onclick="jumpCred('${slug}')"
+    title="点击接入 ${p.label}">${p.ready?"✓":"⚠"} ${p.label}${p.source==="self"?" · 自助":""}</span>`;
+}
+function jumpCred(slug){
+  const el=document.getElementById(`credPanel_${slug}`);
+  if(!el) return;
+  el.open=true;
+  el.scrollIntoView({behavior:"smooth", block:"start"});
+  el.classList.remove("credflash"); void el.offsetWidth; // 重启动画
+  el.classList.add("credflash");
+  setTimeout(()=>el.classList.remove("credflash"), 1600);
+}
+function goCredCenter(){
+  // 从任意功能面板一键跳到凭证接入中心（一次接入、全站复用）
+  const box=document.getElementById("credBanner");
+  if(!box) return;
+  box.scrollIntoView({behavior:"smooth", block:"start"});
+  box.classList.remove("credflash"); void box.offsetWidth;
+  box.classList.add("credflash");
+  setTimeout(()=>box.classList.remove("credflash"), 1600);
+}
+function _credForm(p, slug){
+  // 自助粘贴表单（字段随注册表动态生成）；slug 显式传参，避免渲染期变量覆盖
+  if(p.oauth){
+    // eBay OAuth：先显示应用配置输入框（Client ID / Secret），配好后再显示授权按钮
+    return `
+      <div id="ebayAppConfigWrap">
+        <p class="hint" style="margin:4px 0">📋 <b>第一步：</b>填入 eBay Developer 应用凭证（从 <a href="https://developer.ebay.com/" target="_blank" rel="noopener">developer.ebay.com</a> 获取）：</p>
+        <div style="margin:4px 0">
+          <label style="font-size:12px">Client ID *</label>
+          <input id="ebay_client_id" type="text" placeholder="eBay Client ID" style="width:100%;margin-top:2px">
+        </div>
+        <div style="margin:4px 0">
+          <label style="font-size:12px">Client Secret *</label>
+          <input id="ebay_client_secret" type="password" placeholder="eBay Client Secret" style="width:100%;margin-top:2px">
+        </div>
+        <button class="btn" style="margin:4px 0 0;padding:6px 14px" onclick="saveEbayAppConfig()">保存应用凭证</button>
+        <div id="ebayAppConfigStatus" style="margin-top:6px"></div>
+      </div>
+      <div id="ebayConnectWrap" style="margin-top:8px;display:${p.app_configured?'block':'none'}">
+        <p class="hint" style="margin:4px 0">🔗 <b>第二步：</b>${p.connected?'<b style="color:#1a7f37">已授权 ✓</b>，实时同步已就绪。':'点击下方按钮跳转 eBay 完成卖家授权：'}</p>
+        ${!p.connected?'<button class="btn" style="margin:0;padding:6px 14px" onclick="ebayConnect()">去授权 eBay →</button>':''}
+      </div>`;
+  }
+  if(p.connected){
+    return `<p class="hint" style="margin:4px 0">✓ 已自助接入（${p.source==="self"?"商家自己的凭证，AES-256 加密封存":"部署环境统一配置"}）${p.connected_at?` · 更新于 ${p.connected_at.slice(0,10)}`:""}。</p>
+      <button class="btn ghost" style="margin:4px 0 0;padding:4px 12px" onclick="delCreds('${slug}')">断开并删除凭证</button>`;
+  }
+  const g=p.guide||{};
+  const fields=(g.fields||[]).map(f=>`<div style="margin:4px 0"><label style="font-size:12px">${f.label} * <span class="hint">— ${f.hint}</span></label>
+    <input id="cred_${slug}_${f.key}" type="${f.secret?"password":"text"}" placeholder="${f.label}" style="width:100%"></div>`).join("");
+  return `<details style="margin:4px 0"><summary style="cursor:pointer;font-weight:700;font-size:13px">📎 如何获取凭证并接入（分步指南）</summary>
+    <p class="hint" style="margin:6px 0">① 前往 <a href="${g.apply_url}" target="_blank" rel="noopener">${g.apply_url}</a>（官方开发者/卖家后台）。</p>
+    <p class="hint" style="margin:2px 0">② ${g.apply_note||""}</p>
+    <p class="hint" style="margin:2px 0">③ 把拿到的凭证粘贴到下方表单 → 保存。凭证仅以 AES-256 加密形式存储，界面与日志永不回显明文。</p>
+    <p class="hint" style="margin:2px 0">就绪后解锁：${p.unlocks}</p></details>
+    <div style="margin-top:6px">${fields}
+    <button class="btn" style="margin:4px 0 0;padding:6px 14px" onclick="saveCreds('${slug}')">保存并接入 ${g.label||""}</button></div>`;
+}
+let _credMap = {};  // slug -> platforms 数据
+async function loadCredStatus(force){
+  const box=document.getElementById("credBanner");
+  if(_credLoaded && !force) return;
+  try{
+    const d=await api("/compliance/credentials");
+    _credMap=d.platforms||{};
+    // 【P0-1】Amazon 三态连接状态（unconnected / pending / connected，纯本地推导）
+    let amazonStatus="unconnected";
+    try{ amazonStatus=(await api("/connectors/amazon/status")).status||"unconnected"; }catch(e){}
+    const readyN=Object.values(_credMap).filter(p=>p.ready).length;
+    const totalN=Object.keys(_credMap).length;
+    // 上半部分（标题+说明+chips）一直展开；各平台表单默认收起，点击才展开
+    let html=`<div style="margin:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:700;font-size:14px">🔗 平台凭证接入中心 <span class="badge">${readyN}/${totalN} 已就绪</span></div>
+        <button class="btn ghost" style="margin:0;padding:3px 12px" id="credToggleBtn" onclick="toggleCredBanner()" title="收起/展开接入中心">收起 ▲</button>
+      </div>
+      <div id="credBody">
+      <p class="hint" style="margin:0 0 8px">🔑 <b>一次接入、全站复用</b>：每个平台只需接入一次（存入你的账号，AES-256 加密），下方全部功能与自动化流水线自动共用同一份凭证，<b>任何功能都不需要重复接入</b>。13 平台支持自助粘贴凭证或一键 OAuth 授权；接入后解锁消息自动导入 / 合规块写回 / Listing 回填。</p>
+      <div class="credchips" style="margin-bottom:8px">${Object.entries(_credMap).map(([slug,p])=>_credChip(slug,p)).join("")}</div>`;
+    // 按平台渲染接入面板（优先展示未就绪的）；全部默认收起
+    const order=Object.entries(_credMap).sort((a,b)=>(a[1].ready?1:0)-(b[1].ready?1:0));
+    html+=order.map(([slug,p])=>{
+      const amazonBadge = slug==="amazon"
+        ? (amazonStatus==="connected" ? '<span style="color:#1a7f37;font-size:12px"> · 已连接 ✓</span>'
+           : amazonStatus==="pending" ? '<span style="color:#a15c00;font-size:12px"> · 待授权（缺 refresh_token）</span>'
+           : '<span style="color:var(--muted);font-size:12px"> · 未接入</span>')
+        : "";
+      return `
+      <details id="credPanel_${slug}" style="margin:6px 0;border:1px solid var(--border);border-radius:8px;padding:8px 12px;background:#fff">
+        <summary style="cursor:pointer;font-weight:700;font-size:13.5px">${p.ready?"✓":"⚠"} ${p.label}${amazonBadge}${p.oauth?"（OAuth 授权）":"（自助粘贴凭证）"}</summary>
+        <div style="margin-top:4px">${_credForm(p, slug)}</div></details>`;
+    }).join("");
+    html+=`<div style="margin-top:6px;display:flex;justify-content:flex-end;gap:8px;align-items:center">
+      ${d.all_ready?'<span class="hint" style="color:#1a7f37;margin-right:auto">✓ 全部 13 平台凭证就绪。</span>':""}
+      <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="loadCredStatus(true)">↻ 重新检测</button>
+      ${(!_credMap.ebay.ready&&_credMap.ebay.app_configured&&!_credMap.ebay.connected)?'<button class="btn" style="margin:0;padding:4px 12px" onclick="ebayConnect()">去授权 eBay</button>':""}
+    </div></div>`;
+    box.innerHTML=html; box.classList.remove("hidden"); _credLoaded=true;
+  }catch(e){
+    box.innerHTML=`<p class="hint">平台凭证状态获取失败：${esc(e.message)}（<a href="javascript:loadCredStatus(true)">重试</a>）</p>`;
+    box.classList.remove("hidden");
+  }
+}
+function toggleCredBanner(){
+  const body=document.getElementById("credBody");
+  const btn=document.getElementById("credToggleBtn");
+  if(!body||!btn) return;
+  const collapsed = body.style.display==="none";
+  body.style.display = collapsed ? "" : "none";
+  btn.textContent = collapsed ? "收起 ▲" : "展开 ▼";
+}
+async function saveCreds(platform){
+  const g=(_credMap[platform]||{}).guide||{};
+  const creds={};
+  (g.fields||[]).forEach(f=>{ creds[f.key]=document.getElementById(`cred_${platform}_${f.key}`).value; });
+  try{
+    const d=await api(`/compliance/credentials/${platform}`,{method:"POST",body:JSON.stringify({credentials:creds})});
+    _credLoaded=false; await loadCredStatus(true);
+  }catch(e){ alert(`保存失败：${e.message}`); }
+}
+async function delCreds(platform){
+  if(!confirm("确定断开？将删除该平台的加密凭证记录。")) return;
+  try{ await api(`/compliance/credentials/${platform}`,{method:"DELETE"});
+    _credLoaded=false; await loadCredStatus(true); }
+  catch(e){ alert(`断开失败：${e.message}`); }
+}
+async function ebayConnect(){
+  try{ const d=await api("/ebay/auth-url"); location.href=d.auth_url; }
+  catch(e){ document.getElementById("credBanner").innerHTML=`<p class="hint">获取 eBay 授权链接失败：${esc(e.message)}（应用凭证 EBAY_CLIENT_ID / EBAY_CLIENT_SECRET 未配置）</p>`; }
+}
+async function saveEbayAppConfig(){
+  const cid=document.getElementById("ebay_client_id").value.trim();
+  const csec=document.getElementById("ebay_client_secret").value.trim();
+  const statusEl=document.getElementById("ebayAppConfigStatus");
+  if(!cid||!csec){ statusEl.innerHTML='<p style="color:#c0392b;font-size:12px">请填写完整的 Client ID 和 Client Secret</p>'; return; }
+  try{
+    const d=await api("/compliance/ebay/app-config",{method:"POST",body:JSON.stringify({client_id:cid,client_secret:csec})});
+    statusEl.innerHTML='<p style="color:#1a7f37;font-size:12px">✓ 应用凭证已保存，下方出现授权按钮</p>';
+    _credLoaded=false; await loadCredStatus(true);
+  }catch(e){ statusEl.innerHTML=`<p style="color:#c0392b;font-size:12px">保存失败：${esc(e.message)}</p>`; }
+}
+
+// 自动恢复登录态
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); })
+  .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
+
+// ---------------- 统一收件箱 ----------------
+let _inboxFilter = "";   // 当前平台筛选（空=全部）
+let _inboxConvId = "";
+
+function platLabel(p){
+  return ({amazon:"Amazon",amazon_us:"Amazon US",ebay:"eBay",otto:"Otto",
+    allegro:"Allegro",emag:"eMAG",kaufland:"Kaufland",bol:"bol.com",
+    zalando:"Zalando",cdiscount:"Cdiscount",tiktok:"TikTok",
+    fruugo:"Fruugo",walmart:"Walmart",miravia:"Miravia"})[p] || p;
+}
+
+async function loadInbox(){
+  try{
+    const q = _inboxFilter ? ("?platform="+_inboxFilter) : "";
+    const d = await api("/inbox/conversations"+q);
+    // 平台筛选 chips
+    const dist = d.platform_distribution || {};
+    const chips = [`<span class="filter-chip ${_inboxFilter===''?'active':''}" onclick="setInboxFilter('')">全部 (${d.total})</span>`]
+      .concat(Object.entries(dist).map(([p,n])=>
+        `<span class="filter-chip ${_inboxFilter===p?'active':''}" onclick="setInboxFilter('${p}')">${platLabel(p)} (${n})</span>`));
+    document.getElementById("inboxFilters").innerHTML = chips.join("");
+    const list = d.items.map(c=>`<div class="inbox-item ${c.id===_inboxConvId?'active':''}" onclick="openConversation('${c.id}')">
+      <div class="top"><span class="plat">${platLabel(c.platform)}</span>
+        <span class="meta2">${c.unread_count?('●'+c.unread_count):''}</span></div>
+      <div class="subj">${esc(c.subject||'(无主题)')}</div>
+      <div class="meta2">${esc(c.buyer_id||'')} · ${(c.last_message_at||'').slice(0,16).replace('T',' ')}</div>
+    </div>`).join("");
+    document.getElementById("inboxList").innerHTML = list || '<p class="hint" style="padding:16px">暂无会话。点击「载入演示会话」体验统一收件箱。</p>';
+  }catch(e){ document.getElementById("inboxList").innerHTML = `<p class="msg err">${e.message}</p>`; }
+}
+
+function setInboxFilter(p){ _inboxFilter=p; loadInbox(); }
+
+document.getElementById("btnInboxSeed").onclick=async()=>{
+  try{ await api("/inbox/conversations/seed-demo",{method:"POST"}); await loadInbox();
+       document.getElementById("inboxThread").innerHTML='<div class="empty">← 选择左侧会话查看消息流</div>'; }
+  catch(e){ document.getElementById("inboxList").innerHTML=`<p class="msg err">${e.message}</p>`; }
+};
+document.getElementById("btnInboxRefresh").onclick=loadInbox;
+
+async function openConversation(id){
+  _inboxConvId = id;
+  try{
+    const d = await api("/inbox/conversations/"+id);
+    const c = d.conversation;
+    const rows = d.messages.map(m=>{
+      const tags=[];
+      if(m.gpsr_incident) tags.push('<span class="tag gpsr">🛡️ GPSR 安全事件</span>');
+      if(m.needs_escalation) tags.push('<span class="tag esc">⚠️ 建议转人工</span>');
+      if(m.direction==="outgoing" && m.ai_act_disclosure) tags.push('<span class="tag ai">🤖 AI Act 已披露</span>');
+      return `<div class="msg-row ${m.direction}">
+        <div class="who">${m.direction==='incoming'?'买家 · '+esc(c.buyer_id):'我方 (AI 客服)'}</div>
+        <div class="msg-bubble">${esc(m.body)}</div>
+        ${tags.length?`<div class="tags">${tags.join('')}</div>`:''}
+      </div>`;
+    }).join("");
+    document.getElementById("inboxThread").innerHTML = `
+      <div class="thread-head"><div><span class="plat">${platLabel(c.platform)}</span>
+        <b style="margin-left:8px">${esc(c.subject||'')}</b></div>
+        <span class="hint">${esc(c.buyer_id||'')}</span></div>
+      <div id="threadMsgs">${rows}</div>
+      <div class="composer">
+        <textarea id="replyBox" placeholder="输入回复…（自动经 GPSR + AI Act 组合工作流处理）"></textarea>
+        <button class="btn" id="btnReply" style="margin-top:8px">发送回复</button>
+      </div>`;
+    document.getElementById("btnReply").onclick=()=>sendReply(id);
+    const t=document.getElementById("threadMsgs"); if(t) t.scrollTop=t.scrollHeight;
+  }catch(e){ document.getElementById("inboxThread").innerHTML=`<p class="msg err">${e.message}</p>`; }
+}
+
+async function sendReply(id){
+  const box=document.getElementById("replyBox");
+  const msg=box.value.trim(); if(!msg) return;
+  const btn=document.getElementById("btnReply"); btn.disabled=true; btn.textContent="处理中…";
+  try{
+    const r = await api("/inbox/conversations/"+id+"/reply",{method:"POST",body:JSON.stringify({message:msg})});
+    // 把买家原消息 + 出站回复追加到线程
+    const t=document.getElementById("threadMsgs");
+    t.insertAdjacentHTML("beforeend", `<div class="msg-row in"><div class="who">买家</div>
+      <div class="msg-bubble">${esc(msg)}</div></div>
+      <div class="msg-row out"><div class="who">我方 (AI 客服)</div>
+      <div class="msg-bubble">${esc(r.reply)}</div>
+      <div class="tags">${r.gpsr_incident?'<span class="tag gpsr">🛡️ GPSR 安全事件</span>':''}
+        ${r.needs_escalation?'<span class="tag esc">⚠️ 建议转人工</span>':''}
+        ${r.ai_act_disclosure?'<span class="tag ai">🤖 AI Act 已披露</span>':''}</div></div>`);
+    box.value=""; t.scrollTop=t.scrollHeight;
+    loadInbox();
+  }catch(e){ alert(e.message); }
+  btn.disabled=false; btn.textContent="发送回复";
+}
+
+</script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

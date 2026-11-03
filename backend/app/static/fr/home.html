@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossAIO — Moteur tout-en-un pour les vendeurs e-commerce transfrontaliers en Europe</title>
+<meta name="description" content="CrossAIO est la plateforme tout-en-un pour les vendeurs e-commerce transfrontaliers en Europe : génération IA des listings, vérification de conformité GPSR, boîte de réception unifiée, rédaction publicitaire, réécriture des avis négatifs et surveillance des listings 24h/24 et 7j/7. Un outil pour gérer Amazon, eBay, Otto, Allegro, Cdiscount, eMAG, TikTok Shop et 13 plateformes européennes. Démarrez gratuitement — 5 générations par jour.">
+<meta name="keywords" content="e-commerce transfrontalier, conformité GPSR, délégué UE, listings Amazon Europe, Otto, Allegro, Cdiscount, eMAG, TikTok Shop, boîte de réception unifiée, surveillance des listings, IA pour vendeurs">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+
+  .topbar{background:linear-gradient(90deg,#1d4ed8,#7c3aed);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem{position:relative}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a.solo::after{display:none}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:270px;background:#fff;border-radius:12px;
+    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---------- Hero ---------- */
+  .hero-wrap{background:radial-gradient(900px 480px at 80% 20%,rgba(124,58,237,.40),transparent 60%),
+       radial-gradient(800px 420px at 8% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#2a1560 100%);
+    position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1180px;margin:0 auto;padding:72px 32px 80px;color:#fff;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
+  .hero h1{font-size:44px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:18px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:16.5px;color:#d3d9ea;max-width:680px;margin-bottom:28px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 30px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 28px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
+  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+  .hero .tiny{font-size:12.5px;color:#9aa6c4}
+  .hero .tiny b{color:#e2e8f0}
+
+  .logos{margin-top:44px;display:flex;gap:26px;flex-wrap:wrap;align-items:center;opacity:.85}
+  .logos span{font-size:14px;font-weight:700;color:#c7cee4;letter-spacing:.02em}
+
+  section{max-width:1180px;margin:0 auto;padding:72px 32px}
+  .sec-head{text-align:center;margin-bottom:44px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:30px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:15px;max-width:640px;margin:0 auto}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:900px){.grid3{grid-template-columns:1fr}}
+  .fcard{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;transition:.15s}
+  .fcard:hover{border-color:var(--blue);box-shadow:0 12px 36px rgba(37,99,235,.10);transform:translateY(-3px)}
+  .fcard .ico{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--purple));
+    display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+  .fcard h3{font-size:17px;margin-bottom:8px}
+  .fcard p{font-size:13.5px;color:#475569}
+
+  /* audit band */
+  .audit{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;border-radius:22px;padding:48px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+  @media(max-width:900px){.audit{grid-template-columns:1fr}}
+  .audit h2{font-size:26px;margin-bottom:12px}
+  .audit p{color:#c7cee4;font-size:14.5px;margin-bottom:18px}
+  .audit ul{list-style:none;font-size:14px}
+  .audit ul li{padding:6px 0 6px 28px;position:relative}
+  .audit ul li::before{content:"✓";position:absolute;left:0;color:#4ade80;font-weight:800}
+  .audit .big{font-size:15px;font-weight:700}
+  .audit .pill-blue{background:#fff;color:var(--navy)}
+
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+  @media(max-width:900px){.metrics{grid-template-columns:repeat(2,1fr)}}
+  .metric{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:26px 16px}
+  .metric .v{font-size:30px;font-weight:800;color:var(--blue)}
+  .metric .k{font-size:13px;color:var(--muted);margin-top:4px}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+  .step{border:1.5px solid var(--border);border-radius:16px;padding:24px;position:relative;background:#fff}
+  .step .n{position:absolute;top:-14px;left:20px;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .step h4{font-size:15.5px;margin:6px 0 6px}
+  .step p{font-size:13px;color:#475569}
+
+  .cta-band{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;text-align:center;border-radius:22px;padding:56px 32px}
+  .cta-band h2{font-size:28px;margin-bottom:12px}
+  .cta-band p{color:#c7cee4;margin-bottom:24px;font-size:15px}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:40px 24px;text-align:center;font-size:13px;color:var(--muted);margin-top:40px}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<div class="topbar">🚀 <b>CrossAIO 1.0</b> — moteur de qualité des listings et de conformité pour toutes les plateformes européennes · <b onclick="location.href='/fr/signup'">Essai gratuit sans inscription →</b></div>
+
+<nav>
+  <a class="logo" href="/fr/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem"><a>Produit</a>
+      <div class="dropdown">
+        <a href="/fr/features/gpsr"><span>🛡️ Moteur de conformité GPSR<small>Catégorie CE → avertissements → bloc de conformité → backfill</small></span></a>
+        <a href="/fr/features/listing-generator"><span>📦 Générateur de listing<small>Kit complet + validation du nombre de mots + score</small></span></a>
+        <a href="/fr/features/matrix"><span>🌍 Matrice multi-plateforme<small>Une saisie → localisé pour 13 plateformes</small></span></a>
+        <a href="/fr/features/review-rewrite"><span>📈 Réécriture d'avis<small>Cartographie des thèmes → correctifs en 5 points + score sémantique</small></span></a>
+        <a href="/fr/features/ai-service"><span>💬 Service client IA<small>Divulgation Art. 50 de l'AI Act intégrée + eBay</small></span></a>
+        <a href="/fr/features/safety-redline"><span>🚨 Couche de lignes rouges<small>Détection menace/chantage → transfert humain</small></span></a>
+        <a href="/fr/features/inbox"><span>📥 Boîte de réception unifiée<small>Messages de 13 plateformes · répondre en langue maternelle</small></span></a>
+        <a href="/fr/features/ad-copy"><span>📣 Générateur de textes publicitaires<small>Pré-vérification des mots interdits + variantes A/B</small></span></a>
+        <a href="/fr/features/listing-watch"><span>📡 Surveillance des listings<small>Audit auto quotidien · alertes de risque instantanées</small></span></a>
+        <a href="/fr/features"><span>🗂️ Aperçu des fonctionnalités<small>Neuf fonctionnalités · une page par fonctionnalité</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>Plateformes</a>
+      <div class="dropdown">
+        <a href="/fr/rules/allegro"><span>🇵🇱 Règles Allegro<small>Politique polonaise + supervision UOKiK</small></span></a>
+        <a href="/fr/rules/emag"><span>🇷🇴 Règles eMAG<small>Politique roumaine + supervision ANPC</small></span></a>
+        <a href="/fr/rules/cdiscount"><span>🇫🇷 Règles Cdiscount<small>Politique française (Loi Toubon) + DGCCRF</small></span></a>
+        <a href="/fr/rules/otto"><span>🇩🇪 Règles Otto<small>Politique allemande + ProdSG + marque GS</small></span></a>
+        <a href="/fr/rules/kaufland"><span>🇩🇪 Règles Kaufland<small>Sites DE/CZ/SK quatre pays</small></span></a>
+        <a href="/fr/rules/bol"><span>🇳🇱 Règles bol.com<small>Politique néerlandaise + supervision ACM</small></span></a>
+        <a href="/fr/rules"><span>📋 Les 13 plateformes cheat-sheet<small>Limites de mots / langues / essentiels GPSR</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>Outils gratuits</a>
+      <div class="dropdown">
+        <a href="/fr/compliance-check"><span>✅ Contrôle de conformité<small>Check → Représentant UE → liste de fichiers techniques, rapport 30 s</small></span></a>
+        <a href="/fr/gpsr-check"><span>🛡️ Vérification GPSR<small>Gratuit, sans inscription, 30 secondes</small></span></a>
+        <a href="/fr/rules"><span>📋 Règles des plateformes<small>Limites de mots / langues / essentiels GPSR</small></span></a>
+        <a href="/fr/skills"><span>🎁 Skills open source<small>Vérificateur GPSR + bibliothèque de règles, MIT gratuit</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="/fr/pricing" style="text-decoration:none">Tarifs</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
+      <a href="/fr/" data-lang="fr" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">FR</a>
+    </div>
+    <a class="login-link" href="/fr/signin">Connexion</a>
+    <a href="/fr/signup"><button class="pill-nav">Inscription gratuite</button></a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="eyebrow">✦ Conçu pour les vendeurs e-commerce transfrontaliers</div>
+    <h1>Un outil pour la qualité des listings<br>et la <span class="accent">conformité en Europe</span></h1>
+    <p class="sub">CrossAIO est un moteur tout-en-un pour les vendeurs e-commerce transfrontaliers : génération IA des listings, vérification de conformité GPSR, boîte de réception unifiée, rédaction publicitaire, réécriture des avis négatifs et surveillance des listings 24h/24 et 7j/7. Un seul outil pour gérer Amazon, eBay, Otto, Allegro, Cdiscount, eMAG, TikTok Shop et 13 plateformes européennes.</p>
+    <div class="cta-row">
+      <a href="/fr/signup"><button class="pill-blue">Démarrer l'essai gratuit — 5 générations par jour</button></a>
+      <a href="/fr/gpsr-check"><button class="pill-ghost">Vérification gratuite en 30 secondes →</button></a>
+    </div>
+    <p class="tiny">✓ Sans carte bancaire · ✓ Sans engagement · ✓ Licence MIT open source</p>
+    <div class="logos">
+      <span>Amazon</span><span>eBay</span><span>Otto</span><span>Allegro</span>
+      <span>Cdiscount</span><span>eMAG</span><span>Kaufland</span><span>bol.com</span><span>TikTok Shop</span>
+    </div>
+  </div>
+</div>
+
+<!-- Vue d'ensemble des fonctionnalités -->
+<section>
+  <div class="sec-head">
+    <div class="sec-eyebrow">Fonctionnalités</div>
+    <h2 class="sec-title">Tout ce qu'il faut pour vendre en Europe, réuni</h2>
+    <p class="sec-sub">Génération, conformité, service client, publicité, avis et surveillance — une seule plateforme.</p>
+  </div>
+  <div class="grid3">
+    <div class="fcard"><div class="ico">✍️</div><h3>Génération IA des listings</h3><p>Titres, puces et description optimisés pour chaque plateforme (limites de caractères et langues respectées), avec adaptation sémantique aux questions Rufus / iZi.</p></div>
+    <div class="fcard"><div class="ico">🛡️</div><h3>Vérification de conformité GPSR</h3><p>Identification automatique des catégories CE, langues d'avertissement requises, checklist légale et bloc de conformité prêt à coller sur le listing.</p></div>
+    <div class="fcard"><div class="ico">📥</div><h3>Boîte de réception unifiée</h3><p>Un seul fil pour les messages de tous les canaux, avec brouillons de réponse IA et signalement des incidents de sécurité.</p></div>
+    <div class="fcard"><div class="ico">📣</div><h3>Rédaction publicitaire</h3><p>Textes publicitaires et CTA adaptés à chaque plateforme et à chaque public cible.</p></div>
+    <div class="fcard"><div class="ico">⭐</div><h3>Réécriture des avis négatifs</h3><p>Analyse des griefs, réponses publiques et messages privés, avec contrôle de conformité et traçabilité.</p></div>
+    <div class="fcard"><div class="ico">📡</div><h3>Surveillance des listings 24h/24 et 7j/7</h3><p>Contrôle quotidien automatisé de vos listings, rapport de risque quotidien et alerte en cas de dégradation.</p></div>
+  </div>
+</section>
+
+<!-- Enjeux de conformité -->
+<section>
+  <div class="audit">
+    <div>
+      <h2>Le GPSR en vigueur depuis le 13 décembre 2024 — êtes-vous prêt ?</h2>
+      <p>Le règlement (UE) 2023/988 (GPSR) exige un délégué UE, des avertissements de sécurité en langue locale et une traçabilité du produit. Le moindre écart entraîne refus de mise en ligne, retrait d'offre ou suspension de compte.</p>
+      <ul>
+        <li>Délégué UE manquant → motif n°1 de blocage sur Amazon Europe, Otto, Allegro</li>
+        <li>Avertissements en mauvaise langue → reprise de travail sur Cdiscount, eMAG</li>
+        <li>Incident de sécurité non déclaré → notification Safety Gate sous 15 jours exigée par l'article 35</li>
+      </ul>
+    </div>
+    <div>
+      <p class="big">Checklist de conformité GPSR à cocher en 5 minutes :</p>
+      <a href="/fr/compliance-check"><button class="pill-blue">Ouvrir la checklist gratuite →</button></a>
+      <p style="margin-top:16px;color:#9aa6c4;font-size:13px">Ou <a href="/fr/gpsr-check" style="color:#a5b4fc;font-weight:700">vérifier un produit en 30 secondes →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Indicateurs -->
+<section>
+  <div class="metrics">
+    <div class="metric"><div class="v">13</div><div class="k">plateformes européennes et américaines prises en charge</div></div>
+    <div class="metric"><div class="v">15 M€</div><div class="k">de chiffre d'affaires sous surveillance</div></div>
+    <div class="metric"><div class="v">24h/24</div><div class="k">et 7j/7 de surveillance automatique des listings</div></div>
+    <div class="metric"><div class="v">69</div><div class="k">lexiques de sécurité bilingues (FR/EN)</div></div>
+  </div>
+</section>
+
+<!-- Flux de travail -->
+<section>
+  <div class="sec-head">
+    <div class="sec-eyebrow">Flux de travail</div>
+    <h2 class="sec-title">De l'idée au listing conforme en 4 étapes</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h4>Saisissez le produit</h4><p>Nom du produit, mots-clés, plateforme cible. Aucune donnée sensible requise.</p></div>
+    <div class="step"><div class="n">2</div><h4>Génération IA</h4><p>Titre, puces et description optimisés, avec respect des règles de chaque plateforme.</p></div>
+    <div class="step"><div class="n">3</div><h3>Vérification GPSR</h3><p>Catégorie CE, langues d'avertissement et bloc de conformité générés automatiquement.</p></div>
+    <div class="step"><div class="n">4</div><h4>Surveillance continue</h4><p>Contrôle quotidien, rapport de risque et alerte en cas de problème.</p></div>
+  </div>
+</section>
+
+<!-- CTA de fin -->
+<section>
+  <div class="cta-band">
+    <h2>Un outil pour la qualité des listings et la conformité en Europe</h2>
+    <p>Choisissez un plan pour débloquer la vérification GPSR complète, la matrice multi-plateformes, la boîte de réception unifiée et la surveillance quotidienne.</p>
+    <a href="/fr/signup"><button class="pill-blue">Démarrer l'essai gratuit — 5 générations par jour</button></a>
+    &nbsp;
+    <a href="/fr/pricing"><button class="pill-ghost">Voir les tarifs →</button></a>
+  </div>
+</section>
+
+<footer>
+  <div class="cols">
+    <a href="/fr/">Accueil</a><a href="/fr/rules">Référentiel de règles</a><a href="/fr/pricing">Tarifs</a><a href="/fr/gpsr-check">Vérification gratuite</a><a href="/fr/skills">Skills open source</a>
+  </div>
+  CrossAIO — moteur de qualité de listings et de conformité pour toutes les plateformes européennes
+</footer>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>European product compliance free check — GPSR / EC declaration / market surveillance | CrossAIO</title>
+<meta name="description" content="Free European product compliance check: enter your product info and see, in 30 seconds, which of the EU 2023/988 (GPSR) items you are missing. No sign-up required, and registration unlocks full compliance block generation plus cross-platform listing distribution. Covers EU Responsible Person, safety warnings, market surveillance reporting, and EC declaration.">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/compliance-check">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/compliance-check">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/compliance-check">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/compliance-check">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/compliance-check">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+  .topbar{background:#1a5cf0;color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .menu a{font-size:14.5px;font-weight:600;padding:12px 14px;border-radius:8px;color:var(--ink)}
+  .menu a:hover{background:#f1f5f9}
+  .menu a.on{color:var(--blue)}
+  .right{display:flex;gap:14px;align-items:center}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+
+  .hero{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;text-align:center;padding:56px 24px}
+  .hero h1{font-size:34px;font-weight:800;margin-bottom:12px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p{color:#c7cee4;max-width:680px;margin:0 auto;font-size:15px}
+
+  section{max-width:980px;margin:0 auto;padding:44px 24px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:26px;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .row.three{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:760px){.row,.row.three{grid-template-columns:1fr}}
+  label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:5px}
+  input,textarea,select{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff}
+  input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  textarea{resize:vertical}
+  .btn{display:block;width:100%;background:var(--blue);color:#fff;border:none;border-radius:999px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px}
+  .btn:hover{background:var(--blue-dark)}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--border)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+  .result{margin-top:22px;display:none}
+  .result h3{font-size:18px;margin-bottom:12px}
+  .check-item{display:flex;gap:10px;padding:12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--border)}
+  .check-item.ok{background:#ecfdf5;border-color:#a7f3d0}
+  .check-item.err{background:#fef2f2;border-color:#fecaca}
+  .check-item .ico{font-size:18px}
+  .check-item b{display:block;font-size:14px;margin-bottom:2px}
+  .check-item .why{font-size:12.5px;color:var(--muted)}
+  .cta{background:linear-gradient(115deg,#0a0f2e,#3b1a86);color:#fff;border-radius:16px;padding:26px;text-align:center;margin-top:24px}
+  .cta h3{font-size:19px;margin-bottom:10px}
+  .cta p{color:#c7d0e8;font-size:14px;margin-bottom:16px}
+
+  .principles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+  @media(max-width:900px){.principles{grid-template-columns:repeat(2,1fr)}}
+  .pcard{border:1px solid var(--border);border-radius:12px;padding:18px 16px;background:#fff}
+  .pcard .n{font-size:22px;font-weight:800;color:var(--blue);margin-bottom:4px}
+  .pcard .t{font-weight:700;font-size:14px;margin-bottom:6px}
+  .pcard .d{font-size:12.5px;color:var(--muted)}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<div class="topbar">🛡️ GPSR check engine at your service — <b onclick="location.href='/en/gpsr-check'">use the 30-second free check directly →</b></div>
+
+<nav>
+  <a class="logo" href="/en/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <a href="/en/">Home</a>
+    <a href="/en/rules">Rules reference</a>
+    <a href="/en/skills">Open-source Skills</a>
+    <a href="/en/compliance-check" class="on">Free check</a>
+    <a href="/en/pricing">Pricing</a>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/compliance-check" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/compliance-check" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff" aria-current="page">EN</a>
+      <a href="/de/compliance-check" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
+      <a href="/fr/compliance-check" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    </div>
+    <a href="/en/signin" style="font-size:14px;color:var(--muted)">Sign in</a>
+    <a href="/en/signup"><button class="pill-nav">Start free</button></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>European product compliance <span class="accent">free check</span></h1>
+  <p>Enter your product info and get a quick view of GPSR (EU 2023/988) compliance points in 30 seconds. No sign-up required; register and unlock full compliance block generation + cross-platform listing distribution.</p>
+</div>
+
+<section>
+  <div class="card">
+    <h3 style="font-size:18px;margin-bottom:16px">Product info (for this check only; not stored on the server)</h3>
+    <div class="row">
+      <div><label>Product name *</label><input id="c_name" placeholder="e.g. Children's building blocks / wireless charger"></div>
+      <div><label>Sold to countries * <span style="color:var(--muted);font-weight:400">(comma-separated)</span></label>
+        <input id="c_markets" placeholder="e.g. DE, FR, PL"></div>
+    </div>
+    <div class="row three">
+      <div><label>EU Responsible Person (EU Rep)?</label>
+        <select id="c_eu_rep"><option value="">— Have not arranged —</option><option>✅ Arranged</option></select></div>
+      <div><label>Safety warning language matches target country?</label>
+        <select id="c_warning"><option value="">— Unknown —</option><option>✅ Yes</option><option>❌ No</option></select></div>
+      <div><label>EC declaration of conformity (DoC)?</label>
+        <select id="c_doc"><option value="">— Unknown —</option><option>✅ Yes</option><option>❌ No</option></select></div>
+    </div>
+    <div><label>Additional notes <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+      <textarea id="c_extra" rows="3" placeholder="e.g. The product is for children under 3 / batteries included / sold with a power adapter…"></textarea></div>
+    <button class="btn" onclick="runCheck()">Run check in 30 seconds →</button>
+    <p class="hint">⚡ No sign-up required · no data stored · results for reference only (this check is a checklist, not a substitute for legal advice)</p>
+  </div>
+
+  <div class="result" id="resultBox">
+    <h3>📋 Quick result</h3>
+    <div id="items"></div>
+    <div class="cta">
+      <h3>Want to see the full compliance block + distribute listings across platforms?</h3>
+      <p>Sign up for a free account (5 runs/day) and the engine will generate the full GPSR compliance block (EU Rep + local-language safety warnings) for you, then push it into the platforms you choose.</p>
+      <a href="/en/signup"><button class="pill-nav" style="background:#fff;color:var(--navy)">Sign up free →</button></a>
+    </div>
+  </div>
+
+  <div class="principles">
+    <div class="pcard"><div class="n">①</div><div class="t">EU Responsible Person</div><div class="d">Every product must have an "in-EU" Responsible Person (seller / EU importer / EU-based agent). No Rep = cannot be sold legally.</div></div>
+    <div class="pcard"><div class="n">②</div><div class="t">Safety warnings in the local language</div><div class="d">Warnings must be in the official language of each target country: DE for Germany, FR for France, PL for Poland, etc. English alone is not compliant.</div></div>
+    <div class="pcard"><div class="n">③</div><div class="t">15-day market-surveillance reporting</div><div class="d">Any safety incident must be reported to the member state's market-surveillance authority within 15 days. CrossAIO helps you set reminders and generates the report template.</div></div>
+    <div class="pcard"><div class="n">④</div><div class="t">EC Declaration of Conformity (DoC)</div><div class="d">The technical DoC must be available upon request from the platform or the authority; CrossAIO provides a fillable template.</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="cols">
+    <a href="/en/">Home</a><a href="/en/compliance-check">Free check</a><a href="/en/gpsr-check">GPSR check</a><a href="/en/pricing">Pricing</a><a href="/en/skills">Open-source Skills</a>
+  </div>
+  CrossAIO — the all-Europe platform Listing quality + compliance engine
+</footer>
+
+<script>
+function item(ok, t, why){
+  return `<div class="check-item ${ok?'ok':'err'}">
+    <div class="ico">${ok?'✅':'⚠️'}</div>
+    <div><b>${t}</b><div class="why">${why}</div></div></div>`;
+}
+function runCheck(){
+  const name=document.getElementById("c_name").value.trim();
+  if(!name){alert("Please enter a product name first");return;}
+  const mk=document.getElementById("c_markets").value.toUpperCase().split(/[,，]/).map(s=>s.trim()).filter(Boolean);
+  const rep=document.getElementById("c_eu_rep").value;
+  const warn=document.getElementById("c_warning").value;
+  const doc=document.getElementById("c_doc").value;
+  const langMap={DE:"German",FR:"French",PL:"Polish",IT:"Italian",ES:"Spanish",NL:"Dutch",CZ:"Czech",RO:"Romanian"};
+  let html="";
+  html+=item(rep==="✅ Arranged",
+    "EU Responsible Person (EU Rep)",
+    rep==="✅ Arranged"?"You have arranged an EU Rep. CrossAIO will embed their details into the compliance block once you save them in the registry.":
+    "You have not arranged an EU Rep. Without one, products sold into the EU are non-compliant. You must appoint an EU-based seller/importer/agent as the Responsible Person.");
+  html+=item(warn==="✅ Yes",
+    `Safety warnings in the local language`,
+    warn==="✅ Yes"
+      ?`Good — confirm the warning language matches the markets you listed: ${mk.map(c=>langMap[c]||c).join(" / ")}.`
+      :`Your safety warnings may not match your target markets: ${mk.map(c=>langMap[c]||c).join(" / ")}. Each market requires its official language; English alone is not compliant.`);
+  html+=item(doc==="✅ Yes",
+    "EC Declaration of Conformity (DoC)",
+    doc==="✅ Yes"
+      ?"You hold a DoC. CrossAIO provides a fillable template for future products."
+      :"You have no DoC on file. The Declaration of Conformity must be available upon request from the platform or the authority; prepare one promptly.");
+  html+=item(mk.length>0,
+    "Markets recognized",
+    mk.length?`Target markets detected: ${mk.join(", ")} — CrossAIO will tailor the compliance block languages to these.`:"No markets entered; please enter the countries you sell into (comma-separated, e.g. DE, FR, PL).");
+  document.getElementById("items").innerHTML=html;
+  document.getElementById("resultBox").style.display="block";
+  document.getElementById("resultBox").scrollIntoView({behavior:"smooth"});
+  // Analytics: free check completed
+  try{fetch("/api/v1/analytics/track",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({event_type:"compliance_check_free", meta:{markets:mk, has_rep:rep==="✅ Arranged"}})}).catch(()=>{});}catch(e){}
+}
+</script>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

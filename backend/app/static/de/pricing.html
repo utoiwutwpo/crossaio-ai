@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/pricing">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/pricing">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/pricing">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/pricing">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/pricing">
+<title>Preise — CrossAIO</title>
+<style>
+  :root{--blue:#2563eb;--blue-dark:#1d4ed8;--ink:#1a2b4c;--muted:#7a8699;--border:#e2e8f0;--ok:#059669}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#fff;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+  a{text-decoration:none;color:var(--blue)}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;max-width:1100px;margin:0 auto;width:100%}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--ink)}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+  .links{display:flex;gap:18px;align-items:center;font-size:14px}
+  .links a{color:var(--muted)}
+  .links a:hover{color:var(--ink)}
+  .links a.on{color:var(--blue);font-weight:700}
+  main{flex:1;max-width:1100px;margin:0 auto;padding:48px 24px;width:100%}
+  h1{font-size:28px;margin-bottom:6px}
+  .sub{color:var(--muted);margin-bottom:36px;font-size:15px}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.plans{grid-template-columns:1fr}}
+  .plan{border:1px solid var(--border);border-radius:14px;padding:26px;display:flex;flex-direction:column}
+  .plan.hot{border:2px solid var(--blue);box-shadow:0 12px 36px rgba(37,99,235,.12);position:relative}
+  .badge{position:absolute;top:-12px;left:24px;background:var(--blue);color:#fff;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 12px}
+  .plan h3{font-size:18px;margin-bottom:4px}
+  .plan .desc{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .price{font-size:38px;font-weight:800;margin-bottom:2px}
+  .price small{font-size:13px;font-weight:400;color:var(--muted)}
+  .features{list-style:none;margin:18px 0 24px;flex:1}
+  .features li{padding:6px 0 6px 26px;position:relative;font-size:13.5px;color:#3c4a63}
+  .features li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+  .btn{display:block;text-align:center;border-radius:8px;padding:12px;font-weight:700;font-size:14px;cursor:pointer;border:1.5px solid var(--blue);background:#fff;color:var(--blue)}
+  .btn:hover{background:#f4f8ff}
+  .btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .btn.primary:hover{background:var(--blue-dark)}
+  .note{text-align:center;color:var(--muted);font-size:12.5px;margin-top:30px}
+  .compare{margin-top:48px;overflow-x:auto}
+  .compare table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .compare th,.compare td{border-bottom:1px solid var(--border);padding:12px 10px;text-align:left}
+  .compare th{color:var(--muted);font-weight:600}
+  .compare td.yes{color:var(--blue);font-weight:700}
+  footer{border-top:1px solid #eef1f5;padding:18px 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
+  footer a{color:var(--muted);margin:0 6px}
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo"><span class="dot">🤖</span>CrossAIO</span>
+  <div class="links">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/pricing" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/pricing" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/pricing" data-lang="de" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">DE</a>
+      <a href="/fr/pricing" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    </div>
+    <a href="/de/">Startseite</a>
+    <a href="/de/pricing" class="on">Preise</a>
+    <a href="/de/signin">Anmelden</a>
+    <a href="/de/signup">Registrieren</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Preise</h1>
+  <p class="sub">Zahlen Sie nur, wenn Sie KI-Text generieren. Der Compliance-Check bleibt kostenlos.</p>
+  <div class="plans">
+
+    <div class="plan">
+      <h3>Free</h3>
+      <p class="desc">Zum Kennenlernen — Compliance-Checks ohne Registrierung, 5 KI-Generierungen pro Tag</p>
+      <div class="price">€0<small>/kostenlos</small></div>
+      <ul class="features">
+        <li>30-Sekunden-GPSR-Compliance-Check, täglich 3 Mal kostenlos</li>
+        <li>5 KI-Generierungen pro Tag (Listing / Anzeigentexte / Kundenanfragen)</li>
+        <li>Einsicht der Plattform-Regelübersicht</li>
+        <li>13-Plattform-Matrix-Generierung</li>
+        <li>E-Mail-Support</li>
+      </ul>
+      <a href="/de/signup" class="btn">Kostenlos starten</a>
+    </div>
+
+    <div class="plan hot">
+      <span class="badge">Beliebt</span>
+      <h3>Starter</h3>
+      <p class="desc">Für Verkäufer, die pro Woche listings generieren</p>
+      <div class="price">€29<small>/Monat</small></div>
+      <ul class="features">
+        <li>200 KI-Generierungen pro Monat (Guthaben, nicht täglich)</li>
+        <li>GPSR-Compliance-Block, unbegrenzt generierbar</li>
+        <li>Postfach: 100 Käuferanfragen pro Monat</li>
+        <li>7-Tage-Historie der Generierungen</li>
+        <li>E-Mail-Support</li>
+      </ul>
+      <a href="/de/signup?plan=starter" class="btn primary">7 Tage kostenlos testen</a>
+    </div>
+
+    <div class="plan">
+      <h3>Growth</h3>
+      <p class="desc">Für Teams, die mehrere Plattformen gleichzeitig betreiben</p>
+      <div class="price">€99<small>/Monat</small></div>
+      <ul class="features">
+        <li>1.000 KI-Generierungen pro Monat</li>
+        <li>Postfach: 500 Käuferanfragen pro Monat</li>
+        <li>Listing-Monitoring: täglicher Scan von 100 Listings</li>
+        <li>Bewertungs-Umschreibung (Semantik / emotionales Ranking)</li>
+        <li>Premium-Support, Antwort in der Regel innerhalb von 24 Stunden</li>
+      </ul>
+      <a href="/de/signup?plan=growth" class="btn">7 Tage kostenlos testen</a>
+    </div>
+  </div>
+
+  <p class="note">Abrechnung monatlich per Kreditkarte / PayPal (Stripe). Jederzeit kündbar · Guthaben läuft am Monatsende ab · UTM-Kampagnen-Attribution ist aktiviert.</p>
+
+  <div class="compare">
+    <table>
+      <tr><th></th><th>Free</th><th>Starter (€29)</th><th>Growth (€99)</th></tr>
+      <tr><td>KI-Generierungen</td><td>5 / Tag</td><td class="yes">200 / Monat</td><td class="yes">1.000 / Monat</td></tr>
+      <tr><td>Compliance-Check</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      <tr><td>Compliance-Block generieren</td><td>—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      <tr><td>Postfach (Käuferanfragen)</td><td>—</td><td>100 / Monat</td><td class="yes">500 / Monat</td></tr>
+      <tr><td>Listing-Monitoring</td><td>—</td><td>—</td><td class="yes">100 Listings / Tag</td></tr>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <div><a href="#">Datenschutzerklärung</a>|<a href="#">AGB</a></div>
+  <div>
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/pricing" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/pricing" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/pricing" data-lang="de" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">DE</a>
+      <a href="/fr/pricing" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    </div>
+  </div>
+  <div>CrossAIO © 2026</div>
+</footer>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

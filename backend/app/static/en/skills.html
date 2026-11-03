@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open-source cross-border Listing generation Skills — free for Claude Code / Codex / Agent | CrossAIO</title>
+<meta name="description" content="CrossAIO's open-source cross-border Listing skills are free for all Claude Code, Codex, Cursor and AI Agent users: platform-native rule packs (Allegro PL / Otto DE / Cdiscount FR / bol NL) for individual platforms, plus a combined generation workflow (compliance engine + listing generation + AI customer service + unified inbox) for cross-platform sellers. GPLv3 license.">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/skills">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/skills">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/skills">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/skills">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/skills">
+<style>
+  :root{
+    --ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+  .topbar{background:#1a5cf0;color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .menu a{font-size:14.5px;font-weight:600;padding:12px 14px;border-radius:8px;color:var(--ink)}
+  .menu a:hover{background:#f1f5f9}
+  .menu a.on{color:var(--blue)}
+  .right{display:flex;gap:14px;align-items:center}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+
+  .hero{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;text-align:center;padding:64px 24px}
+  .hero h1{font-size:34px;font-weight:800;margin-bottom:12px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p{color:#c7cee4;max-width:680px;margin:0 auto;font-size:15px}
+  .hero .chips{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .hero .chips span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:600}
+
+  section{max-width:1100px;margin:0 auto;padding:52px 24px}
+  .sec-head{text-align:center;margin-bottom:32px}
+  .sec-eyebrow{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+  .sec-title{font-size:28px;font-weight:800;margin:6px 0 8px}
+  .sec-sub{color:var(--muted);font-size:14.5px}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .card{border:1px solid var(--border);border-radius:14px;padding:22px 22px;transition:.25s;background:#fff;display:flex;flex-direction:column}
+  .card:hover{border-color:var(--blue);box-shadow:0 14px 34px rgba(37,99,235,.12);transform:translateY(-3px)}
+  .card.hot{border-color:var(--blue);background:linear-gradient(180deg,#eff6ff,#ffffff)}
+  .card .badge{display:inline-block;background:var(--blue);color:#fff;border-radius:999px;padding:2px 12px;font-size:11px;font-weight:800;align-self:flex-start;margin-bottom:10px}
+  .card .badge.alt{background:var(--purple)}
+  .card h3{font-size:16.5px;margin-bottom:6px}
+  .card .region{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .card p{font-size:13px;color:#334155;flex:1;margin-bottom:14px}
+  .card .foot{display:flex;gap:14px;font-size:12px;color:var(--muted)}
+  .card .foot b{color:var(--ink)}
+
+  .install{background:#0b1030;color:#e2e8f0;border-radius:16px;padding:28px;max-width:1100px;margin:0 auto 48px}
+  .install h3{color:#fff;font-size:16px;margin-bottom:12px}
+  .install pre{background:#0a0f2e;border:1px solid #1e2a5a;border-radius:10px;padding:16px;font-size:13px;line-height:1.7;overflow-x:auto}
+  .install .cmt{color:#64748b}
+  .install .ok{color:#86efac}
+
+  .cta{text-align:center;background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:52px 24px}
+  .cta h2{font-size:24px;margin-bottom:10px}
+  .cta p{color:var(--muted);margin-bottom:22px;font-size:14.5px}
+  .pill-blue{background:var(--blue);color:#fff;border-radius:999px;padding:12px 28px;font-size:14.5px;font-weight:700;display:inline-block}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{border:1.5px solid var(--border);border-radius:999px;padding:11px 26px;font-size:14.5px;font-weight:600;display:inline-block;margin-left:8px;color:var(--ink)}
+  .pill-ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<div class="topbar">📋 Same engine, completely free open-source: <b onclick="location.href='/en/rules'">see the platform rules reference →</b></div>
+
+<nav>
+  <a class="logo" href="/en/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <a href="/en/">Home</a>
+    <a href="/en/rules">Rules reference</a>
+    <a href="/en/skills" class="on">Open-source Skills</a>
+    <a href="/en/pricing">Pricing</a>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/skills" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/skills" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff" aria-current="page">EN</a>
+      <a href="/de/skills" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
+      <a href="/fr/skills" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    </div>
+    <a href="/en/signin" style="font-size:14px;color:var(--muted)">Sign in</a>
+    <a href="/en/signup"><button class="pill-nav">Start free</button></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Cross-border Listing generation Skills, <span class="accent">completely free open-source</span></h1>
+  <p>CrossAIO's compliance engine and platform rule packs, packaged as open-source skills. Free for all users of Claude Code, Codex, Cursor and any AI Agent.</p>
+  <div class="chips">
+    <span>🛡️ GPLv3 license</span><span>📄 Markdown format, no hard dependencies</span><span>🔌 Hooks into your local Agent natively</span>
+  </div>
+</div>
+
+<section>
+  <div class="sec-head">
+    <div class="sec-eyebrow">For single-platform sellers</div>
+    <div class="sec-title">Four platform-native rule packs</div>
+    <p class="sec-sub">Each pack contains: title character limit · required languages · listing format · GPSR compliance essentials · do/don't examples</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <span class="badge">Allegro</span>
+      <h3>Allegro (PL) Listing Skill</h3>
+      <div class="region">🇵🇱 Poland · Allegro</div>
+      <p>For products sold on Allegro: title/description must be Polish, instructions for after-sales action and warranty notes, safety-warning format, examples.</p>
+      <div class="foot"><span>Version <b>v1.0</b></span><span>Updated <b>2026-10</b></span></div>
+    </div>
+    <div class="card">
+      <span class="badge">Otto</span>
+      <h3>Otto (DE) Listing Skill</h3>
+      <div class="region">🇩🇪 Germany · Otto</div>
+      <p>For products sold on Otto: German attribute tree requirements, title ≤ 160 chars, category attribute must-haves, mapping into the compliance block.</p>
+      <div class="foot"><span>Version <b>v1.0</b></span><span>Updated <b>2026-10</b></span></div>
+    </div>
+    <div class="card">
+      <span class="badge">Cdiscount</span>
+      <h3>Cdiscount (FR) Listing Skill</h3>
+      <div class="region">🇫🇷 France · Cdiscount</div>
+      <p>For products sold on Cdiscount: Loi Toubon French-mandatory content, title/description formats, DGCCRF warning format, examples.</p>
+      <div class="foot"><span>Version <b>v1.0</b></span><span>Updated <b>2026-10</b></span></div>
+    </div>
+    <div class="card">
+      <span class="badge">bol.com</span>
+      <h3>bol.com (NL) Listing Skill</h3>
+      <div class="region">🇳🇱 Netherlands · bol.com</div>
+      <p>For products sold on bol.com: Dutch requirement, mandatory EAN, title ≤ 150 chars, attribute tree + safety warning integration.</p>
+      <div class="foot"><span>Version <b>v1.0</b></span><span>Updated <b>2026-10</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="sec-head">
+    <div class="sec-eyebrow">For cross-platform sellers</div>
+    <div class="sec-title">One combined skill covering everything</div>
+    <p class="sec-sub">A cross-platform combined workflow: compliance engine + generation + AI customer service + unified inbox — the same set we run in CrossAIO</p>
+  </div>
+  <div class="cards">
+    <div class="card hot" style="max-width:1100px">
+      <span class="badge alt">⭐ Combined workflow</span>
+      <h3>crossaio-crossborder Listing Workflow</h3>
+      <div class="region">All platforms · all languages · combined workflow</div>
+      <p>Input your product info, and the agent will:
+        <b>①</b> run the GPSR compliance check (EU 2023/988 essentials) → <b>②</b> generate listings for each target platform in its required language (Amazon / Allegro / Otto / Cdiscount / bol / eBay…) → <b>③</b> provide AI customer-service reply drafts with EU AI Act Art.50 identity disclosure built in → <b>④</b> paste back into your unified inbox and send. The workflow used by the entire CrossAIO engine.</p>
+      <div class="foot"><span>Version <b>v1.0</b></span><span>Updated <b>2026-10</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="sec-head">
+    <div class="sec-title" style="text-align:center;font-size:20px">How to use</div>
+  </div>
+  <div class="install">
+    <h3>📦 Install with one command (Claude Code / Codex / Cursor compatible)</h3>
+    <pre><span class="cmt"># Pull the skill you need into your local agent and it will take effect immediately</span>
+<span class="cmt"># Example: Allegro (Polish) Listing Skill</span>
+<span class="ok">/skills install crossaio/allegro-pl</span>
+
+<span class="cmt"># Or grab the combined workflow directly</span>
+<span class="ok">/skills install crossaio/crossborder-workflow</span>
+
+<span class="cmt"># Or clone the full repo</span>
+git clone https://github.com/CrossAIO/skills.git</pre>
+    <p style="margin-top:14px;font-size:13px;color:#8e9bc0">No API key required, no hard dependencies, no account lock-in — you own your own agent.</p>
+  </div>
+</section>
+
+<div class="cta">
+  <h2>These skills cover the "Generation" side; the engine side is on CrossAIO</h2>
+  <p>The Skills are free for you to use, but the compliance engine (full GPSR block generation, 13-platform rule packs, EU AI Act disclosure, unified inbox) runs on the CrossAIO workbench.</p>
+  <a href="/en/signup"><span class="pill-blue">Start free on the workbench — 5 times per day</span></a>
+  <a href="/en/pricing"><span class="pill-ghost">See the pricing tiers →</span></a>
+</div>
+
+<footer>
+  <div class="cols">
+    <a href="/en/">Home</a><a href="/en/rules">Rules reference</a><a href="/en/skills">Open-source Skills</a><a href="/en/pricing">Pricing</a><a href="/en/gpsr-check">Free check</a>
+  </div>
+  CrossAIO — the all-Europe platform Listing quality + compliance engine
+</footer>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>

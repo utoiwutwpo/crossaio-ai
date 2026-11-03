@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification gratuite de conformité GPSR — délégation UE / langues d'avertissement / marquage CE en 30 secondes | CrossAIO</title>
+<meta name="description" content="Vérifiez instantanément la conformité GPSR de votre produit : détection automatique de la catégorie CE, langues d'avertissement requises, checklist légale et génération du bloc de conformité à coller. Gratuit, sans inscription — repérez en 30 secondes si votre listing a un risque d'être refusé ou retiré par Amazon / Otto / Allegro / Cdiscount / eMAG.">
+<link rel="alternate" hreflang="zh" href="http://localhost:9000/gpsr-check">
+<link rel="alternate" hreflang="en" href="http://localhost:9000/en/gpsr-check">
+<link rel="alternate" hreflang="de" href="http://localhost:9000/de/gpsr-check">
+<link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/gpsr-check">
+<link rel="alternate" hreflang="x-default" href="http://localhost:9000/gpsr-check">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --bar:#1a5cf0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+
+  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a:hover{background:#f1f5f9}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---- Hero ---- */
+  .hero-wrap{background:radial-gradient(900px 480px at 80% 20%,rgba(124,58,237,.40),transparent 60%),
+       radial-gradient(800px 420px at 8% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#2a1560 100%);
+    position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:64px 32px 72px;text-align:center;color:#fff;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:16px}
+  .hero h1{font-size:40px;line-height:1.22;font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:15.5px;color:#d3d9ea;max-width:680px;margin:0 auto 26px}
+
+  /* ---- Form ---- */
+  .form-card{max-width:680px;margin:0 auto;background:#fff;border-radius:18px;padding:28px;
+    box-shadow:0 24px 60px rgba(0,0,0,.30);color:var(--ink);text-align:left}
+  .form-card label{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
+  .form-card input,.form-card select{width:100%;padding:11px 14px;border:1.5px solid #d8dee9;border-radius:10px;font-size:14px;font-family:inherit}
+  .form-card input:focus,.form-card select:focus{outline:none;border-color:var(--blue)}
+  .form-card .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-card .btn-go{width:100%;margin-top:18px;background:var(--blue);color:#fff;border:none;border-radius:12px;
+    padding:14px;font-size:15.5px;font-weight:700;cursor:pointer}
+  .form-card .btn-go:hover{background:var(--blue-dark)}
+  .form-card .btn-go:disabled{background:#94a3b8;cursor:not-allowed}
+  .form-card .steps{display:flex;gap:14px;margin-top:18px;font-size:12.5px;color:var(--muted)}
+  .form-card .steps div{flex:1;background:var(--soft);border-radius:10px;padding:10px 12px}
+  .form-card .steps b{color:var(--ink)}
+
+  /* ---- Result ---- */
+  .result{max-width:880px;margin:36px auto 0;display:none}
+  .result.show{display:block;animation:fadeUp .35s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .r-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 6px 24px rgba(0,0,0,.05)}
+  .r-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .badge{border-radius:999px;padding:4px 14px;font-size:12.5px;font-weight:700}
+  .badge.r-high{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+  .badge.r-mid{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+  .badge.r-low{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+  .badge.cat{background:#eff6ff;color:var(--blue);border:1px solid #bfdbfe}
+  .badge.lang{background:#f5f3ff;color:#6d28d9;border:1px solid #ddd6fe}
+  .r-card h3{font-size:16px;margin:14px 0 8px}
+  .r-card table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .r-card th,.r-card td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+  .r-card th{background:var(--soft);font-weight:700}
+  pre.block{background:var(--soft);border:1px solid var(--border);border-radius:12px;padding:16px;white-space:pre-wrap;
+    font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.7;color:#1f2937}
+  .copy-btn{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px}
+  .copy-btn:hover{background:var(--blue-dark)}
+  .upsell{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;border-radius:16px;padding:22px;text-align:center;margin-top:16px}
+  .upsell b{color:#fff}
+  .upsell .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .upsell .btn{background:#fff;color:var(--navy);border-radius:999px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer}
+  .upsell .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+
+  section{max-width:1240px;margin:0 auto;padding:56px 24px}
+  .sec-head{text-align:center;margin-bottom:34px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:28px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:14.5px}
+
+  .faq{max-width:880px;margin:0 auto}
+  .faq details{border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;background:#fff}
+  .faq summary{font-size:15px;font-weight:700;cursor:pointer}
+  .faq p{font-size:13.5px;color:#475569;margin-top:8px}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+
+  @media(max-width:760px){
+    .hero h1{font-size:28px}
+    .menu{display:none}
+    .form-card .row{grid-template-columns:1fr}
+  }
+</style>
+  <link rel="stylesheet" href="/effects.css">
+</head>
+<body>
+
+<div class="topbar">📡 Moteur de vérification quotidienne : déposez un listing → détection de conformité GPSR + bloc de conformité généré. <b onclick="location.href='/fr/signup'">Essai gratuit sans inscription →</b></div>
+
+<nav>
+  <a class="logo" href="/fr/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem"><a class="nav-a" href="/fr/">Accueil</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/gpsr-check" style="color:var(--blue)">Vérification gratuite</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/pricing">Tarifs</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/rules">Référentiel de règles</a></div>
+    <div class="navitem"><a class="nav-a" href="/fr/skills">Skills open source</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
+      <a href="/gpsr-check" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
+      <a href="/en/gpsr-check" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
+      <a href="/de/gpsr-check" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
+      <a href="/fr/gpsr-check" data-lang="fr" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">FR</a>
+    </div>
+    <a class="login-link" href="/fr/signin">Connexion</a>
+    <a href="/fr/signup"><button class="pill-nav">Inscription gratuite</button></a>
+  </div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="eyebrow">🛡️ Vérification gratuite de conformité GPSR</div>
+    <h1>Vérifiez la conformité GPSR de votre produit en<br><span class="accent">30 secondes</span></h1>
+    <p class="sub">Règlement (UE) 2023/988 (GPSR) en vigueur depuis le 13 décembre 2024 — le délégué UE manquant et les avertissements en mauvaise langue sont les causes n°1 de retraits d'offre et d'arrêts de compte. <b>Saisissez votre produit et vérifiez instantanément.</b></p>
+
+    <div class="form-card">
+      <form id="checkForm">
+        <label>Nom du produit *</label>
+        <input id="p_name" placeholder="Ex : Jouet en bois pour enfants, ensemble de construction, 3–6 ans" required>
+        <div class="row">
+          <div>
+            <label>Mots-clés (séparés par des virgules)</label>
+            <input id="p_kw" placeholder="jouets,bois,3-6 ans,EN71">
+          </div>
+          <div>
+            <label>Plateforme cible</label>
+            <select id="p_plat">
+              <option value="amazon">Amazon (Europe)</option>
+              <option value="otto">Otto</option>
+              <option value="allegro">Allegro</option>
+              <option value="cdiscount">Cdiscount</option>
+              <option value="emag">eMAG</option>
+              <option value="tiktok">TikTok Shop</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-go" id="btnGo" type="submit">Vérification gratuite</button>
+      </form>
+      <div class="steps">
+        <div><b>1.</b> Saisissez produit et mots-clés</div>
+        <div><b>2.</b> Le moteur identifie la catégorie CE + les langues requises</div>
+        <div><b>3.</b> Obtenez la checklist + le bloc de conformité prêt à coller</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Affichage des résultats -->
+<div class="result" id="resultBox">
+  <div class="r-card">
+    <div class="r-badges" id="rBadges"></div>
+    <h3>📋 Checklist légale</h3>
+    <table id="rTable"></table>
+  </div>
+  <div class="r-card" id="rBlockWrap" style="display:none">
+    <h3>✓ Bloc de conformité GPSR généré (prêt à coller sur le listing)</h3>
+    <pre class="block" id="rBlock"></pre>
+    <button class="copy-btn" onclick="copyBlock()">📋 Copier le bloc</button>
+  </div>
+  <div class="upsell">
+    <b>🔓 Passez à la formule payante pour débloquer la génération du bloc de conformité et le contrôle quotidien.</b>
+    <div class="row">
+      <a href="/fr/signup"><button class="btn">Débloquer la vérification complète</button></a>
+      <a href="/fr/pricing"><button class="btn ghost">Voir les tarifs</button></a>
+    </div>
+  </div>
+  <div class="upsell" style="background:linear-gradient(115deg,#0f1a3a,#25407a);margin-top:12px">
+    <b>💡 Vous avez aimé ? Le moteur en ligne : vérification quotidienne des listings + alerte incidents + génération matrice.</b>
+    <div class="row">
+      <a href="/fr/signup"><button class="btn">Vérification quotidienne gratuite</button></a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-head">
+    <div class="sec-eyebrow">FAQ</div>
+    <h2 class="sec-title">Questions fréquentes sur le GPSR</h2>
+  </div>
+  <div class="faq">
+    <details>
+      <summary>Que se passe-t-il si je n'ai pas de délégué UE ?</summary>
+      <p>Amazon Europe, Otto, Allegro et Cdiscount refusent la mise en ligne ; en cas de contrôle de la part des autorités du marché, le produit peut être retiré. CrossAIO génère un bloc de conformité avec le délégué UE (sponsorisé par vos soins) directement sur le listing.</p>
+    </details>
+    <details>
+      <summary>Les avertissements en anglais suffisent-ils ?</summary>
+      <p>Non. Le GPSR exige des avertissements compréhensibles dans la langue de chaque pays de vente (allemand en Allemagne, français en France, italien en Italie…). CrossAIO identifie automatiquement les langues requises et génère la traduction.</p>
+    </details>
+    <details>
+      <summary>Quels produits relèvent d'une catégorie CE ?</summary>
+      <p>Jouets (EN71), appareils électroniques (LVD/EMC), textiles (REACH), articles pour enfants, équipements de protection individuelle, machines de petite taille, etc. CrossAIO identifie la catégorie CE depuis le produit et les mots-clés.</p>
+    </details>
+    <details>
+      <summary>Combien de temps faut-il pour traiter un incident de sécurité ?</summary>
+      <p>Le GPSR exige une notification à la Safety Gate de l'UE dans un délai de 15 jours après la détection d'un produit dangereux. CrossAIO surveille les avis négatifs 24h/24 et 7j/7 et signale immédiatement tout incident de sécurité.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="cols">
+    <a href="/fr/">Accueil</a><a href="/fr/rules">Référentiel de règles</a><a href="/fr/pricing">Tarifs</a><a href="/fr/gpsr-check">Vérification gratuite</a><a href="/fr/skills">Skills open source</a>
+  </div>
+  CrossAIO — moteur de qualité de listings et de conformité pour toutes les plateformes européennes
+</footer>
+
+<script>
+const API = "/api/v1";
+const RISK_CLASS = {high:"r-high", medium:"r-mid", low:"r-low"};
+const RISK_LABEL = {high:"🔴 Risque élevé (catégorie CE)", medium:"🟡 Risque moyen", low:"🟢 Risque faible"};
+
+document.getElementById("checkForm").onsubmit = async (e)=>{
+  e.preventDefault();
+  const btn = document.getElementById("btnGo");
+  btn.disabled = true; btn.textContent = "Vérification en cours…";
+  try{
+    const d = await api("/products/gpsr/check",{method:"POST",body:JSON.stringify({
+      product_name:document.getElementById("p_name").value.trim(),
+      keywords:document.getElementById("p_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+      platform:document.getElementById("p_plat").value,
+    })});
+    // badges
+    document.getElementById("rBadges").innerHTML =
+      `<span class="badge ${RISK_CLASS[d.risk_level]||""}">${RISK_LABEL[d.risk_level]||d.risk_level}</span>`+
+      `<span class="badge cat">Catégorie : ${d.matched_categories||"—"}</span>`+
+      `<span class="badge lang">Langues d'avertissement : ${d.required_languages.map(l=>l.toUpperCase()).join(" / ")}</span>`;
+    // table
+    document.getElementById("rTable").innerHTML =
+      `<tr><th style="width:90px">Niveau</th><th>Item de la checklist</th></tr>`+
+      d.checklist.map(c=>`<tr><td>${c.required?"<b>Obligatoire</b>":"Conseillé"}</td><td><b>${c.name}</b><br><span style="color:var(--muted)">${c.detail}</span></td></tr>`).join("");
+    // bloc (débrayé en mode gratuit : renvoie upsell_note)
+    if(d.gpsr_block){
+      document.getElementById("rBlockWrap").style.display="block";
+      document.getElementById("rBlock").textContent = d.gpsr_block;
+    }
+    document.getElementById("resultBox").classList.add("show");
+    document.getElementById("resultBox").scrollIntoView({behavior:"smooth",block:"start"});
+  }catch(err){ alert("Échec de la vérification : "+err.message); }
+  btn.disabled = false; btn.textContent = "Vérification gratuite";
+};
+
+async function api(path, opts){
+  const r = await fetch(API+path, Object.assign({headers:{"Content-Type":"application/json"}}, opts||{}));
+  const d = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.detail||("HTTP "+r.status));
+  return d;
+}
+function copyBlock(){ navigator.clipboard.writeText(document.getElementById("rBlock").textContent).then(()=>alert("Bloc copié ✓")); }
+</script>
+
+  <script src="/effects.js"></script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>
