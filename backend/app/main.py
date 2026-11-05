@@ -516,5 +516,5 @@ def google_verification_file(vfile: str):
     """
     token = settings.google_site_verification.strip()
     if token and vfile == token:
-        return Response("google-site-verification: crossaio", media_type="text/plain")
+        return Response(f"google-site-verification: {token}", media_type="text/plain")
     raise HTTPException(status_code=404)
