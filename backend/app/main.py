@@ -10,7 +10,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from .config import settings
@@ -90,22 +90,33 @@ _SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup")
 
 
 def _split_lang_path(path: str):
-    """'/de/pricing' → ('de', '/pricing')；'/' → ('zh', '/')；'/en/' → ('en', '/')。"""
+    """'/de/pricing' → ('de', '/pricing')；'/' → ('en', '/')（英文为默认首页）；
+    '/zh/' → ('zh', '/')；'/en/' → ('en', '/')；其余根路径视为中文页。"""
     parts = path.strip("/").split("/", 1)
+    if parts and parts[0] == "zh":
+        sub = "/" + parts[1] if len(parts) > 1 and parts[1] else "/"
+        return "zh", sub
     if parts and parts[0] in SEO_LANGS:
         sub = "/" + parts[1] if len(parts) > 1 and parts[1] else "/"
         return parts[0], sub
-    return "zh", path or "/"
+    if not path or path == "/":
+        return "en", "/"
+    return "zh", path
 
 
 def _seo_head_tags(path: str, html: str) -> str:
     lang, sub = _split_lang_path(path)
     base = settings.site_url
 
-    # URL 生成：中文无前缀（根路径即 '/'），其他语言 /{lang} 前缀
+    # URL 生成：首页 en='/'、zh='/zh/'；其余页面中文无前缀（根路径），
+    # en /{lang} 前缀。中文内容页仍以根路径为 canonical（已提交 GSC 的 URL 不变）。
     def _u(lg: str) -> str:
         if sub == "/":
-            return base + "/" if lg == "zh" else f"{base}/{lg}/"
+            if lg == "en":
+                return base + "/"
+            if lg == "zh":
+                return base + "/zh/"
+            return f"{base}/{lg}/"
         return base + sub if lg == "zh" else f"{base}/{lg}{sub}"
 
     m = _re.search(r"<title[^>]*>(.*?)</title>", html, _re.S | _re.I)
@@ -118,8 +129,10 @@ def _seo_head_tags(path: str, html: str) -> str:
     desc = (SEO_PAGE_DESC.get(sub) or SEO_GENERIC_DESC).get(lang) or SEO_GENERIC_DESC["en"]
     has_desc = 'name="description"' in html
     has_og = 'property="og:title"' in html
+    # 顺序：英文优先，中文最后（en → de → fr → zh）
     alternates = "".join(
-        f'<link rel="alternate" hreflang="{lg}" href="{_e(_u(lg))}">' for lg in ("zh",) + SEO_LANGS)
+        f'<link rel="alternate" hreflang="{lg}" href="{_e(_u(lg))}">'
+        for lg in ("en", "de", "fr", "zh"))
     alternates += f'<link rel="alternate" hreflang="x-default" href="{_e(_u("en"))}">'
     desc_tags = "" if has_desc else f'<meta name="description" content="{_e(desc)}">'
     og_tags = "" if has_og else (
@@ -238,7 +251,15 @@ def admin_self_restart():
 
 @app.get("/", include_in_schema=False)
 def index():
-    """营销主页（H10 风格：Hero + 平台墙 + 功能 + 定价预览 + FAQ）"""
+    """营销主页（默认英文版：www.crossaio.com 首页采用英语，中文版迁至 /zh/）"""
+    return FileResponse(Path(__file__).parent / "static" / "en" / "home.html",
+                        headers=_NO_CACHE_HEADERS)
+
+
+@app.get("/zh", include_in_schema=False)
+@app.get("/zh/", include_in_schema=False)
+def zh_home():
+    """中文营销主页：/zh/（原根路径中文首页迁移至此）"""
     return FileResponse(Path(__file__).parent / "static" / "home.html",
                         headers=_NO_CACHE_HEADERS)
 
@@ -416,9 +437,12 @@ def _static_lang_file(lang: str, name: str) -> FileResponse:
 
 @app.get("/{lang}/", include_in_schema=False)
 def lang_home(lang: str):
-    """语言目录根：/en/ /de/ /fr/ → static/{lang}/home.html"""
+    """语言目录根：/en/ /de/ /fr/ → static/{lang}/home.html
+    /en/ 已升级为根路径 /（英文为默认首页），301 归一避免重复内容。"""
     if lang not in I18N_LANGS:
         raise HTTPException(status_code=404)
+    if lang == "en":
+        return RedirectResponse("/", status_code=301)
     return _static_lang_file(lang, "home")
 
 
@@ -465,11 +489,18 @@ SITEMAP_PATHS = (
     # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）
     "/academy", "/community", "/blog", "/podcast", "/summit", "/trust",
 )
-SITEMAP_LANGS = ("zh", "en", "de", "fr")
+SITEMAP_LANGS = ("en", "de", "fr", "zh")  # 英文优先，中文最后
 SITEMAP_LASTMOD = "2026-11-05"
 
 
 def _sitemap_loc(lang: str, path: str) -> str:
+    # 首页特例：英文=根路径（默认首页），中文=/zh/；其余页面中文无前缀
+    if path == "/":
+        if lang == "en":
+            return settings.site_url + "/"
+        if lang == "zh":
+            return settings.site_url + "/zh/"
+        return f"{settings.site_url}/{lang}/"
     return settings.site_url + (path if lang == "zh"
                                 else f"/{lang}/" + path.lstrip("/"))
 
