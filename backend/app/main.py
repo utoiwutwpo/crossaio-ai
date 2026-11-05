@@ -391,6 +391,19 @@ def gpsr_landing_ro():
     return FileResponse(Path(__file__).parent / "static" / "gpsr-check-ro.html")
 
 
+@app.get("/gpsr", include_in_schema=False)
+def gpsr_shortlink_zh():
+    """中文短链别名 — 社媒平台（Facebook 等）链接化时会把连字符后的路径截断，
+    /gpsr-check 会被切成 /gpsr，301 归一到完整页避免 404。"""
+    return RedirectResponse("/gpsr-check", status_code=301)
+
+
+@app.get("/en/gpsr", include_in_schema=False)
+def gpsr_shortlink_en():
+    """英文短链别名 — 同 /gpsr：社媒截断容错，301 到英文版体检页。"""
+    return RedirectResponse("/en/gpsr-check", status_code=301)
+
+
 @app.get("/compliance-check", include_in_schema=False)
 def compliance_landing():
     """一键合规体检落地页（GPSR 付费闭环获客入口：免费体检 + 付费交付物）"""
