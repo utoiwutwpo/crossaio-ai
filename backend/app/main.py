@@ -393,9 +393,9 @@ def gpsr_landing_ro():
 
 @app.get("/gpsr", include_in_schema=False)
 def gpsr_shortlink_zh():
-    """中文短链别名 — 社媒平台（Facebook 等）链接化时会把连字符后的路径截断，
-    /gpsr-check 会被切成 /gpsr，301 归一到完整页避免 404。"""
-    return RedirectResponse("/gpsr-check", status_code=301)
+    """社媒短链别名 — Facebook 链接化时会把连字符后的路径截断（/gpsr-check→/gpsr），
+    统一 301 到英文版体检页（社媒引流全走英文站点）。"""
+    return RedirectResponse("/en/gpsr-check", status_code=301)
 
 
 @app.get("/en/gpsr", include_in_schema=False)
