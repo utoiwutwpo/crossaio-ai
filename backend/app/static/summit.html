@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="en" href="/summit">
+<link rel="alternate" hreflang="x-default" href="/summit">
+<title>Europe Cross-Border Compliance Summit 2026 | CrossAIO</title>
+<meta name="description" content="Free virtual summit for EU cross-border sellers: GPSR enforcement, AI Act disclosure, localization workshops, VAT/OSS math and a scaling panel. Dec 10-11, 2026.">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;min-width:1080px;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;max-width:1240px;margin:0 auto}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .navlinks{display:flex;gap:22px;font-size:14.5px;font-weight:600}
+  .navlinks a:hover{color:var(--blue)}
+
+  .hero{position:relative;background:radial-gradient(900px 460px at 15% -10%,rgba(139,92,246,.4),transparent 60%),linear-gradient(135deg,#231457,#4c1d95);color:#fff;overflow:hidden}
+  .hero .blob{position:absolute;width:380px;height:380px;border-radius:50%;background:#a78bfa;filter:blur(80px);opacity:.35;top:-120px;right:-80px;animation:drift 10s ease-in-out infinite alternate;pointer-events:none}
+  @keyframes drift{from{transform:translate(0,0)}to{transform:translate(-40px,24px)}}
+  .hero-in{position:relative;max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center;padding:60px 32px 70px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 16px;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#e9d5ff}
+  .hero h1{font-size:40px;line-height:1.2;margin:18px 0 14px;letter-spacing:-.5px}
+  .hero h1 .grad{background:linear-gradient(90deg,#e9d5ff,#a5b4fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.sub{color:#ddd6fe;font-size:16.5px;max-width:540px}
+  .date-pill{display:inline-flex;align-items:center;gap:8px;margin-top:22px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:8px 22px;font-weight:800;font-size:14.5px}
+  .date-pill .live{width:9px;height:9px;border-radius:50%;background:#4ade80;animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  .hero-ctas{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+  .btn{display:inline-block;background:#fff;color:#4c1d95;font-weight:700;font-size:15px;padding:13px 28px;border-radius:11px;transition:.2s;box-shadow:0 10px 26px rgba(23,8,58,.4);border:none;cursor:pointer;font-family:inherit}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.grad{background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;box-shadow:0 8px 22px rgba(37,99,235,.35)}
+  .hero-visual{position:relative}
+  .hero-visual img.photo{width:100%;border-radius:20px;box-shadow:0 30px 70px rgba(2,6,23,.55);display:block}
+  .float-card{position:absolute;background:#fff;color:var(--ink);border-radius:14px;padding:12px 18px;box-shadow:0 16px 40px rgba(2,6,23,.35);animation:float 5s ease-in-out infinite}
+  .float-card .v{font-weight:800;font-size:19px;color:#7c3aed}
+  .float-card .k{font-size:12px;color:var(--muted)}
+  .fc1{top:-16px;left:-26px}
+  .fc2{bottom:-18px;right:-14px;animation-delay:1.6s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  .stats{max-width:1080px;margin:-34px auto 0;padding:0 32px;position:relative;z-index:2}
+  .stats-in{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 18px 44px rgba(15,23,42,.10);overflow:hidden}
+  .stat{padding:22px 18px;text-align:center;border-right:1px solid var(--border)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-size:30px;font-weight:800;color:var(--navy)}
+  .stat .n em{font-style:normal;color:#7c3aed}
+  .stat .l{font-size:13px;color:var(--muted)}
+
+  main{max-width:1040px;margin:0 auto;padding:48px 32px}
+  .sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:22px}
+  .sec-head h2{font-size:27px;letter-spacing:-.3px}
+  .sec-head p{color:var(--muted);font-size:14.5px}
+
+  /* speakers */
+  .sp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:44px}
+  .sp-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;text-align:center;transition:.2s}
+  .sp-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(124,58,237,.13)}
+  .sp-card img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid #ede9fe;margin-bottom:12px}
+  .sp-card .nm{font-weight:800;font-size:15.5px}
+  .sp-card .rl{font-size:13px;color:var(--muted);margin-top:2px}
+
+  .sess{border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:14px;background:#fff;display:flex;gap:20px;transition:.2s;position:relative;overflow:hidden}
+  .sess::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--purple),var(--blue));opacity:0;transition:.25s}
+  .sess:hover{transform:translateX(4px);box-shadow:0 12px 30px rgba(124,58,237,.12)}
+  .sess:hover::before{opacity:1}
+  .sess .time{min-width:128px;font-weight:800;color:#7c3aed;font-size:13.5px;padding-top:3px}
+  .sess h2{font-size:17.5px;margin-bottom:5px;line-height:1.4}
+  .sess .sp{color:var(--muted);font-size:13px;margin-bottom:7px}
+  .sess p{color:#1e293b;font-size:14.5px}
+  .room{display:inline-block;background:#f5f3ff;color:#6d28d9;border:1px solid #ddd6fe;border-radius:6px;font-size:11.5px;padding:1px 8px;margin-left:6px;vertical-align:middle;font-weight:700}
+
+  .reg{background:linear-gradient(135deg,#faf5ff,#eff6ff);border:1px solid #ddd6fe;border-radius:18px;padding:32px;text-align:center;margin:36px 0 0;position:relative;overflow:hidden}
+  .reg::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(139,92,246,.15);filter:blur(60px);top:-100px;left:-80px;animation:drift 9s ease-in-out infinite alternate}
+  .reg-in{position:relative}
+  input{width:100%;max-width:380px;padding:12px 15px;border:1px solid var(--border);border-radius:11px;font:inherit;font-size:14.5px;margin:14px 0 4px}
+  .ok{color:#047857;font-weight:700}
+  .loading{color:var(--muted);text-align:center;padding:40px}
+
+  /* related video */
+  .video-sec{max-width:1040px;margin:44px auto 0;padding:0 32px}
+  .vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .vid-card{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#fff;transition:.2s}
+  .vid-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(124,58,237,.14)}
+  .vid-card video{width:100%;aspect-ratio:16/9;display:block;background:#0b1030}
+  .vid-card .cap{padding:14px 18px;font-weight:700;font-size:15px}
+  .vid-card .cap small{display:block;color:var(--muted);font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+
+  footer{border-top:1px solid var(--border);margin-top:56px;padding:26px 32px;text-align:center;color:var(--muted);font-size:13.5px}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.on{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="/"><span class="dot">C</span>CrossAIO</a>
+  <div class="navlinks">
+    <a href="/compliance-check">Free GPSR Check</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/blog">Blog</a>
+    <a href="/trust">Trust</a>
+    <a href="/signin" id="navAuth">Sign in</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="blob"></div>
+  <div class="hero-in">
+    <div>
+      <span class="eyebrow">🎪 Virtual Summit · Free · Online</span>
+      <h1>Europe Cross-Border<br><span class="grad">Compliance Summit</span></h1>
+      <p class="sub">Two virtual days on GPSR enforcement, AI Act disclosure, localization workshops, VAT math and scaling to 13 marketplaces.</p>
+      <div class="date-pill"><span class="live"></span> Dec 10–11, 2026 · Online · 100% Free</div>
+      <div class="hero-ctas">
+        <a class="btn" href="#regbox">Reserve your free seat →</a>
+        <a class="btn grad" href="/podcast">Watch podcast episodes</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img class="photo" src="/img/hero-summit.png" alt="Speaker presenting at the CrossAIO virtual summit">
+      <div class="float-card fc1"><div class="v">6</div><div class="k">Sessions across 2 days</div></div>
+      <div class="float-card fc2"><div class="v">Free</div><div class="k">Recordings for registrants</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stats-in">
+    <div class="stat"><div class="n"><em data-count="10">0</em></div><div class="l">Expert sessions</div></div>
+    <div class="stat"><div class="n"><em data-count="2">0</em></div><div class="l">Days · Main + Workshop stage</div></div>
+    <div class="stat"><div class="n"><em data-count="13">0</em></div><div class="l">Marketplaces covered</div></div>
+    <div class="stat"><div class="n">€<em data-count="0">0</em></div><div class="l">Ticket price, always</div></div>
+  </div>
+</div>
+
+<main>
+  <div class="sec-head reveal"><div><h2>Your speakers</h2><p>Practitioners who run cross-border operations every day.</p></div></div>
+  <div class="sp-grid reveal">
+    <div class="sp-card"><img src="/img/avatar-de.png" alt=""><div class="nm">Lena K. 🇩🇪</div><div class="rl">GPSR enforcement · Berlin</div></div>
+    <div class="sp-card"><img src="/img/avatar-fr.png" alt=""><div class="nm">Thomas R. 🇫🇷</div><div class="rl">AI Act disclosure · Paris</div></div>
+    <div class="sp-card"><img src="/img/avatar-pl.png" alt=""><div class="nm">Agnieszka W. 🇵🇱</div><div class="rl">Localization workshop · Warsaw</div></div>
+    <div class="sp-card"><img src="/img/avatar-es.png" alt=""><div class="nm">Javier M. 🇪🇸</div><div class="rl">VAT / OSS scaling · Madrid</div></div>
+  </div>
+
+  <div class="sec-head reveal"><div><h2>Agenda</h2><p>All times shown in your local timezone.</p></div></div>
+  <div id="sessions" class="loading">Loading agenda…</div>
+
+  <div class="reg" id="regbox">
+    <div class="reg-in">
+      <b style="font-size:19px">Reserve your free seat</b>
+      <div style="color:var(--muted);font-size:14px;margin-top:4px">Registration link will be sent by email. Recordings available to registrants.</div>
+      <div><input id="email" type="email" placeholder="you@company.com"></div>
+      <button class="btn grad" onclick="register()" id="regbtn">Register free →</button>
+      <div id="regmsg" style="margin-top:8px;font-size:14px"></div>
+    </div>
+  </div>
+
+  <div class="video-sec reveal" id="videoSec">
+    <div class="sec-head"><div><h2>🎥 Get a taste first</h2><p>Summit topics previewed on the CrossAIO video podcast.</p></div></div>
+    <div class="vid-grid" id="vidGrid"><div class="loading">Loading videos…</div></div>
+  </div>
+</main>
+
+<footer>CrossAIO — GPSR compliance, localization and multi-platform growth for European cross-border sellers.<br><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/trust">Trust</a></footer>
+
+<script>
+const ROOMS={main:"Main stage",workshop:"Workshop"};
+function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
+// 视频地址强制转相对路径（绝对域名未解析时视频会加载失败）
+function relUrl(u){if(!u)return u;const i=u.indexOf("/podcast-audio/");return i>=0?u.slice(i):u;}
+function fmt(iso){
+  try{return new Date(iso).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});}
+  catch(e){return (iso||"").slice(0,16).replace("T"," ");}
+}
+async function api(p){const r=await fetch(p);if(!r.ok)throw new Error(r.status);return r.json();}
+
+(async function load(){
+  const m=document.getElementById("sessions");
+  try{
+    const info=await api("/api/v1/summit/info");
+    document.querySelector(".hero p.sub").textContent=info.tagline;
+    const SESS_IMG = {
+      "sess-teardown-lab":"/img/content/gpsr-checklist.png",
+      "sess-margin-math":"/img/content/vat-margin-map.png",
+      "sess-ai-cs-lab":"/img/content/ai-cs-multilingual.png",
+      "sess-logistics":"/img/content/eu-warehouse.png"
+    };
+    m.innerHTML=info.sessions.map(s=>`
+      <div class="sess reveal">
+        <div class="time">${fmt(s.starts_at)}</div>
+        ${SESS_IMG[s.id]?`<img src="${SESS_IMG[s.id]}" style="width:190px;height:120px;object-fit:cover;border-radius:12px;flex:none;box-shadow:0 8px 24px rgba(15,23,42,.15)">`:""}
+        <div style="flex:1">
+          <h2>${esc(s.title)}<span class="room">${ROOMS[s.room]||esc(s.room)}</span></h2>
+          <div class="sp">${esc(s.speaker)}</div>
+          <p>${esc(s.description)}</p>
+        </div>
+      </div>`).join("");
+    observeReveals();
+  }catch(e){m.innerHTML='<div class="loading">Could not load agenda.</div>';}
+})();
+
+// 相关视频：取播客视频前 2 集
+(async function loadVideos(){
+  try{
+    const eps=(await api("/api/v1/podcast/episodes")).filter(e=>e.video_url).sort((a,b)=>b.episode_no-a.episode_no).slice(0,2);
+    if(!eps.length){document.getElementById("videoSec").style.display="none";return;}
+    const coverFor=n=>n<=9?`/podcast-audio/video/ep${n}-cover.png`:`/podcast-audio/video/feat${n-9}-cover.png`;
+    document.getElementById("vidGrid").innerHTML=eps.map(e=>`
+      <div class="vid-card">
+        <video controls preload="metadata" poster="${coverFor(e.episode_no)}" src="${esc(relUrl(e.video_url))}"></video>
+        <div class="cap"><small>Episode ${e.episode_no} · Video</small>${esc(e.title)}</div>
+      </div>`).join("");
+  }catch(e){document.getElementById("videoSec").style.display="none";}
+})();
+
+async function register(){
+  const email=document.getElementById("email").value.trim();
+  const msg=document.getElementById("regmsg");
+  const btn=document.getElementById("regbtn");
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.style.color="#b91c1c";msg.textContent="Please enter a valid email address.";return;}
+  btn.disabled=true;btn.textContent="Registering…";
+  try{
+    // UTM 归因（复刻注册漏斗的渠道追踪）
+    const q=new URLSearchParams(location.search);
+    const r=await fetch("/api/v1/summit/register",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({email,
+        utm_source:q.get("utm_source")||"podcast",
+        utm_medium:q.get("utm_medium")||"landing",
+        utm_campaign:q.get("utm_campaign")||"summit-2026"})
+    });
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.detail||r.status);
+    msg.className="ok";
+    msg.textContent="✓ You are in! Confirmation sent to "+email+". See you Dec 10.";
+    btn.textContent="Registered ✓";btn.style.background="#047857";btn.style.color="#fff";
+  }catch(e){
+    msg.style.color="#b91c1c";
+    msg.textContent="Registration failed ("+e.message+"). Please try again.";
+    btn.disabled=false;btn.textContent="Register free →";
+  }
+}
+
+function observeReveals(){
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("on");io.unobserve(en.target);}}),{threshold:.12});
+  document.querySelectorAll(".reveal:not(.on)").forEach(el=>io.observe(el));
+}
+(function counters(){
+  const els=document.querySelectorAll("[data-count]");
+  const io=new IntersectionObserver(es=>es.forEach(en=>{
+    if(!en.isIntersecting)return;
+    const el=en.target,target=+el.dataset.count,t0=performance.now();
+    (function tick(t){const k=Math.min((t-t0)/1200,1);el.textContent=Math.round(target*(0.2+0.8*k*k));if(k<1)requestAnimationFrame(tick);else el.textContent=target;})(t0);
+    io.unobserve(el);
+  }),{threshold:.4});
+  els.forEach(el=>io.observe(el));
+})();
+observeReveals();
+</script>
+
+<script>
+// 导航登录态感知：跨页统一（兼容 cb_token / crossaio_token 双 key）
+(function(){
+  function tok(){ try{ return localStorage.getItem("crossaio_token") || localStorage.getItem("cb_token") || ""; }catch(e){ return ""; } }
+  var el = document.getElementById("navAuth");
+  if(!el) return;
+  var t = tok();
+  if(!t){ el.textContent = "Sign in"; el.href = "/signin"; el.title = ""; return; }
+  el.textContent = "Account"; el.href = "/app"; el.title = "Signed in";
+  fetch("/api/v1/users/me", {headers:{"Authorization":"Bearer " + t}})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(m){
+      if(!m) return;
+      var n = (m.full_name || m.email || "").split("@")[0];
+      if(n) el.textContent = n;
+      el.title = m.email || "";
+    })
+    .catch(function(){});
+})();
+</script>
+</body>
+</html>

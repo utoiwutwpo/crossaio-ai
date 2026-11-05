@@ -9,81 +9,119 @@
 <link rel="alternate" hreflang="de" href="http://localhost:9000/de/signin">
 <link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/signin">
 <link rel="alternate" hreflang="x-default" href="http://localhost:9000/signin">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤖</text></svg>">
 <style>
-  :root{--blue:#1a6bff;--blue-dark:#1557d0;--ink:#1a2b4c;--muted:#7a8699;--border:#d9dfe8;--err:#dc2626}
+  :root{--blue:#2563eb;--blue-light:#3b82f6;--violet:#7c3aed;--purple:#8b5cf6;--blue-dark:#1d4ed8;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--err:#dc2626}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#fff;color:var(--ink);
        min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
   a{text-decoration:none;color:var(--blue)}
-  main{flex:1;display:flex;flex-direction:column;align-items:center;padding:56px 20px 40px}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;margin-bottom:26px}
-  .logo .dot{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);
-       display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
-  h1{font-family:Georgia,"Times New Roman",serif;font-size:30px;font-weight:700;color:#123c7d;margin-bottom:28px;text-align:center}
-  .card{width:100%;max-width:400px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;max-width:1240px;width:100%;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--ink)}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);
+       display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(99,102,241,.4)}
+  main{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;max-width:1240px;width:100%;margin:0 auto}
+  @media(max-width:900px){main{grid-template-columns:1fr}.brand-panel{display:none}}
+  .brand-panel{position:relative;overflow:hidden;color:#fff;padding:48px 48px;display:flex;flex-direction:column;justify-content:center;
+       background:
+       radial-gradient(900px 500px at 80% 20%,rgba(124,58,237,.5),transparent 60%),
+       radial-gradient(700px 400px at 10% 100%,rgba(29,78,216,.4),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%)}
+  .brand-panel::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+  .brand-panel .bp{position:relative;z-index:2}
+  .brand-panel h2{font-size:30px;font-weight:800;line-height:1.25;margin-bottom:16px}
+  .brand-panel h2 span{background:linear-gradient(90deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .brand-panel p{color:#c7d0e8;font-size:15px;margin-bottom:24px}
+  .brand-panel ul{list-style:none}
+  .brand-panel li{font-size:14px;color:#dbe3f2;padding:6px 0 6px 26px;position:relative}
+  .brand-panel li::before{content:"✓";position:absolute;left:0;color:#86efac;font-weight:800}
+  .auth-side{display:flex;align-items:center;justify-content:center;padding:40px 32px}
+  .card{width:100%;max-width:420px}
+  .card h1{font-size:26px;font-weight:800;color:var(--ink);margin-bottom:6px}
+  .card .sub{font-size:14px;color:var(--muted);margin-bottom:24px}
   .btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;
-       border:1px solid var(--blue);border-radius:6px;padding:13px 16px;font-size:15px;font-weight:600;
-       color:var(--blue);cursor:pointer;transition:background .15s}
-  .btn-google:hover{background:#f4f8ff}
-  .divider{border-top:1px solid #e7ebf1;margin:26px 0}
+       border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:15px;font-weight:600;
+       color:var(--ink);cursor:pointer;transition:background .15s,box-shadow .15s;box-shadow:0 2px 10px rgba(15,23,42,.05)}
+  .btn-google:hover{background:#f4f8ff;box-shadow:0 6px 18px rgba(37,99,235,.12)}
+  .divider{border-top:1px solid #e7ebf1;margin:24px 0;display:flex;align-items:center}
+  .divider::before{content:"ou";position:relative;margin:-11px auto 0;background:#fff;padding:0 12px;color:var(--muted);font-size:12.5px}
   label{display:block;font-size:14px;color:#3c4a63;margin:16px 0 6px}
-  input[type=email],input[type=password]{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:5px;
-       font-size:14px;color:var(--ink);background:#fff}
-  input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,107,255,.12)}
+  input[type=email],input[type=password]{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:9px;
+       font-size:14px;color:var(--ink);background:#fff;transition:.15s}
+  input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
   .row-right{text-align:right;margin-top:6px}
   .row-right a{font-size:13px}
   .remember{display:flex;align-items:center;gap:8px;margin:18px 0 4px;font-size:14px}
   .remember input{width:16px;height:16px;accent-color:var(--blue)}
   .remember small{color:var(--muted)}
-  .btn-primary{width:100%;background:var(--blue);color:#fff;border:none;border-radius:6px;padding:14px;
-       font-size:15px;font-weight:700;letter-spacing:.06em;cursor:pointer;margin-top:20px}
-  .btn-primary:hover{background:var(--blue-dark)}
+  .btn-primary{width:100%;background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border:none;border-radius:999px;padding:14px;
+       font-size:15px;font-weight:700;cursor:pointer;margin-top:20px;box-shadow:0 12px 30px rgba(124,58,237,.4);transition:.2s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(124,58,237,.5)}
   .btn-primary:disabled{background:#9dbef0;cursor:not-allowed}
-  .msg{padding:11px 14px;border-radius:6px;font-size:13px;margin-top:14px;display:none}
+  .msg{padding:11px 14px;border-radius:9px;font-size:13px;margin-top:14px;display:none}
   .msg.err{display:block;background:#fef2f2;color:var(--err);border:1px solid #fecaca}
   .msg.info{display:block;background:#eff6ff;color:var(--blue-dark);border:1px solid #bfdbfe}
   .below{text-align:center;font-size:14px;margin-top:22px;color:#3c4a63}
   .below+p{text-align:center;font-size:13px;margin-top:10px;color:var(--muted)}
-  footer{border-top:1px solid #eef1f5;padding:18px 24px;display:flex;justify-content:space-between;
-       flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted);align-items:center}
+  footer{border-top:1px solid #eef1f5;padding:18px 28px;display:flex;justify-content:space-between;
+       flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted);max-width:1240px;width:100%;margin:0 auto}
   footer a{color:var(--muted);margin:0 6px}
   #gbtn{margin-top:4px}
 </style>
 </head>
 <body>
+<div class="topbar">
+  <a class="logo" href="/fr/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;font-size:13px">
+    🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">
+      <option value="/en/signin" data-lang="en">English</option>
+      <option value="/de/signin" data-lang="de">Deutsch</option>
+      <option value="/fr/signin" data-lang="fr" selected>Français</option>
+      <option value="/signin" data-lang="zh">中文</option>
+    </select>
+  </div>
+</div>
 <main>
-  <div class="logo"><span class="dot">🤖</span>CrossAIO</div>
-  <h1>Connexion à CrossAIO</h1>
-  <div class="card">
-    <button class="btn-google" id="btnGoogle" onclick="googleFlow()">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.7-.4-3.9z"/></svg>
-      Continuer avec Google
-    </button>
-    <div id="gbtn"></div>
-    <div class="divider"></div>
-    <form id="form">
-      <label>E-mail</label>
-      <input type="email" id="email" placeholder="Saisissez votre e-mail" autocomplete="email" required>
-      <label>Mot de passe</label>
-      <input type="password" id="pass" placeholder="Saisissez votre mot de passe" autocomplete="current-password" required>
-      <div class="row-right"><a href="#" onclick="return false" title="Bientôt disponible">Mot de passe oublié ?</a></div>
-      <div class="remember"><input type="checkbox" id="rem" checked> <span>Se souvenir de moi <small>(recommandé sur un ordinateur personnel)</small></span></div>
-      <button class="btn-primary" id="btnLogin" type="submit">Se connecter</button>
-    </form>
-    <div class="msg" id="msg"></div>
-    <p class="below">Pas encore de compte ?<a href="/fr/signup">Inscrivez-vous gratuitement</a></p>
-    <p>Une question ?<a href="mailto:support@crossaio.ai">Contactez-nous</a></p>
+  <div class="brand-panel">
+    <div class="bp">
+      <h2>La conformité d'abord,<br><span>puis l'efficacité.</span></h2>
+      <p>Un seul espace de travail pour l'ensemble du flux transfrontalier — génération de listings, blocs de conformité GPSR, service client IA avec divulgation Art. 50 de l'AI Act de l'UE, et surveillance 7×24.</p>
+      <ul>
+        <li>Règlement UE 2023/988 (GPSR) appliqué — blocs de conformité intégrés</li>
+        <li>Divulgation Art. 50 de l'AI Act de l'UE auto-injectée (16 langues)</li>
+        <li>Packs de règles 13 plateformes · une saisie, toutes les places de marché</li>
+        <li>Plan gratuit : 5 générations par jour, sans carte bancaire</li>
+      </ul>
+    </div>
+  </div>
+  <div class="auth-side">
+    <div class="card">
+      <h1>Connexion à CrossAIO</h1>
+      <p class="sub">Heureux de vous revoir — reprenez vos listings là où vous les avez laissés.</p>
+      <button class="btn-google" id="btnGoogle" onclick="googleFlow()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.7-.4-3.9z"/></svg>
+        Continuer avec Google
+      </button>
+      <div id="gbtn"></div>
+      <div class="divider"></div>
+      <form id="form">
+        <label>E-mail</label>
+        <input type="email" id="email" placeholder="Saisissez votre e-mail" autocomplete="email" required>
+        <label>Mot de passe</label>
+        <input type="password" id="pass" placeholder="Saisissez votre mot de passe" autocomplete="current-password" required>
+        <div class="row-right"><a href="#" onclick="return false" title="Bientôt disponible">Mot de passe oublié ?</a></div>
+        <div class="remember"><input type="checkbox" id="rem" checked> <span>Se souvenir de moi <small>(recommandé sur un ordinateur personnel)</small></span></div>
+        <button class="btn-primary" id="btnLogin" type="submit">Se connecter</button>
+      </form>
+      <div class="msg" id="msg"></div>
+      <p class="below">Pas encore de compte ? <a href="/fr/signup">Inscrivez-vous gratuitement</a></p>
+      <p>Une question ? <a href="mailto:support@crossaio.ai">Contactez-nous</a></p>
+    </div>
   </div>
 </main>
 <footer>
-  <div><a href="#">Politique de confidentialité</a>|<a href="#">Conditions d'utilisation</a></div>
-  <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-    <a href="/signin" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
-    <a href="/en/signin" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
-    <a href="/de/signin" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
-    <a href="/fr/signin" data-lang="fr" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">FR</a>
-  </div>
-  <div>CrossAIO © 2026</div>
+  <div><a href="/fr/privacy">Politique de confidentialité</a>|<a href="/fr/terms">Conditions d'utilisation</a></div>
+  <span>CrossAIO © 2026</span>
 </footer>
 
 <script>
@@ -91,10 +129,10 @@ const API = "/api/v1";
 const msg = document.getElementById("msg");
 function show(t, cls){ msg.className = "msg "+cls; msg.textContent = t; }
 
-// Repli callback Google OAuth : si l'URL porte un token, on le stocke puis on entre dans l'espace de travail (le chemin normal arrive déjà sur /app)
+// Repli callback Google OAuth : si l'URL porte un token, on le stocke puis on entre dans l'espace de travail (le chemin normal arrive déjà sur /fr/app)
 (function(){
   const t = new URLSearchParams(location.search).get("token");
-  if(t){ localStorage.setItem("cb_token", t); location.replace("/app"); }
+  if(t){ localStorage.setItem("cb_token", t); location.replace("/fr/app"); }
 })();
 
 document.getElementById("form").onsubmit = async (e) => {
@@ -109,7 +147,7 @@ document.getElementById("form").onsubmit = async (e) => {
     if(!r.ok) throw new Error(d.detail || "Échec de la connexion");
     localStorage.setItem("cb_token", d.access_token);
     if(document.getElementById("rem").checked === false) sessionStorage.setItem("cb_session_only","1");
-    location.href = "/app";
+    location.href = "/fr/app";
   }catch(err){ show(err.message, "err"); }
   btn.disabled = false; btn.textContent = "Se connecter";
 };
@@ -121,7 +159,7 @@ async function googleFlow(){
     show("La connexion Google n'est pas encore activée : configurez GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET dans backend/.env et enregistrez l'URI de redirection http://localhost:9000/users/google dans la console Google (voir README). Connectez-vous d'abord avec votre e-mail.", "info");
     return;
   }
-  location.href = "/users/google?next=/app";
+  location.href = "/users/google?next=/fr/app";
 }
 </script>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>

@@ -127,7 +127,8 @@ _AMAZON_ENV_KEYS = [
 
 @router.get("/credentials", summary="平台凭证接入状态（部署环境级，工作台提示接入）")
 def credentials_status(user: User = Depends(get_current_user),
-                       db: Session = Depends(get_db)):
+                       db: Session = Depends(get_db),
+                       lang: str = "zh"):
     """诚实汇报部署环境的平台凭证配置状态（不回显任何密钥值）。
 
     - Amazon SP-API：环境变量 CROSSBOT_CRED_AMAZON_*（命名约定见 listing_backfill）
@@ -135,10 +136,48 @@ def credentials_status(user: User = Depends(get_current_user),
     - eBay OAuth：两层 —— 应用级（settings.ebay_client_id/secret）+
       用户级（当前卖家是否已完成 OAuth 授权，eBayConnection 表）
       就绪后可解锁：eBay 消息实时同步 + AI 回复直发买家
+
+    lang 支持 zh（默认）/ en / de / fr：平台 label、接入指南、unlocks
+    按语言返回（数据源 PLATFORM_CRED_I18N）。
     """
     import os
 
-    amz_missing = [k for k, _ in _AMAZON_ENV_KEYS
+    from ..experts.platform_credentials import _tr
+
+    tr = (lambda p: _tr(p, lang)) if lang in ("en", "de", "fr") else (lambda p: None)
+    _AMAZON_ENV_KEYS_TR = {
+        "en": [("CLIENT_ID", "LWA developer app Client ID"),
+               ("CLIENT_SECRET", "LWA developer app Client Secret"),
+               ("REFRESH_TOKEN", "Refresh Token exchanged after seller authorisation")],
+        "de": [("CLIENT_ID", "Client ID der LWA-Entwickler-App"),
+               ("CLIENT_SECRET", "Client Secret der LWA-Entwickler-App"),
+               ("REFRESH_TOKEN", "Refresh Token nach der Verkäufer-Autorisierung eingetauscht")],
+        "fr": [("CLIENT_ID", "Client ID de l'application développeur LWA"),
+               ("CLIENT_SECRET", "Client Secret de l'application développeur LWA"),
+               ("REFRESH_TOKEN", "Refresh Token obtenu après autorisation du vendeur")],
+    }
+    amz_keys = _AMAZON_ENV_KEYS_TR.get(lang, _AMAZON_ENV_KEYS) if lang in ("en", "de", "fr") else _AMAZON_ENV_KEYS
+    _STATUS_I18N = {
+        "amazon_sp_api": {
+            "en": {"unlocks": "Write GPSR compliance blocks back to real Amazon Listings (backfill dry_run=False)",
+                   "docs": "SP-API developer account + compliance read/write permission (LWA + AWS SigV4)"},
+            "de": {"unlocks": "Compliance-Blöcke in echte Amazon-Listings zurückschreiben (Backfill dry_run=False)",
+                   "docs": "SP-API-Entwicklerkonto + Compliance-Lese-/Schreibrecht (LWA + AWS SigV4)"},
+            "fr": {"unlocks": "Écriture réelle des blocs de conformité sur les listings Amazon (backfill dry_run=False)",
+                   "docs": "Compte développeur SP-API + droit de lecture/écriture conformité (LWA + AWS SigV4)"},
+        },
+        "ebay_oauth": {
+            "en": {"unlocks": "Real-time eBay buyer message sync + direct AI reply sending",
+                   "docs": "eBay Developer Program → OAuth (user token, stored encrypted)"},
+            "de": {"unlocks": "Echtzeit-Sync der eBay-Käufernachrichten + direkter Versand von KI-Antworten",
+                   "docs": "eBay Developer Program → OAuth (User-Token, verschlüsselt gespeichert)"},
+            "fr": {"unlocks": "Synchronisation en temps réel des messages acheteurs eBay + envoi direct des réponses IA",
+                   "docs": "eBay Developer Program → OAuth (user token, stocké chiffré)"},
+        },
+    }
+    si = _STATUS_I18N.get(lang, {})
+
+    amz_missing = [k for k, _ in amz_keys
                    if not os.environ.get("CROSSBOT_CRED_AMAZON_" + k)]
 
     from ..config import settings
@@ -156,27 +195,30 @@ def credentials_status(user: User = Depends(get_current_user),
     amz_ready = not amz_missing
     platforms = {}
     for p, cfg in PLATFORM_CRED_REGISTRY.items():
+        t = tr(p)
+        label = t["label"] if t else cfg["label"]
+        unlocks = t["unlocks"] if t else cfg["unlocks"]
         if cfg.get("oauth"):
             platforms[p] = {
-                "label": cfg["label"], "oauth": True,
+                "label": label, "oauth": True,
                 "connected": ebay_user_ok,
                 "ready": ebay_app_ok and ebay_user_ok,
                 "app_configured": ebay_app_ok,
                 "connect_url": "/api/v1/ebay/auth-url",
-                "guide": cred_guide(p),
-                "unlocks": cfg["unlocks"],
+                "guide": cred_guide(p, lang),
+                "unlocks": unlocks,
             }
             continue
         row = saved_platforms.get(p)
         env_ready = (p in ("amazon", "amazon_us")) and amz_ready
         platforms[p] = {
-            "label": cfg["label"], "oauth": False,
+            "label": label, "oauth": False,
             "connected": row is not None,
             "ready": bool(row) or env_ready,
             "source": ("self" if row else ("env" if env_ready else None)),
             "connected_at": row.updated_at.isoformat() if row else None,
-            "guide": cred_guide(p),
-            "unlocks": cfg["unlocks"],
+            "guide": cred_guide(p, lang),
+            "unlocks": unlocks,
         }
 
     return {
@@ -184,18 +226,18 @@ def credentials_status(user: User = Depends(get_current_user),
             "ready": amz_ready or platforms["amazon"]["connected"],
             "missing": amz_missing,
             "required": [{"key": k, "desc": d, "env": f"CROSSBOT_CRED_AMAZON_{k}"}
-                         for k, d in _AMAZON_ENV_KEYS],
+                         for k, d in amz_keys],
             "env_prefix": "CROSSBOT_CRED_AMAZON_",
-            "unlocks": "合规块真实写回 Amazon Listing（回填适配层 dry_run=False）",
-            "docs": "SP-API 开发者账号 + 合规读写权限（LWA + AWS SigV4）",
+            "unlocks": si["amazon_sp_api"]["unlocks"] if si else "合规块真实写回 Amazon Listing（回填适配层 dry_run=False）",
+            "docs": si["amazon_sp_api"]["docs"] if si else "SP-API 开发者账号 + 合规读写权限（LWA + AWS SigV4）",
         },
         "ebay_oauth": {
             "ready": ebay_app_ok and ebay_user_ok,
             "app_configured": ebay_app_ok,
             "user_connected": ebay_user_ok,
             "connect_url": "/api/v1/ebay/auth-url",
-            "unlocks": "eBay 买家消息实时同步 + AI 回复直发",
-            "docs": "eBay Developer Program → OAuth（user token，加密封存）",
+            "unlocks": si["ebay_oauth"]["unlocks"] if si else "eBay 买家消息实时同步 + AI 回复直发",
+            "docs": si["ebay_oauth"]["docs"] if si else "eBay Developer Program → OAuth（user token，加密封存）",
         },
         "platforms": platforms,
         "all_ready": all(p["ready"] for p in platforms.values()),

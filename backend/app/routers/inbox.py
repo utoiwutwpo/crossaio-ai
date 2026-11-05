@@ -132,6 +132,9 @@ def create_conversation(
         db.add(InboxMessage(conversation_id=c.id, direction="incoming",
                             body=first, created_at=datetime.utcnow()))
         db.commit()
+        # 【P0】新买家消息 → 事件触发（drain 时按订阅门控执行 AI 自动回复）
+        from ..automation_events import enqueue
+        enqueue(user.id, "new_buyer_message", {"conversation_id": c.id})
     return _conv_to_dict(c)
 
 
@@ -283,6 +286,9 @@ def connector_import(
                                 body=msg, created_at=datetime.utcnow()))
         c.unread_count = len(row["messages"])
         db.commit()
+        # 【P0】批量导入的新买家消息 → 事件触发
+        from ..automation_events import enqueue
+        enqueue(user.id, "new_buyer_message", {"conversation_id": c.id})
         created.append(_conv_to_dict(c))
 
     track_event(db, "connector_import", user_id=user.id, platform=platform,

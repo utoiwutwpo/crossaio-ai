@@ -100,7 +100,8 @@ def create_or_change_subscription(
             return downgrade_to_free(db, user)
         try:
             origin = str(request.base_url).rstrip("/")
-            sess = stripe_service.create_checkout_session(user, body.plan, origin)
+            sess = stripe_service.create_checkout_session(
+                user, body.plan, origin, billing=body.billing or "monthly")
         except ValueError as e:
             raise HTTPException(status_code=500, detail=str(e))
         except Exception as e:  # stripe.APIError 等

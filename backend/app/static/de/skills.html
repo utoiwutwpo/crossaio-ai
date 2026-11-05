@@ -8,300 +8,221 @@
 <link rel="alternate" hreflang="de" href="http://localhost:9000/de/skills">
 <link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/skills">
 <link rel="alternate" hreflang="x-default" href="http://localhost:9000/skills">
-<title>CrossAIO Open-Source-Skills — GPSR-Compliance-Checker &amp; europäische Plattformregeln | Kostenlos für Ihre KI</title>
-<meta name="description" content="Zwei kostenlose, quelloffene (MIT) Agent-Skills für den grenzüberschreitenden E-Commerce: der GPSR-Compliance-Checker (7 CE-Kategorien + mehrsprachige Warnhinweise + Compliance-Block-Generierung) und die europäische 13-Plattform-Regeldatenbank (Titelzeichen / erforderliche Sprachen / häufige Fallstricke). Direkt installierbar in Claude Code / Cursor / Codex und anderen Agent-Workflows.">
+<title>Kostenlose Open-Source-Skills für den Europa-Handel — MIT-Lizenz | CrossAIO</title>
 <style>
   :root{
     --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
-    --bar:#1a5cf0;--code:#0f172a;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--violet:#7c3aed;
+    --ok:#059669;--err:#dc2626;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
   a{text-decoration:none;color:inherit}
 
-  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
-  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
-
   nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
   .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
-  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(99,102,241,.4)}
   .menu{display:flex;gap:6px}
+  .navitem{position:relative}
   .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
-  .navitem>a:hover{background:#f1f5f9}
+  .navitem>a.solo::after{display:none}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:270px;background:#fff;border-radius:12px;
+    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
   nav .right{display:flex;gap:14px;align-items:center}
-  .login-link{font-size:14px;color:var(--muted)}
-  .login-link:hover{color:var(--ink)}
-  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
-  .pill-nav:hover{background:var(--blue-dark)}
-  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
-  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+  .pill-nav{background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 6px 18px rgba(99,102,241,.35);transition:.2s}
+  .pill-nav:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(99,102,241,.45)}
 
-  /* ---- Hero ---- */
-  .hero-wrap{background:radial-gradient(900px 480px at 80% 20%,rgba(124,58,237,.40),transparent 60%),
-       radial-gradient(800px 420px at 8% 100%,rgba(29,78,216,.35),transparent 55%),
-       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#2a1560 100%);
-    position:relative;overflow:hidden}
-  .hero{position:relative;max-width:1240px;margin:0 auto;padding:72px 32px 80px;text-align:center;color:#fff;z-index:2}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
-  .hero h1{font-size:42px;line-height:1.22;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
-  .hero h1 .accent{color:#a5b4fc}
-  .hero p.sub{font-size:16px;color:#d3d9ea;max-width:640px;margin:0 auto 28px}
-  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 32px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
-  .pill-blue:hover{background:var(--blue-dark)}
-  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 30px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
-  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
-  .hero .tiny{margin-top:20px;font-size:12.5px;color:#9aa6c4}
-  .hero .tiny b{color:#e2e8f0}
+  .hero{background:
+    radial-gradient(1100px 500px at 78% 20%,rgba(124,58,237,.45),transparent 62%),
+    radial-gradient(800px 400px at 10% 100%,rgba(29,78,216,.35),transparent 55%),
+    linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
+    color:#fff;text-align:center;padding:80px 24px 90px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;pointer-events:none;
+    -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%);
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%)}
+  .eyebrow{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.35);padding:7px 16px;border-radius:999px;backdrop-filter:blur(6px)}
+  .hero h1{position:relative;font-size:42px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
+  .hero h1 .accent{background:linear-gradient(90deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{position:relative;color:#c7d0e8;font-size:16px;max-width:680px;margin:0 auto}
 
-  section{max-width:1240px;margin:0 auto;padding:64px 24px}
+  section{max-width:1080px;margin:0 auto;padding:64px 24px}
   .sec-head{text-align:center;margin-bottom:36px}
-  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-  .sec-title{font-size:30px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-  .sec-sub{color:var(--muted);font-size:15px}
+  .sec-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;background:#eff6ff;border:1px solid #dbeafe;padding:5px 14px;border-radius:999px}
+  .sec-title{font-size:28px;font-weight:800;margin-bottom:10px}
 
-  /* ---- Skill cards ---- */
-  .skill{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;background:#fff;border:1px solid var(--border);
-    border-radius:18px;padding:32px;margin-bottom:28px;transition:.15s}
-  .skill:hover{border-color:var(--blue);box-shadow:0 14px 44px rgba(37,99,235,.10)}
-  .skill .ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));
-    display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px}
-  .skill h3{font-size:22px;font-weight:800;margin-bottom:4px}
-  .skill .path{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);margin-bottom:14px}
-  .skill p.desc{font-size:14px;color:#334155;margin-bottom:16px}
-  .skill ul.feat{list-style:none;font-size:13.5px}
-  .skill ul.feat li{padding:5px 0 5px 26px;position:relative;color:#334155}
-  .skill ul.feat li::before{content:"✓";position:absolute;left:0;top:5px;width:18px;height:18px;border-radius:50%;
-    background:#dcfce7;color:var(--ok);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
-  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-  .badges span{border:1px solid var(--border);border-radius:999px;padding:4px 12px;font-size:11.5px;color:#475569;background:var(--soft)}
-  .badges span.hot{background:#eff6ff;border-color:var(--blue);color:var(--blue);font-weight:700}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:900px){.cards{grid-template-columns:1fr}}
+  .card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:20px;padding:34px 30px;box-shadow:0 18px 50px rgba(15,23,42,.08);transition:.25s}
+  .card:hover{transform:translateY(-5px);box-shadow:0 26px 60px rgba(15,23,42,.14);border-color:#bfdbfe}
+  .card .ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;box-shadow:0 8px 20px rgba(99,102,241,.35)}
+  .card h3{font-size:20px;font-weight:800;margin-bottom:8px}
+  .card p{font-size:14px;color:var(--muted);margin-bottom:16px}
+  .card ul{list-style:none;margin-bottom:18px}
+  .card li{font-size:13.5px;padding:5px 0 5px 24px;position:relative;color:#3c4a63}
+  .card li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
+  .pill-blue{display:inline-block;background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border-radius:999px;padding:11px 24px;font-size:14px;font-weight:700;box-shadow:0 10px 26px rgba(124,58,237,.4);transition:.2s}
+  .pill-blue:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(124,58,237,.5)}
+  .pill-ghost{display:inline-block;background:#fff;color:var(--blue);border:1.5px solid var(--blue);border-radius:999px;padding:10px 22px;font-size:14px;font-weight:600;transition:.2s;margin-left:8px}
+  .pill-ghost:hover{background:#eff6ff}
 
-  pre{background:var(--code);color:#e2e8f0;border-radius:12px;padding:18px 20px;font-family:ui-monospace,Consolas,monospace;
-    font-size:12.5px;line-height:1.8;overflow-x:auto;margin-top:8px;white-space:pre-wrap}
-  pre .c{color:#94a3b8}
-  pre .g{color:#4ade80}
-  pre .y{color:#fbbf24}
-  .codecap{font-size:12px;color:var(--muted);margin-top:8px}
+  .gh-code{background:#0b1030;border:1px solid #1e2a5a;border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(11,16,48,.35)}
+  .gh-code .bar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0f1740;border-bottom:1px solid #1e2a5a}
+  .gh-code .bar i{width:11px;height:11px;border-radius:50%}
+  .gh-code .bar i:nth-child(1){background:#fca5a5}.gh-code .bar i:nth-child(2){background:#fcd34d}.gh-code .bar i:nth-child(3){background:#86efac}
+  .gh-code .bar span{margin-left:10px;font-size:12.5px;color:#93a4d4;font-family:ui-monospace,Menlo,monospace}
+  .gh-code pre{padding:22px 24px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.85;color:#c7d2fe;overflow-x:auto}
+  .gh-code .c{color:#64748b}
+  .gh-code .k{color:#93c5fd}
 
-  /* ---- Why open source ---- */
-  .why{background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .wcard{background:#fff;border:1px solid var(--border);border-radius:14px;padding:26px}
-  .wcard .ico{font-size:26px;margin-bottom:10px}
-  .wcard h4{font-size:16px;margin-bottom:8px}
-  .wcard p{font-size:13.5px;color:var(--muted)}
+  .cta-band{background:linear-gradient(115deg,#0a0f2e,#251a5e 55%,#3b1a86);border-radius:24px;max-width:1080px;margin:0 auto 70px;padding:56px 40px;text-align:center;color:#fff;position:relative;overflow:hidden}
+  .cta-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .cta-band h2{position:relative;font-size:26px;font-weight:800;margin-bottom:12px}
+  .cta-band p{position:relative;color:#c7d0e8;margin-bottom:24px;font-size:15px}
+  .pill-blue2{background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border-radius:999px;padding:14px 30px;font-size:15px;font-weight:700;display:inline-block;box-shadow:0 12px 32px rgba(124,58,237,.5);transition:.2s;border:none;cursor:pointer}
+  .pill-blue2:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(124,58,237,.6)}
+  .pill-ghost2{background:rgba(255,255,255,.06);color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:13px 26px;font-size:15px;font-weight:600;display:inline-block;transition:.2s;backdrop-filter:blur(6px);cursor:pointer;margin-left:8px}
+  .pill-ghost2:hover{border-color:#fff;background:rgba(255,255,255,.12)}
 
-  /* ---- Roadmap ---- */
-  .road{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .rcard{border:1.5px dashed var(--border);border-radius:14px;padding:24px;color:var(--muted)}
-  .rcard .tag{display:inline-block;background:#f1f5f9;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700;margin-bottom:12px}
-  .rcard h4{color:var(--ink);font-size:15.5px;margin-bottom:6px}
-  .rcard p{font-size:13px}
-
-  /* ---- Footer CTA ---- */
-  .cta-final{text-align:center;padding:64px 24px 84px}
-  .cta-final h2{font-size:28px;font-weight:800;margin-bottom:12px}
-  .cta-final p{color:var(--muted);margin-bottom:26px}
-
-  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:40px 24px;text-align:center;font-size:13px;color:var(--muted)}
   footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
   footer a:hover{color:var(--blue)}
-
-  @media(max-width:900px){
-    .skill{grid-template-columns:1fr}
-    .grid3,.road{grid-template-columns:1fr}
-    .hero h1{font-size:32px}
-    .menu{display:none}
-  }
+  @media(max-width:980px){.menu{display:none}}
 </style>
   <link rel="stylesheet" href="/effects.css">
 </head>
 <body>
 
-<div class="topbar">🎁 Alles <b>MIT Open Source · dauerhaft kostenlos</b> — dieselbe Datenquelle wie die Online-Engine, sofort in Ihrer KI einsatzbereit</div>
-
 <nav>
   <a class="logo" href="/de/"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
-    <div class="navitem"><a class="nav-a" href="/de/">Startseite</a></div>
-    <div class="navitem"><a class="nav-a" href="/de/pricing">Preise</a></div>
-    <div class="navitem"><a class="nav-a" href="/de/gpsr-check">Kostenloser Check</a></div>
-    <div class="navitem"><a class="nav-a" href="/de/rules">Regelübersicht</a></div>
-    <div class="navitem"><a class="nav-a" href="/de/skills" style="color:var(--blue)">Open-Source-Skills</a></div>
+    <div class="navitem"><a>Produkt</a>
+      <div class="dropdown">
+        <a href="/de/features/gpsr"><span>🛡️ GPSR-Compliance-Engine<small>CE-Kategorien → Warnhinweise → Compliance-Block → Backfill</small></span></a>
+        <a href="/de/features/listing-generator"><span>📦 Listing-Generator<small>Komplettset + Wortzahl-Prüfung + Score</small></span></a>
+        <a href="/de/features/matrix"><span>🌍 Multi-Plattform-Matrix<small>Eine Eingabe → 13 Plattformen lokalisiert</small></span></a>
+        <a href="/de/features/review-rewrite"><span>📈 Bewertungs-Umschreibung<small>Themenzuordnung → 5-Punkte-Fixes + semantischer Score</small></span></a>
+        <a href="/de/features/ai-service"><span>💬 KI-Kundenservice<small>AI-Act-Art.-50-Offenlegung eingebaut + eBay</small></span></a>
+        <a href="/de/features/safety-redline"><span>🚨 Sicherheits-Rotlinie<small>Bedrohung/Erpressung erkennen → an Mensch übergeben</small></span></a>
+        <a href="/de/features/inbox"><span>📥 Zentrales Postfach<small>Nachrichten von 13 Plattformen · Muttersprache antworten</small></span></a>
+        <a href="/de/features/ad-copy"><span>📣 Anzeigentext-Generator<small>Verbotene-Wörter-Prüfung + A/B-Varianten</small></span></a>
+        <a href="/de/features/listing-watch"><span>📡 Listing-Monitoring<small>Tägliche Auto-Prüfung · sofortige Risikoalarme</small></span></a>
+        <a href="/de/features"><span>🗂️ Fähigkeiten-Übersicht<small>Neun Fähigkeiten · eine Seite pro Fähigkeit</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>Plattformen</a>
+      <div class="dropdown">
+        <a href="/de/rules/allegro"><span>🇵🇱 Allegro-Regeln<small>Polnische Richtlinien + UOKiK-Aufsicht</small></span></a>
+        <a href="/de/rules/emag"><span>🇷🇴 eMAG-Regeln<small>Rumänische Richtlinien + ANPC-Aufsicht</small></span></a>
+        <a href="/de/rules/cdiscount"><span>🇫🇷 Cdiscount-Regeln<small>Französische Richtlinien (Loi Toubon) + DGCCRF</small></span></a>
+        <a href="/de/rules/otto"><span>🇩🇪 Otto-Regeln<small>Deutsche Richtlinien + ProdSG + GS-Zeichen</small></span></a>
+        <a href="/de/rules/kaufland"><span>🇩🇪 Kaufland-Regeln<small>DE/CZ/SK-Vier-Länder-Sites</small></span></a>
+        <a href="/de/rules/bol"><span>🇳🇱 bol.com-Regeln<small>Niederländische Richtlinien + ACM-Aufsicht</small></span></a>
+        <a href="/de/rules"><span>📋 Alle 13 Plattformen Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a>Kostenlose Tools</a>
+      <div class="dropdown">
+        <a href="/de/compliance-check"><span>✅ Compliance-Check<small>Check → EU-Vertreter → technische Dateiliste, 30-s-Bericht</small></span></a>
+        <a href="/de/gpsr-check"><span>🛡️ GPSR-Compliance-Check<small>Kostenlos, ohne Registrierung, 30 Sekunden</small></span></a>
+        <a href="/de/rules"><span>📋 Plattform-Regeln Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
+        <a href="/de/skills"><span>🎁 Open-Source-Skills<small>GPSR-Prüfer + Regelwerk, MIT kostenlos</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="/de/pricing">Preise</a></div>
   </div>
   <div class="right">
-    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-      <a href="/skills" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
-      <a href="/en/skills" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
-      <a href="/de/skills" data-lang="de" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">DE</a>
-      <a href="/fr/skills" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;font-size:13px">
+      🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/skills" data-lang="en">English</option>
+        <option value="/de/skills" data-lang="de" selected>Deutsch</option>
+        <option value="/fr/skills" data-lang="fr">Français</option>
+        <option value="/skills" data-lang="zh">中文</option>
+      </select>
     </div>
-    <a class="login-link" href="/de/signin">Anmelden</a>
+    <a href="/de/signin" style="font-size:14px;color:var(--muted)">Anmelden</a>
     <a href="/de/signup"><button class="pill-nav">Kostenlos registrieren</button></a>
   </div>
 </nav>
 
-<!-- Hero -->
-<div class="hero-wrap">
-  <div class="hero">
-    <div class="eyebrow">✦ MIT License · Free Forever</div>
-    <h1>Legen Sie die Compliance-Engine von CrossAIO<br><span class="accent">in Ihre eigene KI</span></h1>
-    <p class="sub">Zwei quelloffene Agent-Skills: der <b>GPSR-Compliance-Checker</b> und die <b>europäische 13-Plattform-Regeldatenbank</b>. Kopieren Sie einen Ordner und installieren Sie ihn in Claude Code / Cursor / Codex oder jedem anderen Agent-Workflow, der Skills unterstützt — keine Registrierung, keine Kosten, keine Anbindung an Tools.</p>
-    <div class="cta-row">
-      <a href="#skills"><button class="pill-blue">Die beiden Skills ansehen ↓</button></a>
-      <a href="/de/gpsr-check"><button class="pill-ghost">Zuerst kostenlos online testen →</button></a>
-    </div>
-    <p class="tiny">✓ MIT-Lizenz, auch kommerziell nutzbar &nbsp;·&nbsp; ✓ Regeldaten aus derselben Quelle wie die SaaS-Engine &nbsp;·&nbsp; ✓ rein lokal, Produktdaten verlassen Ihren Rechner nicht</p>
-  </div>
+<div class="hero">
+  <div class="eyebrow">🎁 Kostenlos · Open Source · MIT-Lizenz</div>
+  <h1>Stellen Sie Ihre eigene KI in <span class="accent">10 Minuten bereit</span></h1>
+  <p>Die gesamte, von uns in Echtzeit eingesetzte Prüf-Engine: GPSR-Prüfwerkzeug + Plattform-Regelpaket. 100 % Open Source. Kein SaaS-Login, kein Gebührenkonto, keine Nutzungsbeschränkung. Reproduzierbar.</p>
 </div>
 
-<!-- GitHub repo header -->
-<div style="max-width:900px;margin:-40px auto 0;padding:0 24px;position:relative;z-index:5">
-  <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 8px 30px rgba(0,0,0,.08)">
-    <span style="font-size:15px;font-weight:600;color:var(--blue)">📦 crossaio-ai</span>
-    <span style="background:#eef1f4;border:1px solid #d0d7de;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#57606a">Public</span>
-    <span style="margin-left:auto;display:flex;gap:8px">
-      <span style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:4px 12px;font-size:12.5px;cursor:pointer">⭐ <b>Star</b> 1.2k</span>
-      <span style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:4px 12px;font-size:12.5px;cursor:pointer">🍴 Fork</span>
-    </span>
-  </div>
-  <!-- Contributor avatars -->
-  <div style="display:flex;align-items:center;gap:8px;margin-top:14px;padding:0 4px">
-    <span style="font-size:12.5px;color:var(--muted)">Mitwirkende:</span>
-    <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">C</span>
-    <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">E</span>
-    <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#d97706,#f59e0b);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">G</span>
-    <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#ef4444);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">A</span>
-    <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">P</span>
-    <span style="font-size:12.5px;color:var(--blue);cursor:pointer;font-weight:600">+ 12 Entwickler →</span>
-  </div>
-</div>
-
-<!-- Skills -->
-<section id="skills">
-  <div class="sec-head">
-    <div class="sec-eyebrow">Open Source Skills</div>
-    <h2 class="sec-title">Zwei Skills für zwei häufige Fallstricke</h2>
-    <p class="sec-sub">Sagen Sie nach der Installation einfach zur KI: „Prüfe dieses Listing auf GPSR-Konformität" oder „Wie viele Titelzeichen erlaubt Allegro maximal?"</p>
-  </div>
-
-  <div class="skill">
-    <div>
-      <div class="ico">🛡️</div>
-      <h3>GPSR-Compliance-Checker</h3>
-      <div class="path">skills/gpsr-compliance-checker/</div>
-      <p class="desc">Übergibt der KI die Einstell-Checkliste der EU 2023/988 (Allgemeine Produktsicherheitsverordnung): Sie erkennt, ob ein Produkt in eine CE-Kategorie fällt, prüft Punkt für Punkt Angaben zum EU-Verantwortlichen, Sicherheitswarnhinweise in der Landessprache, CE-Kennzeichnung, Bedienungsanleitung und Modellkennzeichnung und erzeugt einen mehrsprachigen Compliance-Block, der direkt ins Listing eingefügt werden kann.</p>
-      <ul class="feat">
-        <li>Automatische Erkennung von 7 CE-Kategorien (Spielzeug / Elektronik / Textilien / Kinderprodukte usw.)</li>
-        <li>EU-27-Staaten + Vereinigtes Königreich → automatische Zuordnung der Hinweissprachen (DE/FR/IT/ES/NL/PL…)</li>
-        <li>Erkennung von 5 gesetzlich vorgeschriebenen Elementen: EU-Verantwortlicher / Warnhinweise / Bedienungsanleitung / Modell / CE-Kennzeichnung</li>
-        <li>Erzeugt einen einfügbaren Compliance-Block mit Platzhalter für den EU-Verantwortlichen und Warnhinweisen in Landessprache</li>
-        <li>Integrierte Datenbank mit 69 Sicherheitsbegriffen (bilinguale EN/DE), dieselbe Quelle wie die Warnung vor sicherheitsrelevanten Bewertungen</li>
-      </ul>
-      <div class="badges"><span class="hot">Kaum ein vergleichbares Open-Source-Tool</span><span>Datensatz als JSON enthalten</span><span>MIT</span></div>
-    </div>
-    <div>
-      <pre><span class="c"># Installation: in das skills-Verzeichnis des Agents kopieren</span>
-<span class="g">git clone</span> https://github.com/YOUR_ORG/crossaio-ai
-<span class="g">cp -r</span> crossaio-ai/skills/gpsr-compliance-checker \
-      ~/.claude/skills/
-
-<span class="c"># Dann zur KI sagen:</span>
-<span class="y">"Prüfe dieses Listing auf GPSR-Konformität:
-  Produkt: Kids Building Blocks,
-  verkauft nach Deutschland und Frankreich"</span></pre>
-      <p class="codecap">↑ Beispiel für Claude Code; bei Cursor / Codex genauso in das jeweilige skills-Verzeichnis legen</p>
-    </div>
-  </div>
-
-  <div class="skill">
-    <div>
-      <div class="ico">🌍</div>
-      <h3>Europäische Plattform-Regeldatenbank</h3>
-      <div class="path">skills/eu-marketplace-rules/</div>
-      <p class="desc">Schnellnachschlag zu den Einstellregeln von 13 europäischen und transatlantischen E-Commerce-Plattformen: maximale Titelzeichen, erforderliche Sprachen, GPSR-Punkte, abgedeckte Länder. Fragen Sie die KI vor dem Schreiben Ihres Listings und vermeiden Sie häufige Nacharbeit wie „Bei Allegro vergessen, ins Polnische zu übersetzen" oder „Bei Otto wurde der Titel wegen Zeichenüberschreitung abgelehnt".</p>
-      <ul class="feat">
-        <li>Amazon EU + US / eBay / Cdiscount / Otto / Allegro / eMAG</li>
-        <li>TikTok Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com</li>
-        <li>Pro Plattform: Titelzeichen / Bulletpoints / Suchbegriff-Limit / Standardsprache</li>
-        <li>9 häufige Fallstricke: EAN als eindeutiger Schlüssel, Polnisch-Pflicht, zDirect-Onboarding-Prüfung…</li>
-        <li>Regeldaten werden automatisch aus der Online-Engine exportiert (platforms.json) und laufen nie ab</li>
-      </ul>
-      <div class="badges"><span class="hot">13 Plattformen · laufend aktualisiert</span><span>Regelkarten zweisprachig EN/DE</span><span>MIT</span></div>
-    </div>
-    <div>
-      <pre><span class="c"># Installation</span>
-<span class="g">cp -r</span> crossaio-ai/skills/eu-marketplace-rules \
-      ~/.claude/skills/
-
-<span class="c"># Dann zur KI sagen:</span>
-<span class="y">"Ich möchte bei Allegro und Kaufland starten:
-  In welchen Sprachen und mit wie vielen Zeichen
-  dürfen die Titel jeweils sein?
-  Prüfe meine Texte vor der Generierung gegen die Regeln"</span></pre>
-      <p class="codecap">↑ Regeln werden mit der CrossAIO-Online-Engine synchron aktualisiert — nach git pull immer aktuell</p>
-    </div>
-  </div>
-</section>
-
-<!-- Why open source -->
-<div class="why">
-  <section>
-    <div class="sec-head">
-      <div class="sec-eyebrow">Why Open Source</div>
-      <h2 class="sec-title">Warum kostenlos und quelloffen?</h2>
-      <p class="sec-sub">Compliance ist ein Vertrauensgeschäft — nur wenn Regeln transparent einsehbar sind, vertrauen Sie dem Tool Ihre Listings an.</p>
-    </div>
-    <div class="grid3">
-      <div class="wcard">
-        <div class="ico">🔍</div>
-        <h4>Regeln vollständig transparent</h4>
-        <p>7 CE-Kategorien und jede Warnhinweis-Zuordnung liegen als lesbare JSON-Datei im Repository — keine Blackbox-Entscheidungen. Sie finden einen Fehler in den Regeln? Öffnen Sie einfach ein Issue oder einen PR.</p>
-      </div>
-      <div class="wcard">
-        <div class="ico">🔄</div>
-        <h4>Gleiche Quelle wie die Online-Engine</h4>
-        <p>Die Skill-Daten werden von <code>tools/export_skill_data.py</code> automatisch aus der CrossAIO-Backend-Engine exportiert — ändern wir Regeln, aktualisiert sich der Skill, es gibt keine zwei unterschiedlichen Fassungen.</p>
-      </div>
-      <div class="wcard">
-        <div class="ico">🚀</div>
-        <h4>Sie möchten vollautomatisch? Upgrade auf SaaS</h4>
-        <p>Der Skill ist die manuelle Prüfung. Die SaaS-Version ergänzt 7×24-Listing-Monitoring, tägliche Risikoberichte, die 13-Plattform-Massen-Generierung und den geschlossenen Kreislauf für Sicherheitswarnungen bei Bewertungen.</p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- Roadmap -->
 <section>
-  <div class="sec-head">
-    <div class="sec-eyebrow">Roadmap</div>
-    <h2 class="sec-title">Weitere Skills in Planung</h2>
-  </div>
-  <div class="road">
-    <div class="rcard"><span class="tag">In Planung</span><h4>📡 Skill: täglicher Listing-Check</h4><p>Lokaler Bulk-Scan von CSV-Listing-Exporten mit Risikoliste — die SaaS-Version ist bereits live (Monitoring + Tagesbericht), die lokale Version folgt unregelmäßig.</p></div>
-    <div class="rcard"><span class="tag">In Planung</span><h4>🚨 Skill: Warnung vor Sicherheitsereignissen</h4><p>Scan nach sicherheitsrelevanten Begriffen in Bewertungen plus Checkliste für die 15-Tage-Safety-Gate-Meldung nach GPSR Art. 35. Die Engine ist in der SaaS-Version live — fordern Sie gerne ein Update an.</p></div>
-    <div class="rcard"><span class="tag">Community-Abstimmung</span><h4>💡 Welchen Skill wünschen Sie sich?</h4><p>Schreiben Sie uns Ihr häufigstes Problem als Issue — die Idee mit den meisten Stimmen wird zuerst umgesetzt.</p></div>
+  <div class="cards">
+    <div class="card">
+      <div class="ico">🛡️</div>
+      <h3>GPSR-Compliance-Prüfer</h3>
+      <p>Prüft Produkttitel, erkennt CE-Kategorien, listet Pflichtangaben auf und bereitet einen automatisch generierbaren Compliance-Block vor.</p>
+      <ul>
+        <li>CE-Kategorien-Erkennung (Spielzeug, Elektro, Persönliche Schutzausrüstung, Kinder)</li>
+        <li>Warnhinweise in Landessprache (DE/FR/IT/ES/PL/NL/RO)</li>
+        <li>EU-Verantwortlicher + Hersteller + EAN Platzhalter</li>
+        <li>Fehlende Punkte mit Risikostufe, reproduzierbar</li>
+      </ul>
+      <a href="https://github.com/crossaio/gpsr-checker" target="_blank" rel="noopener noreferrer" class="pill-blue">GitHub ansehen →</a>
+    </div>
+    <div class="card">
+      <div class="ico">📋</div>
+      <h3>Plattform-Regelpaket</h3>
+      <p>13 europäische + US-Plattformen: Titellimits, Pflichtsprachen, harte Verbote, Attribute — als JSON-Rohdatei, direkt in Ihre KI einspielbar.</p>
+      <ul>
+        <li>Amazon EU/US, eBay, Allegro, Otto, Cdiscount, eMAG, Kaufland, bol.com, Zalando, Fruugo, TikTok Shop, Walmart</li>
+        <li>Titel-Bullet-Beschreibungs-Zeichenlimits</li>
+        <li>Landessprachen-Pflicht + Harte Verbote (Loi Toubon)</li>
+        <li>CE-Kategorien → Plattform-Mapping</li>
+      </ul>
+      <a href="https://github.com/crossaio/platform-rules" target="_blank" rel="noopener noreferrer" class="pill-blue">GitHub ansehen →</a>
+    </div>
   </div>
 </section>
 
-<!-- Footer CTA -->
-<div class="cta-final">
-  <h2>Keine Lust auf manuelle Prüfung? Lassen Sie die KI täglich für Sie mitbeobachten</h2>
-  <p>Die CrossAIO-Workbench: Listing-Repository + täglicher automatischer Compliance-Check + Risikobericht, rund um die Uhr, 7×24.</p>
-  <a href="/de/signup"><button class="pill-blue">Kostenlos registrieren — 5 Generierungen pro Tag</button></a>
-  &nbsp;
-  <a href="/de/gpsr-check"><button class="pill-ghost" style="color:var(--ink);border-color:var(--border)">Oder zuerst den 30-Sekunden-Check →</button></a>
+<section style="padding-top:0">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Minimale Vorbereitung</div>
+    <h2 class="sec-title">Klonen → einstellen → starten</h2>
+  </div>
+  <div class="gh-code">
+    <div class="bar"><i></i><i></i><i></i><span>Terminal</span></div>
+    <pre><span class="c"># GPSR-Prüfer klonen</span>
+<span class="k">git clone</span> https://github.com/crossaio/gpsr-checker.git
+<span class="k">cd</span> gpsr-checker
+
+<span class="c"># API-Schlüssel setzen (OpenAI / Anthropic / DeepSeek alle möglich)</span>
+<span class="k">export</span> OPENAI_API_KEY=sk-...
+
+<span class="c"># Starten</span>
+<span class="k">python</span> gpsr_check.py --title "Kids Building Blocks Toy" \
+                --keywords "toy,puzzle,kids" \
+                --platform otto</pre>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Open Source. Kostenlos. Reproduzierbar.</h2>
+  <p>Wollen Sie trotzdem das fertige Workbench? Ohne Infrastruktur selbst betreiben zu müssen — und mit 7×24-Monitoring + KI-Kundenservice?</p>
+  <a href="/de/signup"><button class="pill-blue2">Kostenlos registrieren →</button></a>
+  <a href="/de/pricing"><button class="pill-ghost2">Preise ansehen</button></a>
 </div>
 
 <footer>
   <div class="cols">
-    <a href="/de/">Startseite</a><a href="/de/rules">Regelübersicht</a><a href="/de/pricing">Preise</a><a href="/de/gpsr-check">Kostenloser Check</a><a href="/de/skills">Open-Source-Skills</a>
+    <a href="/de/">Startseite</a><a href="/de/pricing">Preise</a><a href="/de/rules">Regelübersicht</a><a href="/de/gpsr-check">Kostenloser Check</a><a href="/de/privacy">Datenschutzerklärung</a><a href="/de/terms">AGB</a>
   </div>
-  CrossAIO — Europas Listing-Qualitäts- und Compliance-Engine für alle Plattformen · Skills unter MIT-Lizenz veröffentlicht · <a href="/de/signin" style="color:var(--blue)">Anmelden</a>
+  <div>CrossAIO © 2026 · MIT-Lizenz · Keine Garantie · <a href="https://github.com/crossaio/gpsr-checker/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a> · <a href="https://t.me/crossaio" target="_blank" rel="noopener noreferrer">Telegram</a></div>
 </footer>
 
   <script src="/effects.js"></script>

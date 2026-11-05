@@ -4,7 +4,7 @@ Listing 监控服务层：体检轮、日报生成、邮件通知、合规块自
 """
 import logging
 from datetime import date, datetime
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from sqlalchemy.orm import Session
 
@@ -17,8 +17,80 @@ log = logging.getLogger("crossaio.watch")
 # 各套餐可监控 listing 数上限（Phase 1 简单配额）
 WATCH_LIMITS = {"free": 5, "starter": 20, "pro": 100, "business": 1000}
 
+# 【P2】诚实边界：当前真正可"自动写回 listing 合规块"的平台集合。
+# 代码库中 eBay 仅有消息 OAuth（拉取买家消息），尚无 listing 改写回写接口；
+# 任何平台在接线前 attempt_platform_writeback 都返回 False，落 pending。
+LIVE_WRITEBACK_PLATFORMS = frozenset()  # 预留：eBay listing 写回连接器上线后加入
 
-def check_one(db: Session, watch: ListingWatch) -> Dict:
+
+def attempt_platform_writeback(db: Session, user: User, watch: ListingWatch) -> Tuple[bool, str]:
+    """尝试把 GPSR 合规块写回平台 listing。
+
+    诚实返回：(ok, detail)。真实写回连接器未上线前恒为 (False, 原因)，
+    由调用方落 pending 并写 Notification，绝不伪造"已写回"。
+    """
+    connected = get_connected_platforms(db, user.id)
+    if watch.platform not in connected:
+        return False, f"平台 {watch.platform} 未接入，无法自动写回"
+    if watch.platform not in LIVE_WRITEBACK_PLATFORMS:
+        return False, f"{watch.platform} listing 写回连接器尚未上线，暂置待确认"
+    # 真连接器接线后在此调用平台 API；当前不发起任何外部请求。
+    return False, f"{watch.platform} 写回连接器未接线"
+
+
+def apply_writeback_tier(db: Session, user: User, watch: ListingWatch) -> str:
+    """【P2】按订阅档位分级写回状态。
+
+    free/starter -> "draft"（手动复制粘贴）
+    pro          -> "pending"（一键确认写回，走既有 confirm_writeback 端点）
+    business     -> 已接入且连接器可写回则自动写回；否则落 pending 并写 Notification。
+    仅在状态发生变更时写 Notification，避免每日/高频体检轮重复刷屏。
+    返回最终 writeback_status。
+    """
+    from .routers.notifications import notify
+
+    plan = user.plan
+    if not watch.gpsr_block:
+        if watch.writeback_status != "none":
+            watch.writeback_status = "none"
+            db.commit()
+        return watch.writeback_status
+
+    if plan in ("free", "starter"):
+        if watch.writeback_status != "draft":
+            watch.writeback_status = "draft"
+            db.commit()
+        return watch.writeback_status
+
+    if plan == "pro":
+        if watch.writeback_status != "pending":
+            watch.writeback_status = "pending"
+            db.commit()
+            notify(db, user.id, "writeback",
+                   f"[{user.plan}] Writeback pending: listing「{watch.product_name}」",
+                   f"Platform {watch.platform}; compliance block generated, confirm to write back.")
+        return watch.writeback_status
+
+    # business
+    ok, detail = attempt_platform_writeback(db, user, watch)
+    if ok:
+        if watch.writeback_status != "done":
+            watch.writeback_status = "done"
+            db.commit()
+            notify(db, user.id, "writeback",
+                   f"Writeback done: listing「{watch.product_name}」",
+                   f"Compliance block auto-synced to platform {watch.platform}.")
+    else:
+        if watch.writeback_status != "pending":
+            watch.writeback_status = "pending"
+            db.commit()
+            notify(db, user.id, "writeback",
+                   f"Writeback pending: listing「{watch.product_name}」",
+                   f"{detail}. Will complete automatically once the platform writeback connector is enabled.")
+    return watch.writeback_status
+
+
+def check_one(db: Session, user: User, watch: ListingWatch) -> Dict:
     """对单条 listing 执行体检并写回结果；返回 {before, after, changed}"""
     result = evaluate_listing(
         product_name=watch.product_name, keywords=watch.keywords or [],
@@ -31,13 +103,15 @@ def check_one(db: Session, watch: ListingWatch) -> Dict:
     watch.risk_items = result["risk_items"]
     watch.fix_hints = result["fix_hints"]
     watch.gpsr_block = result["gpsr_block"]
-    # 自动写回标记：高风险且已生成合规块 → 标记待写回
-    if result["risk_level"] == "high" and result.get("gpsr_block"):
-        watch.writeback_status = "pending"  # 待商家确认写回
-    elif result["risk_level"] in ("medium", "low") and result.get("gpsr_block"):
-        watch.writeback_status = "draft"    # 草稿可用，非紧急
-    else:
-        watch.writeback_status = "none"
+    # 【P2】写回状态按订阅档位分级（draft/pending/done，变更时写 Notification）
+    watch.writeback_status = apply_writeback_tier(db, user, watch)
+    # 【P0】体检发现新风险（等级恶化或首次即有风险且已生成合规块）→ 事件入队
+    rank = {"low": 0, "medium": 1, "high": 2, "": 0}
+    if result.get("gpsr_block") and rank[result["risk_level"]] > rank[before]:
+        from .automation_events import enqueue
+        enqueue(user.id, "new_risk",
+                {"watch_id": watch.id, "product_name": watch.product_name,
+                 "platform": watch.platform})
     watch.last_checked_at = datetime.utcnow()
     db.commit()
     return {"before": before, "after": result["risk_level"],
@@ -77,7 +151,7 @@ def run_user_watch(db: Session, user: User) -> Dict:
 
     for w in listings:
         prev = w.prev_risk_level or ""   # 上一次变更前的已知等级
-        diff = check_one(db, w)
+        diff = check_one(db, user, w)
         after = diff["after"]
         counts[after] = counts.get(after, 0) + 1
         rank = {"low": 0, "medium": 1, "high": 2, "": 0}
@@ -166,7 +240,7 @@ def send_report_email(user: User, report: Dict, db=None) -> bool:
     try:
         from .mailer import send_email
         html = render_report_email(user, report).replace(
-            "_APP_URL_", settings.app_url)
+            "_APP_URL_", settings.public_url)
 
         # business 套餐额外加实时预警段
         if plan == "business":

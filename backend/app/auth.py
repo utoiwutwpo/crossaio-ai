@@ -68,3 +68,23 @@ def get_current_user(
     if user is None:
         raise HTTPException(status_code=404, detail="用户不存在")
     return user
+
+
+def get_optional_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db),
+) -> User | None:
+    """可选认证：无 token / token 失效 / 用户不存在时返回 None，不抛错。
+
+    用于「登录与否都能看、但登录后有差异」的端点（如 Academy 课时付费墙）。
+    """
+    if credentials is None:
+        return None
+    try:
+        payload = jwt.decode(
+            credentials.credentials, settings.jwt_secret, algorithms=["HS256"]
+        )
+        user_id = payload.get("sub")
+    except jwt.PyJWTError:
+        return None
+    return db.get(User, user_id) if user_id else None

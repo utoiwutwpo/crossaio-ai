@@ -2,504 +2,1573 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-store">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="alternate" hreflang="zh" href="http://localhost:9000/app">
 <link rel="alternate" hreflang="en" href="http://localhost:9000/en/app">
 <link rel="alternate" hreflang="de" href="http://localhost:9000/de/app">
 <link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/app">
 <link rel="alternate" hreflang="x-default" href="http://localhost:9000/app">
-<title>CrossAIO Workbench — KI-Generierung · GPSR-Check · Postfach · Anzeigen | CrossAIO</title>
+<title>CrossAIO — KI-Assistent für grenzüberschreitenden E-Commerce</title>
 <style>
   :root{
-    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
-    --amber:#d97706;
+    --bg:#eef2ff;--card:rgba(255,255,255,.72);--border:rgba(255,255,255,.95);--text:#1e293b;--muted:#64748b;
+    --primary:#7c3aed;--primary-dark:#6d28d9;--ok:#059669;--warn:#d97706;--err:#dc2626;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-  a{text-decoration:none;color:inherit}
-  header{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;padding:22px 32px}
-  .hb{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px}
-  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
-  .badge{background:rgba(255,255,255,.14);border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600}
-  #sitelinks{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-  #sitelinks a{color:#c7cee4;font-size:13.5px;padding:8px 12px;border-radius:8px;font-weight:600}
-  #sitelinks a:hover{background:rgba(255,255,255,.1);color:#fff}
-  #userbar{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px;color:#c7cee4}
-  #userbar .plan{background:#a78bfa;color:#1e1b4b;border-radius:999px;padding:3px 12px;font-weight:700;font-size:12px}
-  #userbar a{color:#c7cee4}
-  #userbar a:hover{color:#fff}
-  .pill-out{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 14px;font-size:12.5px;cursor:pointer;background:transparent;color:#fff}
-  .pill-out:hover{background:rgba(255,255,255,.1)}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:linear-gradient(160deg,#eef2ff 0%,#f0f9ff 45%,#faf5ff 100%);color:var(--text);min-height:100vh;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 15% 20%,rgba(168,85,247,.10),transparent 45%),radial-gradient(circle at 85% 70%,rgba(34,211,238,.10),transparent 45%)}
+  header{background:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.95);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(16px);position:relative;z-index:1;box-shadow:0 2px 14px rgba(148,163,184,.10)}
+  header h1{font-size:18px}
+  header h1 span{color:var(--primary)}
+  #userbar{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  #sitelinks{display:flex;gap:14px;align-items:center;font-size:13px}
+  #sitelinks .fnavitem{position:relative}
+  #sitelinks .flabel{cursor:pointer;padding:6px 10px;border-radius:8px;font-weight:600;color:var(--text);display:inline-block;user-select:none}
+  #sitelinks .flabel:hover{background:#eff6ff;color:var(--primary)}
+  #sitelinks .fdrop{position:absolute;top:100%;right:0;min-width:320px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s;z-index:90}
+  #sitelinks .fnavitem:hover .fdrop{opacity:1;visibility:visible;transform:translateY(0)}
+  #credBanner .credchips{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;
+    padding:4px 2px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  #credBanner .credchips::-webkit-scrollbar{height:6px}
+  #credBanner .credchips::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  #credBanner .credchip{flex:0 0 auto;cursor:pointer;padding:4px 12px;border-radius:14px;
+    font-size:12px;font-weight:700;white-space:nowrap;transition:transform .15s,box-shadow .15s}
+  #credBanner .credchip.ok{background:#e6f7ea;color:#1a7f37}
+  #credBanner .credchip.todo{background:#fff4e0;color:#a15c00}
+  #credBanner .credchip:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.18)}
+  #credBanner details.credflash{border-color:#2563eb !important;box-shadow:0 0 0 3px rgba(37,99,235,.25)}
+  .credflash{animation:credPulse 1.6s ease}
+  @keyframes credPulse{0%,100%{box-shadow:none}25%,75%{box-shadow:0 0 0 4px rgba(37,99,235,.35)}}
+  #autoCard .autochips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  #autoCard .autochip{cursor:pointer;padding:5px 12px;border-radius:14px;font-size:12.5px;
+    border:1px solid var(--border);background:#f8fafc;transition:all .15s}
+  #autoCard .autochip:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.15)}
+  #autoCard .autochip.active{background:#e6f7ea;color:#1a7f37;border-color:#b7e4c0}
+  #autoCard .autochip.ready{background:#eaf2ff;color:#1d4ed8;border-color:#c7d2fe}
+  #autoCard .autochip.manual{background:#f1f5f9;color:#475569}
+  #autoCard .autochip.no_credential{background:#fff4e0;color:#a15c00;border-color:#fde0b0}
+  #autoCard .autochip.locked_plan{background:#fdeaea;color:#b91c1c;border-color:#f5c2c2}
+  #autoCard .autochip.waiting_connector{background:#fdf6e3;color:#92400e;border-color:#efe3b0}
+  #sitelinks .fdrop a{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;color:#334155;padding:10px 12px;border-radius:8px;text-decoration:none}
+  #sitelinks .fdrop a:hover{background:#eff6ff;color:var(--primary)}
+  #sitelinks .fdrop a::after{content:"›";color:#cbd5e1;font-size:15px}
+  #sitelinks .fdrop a small{display:block;font-weight:400;font-size:11px;color:var(--muted);text-align:left}
+  nav{display:flex;gap:2px;padding:10px 24px 0;max-width:1080px;margin:0 auto;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}
+  nav a.navtab{display:inline-block;border:none;background:transparent;padding:10px 16px;font-size:14px;cursor:pointer;color:var(--muted);
+    border-radius:12px 12px 0 0;white-space:nowrap;flex:0 0 auto;text-decoration:none;transition:background .15s,color .15s,box-shadow .15s}
+  nav a.navtab.active{background:rgba(255,255,255,.85);color:var(--primary);font-weight:600;box-shadow:0 4px 18px rgba(99,102,241,.18);backdrop-filter:blur(10px)}
+  nav a.navtab:hover{background:rgba(255,255,255,.6);color:var(--primary)}
+  details.howto{border:1px dashed #c7d2fe;background:rgba(245,248,255,.85);border-radius:8px;padding:8px 12px;margin:8px 0 4px;font-size:13px;backdrop-filter:blur(8px)}
+  details.howto summary{cursor:pointer;font-weight:700;color:var(--primary);font-size:13px}
+  details.howto ol{margin:8px 0 4px 20px;padding:0}
+  details.howto li{margin:4px 0}
+  details.howto .note{color:#a15c00;font-size:12px;margin-top:6px}
+  main{max-width:1080px;margin:0 auto;padding:20px 24px 48px;position:relative;z-index:1}
+  .card{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.95);border-radius:16px;padding:24px;margin-top:16px;backdrop-filter:blur(14px);box-shadow:0 4px 20px rgba(148,163,184,.14)}
+  .hidden{display:none}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  input,select,textarea{width:100%;padding:9px 12px;border:1px solid rgba(255,255,255,.95);border-radius:8px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.85);color:var(--text);backdrop-filter:blur(8px)}
+  textarea{resize:vertical;min-height:70px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  button.btn{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;margin-top:18px}
+  button.btn:hover{background:var(--primary-dark)}
+  button.btn:disabled{background:#9ca3af;cursor:not-allowed}
+  button.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+  .msg{padding:10px 14px;border-radius:8px;font-size:14px;margin-top:14px}
+  .msg.err{background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.ok{background:#ecfdf5;color:var(--ok);border:1px solid #a7f3d0}
+  .result{margin-top:18px;border-top:1px dashed var(--border);padding-top:16px;font-size:14px;line-height:1.7}
+  .result h3{font-size:15px;margin-bottom:8px;color:var(--primary)}
+  .badge{display:inline-block;background:#eff6ff;color:var(--primary);border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
+  .chat-box{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;margin-top:14px}
+  .bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+  .bubble.user{align-self:flex-end;background:var(--primary);color:#fff}
+  .bubble.ai{align-self:flex-start;background:#f3f4f6;color:var(--text)}
+  .meta{font-size:12px;color:var(--muted);margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:14px}
+  th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px}
+  .price{font-size:26px;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .inbox-wrap{display:grid;grid-template-columns:340px 1fr;gap:16px;margin-top:16px;min-height:420px}
+  .inbox-list{border:1px solid rgba(255,255,255,.95);border-radius:12px;overflow-y:auto;max-height:520px;background:rgba(255,255,255,.7);backdrop-filter:blur(12px)}
+  .inbox-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer}
+  .inbox-item:hover{background:#f8fafc}
+  .inbox-item.active{background:#eff6ff}
+  .inbox-item .top{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .inbox-item .plat{font-weight:700;font-size:12px;color:#fff;background:var(--primary);border-radius:6px;padding:1px 7px}
+  .inbox-item .subj{font-size:13px;margin-top:4px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .inbox-item .meta2{font-size:11px;color:var(--muted);margin-top:3px}
+  .inbox-thread{border:1px solid rgba(255,255,255,.95);border-radius:12px;padding:16px;background:rgba(255,255,255,.7);overflow-y:auto;max-height:520px;backdrop-filter:blur(12px)}
+  .inbox-thread .empty{color:var(--muted);text-align:center;margin-top:80px;font-size:14px}
+  .msg-row{margin-bottom:14px}
+  .msg-row .who{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:3px}
+  .msg-bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;max-width:92%}
+  .msg-row.in .msg-bubble{background:#f3f4f6}
+  .msg-row.out{text-align:right}
+  .msg-row.out .msg-bubble{background:#eff6ff;display:inline-block;text-align:left}
+  .msg-row .tags{margin-top:4px;display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:11px;border-radius:999px;padding:1px 8px}
+  .tag.gpsr{background:#fef3c7;color:#92400e}
+  .tag.esc{background:#fee2e2;color:#991b1b}
+  .tag.ai{background:#dcfce7;color:#166534}
+  .composer{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
+  .composer textarea{width:100%;min-height:64px}
+  .filter-chip{border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;color:var(--muted)}
+  .filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .thread-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .thread-head .plat{font-weight:700;font-size:12px;color:#fff;background:var(--primary);border-radius:6px;padding:2px 8px}
+  @media(max-width:760px){.inbox-wrap{grid-template-columns:1fr}}
+  .wb-footer{display:flex;gap:18px;align-items:center;flex-wrap:wrap;max-width:1080px;margin:24px auto 0;padding:16px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+  .wb-footer a{color:var(--muted);text-decoration:none}
+  .wb-footer a:hover{color:var(--primary)}
+  details.cred-details{border:1px solid var(--border);border-radius:8px;padding:10px 14px;background:#fafbfc}
+  details.cred-details summary::-webkit-details-marker{display:none}
+  details.cred-details[open] summary{margin-bottom:6px}
 
-  .wb{max-width:1240px;margin:0 auto;padding:28px 24px 60px}
-  nav.wbnav{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--border);margin-bottom:24px}
-  .tab{background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);padding:11px 16px;border-bottom:2px solid transparent;margin-bottom:-2px}
-  .tab:hover{color:var(--ink)}
-  .tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-  .lpjump{font-size:12px;color:var(--muted);margin-left:auto;align-self:center}
-  .lpjump a{color:var(--blue)}
+  /* === Upgrade: automation meta row, notifications, onboarding, panel hints === */
+  .auto-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0 4px;font-size:13px}
+  .auto-meta .freq{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#1d4ed8;background:#eaf2ff;border:1px solid #c7d2fe;border-radius:999px;padding:3px 12px}
+  .auto-meta .next{color:var(--muted)}
+  .auto-meta .next b{color:var(--text)}
+  .auto-rules{margin:8px 0 4px;padding:10px 14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.8);font-size:12.5px;line-height:1.7}
+  .auto-rules .rt{font-weight:700;color:var(--primary);margin-bottom:4px;font-size:12px}
+  .auto-rules .rrow{display:flex;gap:8px;align-items:baseline}
+  .auto-rules .rrow .arrow{color:var(--muted)}
+  .auto-empty{color:var(--muted);font-size:13px;padding:8px 0}
 
-  .pane{display:none}
-  .pane.active{display:block}
+  .panel-hint{font-size:12px;color:var(--muted);margin:-6px 0 10px;line-height:1.5}
 
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
-  .card{border:1px solid var(--border);border-radius:14px;padding:20px}
-  .card h3{font-size:15.5px;margin-bottom:12px}
-  label{display:block;font-size:12.5px;font-weight:600;margin:10px 0 5px;color:#334155}
-  input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;color:var(--ink)}
-  input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);border-color:transparent}
-  textarea{min-height:90px;resize:vertical}
-  .btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:14px}
-  .btn:hover{background:var(--blue-dark)}
-  .btn:disabled{background:#9dbef0;cursor:not-allowed}
-  .btn.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
-  .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
-  .msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:12px;display:none}
-  .msg.err{display:block;background:#fef2f2;color:var(--err);border:1px solid #fecaca}
-  .msg.ok{display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+  #notifBell{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.7);border:1px solid var(--border);font-size:17px;user-select:none}
+  #notifBell:hover{background:#eff6ff}
+  #notifBadge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--err);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+  #notifBadge.on{display:inline-flex}
+  #notifDrop{position:absolute;top:46px;right:0;width:380px;max-width:92vw;background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:14px;box-shadow:0 22px 60px rgba(15,23,42,.22);backdrop-filter:blur(18px);z-index:120;display:none;flex-direction:column;overflow:hidden}
+  #notifDrop.open{display:flex}
+  #notifHead{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700}
+  #notifHead button{background:transparent;border:none;color:var(--primary);font-size:12px;cursor:pointer;font-weight:600}
+  #notifList{max-height:380px;overflow-y:auto}
+  .nitem{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer}
+  .nitem:hover{background:#f8fafc}
+  .nitem.unread{background:#f5f8ff}
+  .nitem .nicon{font-size:16px;flex:0 0 auto}
+  .nitem .nbody{flex:1;min-width:0}
+  .nitem .ntitle{font-weight:700;color:var(--text)}
+  .nitem .nbody2{color:var(--muted);font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nitem .ntime{color:var(--muted);font-size:11px;margin-top:3px}
+  .nitem .nread{font-size:11px;color:var(--primary);margin-left:4px;flex:0 0 auto}
+  #notifEmpty{padding:30px 14px;text-align:center;color:var(--muted);font-size:13px}
 
-  .out{margin-top:14px;background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:16px;white-space:pre-wrap;font-size:13px;display:none}
-  .out.show{display:block}
+  #onboardMask{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  #onboardMask.open{display:flex}
+  #onboardModal{background:#fff;border-radius:18px;max-width:520px;width:100%;padding:28px 28px 22px;box-shadow:0 30px 80px rgba(15,23,42,.35);position:relative}
+  #onboardDots{display:flex;gap:6px;justify-content:center;margin:14px 0 18px}
+  #onboardDots .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;transition:.2s}
+  #onboardDots .dot.on{background:var(--primary);transform:scale(1.25)}
+  #onboardStep{display:none}
+  #onboardStep.on{display:block}
+  #onboardStep h3{font-size:17px;margin-bottom:8px;color:var(--text)}
+  #onboardStep p{font-size:13.5px;line-height:1.7;color:#475569}
+  #onboardStep ul{margin:8px 0 0 18px;font-size:13px;color:#475569;line-height:1.8}
+  #onboardFoot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:1px solid var(--border);padding-top:14px}
+  #onboardSkip{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+  #onboardNext{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer}
+  #onboardNext:hover{background:var(--primary-dark)}
 
-  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
-  th,td{border-bottom:1px solid var(--border);padding:9px 8px;text-align:left;vertical-align:top}
-  th{color:var(--muted);font-weight:600;font-size:12px}
-  .risk-high{color:var(--err);font-weight:700}
-  .risk-med{color:var(--amber);font-weight:700}
-  .risk-low{color:var(--ok);font-weight:700}
-
-  .meter{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:6px}
-  .meter>i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#8b5cf6)}
-
-  .inbox-row{display:flex;gap:12px;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;cursor:pointer}
-  .inbox-row:hover{border-color:var(--blue);background:#eff6ff}
-  .inbox-row .meta{font-size:11.5px;color:var(--muted)}
-  .intent{display:inline-block;background:#eef2ff;color:var(--blue);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}
-  .sentiment-neg{color:var(--err);font-weight:700}
-  .sentiment-neu{color:var(--muted)}
-
-  .sub-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
-  .sub-tabs button{border:1px solid var(--border);background:#fff;border-radius:999px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-weight:600;color:#334155}
-  .sub-tabs button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
-
-  .plan-card{background:linear-gradient(120deg,#0b1030,#251a5e);color:#fff;border-radius:18px;padding:28px}
-  .plan-card h3{color:#a78bfa}
-  .plan-card .price{font-size:36px;font-weight:800;margin:8px 0}
-  .plan-card ul{list-style:none;font-size:13.5px}
-  .plan-card li{padding:5px 0 5px 24px;position:relative}
-  .plan-card li::before{content:"✓";position:absolute;left:0;color:#4ade80;font-weight:800}
-
-  footer.wb-footer{border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--muted);padding:24px;margin-top:32px}
-  footer.wb-footer a{color:var(--blue)}
+  /* === Report area (per-panel) === */
+  .report-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .report-actions button{background:transparent;color:var(--primary);border:1px solid #c7d2fe;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;font-weight:600}
+  .report-actions button:hover{background:#eff6ff}
+  .report-box{margin-top:14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.85);padding:14px 16px;font-size:13px;line-height:1.7;display:none;white-space:pre-wrap;word-break:break-word;max-height:480px;overflow-y:auto}
+  .report-box.open{display:block}
+  .report-box .rhead{font-weight:700;color:var(--primary);font-size:13.5px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .report-box .ractions{display:flex;gap:8px;margin-bottom:10px}
+  .report-box .ractions button{background:#fff;border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11.5px;cursor:pointer;color:#334155}
 </style>
-  <link rel="stylesheet" href="/effects.css">
 </head>
 <body>
-
 <header>
-  <div class="hb">
-    <span class="logo"><span class="dot">🤖</span>CrossAIO Workbench</span>
-    <span class="badge">Ki-Generierung · GPSR-Check · Postfach</span>
-    <div id="sitelinks">
-      <!--FEATURE_NAV-->
-    </div>
-    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-      <a href="/app" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7cee4">中文</a>
-      <a href="/en/app" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7cee4">EN</a>
-      <a href="/de/app" data-lang="de" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#a78bfa;color:#1e1b4b">DE</a>
-      <a href="/fr/app" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7cee4">FR</a>
-    </div>
-    <div id="userbar">
-      <span id="uPlan" class="plan">Free</span>
-      <span id="uEmail"></span>
-      <a href="/de/pricing">Preise</a>
-      <button class="pill-out" id="btnLogout">Abmelden</button>
+  <h1><a href="/de/" style="text-decoration:none;color:inherit">🤖 CrossAIO</a> — KI-Assistent für grenzüberschreitenden E-Commerce</h1>
+  <span class="badge" title="Im Gegensatz zu shop-gebundenen Tools (z. B. Marqetir): Anmelden und nutzen, keine Shop-Anbindung nötig">Unabhängige Workbench · Kein Shopify nötig</span>
+  <div id="sitelinks">
+    <!--FEATURE_NAV-->
+    <a href="/de/" class="hint" style="text-decoration:none">Startseite</a>
+    <a href="/de/rules" class="hint" style="text-decoration:none">Regel-Übersicht</a>
+    <a href="/de/pricing" class="hint" style="text-decoration:none">Preise</a>
+    <a href="/de/skills" class="hint" style="text-decoration:none">Open-Source-Skills</a>
+    <a href="/de/gpsr-check" class="hint" style="text-decoration:none">Kostenloser GPSR-Check</a>
+  </div>
+      <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:4px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;font-size:12.5px">
+    🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:12.5px;color:#334155;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/app">English</option>
+        <option value="/de/app" selected>Deutsch</option>
+        <option value="/fr/app">Français</option>
+        <option value="/app">中文</option>
+    </select>
+  </div>
+<div style="position:relative;display:inline-flex;align-items:center">
+    <div id="notifBell" title="Benachrichtigungen">🔔<span id="notifBadge">0</span></div>
+    <div id="notifDrop">
+      <div id="notifHead"><span>Benachrichtigungen</span><button id="notifReadAll">Alle als gelesen</button></div>
+      <div id="notifList"></div>
     </div>
   </div>
+  <div id="userbar"></div>
 </header>
 
-<div class="wb">
-  <nav class="wbnav">
-    <button class="tab active" data-tab="listing">📦 Listing-Texte</button>
-    <button class="tab" data-tab="gpsr">🛡️ GPSR-Check</button>
-    <button class="tab" data-tab="cs">💬 KI-Kundenservice</button>
-    <button class="tab" data-tab="inbox">📥 Postfach</button>
-    <button class="tab" data-tab="ads">📣 Anzeigentexte</button>
-    <button class="tab" data-tab="review">⭐ Bewertungs-Scan</button>
-    <button class="tab" data-tab="monitor">📡 Monitoring</button>
-    <button class="tab" data-tab="billing">💳 Abo</button>
-    <span class="lpjump">Sie sind hier: Workbench · <a href="/de/">← Zurück zur Landingpage</a></span>
-  </nav>
+<!-- Sign in / sign up -->
+<section id="auth" class="card" style="max-width:420px;margin:60px auto">
+  <h2 style="margin-bottom:4px">Anmelden / Registrieren</h2>
+  <p class="hint">Free-Tarif: 5 Aufrufe pro Tag, keine Kreditkarte nötig.</p>
+  <label>E-Mail</label><input id="email" type="email" placeholder="you@example.com">
+  <label>Passwort (mind. 8 Zeichen)</label><input id="password" type="password" placeholder="********">
+  <div class="row">
+    <button class="btn" id="btnLogin">Anmelden</button>
+    <button class="btn ghost" id="btnRegister">Registrieren</button>
+  </div>
+  <div id="authMsg"></div>
+</section>
 
-  <!-- ========== Listing-Texte ========== -->
-  <section class="pane active" id="pane-listing">
-    <div class="grid2">
-      <div class="card">
-        <h3>📦 Listing-Texte generieren</h3>
-        <label>Produktname *</label>
-        <input id="l_name" placeholder="z. B. Kids Building Blocks Toy">
-        <label>Kernbegriffe (durch Komma getrennt) *</label>
-        <input id="l_kw" placeholder="z. B. toy, puzzle, kids">
-        <label>Zielplattform</label>
-        <select id="l_platform">
-          <option value="amazon">Amazon EU-Marktplatz</option><option value="amazon_us">Amazon US-Marktplatz</option><option value="ebay">eBay</option>
-          <option value="cdiscount">Cdiscount (Frankreich)</option><option value="otto">Otto (Deutschland)</option>
-          <option value="allegro">Allegro (Polen)</option><option value="emag">eMAG (Rumänien)</option>
-          <option value="tiktok">TikTok Shop (EU/US)</option><option value="walmart">Walmart (USA)</option>
-          <option value="fruugo">Fruugo (paneuropäisch)</option><option value="kaufland">Kaufland (DE/Mittelosteuropa)</option>
-          <option value="zalando">Zalando (Europäische Mode)</option><option value="bol">bol.com (NL/BE)</option>
-        </select>
-        <label>Zielsprache</label>
-        <select id="l_lang">
-          <option value="de">Deutsch</option><option value="en">Englisch</option><option value="fr">Französisch</option>
-          <option value="it">Italienisch</option><option value="es">Spanisch</option><option value="pl">Polnisch</option>
-          <option value="ro">Rumänisch</option><option value="nl">Niederländisch</option>
-        </select>
-        <button class="btn" id="btnListing">Generieren →</button>
-        <div class="msg" id="l_msg"></div>
-      </div>
-      <div class="card">
-        <h3>Ergebnis</h3>
-        <div class="out" id="l_out"></div>
-      </div>
+<!-- Main app -->
+<div id="app" class="hidden">
+<nav>
+  <span class="navitem"><button class="navtab active" data-tab="desc">📦 Produktbeschreibung</button><a class="lpjump" href="/features/listing-generator" title="View product intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="gpsr">🛡️ GPSR-Check</button><a class="lpjump" href="/features/gpsr" title="View intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="cs">💬 KI-Kundenservice</button><a class="lpjump" href="/features/ai-service" title="View intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="inbox">📥 Zentrales Postfach</button><a class="lpjump" href="/features/inbox" title="View intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="ad">📣 Anzeigentexte</button><a class="lpjump" href="/features/ad-copy" title="View intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="review">🔄 Bewertungs-Rewrite</button><a class="lpjump" href="/features/review-rewrite" title="View intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="watch">📡 Listing-Überwachung</button><a class="lpjump" href="/features/listing-watch" title="View intro ↗">↗</a></span>
+  <span class="navitem"><button class="navtab" data-tab="bill">💳 Abonnement</button><a class="lpjump" href="/en/pricing" title="View pricing ↗">↗</a></span>
+</nav>
+<main>
+
+  <!-- Platform credentials onboarding prompt (visible to all registered users, sourced from /compliance/credentials) -->
+  <div id="credBanner" class="card hidden" style="margin-bottom:16px;border-left:4px solid #a15c00"></div>
+  <div id="autoCard" class="card hidden" style="margin-bottom:16px;border-left:4px solid #1a7f37">
+    <h2 style="font-size:16px;margin:0 0 4px">🤖 Automatisierungs-Pipeline <span class="badge">Auto-Erkennung · Auto-Verarbeitung je nach Tarif</span></h2>
+    <p class="hint" style="margin:4px 0">Sobald Zugangsdaten verbunden sind, ketten sich Shop-Probleme automatisch durch alle 6 Funktionen: Monitoring-Checks erkennen Risiken → Hochrisiko-Artikel erhalten automatisch GPSR-Blöcke → Käuferanfragen erhalten automatisch konforme Antworten → Bewertungs-/Anzeigen-Vorschläge folgen.</p>
+    <div id="autoQuota" class="hint" style="margin:2px 0"></div>
+    <div class="auto-meta" id="autoMeta">
+      <span class="freq" id="autoFreq">⚙️ —</span>
+      <span class="next" id="autoNext">Nächster Autolauf: <b>—</b></span>
     </div>
-  </section>
+    <div class="auto-rules" id="autoRules" style="display:none">
+      <div class="rt">⚡ Trigger-Regeln</div>
+      <div id="autoRulesBody"></div>
+    </div>
+    <div class="autochips" id="autoChips"></div>
+    <div class="row" style="gap:8px;align-items:center">
+      <button class="btn" id="btnAutoRun" style="margin:0">▶ Jetzt einen automatischen Verarbeitungsdurchlauf starten</button>
+      <span class="hint" style="margin:0">Prüfung → Compliance-Block → Auto-Antwort → Vorschläge, in einem Durchlauf erledigt</span>
+    </div>
+    <div id="autoResult" class="result" style="margin-top:8px"></div>
+  </div>
 
-  <!-- ========== GPSR-Check ========== -->
-  <section class="pane" id="pane-gpsr">
-    <div class="grid2">
-      <div class="card">
-        <h3>🛡️ GPSR-Compliance-Check</h3>
-        <label>Produkttitel *</label>
-        <input id="g_name" placeholder="z. B. Kids Building Blocks Toy">
-        <label>Kernbegriffe (durch Komma getrennt) *</label>
-        <input id="g_kw" placeholder="z. B. toy, puzzle, kids">
-        <label>Plattform</label>
+  <!-- Product description -->
+  <div id="tab-desc" class="card">
+    <h2>📦 Generator für Produktbeschreibungen</h2>
+    <p class="panel-hint">Produktname + Keywords eingeben, Plattform und Zielsprache wählen — Titel, 5 Bullet-Punkte, Detailseite, Suchbegriffe und ein fertiger GPSR-Block zum Einfügen.</p>
+    <details class="howto"><summary>❓ Anwendung (3 Schritte)</summary>
+      <ol>
+        <li><b>Produktname</b> + <b>Kern-Keywords</b> eingeben (durch Komma getrennt, z. B. wireless, bluetooth).</li>
+        <li><b>Zielplattform</b> und <b>Zielsprache</b> wählen (11 Sprachen; Titel-Länge wird automatisch nach Plattform-Regeln begrenzt).</li>
+        <li>Auf „Produktbeschreibung generieren" klicken → Titel / 5 Bullet-Punkte / Detailseite / Backend-Suchbegriffe + Optimierungs-Score + ein fertiger GPSR-Compliance-Block zum Einfügen.</li>
+      </ol>
+      <div class="note">🌍 Mehrländer-Matrix: Plattformen unten anhaken → auf „Multi-Plattform-Matrix generieren" klicken, um Multi-Plattform- und Multi-Sprach-Versionen in einem Durchlauf zu erstellen; jede Plattform zählt als 1 Aufruf, Allegro→Polnisch, Otto→Deutsch usw. werden automatisch zugeordnet.</div>
+    </details>
+    <p class="hint">Erstellt Titel + 5 Bullet-Punkte + Detailseite + Suchbegriffe nach Plattform-Regeln, in 11 Sprachen.</p>
+    <label>Produktname *</label><input id="d_name" placeholder="Kabellose Kopfhörer mit Geräuschunterdrückung">
+    <label>Kern-Keywords (durch Komma getrennt) *</label><input id="d_kw" placeholder="kabellos, bluetooth, geräuschunterdrückung">
+    <div class="row">
+      <div><label>Zielplattform</label>
+        <select id="d_platform">
+          <option value="amazon">Amazon EU</option><option value="amazon_us">Amazon US</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount (France)</option><option value="otto">Otto (Germany)</option>
+          <option value="allegro">Allegro (Poland)</option><option value="emag">eMAG (Romania)</option>
+          <option value="kaufland">Kaufland (DE / CEE)</option><option value="zalando">Zalando (EU fashion)</option><option value="bol">bol.com (NL/BE)</option>
+          <option value="walmart">Walmart (US)</option>
+          <option value="fruugo">Fruugo (pan-EU)</option>
+          <option value="tiktok">TikTok Shop</option>
+        </select></div>
+      <div><label>Zielsprache</label>
+        <select id="d_lang">
+          <option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option>
+          <option value="es">Español</option><option value="it">Italiano</option><option value="ar">العربية</option>
+          <option value="tr">Türkçe</option><option value="hi">हिन्दी</option><option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option><option value="bn">বাংলা</option>
+        </select></div>
+    </div>
+    <button class="btn" id="btnDesc">Produktbeschreibung generieren</button>
+    <div id="descMsg"></div><div id="descResult"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">🌍 Europäische Mehrländer-Matrix (ein Produkt → Multi-Plattform, Multi-Sprache)</h3>
+    <p class="hint">Jede Plattform zählt als 1 Aufruf; Allegro→Polnisch, Otto→Deutsch, Cdiscount→Französisch, eMAG→Rumänisch, TikTok Shop→Englisch werden automatisch zugeordnet.</p>
+    <div id="matrixPlatforms" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:13px"></div>
+    <button class="btn" id="btnMatrix">Multi-Plattform-Matrix generieren</button>
+    <div id="matrixMsg"></div><div id="matrixResult"></div>
+  </div>
+
+  <!-- GPSR compliance check -->
+  <div id="tab-gpsr" class="card hidden">
+    <h2>🛡️ GPSR-Compliance-Check <span class="badge">Kostenlos</span></h2>
+    <p class="panel-hint">Fügen Sie eine Produktbeschreibung ein — wir scannen auf fehlende GPSR-Info (Hersteller, Warnhinweise, Sicherheit) und liefern einen fertigen Compliance-Block zum Einfügen.</p>
+    <details class="howto"><summary>❓ Anwendung (3 Schritte)</summary>
+      <ol>
+        <li><b>Produktname</b> + <b>Kern-Keywords</b> eingeben (bestimmt die zugeordnete CE-Kategorie, z. B. Spielzeug, Puzzle).</li>
+        <li><b>Zielplattform</b> wählen.</li>
+        <li>Auf „Kostenlosen Check starten" klicken → Risikostufe / anwendbare EU-Richtlinien / rechtliche Checkliste / erforderliche Warnhinweis-Sprachen; im Free-Tarif kann der Compliance-Block direkt kopiert werden.</li>
+      </ol>
+      <div class="note">🔑 Zugangsdaten sind <b>kontoübergreifend geteilt</b>: um Compliance-Blöcke zurück auf ein Plattform-Listing zu schreiben, verbinden Sie die Plattform <b>einmalig</b> im „Zugangsdaten-Center" oben, und alle Funktionen (Prüfung / Monitoring / Postfach / Service…) nutzen automatisch dieselben Zugangsdaten — keine erneute Verbindung pro Funktion nötig. <button class="btn ghost" style="margin:2px 0 0;padding:3px 10px;font-size:12px" onclick="goCredCenter()">Zum Zugangsdaten-Center →</button></div>
+    </details>
+    <p class="hint">Die EU-Verordnung 2023/988 ist bereits in Kraft: Listings ohne EU-Bevollmächtigten oder Warnhinweise in Landessprache werden von den Plattformen entfernt.
+      Geben Sie das Produkt ein, um Risikostufe, anwendbare Richtlinien und rechtliche Checkliste zu erhalten. Der Check ist kostenlos und verbraucht kein Kontingent.
+      <span style="color:#a15c00">Tipp: um den Compliance-Block tatsächlich auf Plattform-Listings zurückzuschreiben, verbinden Sie einmalig oben im Center — alle Funktionen nutzen es wieder.</span></p>
+    <label>Produktname *</label><input id="g_name" placeholder="Kinder-Baustein-Spielzeug">
+    <label>Kern-Keywords (durch Komma getrennt) *</label><input id="g_kw" placeholder="spielzeug, puzzle, kinder">
+    <div class="row">
+      <div><label>Zielplattform</label>
         <select id="g_platform">
-          <option value="amazon">Amazon EU-Marktplatz</option><option value="amazon_us">Amazon US-Marktplatz</option><option value="ebay">eBay</option>
-          <option value="cdiscount">Cdiscount (Frankreich)</option><option value="otto">Otto (Deutschland)</option>
-          <option value="allegro">Allegro (Polen)</option><option value="emag">eMAG (Rumänien)</option>
-          <option value="tiktok">TikTok Shop (EU/US)</option><option value="walmart">Walmart (USA)</option>
-          <option value="fruugo">Fruugo (paneuropäisch)</option><option value="kaufland">Kaufland (DE/Mittelosteuropa)</option>
-          <option value="zalando">Zalando (Europäische Mode)</option><option value="bol">bol.com (NL/BE)</option>
-        </select>
-        <button class="btn" id="btnGpsr">Prüfung starten →</button>
-        <div class="msg" id="g_msg"></div>
-      </div>
-      <div class="card">
-        <h3>Bericht</h3>
-        <div class="out" id="g_out"></div>
+          <option value="amazon">Amazon EU</option><option value="amazon_us">Amazon US</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount (France)</option><option value="otto">Otto (Germany)</option>
+          <option value="allegro">Allegro (Poland)</option><option value="emag">eMAG (Romania)</option>
+          <option value="kaufland">Kaufland (DE / CEE)</option><option value="zalando">Zalando (EU fashion)</option><option value="bol">bol.com (NL/BE)</option>
+          <option value="walmart">Walmart (US)</option><option value="fruugo">Fruugo (pan-EU)</option>
+        </select></div>
+    </div>
+    <button class="btn" id="btnGpsr">Kostenlosen Check starten</button>
+    <div id="gpsrMsg"></div><div id="gpsrResult"></div>
+  </div>
+
+  <!-- AI customer service -->
+  <div id="tab-cs" class="card hidden">
+    <h2>💬 KI-Kundenservice-Demo</h2>
+    <p class="panel-hint">Fügen Sie eine Käuferanfrage ein — die KI erkennt Absicht und Stimmung und entwirft eine konforme Antwort mit Art.50-Hinweis. Für Automatisierung ist Pro oder höher nötig.</p>
+    <details class="howto"><summary>❓ How to use (2 steps)</summary>
+      <ol>
+        <li><b>Käuferanfrage</b> eingeben (z. B. Wo ist meine Bestellung #123-...?), optional mit <b>Bestellnummer</b>.</li>
+        <li><b>Verkaufsplattform</b> wählen (bestimmt die GPSR-Hinweis-Sprache) → auf „Senden" klicken → Absicht/Stimmung wird automatisch erkannt, konforme Antwort generiert; bei Hochrisiko wird automatisch die Übergabe an einen Menschen vorgeschlagen.</li>
+      </ol>
+      <div class="note">Antworten tragen automatisch den KI-Hinweis nach EU-KI-Recht Art.50 in Landessprache; GPSR-Sicherheitsvorfälle (Überhitzung/Ersticken usw.) werden 🛡️ mit Bearbeitungsschritten markiert.</div>
+    </details>
+    <p class="hint">Erkennt automatisch Absicht (Versand / Rücksendung / Beschwerde / Anfrage) und Stimmung; bei Hochrisiko wird die Übergabe an einen Menschen vorgeschlagen.</p>
+    <div class="chat-box" id="chatBox"></div>
+    <label>Käuferanfrage</label><input id="cs_msg" placeholder="Wo ist meine Bestellung #123-4567890-1234567?">
+    <label>Verkaufsplattform (bestimmt die GPSR-Hinweis-Sprache)</label>
+    <select id="cs_platform">
+      <option value="amazon">Amazon EU</option>
+      <option value="ebay">eBay</option>
+      <option value="otto">Otto (Germany)</option>
+      <option value="allegro">Allegro (Poland)</option>
+      <option value="emag">eMAG (Romania)</option>
+      <option value="cdiscount">Cdiscount (France)</option>
+      <option value="kaufland">Kaufland (DE / CEE)</option>
+      <option value="bol">bol.com (NL/BE)</option>
+      <option value="zalando">Zalando (EU fashion)</option>
+      <option value="tiktok">TikTok Shop</option>
+      <option value="fruugo">Fruugo (pan-EU)</option>
+      <option value="miravia">Miravia (Spain)</option>
+      <option value="walmart">Walmart (US)</option>
+    </select>
+    <div class="row">
+      <div><label>Bestellnummer (optional)</label><input id="cs_order" placeholder="123-4567890-1234567"></div>
+      <div style="align-self:end"><button class="btn" id="btnCs" style="width:100%">Senden</button></div>
+    </div>
+  </div>
+
+  <!-- Ad copy -->
+  <div id="tab-ad" class="card hidden">
+    <h2>📣 Generator für Anzeigentexte</h2>
+    <p class="panel-hint">Machen Sie aus intakten Listings Anzeigen-Überschriften und Kurztexte für Google/Meta — keine Zugangsdaten nötig, verbraucht Ihr tägliches Generierungs-Kontingent.</p>
+    <details class="howto"><summary>❓ How to use (2 steps)</summary>
+      <ol>
+        <li><b>Produktname</b> / <b>Zielgruppe</b> (z. B. Fitness-Enthusiasten) / <b>Alleinstellungsmerkmal</b> eingeben.</li>
+        <li>Eine Plattform wählen (facebook / google / tiktok) → auf „Anzeigentext generieren" klicken → Haupttext + Überschrift + Beschreibung + CTA + Hashtags, Länge automatisch an die Limits der jeweiligen Plattform angepasst.</li>
+      </ol>
+    </details>
+    <p class="hint">Zeichenlimits von Facebook / Google / TikTok werden automatisch angepasst.</p>
+    <label>Produktname *</label><input id="a_name" placeholder">Intelligente Trinkflasche">
+    <div class="row">
+      <div><label>Plattform</label><select id="a_platform"><option>facebook</option><option>google</option><option>tiktok</option></select></div>
+      <div><label>Zielgruppe *</label><input id="a_audience" placeholder="Fitness-Enthusiasten"></div>
+    </div>
+    <label>Alleinstellungsmerkmal *</label><input id="a_usp" placeholder="Misst die Flüssigkeitszufuhr und leuchtet, um zum Trinken zu erinnern">
+    <button class="btn" id="btnAd">Anzeigentext generieren</button>
+    <div id="adMsg"></div><div id="adResult"></div>
+  </div>
+
+  <!-- Review rewrite + attribute validation -->
+  <div id="tab-review" class="card hidden">
+    <h2>🔄 Negative Bewertung → Listing-Rewrite</h2>
+    <p class="panel-hint">Fügen Sie eine negative Bewertung ein — wir finden die Listing-Lücke und generieren eine 5-Punkte-Korrektur, um die Beschreibung zu überarbeiten und Wiederholungen zu vermeiden.</p>
+    <details class="howto"><summary>❓ Anwendung (zwei Funktionen)</summary>
+      <ol>
+        <li><b>Bewertungs-Analyse</b>: den Text der negativen Bewertung einfügen (eine pro Zeile) → optional Sternbewertung und Material angeben → auf „Bewertung analysieren und Korrektur generieren" klicken → Problem-Themen + Bullet-Korrekturtext pro Thema; das Treffen von Sicherheitsbegriffen löst einen 🚨 GPSR-Sicherheitsvorfall-Alarm mit Bearbeitungsschritten aus.</li>
+        <li><b>Attributbaum-Prüfung</b>: Plattform wählen → auf „Attributbaum laden" klicken → nach Aufforderung ausfüllen → auf „Attribut-Vollständigkeit prüfen" klicken → Liste der harten Blockaden / Formatfehler / Vorschläge, um eine Ablehnung durch fehlende pflichtfeld-pflichtige Kategoriefelder zu vermeiden.</li>
+      </ol>
+      <div class="note">Die Bewertungs-Analyse kostet 1 Generierungs-Credit pro Durchlauf; die Attribut-Prüfung ist kostenlos.</div>
+    </details>
+    <p class="hint">Text der negativen Bewertung einfügen → Listing-Lücken automatisch finden → Bullet-Korrekturen zum Einfügen ausgeben. Kostet 1 Generierungs-Credit pro Durchlauf.</p>
+    <label>Text der negativen Bewertung (eine pro Zeile) *</label>
+    <textarea id="rv_text" style="min-height:110px" placeholder="Akku hält nicht lange, und es ist zu klein im Vergleich zu den Bildern. Keine Anleitung dabei."></textarea>
+    <div class="row">
+      <div><label>Durchschnittliche Sternbewertung (optional)</label>
+        <select id="rv_rating"><option value="">Nicht gesetzt</option><option value="1">⭐</option><option value="2">⭐⭐</option><option value="3">⭐⭐⭐</option></select></div>
+      <div><label>Produktmaterial (optional, für das Rewrite)</label><input id="rv_material" placeholder="ABS + Silikon"></div>
+    </div>
+    <button class="btn" id="btnReview">Bewertung analysieren und Korrektur generieren</button>
+    <div id="rvMsg"></div><div id="rvResult"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">✍️ Rewrite der Bewertungsantwort (öffentliche Antwort + private Entschädigung)</h3>
+    <p class="hint">Generiert Bewertungsantworten zum Einfügen nach Plattform-Regeln: Amazon-/eBay-Vorlagen werden automatisch umgeschaltet, mit Compliance-Selbstprüfung vor der Ausgabe (keine Kompensation/kein Cashback für Bewertungen, kein Off-Plattform-Traffic), vollständig protokolliert. <b>Nur Generierung — kein automatischer Versand</b>; Sie bestätigen und kopieren dann zur Plattform. Kostet 1 Generierungs-Credit pro Durchlauf.</p>
+    <div class="row">
+      <div><label>Plattform</label><select id="rr_platform">
+        <option value="amazon">Amazon</option><option value="ebay">eBay</option>
+      </select></div>
+      <div><label>Modus</label><select id="rr_mode">
+        <option value="both">Öffentliche Antwort + private Entschädigung</option><option value="public">Nur öffentliche Antwort</option><option value="private">Nur private Entschädigung</option>
+      </select></div>
+    </div>
+    <label>Listing-Kennung (ASIN / Artikel-ID / Link, optional)</label>
+    <input id="rr_listing" placeholder="B0XXXXXXXX / item-12345" style="width:100%">
+    <label>Text der negativen Bewertung *</label>
+    <textarea id="rr_text" style="min-height:80px" placeholder="Fügen Sie hier den Text der negativen Bewertung ein..."></textarea>
+    <button class="btn" id="btnRewrite">Rewrite generieren (Selbstprüfung + Protokoll)</button>
+    <div id="rrMsg"></div><div id="rrResult"></div>
+    <h4 style="margin:14px 0 4px">Verlauf</h4>
+    <div id="rrHistory"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">✅ Prüfung des Plattform-Attributbaums</h3>
+    <p class="hint">Fehlende oder falsche Kategoriepflichparameter = sofortige Ablehnung. Prüfen Sie die Attribut-Vollständigkeit je Plattform.</p>
+    <div class="row">
+      <div><label>Plattform</label><select id="at_platform">
+        <option value="allegro">Allegro</option><option value="emag">eMAG</option>
+        <option value="tiktok">TikTok Shop</option><option value="kaufland">Kaufland</option>
+        <option value="zalando">Zalando</option><option value="bol">bol.com</option><option value="amazon">Amazon (generic)</option><option value="amazon_us">Amazon US</option>
+      </select></div>
+      <div style="align-self:end"><button class="btn ghost" id="btnAttrLoad" style="margin:0;width:100%">Attributbaum laden</button></div>
+    </div>
+    <div id="attrFields" style="margin-top:10px"></div>
+    <button class="btn" id="btnAttrValidate" style="display:none">Attribut-Vollständigkeit prüfen</button>
+    <div id="attrResult"></div>
+  </div>
+
+  <!-- Listing monitoring (7x24) -->
+  <div id="tab-watch" class="card hidden">
+    <h2>📡 Listing-Überwachung <span class="badge">7x24</span></h2>
+    <p class="panel-hint">Fügen Sie Ihre Listings hinzu — wir führen tägliche Checks durch, markieren GPSR-/Regel-Risiken, generieren Compliance-Blöcke und mailen Ihnen einen Bericht (Pro: täglich, Business: Echtzeit-Alarme).</p>
+    <details class="howto"><summary>❓ Anwendung (3 Schritte)</summary>
+      <ol>
+        <li>Unten „Listing zum Monitoring-Repo hinzufügen": SKU / Produktname / Plattform / Keywords ausfüllen, idealerweise den <b>aktuellen Titel und die aktuelle Beschreibung</b> einfügen (die Engine erkennt daraus EU-Bevollmächtigten, Warnhinweise und andere GPSR-Elemente) → auf „Hinzufügen und sofortigen Check durchführen" klicken.</li>
+        <li>Täglich auf „⚡ Check durchführen und heutigen Bericht generieren" klicken (oder auf die geplante Aufgabe warten) → der Bericht listet Listings mit verschlechterten / neuen / verbesserten Risiken.</li>
+        <li>In einer Zeile auf „Details" klicken, um konkrete Risikopunkte + Korrekturhinweise + einen fertigen GPSR-Block zum Einfügen zu sehen; pro Eintrag „Erneut prüfen" und „Löschen" möglich.</li>
+      </ol>
+      <div class="note">Der Check ist eine deterministische Regel-Engine und verbraucht kein Generierungs-Kontingent; sobald SMTP konfiguriert ist, wird der Bericht automatisch per E-Mail versendet.</div>
+    </details>
+    <p class="hint">Listings im Monitoring-Repo ablegen → die Engine führt täglich automatische Checks auf GPSR-Konformität und Plattform-Regeln durch →
+      Änderungen der Risikostufe generieren einen Bericht (SMTP-E-Mail optional). Der Check ist deterministisch und verbraucht kein Generierungs-Kontingent.</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap">
+      <button class="btn" id="btnWatchRun" style="margin:0">⚡ Check durchführen und heutigen Bericht generieren</button>
+      <button class="btn ghost" id="btnWatchRefresh" style="margin:0">Liste aktualisieren</button>
+      <button class="btn ghost" id="btnWatchReport" style="margin:0">Letzten Bericht ansehen</button>
+    </div>
+    <div id="watchReportBox" style="margin-top:12px"></div>
+    <h3 style="margin-top:18px">Listing zum Monitoring-Repo hinzufügen</h3>
+    <div class="row">
+      <div style="flex:1"><label>SKU / Kennung</label><input id="w_sku" placeholder="SKU-001"></div>
+      <div style="flex:2"><label>Produktname *</label><input id="w_name" placeholder="Kinder-Baustein-Spielzeug"></div>
+      <div style="flex:1"><label>Plattform *</label><select id="w_platform"></select></div>
+    </div>
+    <label>Kern-Keywords (durch Komma getrennt)</label><input id="w_kw" placeholder="spielzeug, baustein, kinder">
+    <label>Aktueller Titel (optional, zur Längenprüfung)</label><input id="w_title" placeholder="Fügen Sie den aktuellen Listing-Titel ein">
+    <label>Aktuelle Beschreibung / Bullet-Punkte (optional, zur GPSR-Element-Erkennung)</label>
+    <textarea id="w_desc" style="min-height:70px" placeholder="Fügen Sie die aktuelle Listing-Beschreibung ein; die Engine erkennt, ob EU-Bevollmächtigter, Warnhinweise, Anleitungen usw. bereits angegeben sind"></textarea>
+    <button class="btn" id="btnWatchAdd">➕ Hinzufügen und sofortigen Check durchführen</button>
+    <div id="watchMsg"></div>
+    <h3 style="margin-top:18px">Monitoring-Liste <span class="hint" id="watchCount"></span></h3>
+    <div id="watchList"></div>
+    <div id="watchDetail" style="margin-top:12px"></div>
+  </div>
+
+  <!-- Subscription -->
+  <div id="tab-bill" class="card hidden">
+    <h2>💳 Abonnement</h2>
+    <p class="panel-hint">Free / Starter / Pro / Business — Tageskontingent, Plattform-Connectoren und Writeback-Stufe skalieren alle mit Ihrem Tarif.</p>
+    <details class="howto"><summary>❓ Anwendung</summary>
+      <ol>
+        <li>Das Feld oben zeigt Ihren aktuellen Tarif und die heutige Nutzung (Free-Tarif: 5 Aufrufe/Tag).</li>
+        <li>Klicken Sie auf „Wählen" in einer Tarif-Zeile, um zu wechseln: Starter €29 (1 Plattform · 1000 Aufrufe/Monat) / Pro €49 (3 Plattformen · alle Funktionen · 200 Aufrufe/Tag) / Business €149 (unbegrenzte Plattformen · API).</li>
+      </ol>
+      <div class="note">Derzeit im Demo-Modus: ohne Stripe-Schlüssel ist der Wechsel eine lokale Simulation und löst keine echte Belastung aus.</div>
+    </details>
+    <div id="subInfo" class="result"></div>
+    <table>
+      <tr><th>Tarif</th><th>Preis/Mon.</th><th>Funktionen</th><th></th></tr>
+      <tr><td><b>Starter</b></td><td class="price">€29</td><td>1 Plattform · Produktbeschreibung · 1000 Aufrufe/Monat</td>
+        <td><button class="btn" data-plan="starter" style="margin:0;padding:6px 14px">Wählen</button></td></tr>
+      <tr><td><b>Pro</b></td><td class="price">€49</td><td>3 Plattformen · alle Funktionen · 200 Aufrufe/Tag</td>
+        <td><button class="btn" data-plan="pro" style="margin:0;padding:6px 14px">Wählen</button></td></tr>
+      <tr><td><b>Business</b></td><td class="price">€149</td><td>Unbegrenzte Plattformen · API-Zugang · dedizierter Support</td>
+        <td><button class="btn" data-plan="business" style="margin:0;padding:6px 14px">Wählen</button></td></tr>
+    </table>
+    <p class="hint">⚠️ Demo-Modus: ohne Stripe-/PayPal-Schlüssel sind Upgrades eine lokale Simulation nur für Integrationstests.</p>
+  </div>
+
+  <!-- Unified inbox -->
+  <div id="tab-inbox" class="card hidden">
+    <h2>📥 Zentrales Postfach <span class="badge">13 Plattformen vereint</span></h2>
+    <p class="panel-hint">Käuferanfragen aller verbundenen Plattformen landen in einer Thread-Ansicht — die KI entwirft konforme Antworten, Sie bestätigen (Pro) oder es versendet automatisch (Business).</p>
+    <details class="howto"><summary>❓ Anwendung (3 Schritte)</summary>
+      <ol>
+        <li>Klicken Sie auf „<b>Demo-Konversationen laden</b>", um die mehrplattform-übergreifende Ansicht zu erleben (in der Produktion werden Käuferanfragen nach dem Verbinden der Plattform-Zugangsdaten automatisch importiert, ohne Handarbeit).</li>
+        <li>Nutzen Sie die oberen <b>Plattform-Filter-Chips</b>, um nur die Konversationen einer Plattform anzuzeigen.</li>
+        <li>Klicken Sie links auf eine Konversation, um den Thread zu sehen → tippen und senden Sie unten eine Antwort; Antworten durchlaufen automatisch den dreifachen Workflow: GPSR-Sicherheitshinweis + EU-KI-Recht Art.50-Hinweis + Plattform-Sprachzuordnung.</li>
+      </ol>
+      <div class="note">🔑 Zugangsdaten sind <b>kontoübergreifend geteilt</b>: für die Echtzeit-Nachrichtensynchronisation verbinden Sie die entsprechende Plattform einfach <b>einmalig</b> im oberen „Plattform-Zugangsdaten-Center", und Postfach / Service / Monitoring sowie alle Funktionen nutzen dieselben Zugangsdaten wieder. <button class="btn ghost" style="margin:2px 0 0;padding:3px 10px;font-size:12px" onclick="goCredCenter()">Zum Zugangsdaten-Center →</button></div>
+    </details>
+    <p class="hint">Holen Sie Käuferkonversationen von Amazon / eBay / Allegro / eMAG / Otto und allen Plattformen an einen Ort.
+      Antworten durchlaufen automatisch den kombinierten Workflow: GPSR-Sicherheitshinweis + <b>EU-KI-Recht Art.50</b>-Hinweis in Landessprache + automatische Plattform-Sprachzuordnung.
+      <br><span style="color:var(--muted)">Hinweis: der Echtzeit-Nachrichten-Sync-Connector (Abruf über die API jeder Plattform) ist ein separates Modul, das noch nicht angebunden ist; nutzen Sie zuerst „Demo-Daten", um die vereinheitlichte Ansicht auszuprobieren. Zugangsdaten einmal verbinden, alle Funktionen nutzen sie wieder.</span></p>
+    <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;flex-wrap:wrap;gap:6px" id="inboxFilters"></div>
+      <button class="btn ghost" id="btnInboxSeed" style="margin:0">Demo-Konversationen laden</button>
+      <button class="btn ghost" id="btnInboxRefresh" style="margin:0">Aktualisieren</button>
+    </div>
+    <div class="inbox-wrap">
+      <div class="inbox-list" id="inboxList"></div>
+      <div class="inbox-thread" id="inboxThread">
+        <div class="empty">← Wählen Sie links eine Konversation, um den Thread zu sehen</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ========== KI-Kundenservice ========== -->
-  <section class="pane" id="pane-cs">
-    <div class="grid2">
-      <div class="card">
-        <h3>💬 KI-Kundenservice — Entwurf &amp; Stimmung</h3>
-        <label>Käuferanfrage *</label>
-        <textarea id="cs_msg" placeholder="z. B. Where is my order? I ordered 5 days ago and nothing arrived."></textarea>
-        <label>Produktname (optional)</label>
-        <input id="cs_name" placeholder="z. B. Kids Building Blocks Toy">
-        <button class="btn" id="btnCs">Antwort entwerfen →</button>
-        <div class="msg" id="cs_msgbox"></div>
-      </div>
-      <div class="card">
-        <h3>Entwurf</h3>
-        <div class="out" id="cs_out"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Postfach ========== -->
-  <section class="pane" id="pane-inbox">
-    <div class="card">
-      <h3>📥 Postfach — Käuferanfragen</h3>
-      <div class="hint" style="margin-bottom:10px">Absichtserkennung &amp; Stimmungsanalyse — beim Öffnen einer Anfrage wird der Antwortentwurf geladen</div>
-      <div id="inboxList"><p class="hint">Wird geladen…</p></div>
-    </div>
-  </section>
-
-  <!-- ========== Anzeigentexte ========== -->
-  <section class="pane" id="pane-ads">
-    <div class="card">
-      <h3>📣 Anzeigentexte (Facebook / Google / TikTok)</h3>
-      <div class="grid2">
-        <div>
-          <label>Produktname *</label>
-          <input id="a_name" placeholder="z. B. Kids Building Blocks Toy">
-          <label>Kernbegriffe (durch Komma getrennt) *</label>
-          <input id="a_kw" placeholder="z. B. toy, puzzle, kids">
-          <label>Plattform</label>
-          <select id="a_platform">
-            <option value="facebook">Facebook</option><option value="google">Google</option><option value="tiktok">TikTok</option>
-          </select>
-          <button class="btn" id="btnAds">Anzeigentext generieren →</button>
-          <div class="msg" id="a_msg"></div>
-        </div>
-        <div>
-          <div class="out" id="a_out"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Bewertungs-Scan ========== -->
-  <section class="pane" id="pane-review">
-    <div class="card">
-      <h3>⭐ Bewertungs-Scan — Sicherheitsrelevante Begriffe</h3>
-      <label>Bewertungstext *</label>
-      <textarea id="r_text" placeholder="Fügen Sie den zu scannenden Bewertungstext ein"></textarea>
-      <button class="btn" id="btnReview">Scannen →</button>
-      <div class="msg" id="r_msg"></div>
-      <div class="out" id="r_out"></div>
-    </div>
-  </section>
-
-  <!-- ========== Monitoring ========== -->
-  <section class="pane" id="pane-monitor">
-    <div class="card">
-      <h3>📡 Listing-Monitoring — Täglicher Scan</h3>
-      <div class="hint" style="margin-bottom:12px">Listings werden täglich auf GPSR-Konformität und Zeichenlimits geprüft</div>
-      <div id="monList"><p class="hint">Wird geladen…</p></div>
-    </div>
-  </section>
-
-  <!-- ========== Abo ========== -->
-  <section class="pane" id="pane-billing">
-    <div class="grid2">
-      <div class="plan-card">
-        <h3>Starter</h3>
-        <div class="price">€29<small style="font-size:14px;color:#94a3b8"> / Monat</small></div>
-        <ul>
-          <li>200 KI-Generierungen pro Monat</li>
-          <li>GPSR-Compliance-Block, unbegrenzt</li>
-          <li>Postfach: 100 Käuferanfragen pro Monat</li>
-          <li>7-Tage-Verlauf der Generierungen</li>
-        </ul>
-        <button class="btn" id="btnUpgrade" style="background:#a78bfa;color:#1e1b4b">Upgrade starten →</button>
-      </div>
-      <div class="card">
-        <h3>💳 Aktueller Tarif &amp; Guthaben</h3>
-        <div id="billingInfo"><p class="hint">Wird geladen…</p></div>
-        <div class="msg" id="b_msg"></div>
-      </div>
-    </div>
-  </section>
-</div>
-
+</main>
 <footer class="wb-footer">
-  CrossAIO Workbench · <a href="/de/">Startseite</a> · <a href="/de/pricing">Preise</a> · <a href="/de/gpsr-check">Kostenloser Check</a> · <a href="/de/signin">Anmelden</a><br>
-  Berichte sind technische Hilfestellung und keine Rechtsberatung; maßgeblich sind die offiziellen EU-Texte.
+  <span>© 2026 CrossAIO</span>
+  <a href="/de/privacy">Datenschutzerklärung</a>
+  <a href="/de/terms">Nutzungsbedingungen</a>
+  <a href="/de/pricing">Preise</a>
+  <span id="buildStamp" style="margin-left:auto;opacity:.65;font-size:12px">build 2026-10-30-cred4</span>
 </footer>
+</div>
 
 <script>
 const API = "/api/v1";
-let token = localStorage.getItem("cb_token");
-if(!token){ location.href = "/de/signin"; }
+console.log("[CrossAIO] build 2026-10-30-cred2 · cred=scroll");
+(function(){
+  const q = new URLSearchParams(location.search);
+  const t = q.get("token");
+  if(t){
+    localStorage.setItem("cb_token", t);
+    q.delete("token");
+    const s = q.toString();
+    history.replaceState(null, "", "/de/app" + (s ? "?" + s : ""));
+  }
+})();
+let TOKEN = localStorage.getItem("cb_token") || "";
+let ME = null;
 
-function authHeaders(){ return {"Content-Type":"application/json", "Authorization":"Bearer "+token}; }
-function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function setMsg(id, text, cls){ const el=document.getElementById(id); el.innerHTML = text?`<div class="msg ${cls}">${text}</div>`:""; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]); }
+function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":"application/json"}; }
+async function api(path, opts={}){
+  const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
+  const data = await r.json().catch(()=>({}));
+  if(!r.ok){ if(r.status===401) throw new Error("Bitte melden Sie sich an"); throw new Error(data.detail || r.statusText); }
+  return data;
+}
 
-// ---------- Tabs ----------
-document.querySelectorAll(".wbnav .tab").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".wbnav .tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
-  b.classList.add("active");
-  document.getElementById("pane-"+b.dataset.tab).classList.add("active");
+function showApp(){
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  const t=new URLSearchParams(location.search).get("tab");
+  if(t && TABS.includes(t)) activateTab(t);
+}
+function renderUserbar(){
+  const el = document.getElementById("userbar");
+  el.innerHTML = ME ? `<span>${esc(ME.email)} · ${ME.plan.toUpperCase()}${ME.daily_limit?` (today ${ME.usage_today??0}/${ME.daily_limit})`:""}</span>
+    <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()">Abmelden</button>` : "";
+}
+function logout(){ localStorage.removeItem("cb_token"); location.reload(); }
+
+async function auth(path){
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  if(!email||!password) return setMsg("authMsg","Bitte E-Mail und Passwort eingeben","err");
+  try{
+    const d = await api(path,{method:"POST",body:JSON.stringify({email,password})});
+    TOKEN=d.access_token; localStorage.setItem("cb_token",TOKEN);
+    ME = await api("/users/me");
+    renderUserbar();
+    showApp(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+    _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear();
+  }catch(e){ setMsg("authMsg", e.message, "err"); }
+}
+document.getElementById("btnLogin").onclick=()=>auth("/users/login");
+document.getElementById("btnRegister").onclick=()=>auth("/users/register");
+
+const TABS = ["desc","gpsr","cs","inbox","ad","review","watch","bill"];
+function activateTab(name){
+  if(!TABS.includes(name)) name = "desc";
+  document.querySelectorAll("nav [data-tab]").forEach(x=>{
+    x.classList.toggle("active", x.dataset.tab===name);
+  });
+  TABS.forEach(t=>document.getElementById("tab-"+t).classList.toggle("hidden", t!==name));
+  if(name==="inbox") loadInbox();
+  history.pushState(null, "", "/de/app?tab="+name);
+  const panel = document.getElementById("tab-"+name);
+  if(panel) panel.scrollIntoView({behavior:"smooth", block:"start"});
+}
+document.querySelector("nav").addEventListener("click", e=>{
+  const el = e.target.closest("[data-tab]");
+  if(!el) return;
+  if(el.tagName === "A") e.preventDefault();
+  activateTab(el.dataset.tab);
+});
+try{ var _st=document.getElementById("buildStamp"); if(_st) _st.textContent += " · Interaktion bereit ✓"; }catch(_e){}
+document.addEventListener("DOMContentLoaded",()=>{
+  const t=new URLSearchParams(location.search).get("tab");
+  if(t && TABS.includes(t) && !document.getElementById("app").classList.contains("hidden")) activateTab(t);
 });
 
-// ---------- Nutzerinfo ----------
-(async function(){
+// Product description
+document.getElementById("btnDesc").onclick=async()=>{
+  setMsg("descMsg",""); document.getElementById("descResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("d_name").value.trim(),
+    keywords:document.getElementById("d_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    platform:document.getElementById("d_platform").value,
+    language:document.getElementById("d_lang").value,
+  };
+  if(!body.product_name||!body.keywords.length) return setMsg("descMsg","Bitte Produktname und Keywords eingeben","err");
+  const btn=document.getElementById("btnDesc"); btn.disabled=true; btn.textContent="Generiere…";
   try{
-    const r = await fetch(API+"/users/me", {headers:authHeaders()});
-    if(r.status===401){ localStorage.removeItem("cb_token"); location.href="/de/signin"; return; }
-    const d = await r.json();
-    document.getElementById("uEmail").textContent = d.email||"";
-    document.getElementById("uPlan").textContent = (d.plan||"Free");
-    document.getElementById("billingInfo").innerHTML =
-      `<p><b>Tarif:</b> ${esc(d.plan||"Free")}</p>` +
-      `<p><b>Guthaben (Monat):</b> ${d.generations_left ?? "-"}</p>` +
-      `<p class="hint">Abrechnung über Stripe / PayPal — jederzeit kündbar</p>`;
-  }catch(e){}
+    const d=await api("/products/descriptions/generate",{method:"POST",body:JSON.stringify(body)});
+    document.getElementById("descResult").innerHTML=renderDescCard(d);
+  }catch(e){ setMsg("descMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="Produktbeschreibung generieren";
+};
+
+// European multi-country matrix
+const MATRIX_DEFAULTS = ["amazon","ebay","cdiscount","otto","allegro","emag","tiktok","fruugo"];
+(function initMatrix(){
+  const box = document.getElementById("matrixPlatforms");
+  fetch(API+"/products/platforms?lang=de").then(r=>r.json()).then(reg=>{
+    box.innerHTML = Object.entries(reg).map(([k,v])=>{
+      const checked = MATRIX_DEFAULTS.includes(k) ? "checked" : "";
+      return `<label style="display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer">
+        <input type="checkbox" value="${k}" ${checked}> ${v.display} <span class="hint">(${v.language}, ≤${v.title_max})</span></label>`;
+    }).join("");
+  });
 })();
-
-document.getElementById("btnLogout").onclick = () => {
-  localStorage.removeItem("cb_token");
-  location.href = "/de/";
+function renderDescCard(d){
+  return `<div class="result">
+    <span class="badge">${d.platform}</span><span class="badge">${(d.language||"").toUpperCase()}</span>
+    <span class="badge">Score ${d.optimization_score}</span>
+    <span class="badge">${d.platform_compliant?"✅ Plattform-konform":"⚠️ "+(d.violations||[]).join("; ")}</span>
+    ${d.semantic_score!=null?`<span class="badge">🔍 Rufus-Semantik ${d.semantic_score}</span>`:""}
+    ${d.gpsr_risk_level?`<span class="badge">🛡️ GPSR ${d.gpsr_risk_level}</span>`:""}
+    <h3>Titel (${d.character_count} Zeichen)</h3><p>${d.title}</p>
+    <h3>Fünf Bullet-Punkte</h3><ol>${d.bullet_points.map(b=>`<li><b>${b.heading}</b> — ${b.content}</li>`).join("")}</ol>
+    <h3>Detailseiten-Beschreibung</h3><p>${d.description}</p>
+    <h3>Backend-Suchbegriffe</h3><p>${d.search_terms}</p>
+    ${d.semantic_score!=null?`<h3>🔍 Rufus/iZi-Semantik-Passung (Abdeckung der häufigen Käuferfragen)</h3>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="badge" style="font-size:13.5px;padding:5px 12px">Semantische Abdeckung <b>${d.semantic_score}</b> / 100</span>
+        <span class="hint">${d.semantic_score>=80?"✅ Semantische Passung ohne Wettbewerbsabdeckung: kann die häufigen Rufus/iZi-Fragen treffen":(d.semantic_score>=50?"🟡 Mittlere Abdeckung, Lücken füllen":"🔴 Niedrige Abdeckung, Optimierung nötig")}</span>
+      </div>
+      ${(d.semantic_gaps||[]).length?`<p class="hint" style="margin-top:7px;color:#a15c00">Lücken bei häufigen Käuferfragen (${d.semantic_gaps.length}): <b>${d.semantic_gaps.map(esc).join(" · ")}</b></p>`:`<p class="hint" style="margin-top:7px;color:#15803d">✅ Alle 8 Typen häufiger Käuferfragen abgedeckt, keine Lücken</p>`}`:""}
+    ${d.gpsr_block?`<h3>🛡️ GPSR-Compliance-Block (mit dem Listing veröffentlicht)</h3><pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${d.gpsr_block}</pre>`:""}</div>`;
+}
+document.getElementById("btnMatrix").onclick=async()=>{
+  setMsg("matrixMsg",""); document.getElementById("matrixResult").innerHTML="";
+  const platforms=[...document.querySelectorAll("#matrixPlatforms input:checked")].map(i=>i.value);
+  if(!platforms.length) return setMsg("matrixMsg","Haken Sie mindestens eine Plattform an","err");
+  const name=document.getElementById("d_name").value.trim();
+  const keywords=document.getElementById("d_kw").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if(!name||!keywords.length) return setMsg("matrixMsg","Geben Sie oben zuerst Produktname und Keywords ein","err");
+  const btn=document.getElementById("btnMatrix"); btn.disabled=true; btn.textContent="Generiere…";
+  try{
+    const d=await api("/products/descriptions/market-matrix",{method:"POST",body:JSON.stringify({
+      product_name:name, keywords, platforms})});
+    document.getElementById("matrixResult").innerHTML=
+      `<div class="msg ok">Fertig: ${d.succeeded}/${d.requested} Plattformen erfolgreich generiert${d.errors.length?", "+d.errors.map(e=>e.platform+": "+e.error).join("; "):""}</div>`
+      + d.results.map(renderDescCard).join("");
+  }catch(e){ setMsg("matrixMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="Multi-Plattform-Matrix generieren";
 };
 
-// ---------- Listing-Texte ----------
-document.getElementById("btnListing").onclick = async () => {
-  const btn = document.getElementById("btnListing"); btn.disabled = true; btn.textContent = "Generiere…";
-  const out = document.getElementById("l_out"), msg = document.getElementById("l_msg");
-  msg.className = "msg"; out.classList.remove("show");
+// GPSR compliance check
+const RISK_LABEL = {high:"🔴 Hohes Risiko (CE-Kategorie)", medium:"🟡 Mittleres Risiko", low:"🟢 Geringes Risiko"};
+document.getElementById("btnGpsr").onclick=async()=>{
+  setMsg("gpsrMsg",""); document.getElementById("gpsrResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("g_name").value.trim(),
+    keywords:document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    platform:document.getElementById("g_platform").value,
+  };
+  if(!body.product_name||!body.keywords.length) return setMsg("gpsrMsg","Bitte Produktname und Keywords eingeben","err");
+  const btn=document.getElementById("btnGpsr"); btn.disabled=true; btn.textContent="Prüfe…";
   try{
-    const r = await fetch(API+"/products/generate-listing", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({
-        product_name:document.getElementById("l_name").value.trim(),
-        keywords:document.getElementById("l_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
-        platform:document.getElementById("l_platform").value,
-        language:document.getElementById("l_lang").value
-      })});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Generierung fehlgeschlagen");
-    out.textContent = d.text || JSON.stringify(d, null, 2);
-    out.classList.add("show");
-    msg.className = "msg ok"; msg.textContent = "Generierung abgeschlossen";
-  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
-  btn.disabled = false; btn.textContent = "Generieren →";
+    const d=await api("/products/gpsr/check",{method:"POST",body:JSON.stringify(body)});
+    const checklist = d.checklist.map(c=>
+      `<tr><td>${c.required?"Erforderlich":"Empfohlen"}</td><td><b>${c.name}</b><br><span class="hint">${c.detail}</span></td></tr>`).join("");
+    document.getElementById("gpsrResult").innerHTML=`<div class="result">
+      <span class="badge">${RISK_LABEL[d.risk_level]||d.risk_level}</span>
+      <span class="badge">${d.matched_categories}</span>
+      <span class="badge">Warnhinweis-Sprachen: ${d.required_languages.map(l=>l.toUpperCase()).join(" / ")}</span>
+      ${d.ce_directives.length?`<h3>Anwendbare Richtlinien</h3><p>${d.ce_directives.join("<br>")}</p>`:""}
+      ${d.category_notes?`<h3>Kategorie-Hinweise</h3><p>${d.category_notes}</p>`:""}
+      <h3>Rechtliche Checkliste</h3><table><tr><th>Stufe</th><th>Punkt</th></tr>${checklist}</table>
+      ${d.gpsr_block
+        ? `<h3>✅ Fertiger GPSR-Compliance-Block zum Einfügen</h3><pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${d.gpsr_block}</pre>`
+        : (d.upsell_note?`<div class="msg err">${d.upsell_note}<br><button class="btn" onclick="activateTab('bill')" style="padding:6px 16px">Upgrade, um freizuschalten →</button></div>`:"")}
+    </div>`;
+  }catch(e){ setMsg("gpsrMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="Kostenlosen Check starten";
 };
 
-// ---------- GPSR-Check ----------
-document.getElementById("btnGpsr").onclick = async () => {
-  const btn = document.getElementById("btnGpsr"); btn.disabled = true; btn.textContent = "Prüfe…";
-  const out = document.getElementById("g_out"), msg = document.getElementById("g_msg");
-  msg.className = "msg"; out.classList.remove("show");
+// AI customer service
+function addBubble(text, who, meta){
+  const box=document.getElementById("chatBox");
+  const div=document.createElement("div");
+  div.className="bubble "+who;
+  div.textContent=text;
+  if(meta){ const m=document.createElement("div"); m.className="meta"; m.textContent=meta; div.appendChild(m); }
+  box.appendChild(div); box.scrollTop=box.scrollHeight;
+}
+document.getElementById("btnCs").onclick=async()=>{
+  const msg=document.getElementById("cs_msg").value.trim();
+  if(!msg) return;
+  addBubble(msg,"user"); document.getElementById("cs_msg").value="";
+  addBubble("Denke nach…","ai");
   try{
-    const r = await fetch(API+"/products/gpsr/check", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({
-        product_name:document.getElementById("g_name").value.trim(),
-        keywords:document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
-        platform:document.getElementById("g_platform").value
-      })});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Prüfung fehlgeschlagen");
-    out.textContent = JSON.stringify(d, null, 2);
-    out.classList.add("show");
-    msg.className = "msg ok"; msg.textContent = "Prüfung abgeschlossen";
-  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
-  btn.disabled = false; btn.textContent = "Prüfung starten →";
+    const d=await api("/customer-service/messages",{method:"POST",body:JSON.stringify({
+      customer_message:msg,
+      order_id:document.getElementById("cs_order").value.trim()||null,
+      platform:document.getElementById("cs_platform").value})});
+    const box=document.getElementById("chatBox"); box.lastChild.remove();
+    let meta=`Absicht:${d.intent} · Stimmung:${d.sentiment}`;
+    if(d.gpsr_incident) meta+=" · 🛡️ GPSR-Sicherheitsvorfall";
+    if(d.ai_act_disclosure) meta+=" · 🤖 KI-Recht-Hinweis erfolgt";
+    if(d.needs_escalation) meta+=" · ⚠️ Übergabe an Mensch vorgeschlagen";
+    addBubble(d.reply,"ai",meta);
+  }catch(e){ document.getElementById("chatBox").lastChild.textContent="❌ "+e.message; }
 };
 
-// ---------- KI-Kundenservice ----------
-document.getElementById("btnCs").onclick = async () => {
-  const btn = document.getElementById("btnCs"); btn.disabled = true; btn.textContent = "Entwerfe…";
-  const out = document.getElementById("cs_out"), msg = document.getElementById("cs_msgbox");
-  msg.className = "msg"; out.classList.remove("show");
+// Ad copy
+document.getElementById("btnAd").onclick=async()=>{
+  setMsg("adMsg",""); document.getElementById("adResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("a_name").value.trim(),
+    platform:document.getElementById("a_platform").value,
+    target_audience:document.getElementById("a_audience").value.trim(),
+    unique_selling_point:document.getElementById("a_usp").value.trim(),
+  };
+  if(!body.product_name||!body.target_audience||!body.unique_selling_point)
+    return setMsg("adMsg","Bitte alle Pflichtfelder ausfüllen","err");
   try{
-    const r = await fetch(API+"/cs/draft", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({
-        message:document.getElementById("cs_msg").value.trim(),
-        product_name:document.getElementById("cs_name").value.trim() || null
-      })});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Entwurf fehlgeschlagen");
-    out.textContent = d.draft || JSON.stringify(d, null, 2);
-    out.classList.add("show");
-    msg.className = "msg ok"; msg.textContent = "Entwurf erstellt";
-  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
-  btn.disabled = false; btn.textContent = "Antwort entwerfen →";
+    const d=await api("/ads/generate",{method:"POST",body:JSON.stringify(body)});
+    document.getElementById("adResult").innerHTML=`
+      <div class="result">
+        <h3>Haupttext (${d.character_counts.primary_text} Zeichen)</h3><p>${d.primary_text}</p>
+        <h3>Überschrift (${d.character_counts.headline})</h3><p>${d.headline}</p>
+        <h3>Beschreibung (${d.character_counts.description})</h3><p>${d.description}</p>
+        <p><b>CTA:</b> ${d.cta} &nbsp; ${d.hashtags.join(" ")}</p>
+      </div>`;
+  }catch(e){ setMsg("adMsg", e.message, "err"); }
 };
 
-// ---------- Postfach ----------
-(async function(){
-  const box = document.getElementById("inboxList");
+// Review → Listing rewrite
+document.getElementById("btnReview").onclick=async()=>{
+  setMsg("rvMsg",""); document.getElementById("rvResult").innerHTML="";
+  const reviews=document.getElementById("rv_text").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  if(!reviews.length) return setMsg("rvMsg","Fügen Sie mindestens eine negative Bewertung ein","err");
+  const rating=document.getElementById("rv_rating").value;
+  const btn=document.getElementById("btnReview"); btn.disabled=true; btn.textContent="Analysiere…";
   try{
-    const r = await fetch(API+"/cs/inbox", {headers:authHeaders()});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Postfach nicht ladbar");
-    if(!d.items || !d.items.length){ box.innerHTML = '<p class="hint">Keine Käuferanfragen vorhanden</p>'; return; }
-    box.innerHTML = d.items.map((m,i)=>`
-      <div class="inbox-row" onclick="openMsg(${i})">
-        <div style="flex:1">
-          <div><b>${esc(m.subject||"(ohne Betreff)")}</b> <span class="intent">${esc(m.intent||"-")}</span></div>
-          <div class="meta">${esc(m.from||"")} · ${esc(m.received_at||"")}</div>
-          <div class="meta">${esc((m.message||"").slice(0,120))}…</div>
-        </div>
-        <div style="text-align:right"><span class="sentiment-${m.sentiment==='neg'?'neg':m.sentiment==='pos'?'low':'neu'}">${esc(m.sentiment||"-")}</span></div>
+    const d=await api("/products/review-insights",{method:"POST",body:JSON.stringify({
+      reviews,
+      rating: rating?parseInt(rating):null,
+      material: document.getElementById("rv_material").value.trim()||null,
+    })});
+    const sevLabel={critical:"🔴 Kritisch",high:"🟠 Hoch",medium:"🟡 Mittel",low:"🟢 Niedrig"};
+    const sAlert = d.safety_alert && d.safety_alert.incident_detected ? `
+      <div style="border:2px solid #c0392b;border-radius:10px;padding:14px;margin-top:10px;background:#fdf0ef">
+        <b style="color:#c0392b">🚨 GPSR-Sicherheitsvorfall-Alarm — sicherheitsrelevante negative Bewertungen erkannt (${d.safety_alert.hits.length} Treffer in: ${d.safety_alert.categories_hit.join(", ")})</b>
+        <p style="margin:8px 0 4px">${d.safety_alert.deadline_note}</p>
+        <ol style="margin:6px 0 0 18px">${d.safety_alert.action_steps.map(s=>`<li style="margin:4px 0">${s}</li>`).join("")}</ol>
+        <p class="hint" style="margin-top:6px">Treffer-Evidenz: ${d.safety_alert.hits.map(h=>`"${h.word}"`).slice(0,8).join(", ")}</p>
+      </div>`:"";
+    document.getElementById("rvResult").innerHTML=`<div class="result">
+      <span class="badge">${d.reviews_analyzed} Bewertungen analysiert</span>
+      <span class="badge">Stimmung ${d.sentiment}</span>
+      <p style="margin-top:8px">${d.summary}</p>
+      ${sAlert}
+      ${d.themes.map(t=>`
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:10px">
+          <b>${sevLabel[t.severity]||t.severity} ${t.theme}</b>
+          <span class="hint"> Evidenz: ${t.evidence_keywords.join(", ")}</span>
+          <p style="margin-top:6px">📌 ${t.listing_action}</p>
+          <p style="margin-top:6px;background:#f8fafc;border-radius:8px;padding:8px 12px">
+            ✍️ Bullet-Korrektur: <b>${t.bullet_fix.heading}</b> — ${t.bullet_fix.content}</p>
+        </div>`).join("")}
+    </div>`;
+  }catch(e){ setMsg("rvMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="Bewertung analysieren und Korrektur generieren";
+};
+
+// ===== Review reply rewrite (public/private dual output + rule self-check + log; generates only, does not send) =====
+const RR_STATUS = {pending:"🟡 Auf menschliche Bestätigung wartend", approved:"🟢 Selbstprüfung bestanden", exported:"✅ Exportiert"};
+function _b64(s){ return btoa(unescape(encodeURIComponent(s))); }
+function _unb64(s){ return decodeURIComponent(escape(atob(s))); }
+function copyRewrite(btn){
+  try{ navigator.clipboard.writeText(_unb64(btn.dataset.copy)).then(()=>{ btn.textContent="Kopiert ✓"; setTimeout(()=>btn.textContent="Kopieren",1200); }); }
+  catch(e){ btn.textContent="Kopieren fehlgeschlagen"; }
+}
+async function loadRewriteHistory(){
+  try{
+    const d=await api("/reviews/rewrite/history?page_size=10");
+    document.getElementById("rrHistory").innerHTML = d.items.length
+      ? `<table style="width:100%;font-size:13px"><tr><th>Platform</th><th>Status</th><th>Review (excerpt)</th><th>Time</th></tr>` +
+        d.items.map(x=>`<tr><td>${esc(x.platform)}</td><td>${RR_STATUS[x.status]||esc(x.status)}</td>
+          <td>${esc(x.review_snippet)}</td><td>${String(x.created_at||"").slice(0,16).replace("T"," ")}</td></tr>`).join("") + `</table>`
+      : '<p class="hint">No rewrite history yet.</p>';
+  }catch(e){ document.getElementById("rrHistory").innerHTML=`<p class="hint">Verladung des Verlaufs fehlgeschlagen: ${esc(e.message)}</p>`; }
+}
+document.getElementById("btnRewrite").onclick=async()=>{
+  const btn=document.getElementById("btnRewrite"), msgEl=document.getElementById("rrMsg");
+  const text=document.getElementById("rr_text").value.trim();
+  if(!text) return setMsg("rrMsg","Fügen Sie den Text der negativen Bewertung ein","err");
+  btn.disabled=true; btn.textContent="⏳ Generiere…"; setMsg("rrMsg","","");
+  try{
+    const d=await api("/reviews/rewrite",{method:"POST",body:JSON.stringify({
+      platform:document.getElementById("rr_platform").value,
+      mode:document.getElementById("rr_mode").value,
+      listing_ref:document.getElementById("rr_listing").value.trim(),
+      review_snippet:text})});
+    const rc=d.rule_check||{};
+    const riskHtml=(rc.attention||[]).map(a=>`<div class="msg" style="color:#a15c00">⚠️ ${esc(a)}</div>`).join("")+
+      (rc.risk||[]).map(r=>`<div class="msg" style="color:#b91c1c">🔴 Selbstprüfungs-Risiko: ${esc(r.rule)} (Auszug: ${esc(r.snippet)})</div>`).join("");
+    const note=rc.note?`<span class="hint"> — ${esc(rc.note)}</span>`:"";
+    let html=`<div class="msg ${d.status==="approved"?"ok":""}" style="margin-top:8px">${RR_STATUS[d.status]||esc(d.status)}${note}</div>${riskHtml}`;
+    if(d.public_reply) html+=`<div style="margin-top:10px"><b>Öffentliche Antwort:</b>
+      <div class="copybox" style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-top:4px;white-space:pre-wrap">${esc(d.public_reply)}</div>
+      <button class="btn ghost" style="margin-top:4px;padding:3px 10px;font-size:12px" data-copy="${_b64(d.public_reply)}" onclick="copyRewrite(this)">Kopieren</button></div>`;
+    if(d.private_message) html+=`<div style="margin-top:10px"><b>Private Entschädigung:</b>
+      <div class="copybox" style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-top:4px;white-space:pre-wrap">${esc(d.private_message)}</div>
+      <button class="btn ghost" style="margin-top:4px;padding:3px 10px;font-size:12px" data-copy="${_b64(d.private_message)}" onclick="copyRewrite(this)">Kopieren</button></div>`;
+    document.getElementById("rrResult").innerHTML=html;
+    loadRewriteHistory();
+  }catch(e){ setMsg("rrMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="Rewrite generieren (Selbstprüfung + Protokoll)";
+};
+loadRewriteHistory();
+
+// Platform attribute tree validation
+document.getElementById("btnAttrLoad").onclick=async()=>{
+  const platform=document.getElementById("at_platform").value;
+  setMsg("attrResult","");
+  try{
+    const d=await api(`/products/attributes/${platform}`);
+    document.getElementById("attrFields").innerHTML=d.attributes.map(a=>`
+      <div style="margin-top:8px">
+        <label>${a.label} ${a.required==="hard"?'<span style="color:var(--err)">*</span>':""}
+          <span class="hint">${a.help||""}${a.example?` (e.g. ${a.example})`:""}</span></label>
+        <input data-akey="${a.key}" placeholder="${a.example||a.type}">
       </div>`).join("");
-    window._inbox = d.items;
-  }catch(e){ box.innerHTML = '<p class="msg err" style="display:block">'+esc(e.message)+'</p>'; }
-})();
-window.openMsg = async function(i){
-  const m = window._inbox[i];
-  if(!m || m._draft) return;
+    const vb=document.getElementById("btnAttrValidate");
+    vb.style.display="inline-block"; vb.dataset.platform=platform;
+  }catch(e){ setMsg("attrResult", e.message, "err"); }
+};
+document.getElementById("btnAttrValidate").onclick=async()=>{
+  const platform=document.getElementById("at_platform").value;
+  const attributes={};
+  document.querySelectorAll("#attrFields input[data-akey]").forEach(i=>{
+    if(i.value.trim()) attributes[i.dataset.akey]=i.value.trim();
+  });
   try{
-    const r = await fetch(API+"/cs/draft", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({message:m.message, product_name:m.product_name||null})});
-    const d = await r.json();
-    m._draft = d.draft || JSON.stringify(d,null,2);
-    alert("Antwortentwurf:\n\n" + m._draft);
-  }catch(e){ alert("Entwurf fehlgeschlagen: "+e.message); }
+    const d=await api("/products/attributes/validate",{method:"POST",body:JSON.stringify({
+      platform, category:"generic", attributes})});
+    document.getElementById("attrResult").innerHTML=`<div class="result">
+      <span class="badge">${d.ready_to_list?"✅ Bereit zum Hochladen":"🚫 Harte Blockaden vorhanden"}</span>
+      <span class="badge">Vollständigkeit ${d.completeness}%</span>
+      <span class="badge">${d.checked_total} Punkte geprüft</span>
+      ${d.blockers.length?`<h3 style="color:var(--err)">🚫 Harte Blockaden (werden ohne Behebung abgelehnt)</h3><p>${d.blockers.join("<br>")}</p>`:""}
+      ${d.invalid.length?`<h3>Formatfehler</h3><p>${d.invalid.map(i=>`${i.label}: ${i.error}`).join("<br>")}</p>`:""}
+      ${d.suggested.length?`<h3>Zum Ausfüllen vorgeschlagen</h3><p>${d.suggested.map(i=>`${i.label}: ${i.hint||""}`).join("<br>")}</p>`:""}
+    </div>`;
+  }catch(e){ setMsg("attrResult", e.message, "err"); }
 };
 
-// ---------- Anzeigentexte ----------
-document.getElementById("btnAds").onclick = async () => {
-  const btn = document.getElementById("btnAds"); btn.disabled = true; btn.textContent = "Generiere…";
-  const out = document.getElementById("a_out"), msg = document.getElementById("a_msg");
-  msg.className = "msg"; out.classList.remove("show");
+// ===== Listing monitoring (7x24) =====
+async function loadSubscription(){
   try{
-    const r = await fetch(API+"/ads/generate", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({
-        product_name:document.getElementById("a_name").value.trim(),
-        keywords:document.getElementById("a_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
-        platform:document.getElementById("a_platform").value
-      })});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Generierung fehlgeschlagen");
-    out.textContent = d.text || JSON.stringify(d, null, 2);
-    out.classList.add("show");
-    msg.className = "msg ok"; msg.textContent = "Anzeigentext erstellt";
-  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
-  btn.disabled = false; btn.textContent = "Anzeigentext generieren →";
-};
-
-// ---------- Bewertungs-Scan ----------
-document.getElementById("btnReview").onclick = async () => {
-  const btn = document.getElementById("btnReview"); btn.disabled = true; btn.textContent = "Scanne…";
-  const out = document.getElementById("r_out"), msg = document.getElementById("r_msg");
-  msg.className = "msg"; out.classList.remove("show");
+    const s=await api("/billing/subscription");
+    document.getElementById("subInfo").innerHTML=
+      `<p>Aktueller Tarif: <b>${s.plan.toUpperCase()}</b> (€${s.monthly_price_usd}/Mon.) · Status: ${s.stripe_status||"-"}<br>
+       Heutige Nutzung: ${s.usage_today} / ${s.daily_limit} · Monatslimit: ${s.monthly_limit??"unbegrenzt"}</p>`;
+  }catch(e){}
+}
+document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
   try{
-    const r = await fetch(API+"/reviews/scan", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({text:document.getElementById("r_text").value.trim()})});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Scan fehlgeschlagen");
-    out.textContent = JSON.stringify(d, null, 2);
-    out.classList.add("show");
-    msg.className = d.flagged ? "msg err" : "msg ok";
-    msg.textContent = d.flagged ? "Warnung: sicherheitsrelevante Begriffe erkannt" : "Keine sicherheitsrelevanten Begriffe erkannt";
-  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
-  btn.disabled = false; btn.textContent = "Scannen →";
-};
-
-// ---------- Monitoring ----------
-(async function(){
-  const box = document.getElementById("monList");
-  try{
-    const r = await fetch(API+"/monitor/listings", {headers:authHeaders()});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Monitoring nicht ladbar");
-    if(!d.listings || !d.listings.length){ box.innerHTML = '<p class="hint">Noch keine Listings im Monitoring</p>'; return; }
-    box.innerHTML = '<table><tr><th>Produkt</th><th>Plattform</th><th>Risiko</th><th>Letzter Scan</th></tr>' +
-      d.listings.map(l=>`<tr><td>${esc(l.product_name||"-")}</td><td>${esc(l.platform||"-")}</td>
-        <td class="risk-${(l.risk_level==='high'?'high':l.risk_level==='medium'?'med':'low')}">${esc(l.risk_level||"-")}</td>
-        <td>${esc(l.last_scan||"-")}</td></tr>`).join("") + "</table>";
-  }catch(e){ box.innerHTML = '<p class="msg err" style="display:block">'+esc(e.message)+'</p>'; }
+    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan, billing:(window.__upgBilling||"monthly")})});
+    if(r.mode==="stripe" && r.checkout_url){ window.location.href=r.checkout_url; return; }
+    if(r.mode==="paypal" && r.approve_url){ window.location.href=r.approve_url; return; }
+    setMsg("subInfo","Zu "+b.dataset.plan+" gewechselt (lokale Demo)","ok"); loadSubscription();
+  }catch(e){ setMsg("subInfo", e.message, "err"); }
+});
+// 定价页 ?plan= → 注册后 ?upgrade=X 自动发起升级（直达收银台）
+(function(){
+  const up = new URLSearchParams(location.search).get("upgrade");
+  if(up && ["starter","pro","business"].indexOf(up) >= 0){
+    window.__upgBilling = (new URLSearchParams(location.search).get("billing") === "yearly") ? "yearly" : "monthly";
+    try{ history.replaceState({}, "", location.pathname); }catch(e){}
+    const b = document.querySelector('[data-plan="' + up + '"]');
+    if(b) setTimeout(function(){ b.click(); }, 600);
+  }
 })();
 
-// ---------- Upgrade ----------
-document.getElementById("btnUpgrade").onclick = async () => {
-  const btn = document.getElementById("btnUpgrade"), msg = document.getElementById("b_msg");
-  btn.disabled = true; btn.textContent = "Leite weiter…";
+
+const LEVEL_BADGE = {high:"🔴", medium:"🟡", low:"🟢"};
+(async function initWatchPlatform(){
+  const sel=document.getElementById("w_platform");
   try{
-    const r = await fetch(API+"/billing/checkout", {method:"POST", headers:authHeaders(),
-      body:JSON.stringify({plan:"starter"})});
-    const d = await r.json();
-    if(!r.ok) throw new Error(d.detail || "Checkout fehlgeschlagen");
-    if(d.url) location.href = d.url;
-    else { msg.className = "msg ok"; msg.textContent = "Checkout bereitgestellt"; }
-  }catch(e){ msg.className = "msg err"; msg.textContent = e.message; }
-  btn.disabled = false; btn.textContent = "Upgrade starten →";
+    const reg=await (await fetch(API+"/products/platforms?lang=de")).json();
+    sel.innerHTML=Object.entries(reg).map(([k,v])=>`<option value="${k}">${v.display}</option>`).join("");
+  }catch(e){ sel.innerHTML='<option value="amazon">Amazon EU</option>'; }
+})();
+async function loadWatchList(){
+  try{
+    const d=await api("/listings");
+    document.getElementById("watchCount").textContent=`(${d.listings.length} / ${d.limit} Einträge, nach Risiko sortiert)`;
+    document.getElementById("watchList").innerHTML = d.listings.length ? `<table>
+      <tr><th>Status</th><th>SKU</th><th>Produkt</th><th>Plattform</th><th>Risiko-Score</th><th>Probleme</th><th>Letzter Check</th><th></th></tr>
+      ${d.listings.map(w=>`<tr>
+        <td>${LEVEL_BADGE[w.risk_level]||""} ${w.risk_level}</td><td>${w.sku||"-"}</td>
+        <td>${w.product_name}</td><td>${w.platform}</td><td>${w.risk_score}</td>
+        <td>${w.risk_count}</td><td class="hint">${(w.last_checked_at||"").slice(0,16).replace("T"," ")}</td>
+        <td style="white-space:nowrap">
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchDetail('${w.id}')">Details</button>
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchRecheck('${w.id}')">Erneut prüfen</button>
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchDelete('${w.id}')">Löschen</button></td>
+      </tr>`).join("")}</table>`
+      : '<p class="hint">Noch keine Listings in der Überwachung. Fügen Sie das erste hinzu, und die Engine startet automatisch tägliche Checks.</p>';
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+}
+window.watchDetail = async id=>{
+  try{
+    const w=await api("/listings/"+id);
+    document.getElementById("watchDetail").innerHTML=`<div class="result">
+      <h3>${LEVEL_BADGE[w.risk_level]||""} ${w.product_name} <span class="badge">${w.platform}</span> <span class="badge">Risiko ${w.risk_score}</span></h3>
+      ${w.risk_items.length?`<ol>${w.risk_items.map((i,n)=>`<li><b>${i.severity==="high"?"🔴":i.severity==="medium"?"🟡":"🟢"} ${i.message}</b><br>
+        <span class="hint">Korrektur: ${(w.fix_hints.find(f=>f.code===i.code)||{}).fix||"-"}</span></li>`).join("")}</ol>`
+        :"<p>✅ Keine Risiken gefunden</p>"}
+      <h3>🛡️ GPSR-Compliance-Block (direkt ins Listing einfügen)</h3>
+      <pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${w.gpsr_block}</pre></div>`;
+    document.getElementById("watchDetail").scrollIntoView({behavior:"smooth"});
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
 };
+window.watchRecheck = async id=>{
+  try{ await api("/listings/"+id+"/recheck",{method:"POST"}); loadWatchList(); setMsg("watchMsg","Erneute Prüfung abgeschlossen","ok"); }
+  catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+window.watchDelete = async id=>{
+  try{ await api("/listings/"+id,{method:"DELETE"}); loadWatchList();
+       document.getElementById("watchDetail").innerHTML=""; setMsg("watchMsg","Aus der Überwachung entfernt","ok"); }
+  catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+function renderWatchReport(r){
+  if(!r) return '<p class="hint">Noch kein Bericht. Klicken Sie auf „Check durchführen und heutigen Bericht generieren".</p>';
+  return `<div class="result"><h3>📊 Risikobericht ${r.report_date}
+    ${r.email_sent?'<span class="badge">📧 gemailt</span>':'<span class="badge">E-Mail nicht konfiguriert (SMTP)</span>'}</h3>
+    <p>Überwachung von <b>${r.total_listings}</b> Listings: 🔴 ${r.high_count} · 🟡 ${r.medium_count} · 🟢 ${r.low_count}</p>
+    ${r.new_risks.length?`<h4>⚠️ Handlungsbedarf (verschlechtert / neu)</h4><ul>${r.new_risks.map(x=>`<li><b>${x.sku||x.product_name}</b> (${x.platform}): ${x.from} → <b style="color:var(--err)">${x.to}</b><br><span class="hint">${(x.top_items||[]).join("; ")}</span></li>`).join("")}</ul>`:'<p>✅ Keine neuen Risiken</p>'}
+    ${r.improved.length?`<h4>🎉 Verbessert</h4><ul>${r.improved.map(x=>`<li>${x.product_name}: ${x.from} → ${x.to}</li>`).join("")}</ul>`:""}</div>`;
+}
+document.getElementById("btnWatchAdd").onclick=async()=>{
+  setMsg("watchMsg","");
+  const body={
+    sku:document.getElementById("w_sku").value.trim(),
+    product_name:document.getElementById("w_name").value.trim(),
+    platform:document.getElementById("w_platform").value,
+    keywords:document.getElementById("w_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    title:document.getElementById("w_title").value.trim(),
+    description:document.getElementById("w_desc").value.trim(),
+  };
+  if(!body.product_name) return setMsg("watchMsg","Bitte Produktname eingeben","err");
+  const btn=document.getElementById("btnWatchAdd"); btn.disabled=true; btn.textContent="Prüfe…";
+  try{
+    const d=await api("/listings",{method:"POST",body:JSON.stringify(body)});
+    setMsg("watchMsg",`Hinzugefügt und erster Check abgeschlossen: Risiko-Score ${d.listing.risk_score} (${d.listing.risk_level})`,"ok");
+    document.getElementById("w_name").value=""; document.getElementById("w_sku").value="";
+    loadWatchList(); window.watchDetail(d.listing.id);
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="➕ Hinzufügen und sofortigen Check durchführen";
+};
+document.getElementById("btnWatchRun").onclick=async()=>{
+  const btn=document.getElementById("btnWatchRun"); btn.disabled=true; btn.textContent="Prüfe…";
+  try{
+    const r=await api("/watch/run",{method:"POST"});
+    document.getElementById("watchReportBox").innerHTML=renderWatchReport(r);
+    loadWatchList(); setMsg("watchMsg","Check-Durchlauf abgeschlossen, Bericht generiert","ok");
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="⚡ Check durchführen und heutigen Bericht generieren";
+};
+document.getElementById("btnWatchRefresh").onclick=loadWatchList;
+document.getElementById("btnWatchReport").onclick=async()=>{
+  try{
+    const d=await api("/watch/report/latest");
+    document.getElementById("watchReportBox").innerHTML=renderWatchReport(d.report);
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+
+// ---------------- Automation pipeline (auto-detect × auto-process by subscription) ----------------
+const _AUTO_STATE_TXT = {active:"⚙️ Läuft automatisch", ready:"✅ Bereit", manual:"✋ Werkzeug auf Abruf",
+  no_credential:"🔌 Zugang erwartet", locked_plan:"🔒 Tarif-Upgrade nötig", waiting_connector:"⏳ Auf Connector warten"};
+async function loadAutomationStatus(){
+  try{
+    const d = await api("/automation/status?lang=de");
+    const card = document.getElementById("autoCard");
+    card.classList.remove("hidden");
+    const q = d.platform_quota;
+    document.getElementById("autoQuota").innerHTML =
+      `Aktueller Tarif <b>${d.plan.toUpperCase()}</b> · Plattform-Verbindungs-Kontingent <b>${q.used}/${q.limit===null?"unbegrenzt":q.limit}</b>` +
+      (d.connected_platforms.length?` · Verbunden: ${d.connected_platforms.join(", ")}`:"");
+    document.getElementById("autoChips").innerHTML = Object.entries(d.features).map(([fid,f])=>
+      `<span class="autochip ${f.state}" title="${esc(f.detail)}" data-autotab="${fid}" data-state="${f.state}">${f.label} <b>${_AUTO_STATE_TXT[f.state]}</b></span>`).join("");
+    document.querySelectorAll("#autoChips .autochip").forEach(ch=>ch.onclick=()=>{
+      const fid=ch.dataset.autotab, st=ch.dataset.state;
+      const tabMap={watch:"watch",gpsr:"watch",cs:"cs",inbox:"inbox",ad:"ad",review:"review"};
+      if(st==="locked_plan"){ activateTab("bill"); return; }
+      if(st==="no_credential"||st==="waiting_connector"){ document.getElementById("credBanner").scrollIntoView({behavior:"smooth"}); return; }
+      if(tabMap[fid]) activateTab(tabMap[fid]);
+    });
+  }catch(e){ console.warn("automation status:", e.message); }
+}
+async function runPipeline(){
+  const btn=document.getElementById("btnAutoRun"), out=document.getElementById("autoResult");
+  btn.disabled=true; btn.textContent="⏳ Pipeline läuft…";
+  try{
+    const r = await api("/automation/run",{method:"POST"});
+    const s = r.summary;
+    out.innerHTML = `<div class="msg ok">✔ Pipeline fertig: <b>${s.problems_found}</b> Probleme erkannt ·
+      GPSR-Blöcke <b>${s.gpsr_blocks_ready}</b> · Auto-Antworten gesendet <b>${s.auto_replies_sent}</b>${s.email_sent?" · Bericht per E-Mail gesendet":""}</div>` +
+      (s.skipped.length?`<div class="msg" style="color:#a15c00">⏭ Übersprungen: ${s.skipped.map(x=>esc(x.reason)).join("; ")}</div>`:"") +
+      (r.report.new_risks?.length?`<div class="msg" style="color:#b91c1c">🔴 ${r.report.new_risks.length} neue Risikopunkte (siehe 📡 Monitoring-Bericht)</div>`:"") +
+      (s.suggestions.map(x=>`<div class="msg">💡 ${esc(x.reason)} (→ ${esc(x.action)})</div>`).join(""));
+    loadAutomationStatus(); loadWatchList();
+  }catch(e){ out.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+  btn.disabled=false; btn.textContent="▶ Jetzt einen automatischen Verarbeitungsdurchlauf starten";
+}
+document.getElementById("btnAutoRun").onclick=runPipeline;
+
+// ---- Automation meta: frequency / next_run / trigger_rules (graceful if API omits them) ----
+const _FREQ_TXT = {manual:"✋ Manuell auf Abruf", daily:"📅 Täglich automatisch", daily_xN:"📅 Täglich automatisch (mehrere Durchläufe)", realtime:"⚡ Nahezu Echtzeit"};
+function _deriveFreq(plan){
+  if(plan==="free") return "manual";
+  if(plan==="starter") return "daily";
+  if(plan==="pro") return "daily_xN";
+  if(plan==="business") return "realtime";
+  return "manual";
+}
+function _fmtNext(iso){
+  if(!iso) return null;
+  try{ const d=new Date(iso); if(isNaN(d)) return null;
+    return d.toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+  }catch(e){ return null; }
+}
+async function _fillAutoMeta(){
+  try{
+    const d = await api("/automation/status?lang=de");
+    const plan = d.plan || (ME && ME.plan) || "free";
+    const freq = d.frequency || _deriveFreq(plan);
+    document.getElementById("autoFreq").textContent = _FREQ_TXT[freq] || _FREQ_TXT["manual"];
+    const nextTxt = _fmtNext(d.next_run_at);
+    document.getElementById("autoNext").innerHTML = nextTxt
+      ? `Nächster Autolauf: <b>${esc(nextTxt)}</b>`
+      : `Nächster Autolauf: <b>manuell auf Abruf</b>`;
+    const rules = (d.trigger_rules && d.trigger_rules.slice(0,3)) || [];
+    const box = document.getElementById("autoRules");
+    if(rules.length){
+      box.style.display="block";
+      document.getElementById("autoRulesBody").innerHTML = rules.map(r=>{
+        const ev = r.event || r.trigger || "—";
+        const ac = r.action || "—";
+        return `<div class="rrow"><span>🔔 ${esc(ev)}</span><span class="arrow">→</span><span>${esc(ac)}</span></div>`;
+      }).join("");
+    }else{
+      box.style.display="none";
+    }
+  }catch(e){ /* graceful: leave defaults */ }
+}
+
+// ---- Notification center ----
+const _NOTIF_ICON = {risk:"⚠️", report:"📊", reply:"💬", writeback:"↩️", system:"🔔"};
+async function fetchNotifications(){
+  try{
+    const d = await api("/notifications");
+    const list = Array.isArray(d)? d : (d.items || d.notifications || []);
+    renderNotifications(list.slice(0,50));
+  }catch(e){ /* silent: backend endpoint may not exist yet */ renderNotifications([]); }
+}
+function renderNotifications(list){
+  const box = document.getElementById("notifList");
+  if(!list.length){ box.innerHTML = `<div id="notifEmpty">Keine Benachrichtigungen</div>`; return; }
+  box.innerHTML = list.map(n=>{
+    const icon = _NOTIF_ICON[n.type] || "🔔";
+    const unread = !n.read && !n.is_read;
+    const time = n.created_at ? _fmtNext(n.created_at) : "";
+    return `<div class="nitem ${unread?"unread":""}" data-id="${esc(n.id)}">
+      <span class="nicon">${icon}</span>
+      <div class="nbody">
+        <div class="ntitle">${esc(n.title||"")}${unread?'<span class="nread">• neu</span>':""}</div>
+        <div class="nbody2">${esc(n.body||"")}</div>
+        <div class="ntime">${esc(time)}</div>
+      </div></div>`;
+  }).join("");
+  box.querySelectorAll(".nitem").forEach(el=>el.onclick=()=>markRead(el.dataset.id, el));
+}
+async function markRead(id, el){
+  if(!id) return;
+  try{ await api("/notifications/"+id+"/read",{method:"POST"}); }catch(e){}
+  if(el){ el.classList.remove("unread"); const tag=el.querySelector(".nread"); if(tag) tag.remove(); }
+  pollUnread();
+}
+async function markAllRead(){
+  try{ await api("/notifications/read-all",{method:"POST"}); }catch(e){}
+  fetchNotifications(); pollUnread();
+}
+async function pollUnread(){
+  try{
+    const d = await api("/notifications/unread-count");
+    const n = (typeof d.count==="number")? d.count : (typeof d.unread==="number"? d.unread : 0);
+    const badge = document.getElementById("notifBadge");
+    if(n>0){ badge.textContent = n>99?"99+":String(n); badge.classList.add("on"); }
+    else{ badge.classList.remove("on"); }
+  }catch(e){ /* silent */ }
+}
+function _wireUp(){
+  document.getElementById("notifBell").onclick = (e)=>{
+    e.stopPropagation();
+    const drop = document.getElementById("notifDrop");
+    drop.classList.toggle("open");
+    if(drop.classList.contains("open")) fetchNotifications();
+  };
+  document.getElementById("notifDrop").onclick = (e)=> e.stopPropagation();
+  document.getElementById("notifReadAll").onclick = markAllRead;
+  document.addEventListener("click", ()=>{ const d=document.getElementById("notifDrop"); if(d) d.classList.remove("open"); });
+  document.getElementById("onboardSkip").onclick = _dismissOnboard;
+  document.getElementById("onboardNext").onclick = ()=>{
+    if(_onboardStep >= _ONBOARD_TOTAL-1){ _dismissOnboard(); return; }
+    _onboardStep++; _showOnboardStep();
+  };
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _wireUp);
+else _wireUp();
+setInterval(()=>{ if(TOKEN) pollUnread(); }, 60000);
+
+// ---- Onboarding wizard ----
+let _onboardStep = 0;
+const _ONBOARD_TOTAL = 4;
+function _showOnboardStep(){
+  const steps = document.querySelectorAll("#onboardStep");
+  steps.forEach((s,i)=>s.classList.toggle("on", i===_onboardStep));
+  document.querySelectorAll("#onboardDots .dot").forEach((d,i)=>d.classList.toggle("on", i===_onboardStep));
+  document.getElementById("onboardNext").textContent = (_onboardStep===_ONBOARD_TOTAL-1)? "Start →" : "Weiter →";
+}
+function _dismissOnboard(){
+  try{ localStorage.setItem("crossaio_onboard_seen_"+(document.documentElement.lang||"en"), "1"); }catch(e){}
+  document.getElementById("onboardMask").classList.remove("open");
+}
+function _maybeShowOnboard(){
+  try{
+    const key = "crossaio_onboard_seen_"+(document.documentElement.lang||"en");
+    if(localStorage.getItem(key)==="1") return;
+  }catch(e){}
+  _onboardStep = 0; _showOnboardStep();
+  document.getElementById("onboardMask").classList.add("open");
+}
+setInterval(()=>{ if(TOKEN) pollUnread(); }, 60000);
+
+// ---- Per-panel report (client-side assembled: inputs + latest result text) ----
+const _PANEL_REPORTS = [
+  {key:"desc",   title:"Bericht Produktbeschreibung",
+   card:"#tab-desc", inputs:[["d_name","Produktname"],["d_kw","Keywords"],["d_platform","Plattform"],["d_lang","Sprache"]],
+   results:["descResult","matrixResult"]},
+  {key:"gpsr",    title:"GPSR-Compliance-Check-Bericht (kostenlos)",
+   card:"#tab-gpsr", inputs:[["g_name","Produktname"],["g_kw","Keywords"],["g_platform","Plattform"]],
+   results:["gpsrResult"]},
+  {key:"cs",      title:"KI-Kundenservice-Sitzungsbericht",
+   card:"#tab-cs", inputs:[["cs_msg","Käuferanfrage"],["cs_platform","Plattform"],["cs_order","Bestell-Nr."]],
+   results:["chatBox"]},
+  {key:"ad",      title:"Anzeigentext-Bericht",
+   card:"#tab-ad", inputs:[["a_name","Produktname"],["a_platform","Plattform"],["a_audience","Zielgruppe"],["a_usp","Alleinstellungsmerkmal"]],
+   results:["adResult"]},
+  {key:"review",  title:"Bewertungs-Rewrite-Bericht",
+   card:"#tab-review", inputs:[["rv_text","Negative Bewertung"],["rv_rating","Bewertung"],["rv_material","Material"],["rr_platform","Antwort-Plattform"],["rr_text","Antwort-Bewertung"]],
+   results:["rvResult","rrResult","attrResult"]},
+  {key:"watch",   title:"Listing-Überwachungs-Bericht",
+   card:"#tab-watch", inputs:[["w_sku","SKU"],["w_name","Produktname"],["w_platform","Plattform"],["w_kw","Keywords"]],
+   results:["watchReportBox","watchList","watchDetail"]},
+  {key:"inbox",   title:"Zentrales-Postfach-Bericht",
+   card:"#tab-inbox", inputs:[],
+   results:["inboxList","inboxThread"]},
+];
+function _grabText(id){ const el=document.getElementById(id); if(!el) return "";
+  const t=(el.innerText||"").trim(); return t && el.innerHTML.trim() ? t : ""; }
+function _buildReport(p){
+  const lines=[];
+  lines.push(p.title);
+  lines.push("Erstellt: "+new Date().toLocaleString());
+  lines.push("Quelle: CrossAIO Workbench");
+  lines.push("");
+  lines.push("== Eingaben ==");
+  let hasInput=false;
+  p.inputs.forEach(([id,label])=>{
+    const el=document.getElementById(id); if(!el) return;
+    const v=(el.value||"").trim(); if(v){ lines.push(label+": "+v); hasInput=true; }
+  });
+  if(!hasInput) lines.push("(keine Eingaben erfasst)");
+  lines.push("");
+  lines.push("== Ergebnisse ==");
+  let hasResult=false;
+  p.results.forEach(rid=>{ const t=_grabText(rid); if(t){ lines.push("-- "+rid+" --"); lines.push(t); hasResult=true; } });
+  if(!hasResult) lines.push("(noch kein Ergebnis — führen Sie zuerst das Panel aus, dann Bericht generieren)");
+  lines.push("");
+  lines.push("== Empfohlene nächste Schritte ==");
+  lines.push("1. Prüfen Sie das obige Ergebnis und beheben Sie alle markierten Punkte.");
+  lines.push("2. Verbinden Sie die Plattform-Zugangsdaten im oberen Zugangsdaten-Center, um zurückzuschreiben / automatisch zu synchronisieren.");
+  lines.push("3. Führen Sie nach Korrekturen erneut aus, um den Abschluss zu bestätigen.");
+  return lines.join("\n");
+}
+function _downloadBlob(name, mime, content){
+  const blob = new Blob([content], {type:mime});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 400);
+}
+function _toHtmlReport(title, txt){
+  const escT = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
+<style>body{font-family:Segoe UI,system-ui,sans-serif;max-width:820px;margin:30px auto;padding:0 20px;color:#1e293b;line-height:1.6}
+h1{color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:8px}
+pre{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;font-size:13px}
+.meta{color:#64748b;font-size:12px}</style></head>
+<body><h1>${title}</h1><div class="meta">Printable report · generated by CrossAIO</div><pre>${escT}</pre></body></html>`;
+}
+function _injectReportUI(){
+  _PANEL_REPORTS.forEach(p=>{
+    const card = document.querySelector(p.card); if(!card) return;
+    if(document.getElementById("reportBox-"+p.key)) return;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <div class="report-actions">
+        <button type="button" data-rkey="${p.key}" data-act="generate">📄 Bericht erstellen</button>
+        <button type="button" data-rkey="${p.key}" data-act="txt">⬇ Export .txt</button>
+        <button type="button" data-rkey="${p.key}" data-act="html">⬇ Export .html</button>
+      </div>
+      <div class="report-box" id="reportBox-${p.key}">
+        <div class="rhead"><span>📄 ${p.title}</span>
+          <span class="ractions"><button type="button" data-rkey="${p.key}" data-act="copy">Kopieren</button></span></div>
+        <div class="rbody" style="white-space:pre-wrap"></div>
+      </div>`;
+    card.appendChild(wrap);
+  });
+  document.querySelectorAll(".report-actions button, .ractions button").forEach(b=>{
+    b.onclick = ()=>{
+      const key = b.dataset.rkey; if(!key) return;
+      const p = _PANEL_REPORTS.find(x=>x.key===key); if(!p) return;
+      const act = b.dataset.act;
+      const txt = _buildReport(p);
+      const box = document.getElementById("reportBox-"+key);
+      if(act==="generate"){ box.classList.add("open"); box.querySelector(".rbody").textContent = txt; }
+      else if(act==="copy"){ navigator.clipboard?.writeText(txt).then(()=>{ b.textContent="Kopiert ✓"; setTimeout(()=>b.textContent="Kopieren",1500); }).catch(()=>{}); }
+      else if(act==="txt"){ _downloadBlob("crossaio-"+key+"-report.txt","text/plain;charset=utf-8",txt); }
+      else if(act==="html"){ _downloadBlob("crossaio-"+key+"-report.html","text/html;charset=utf-8",_toHtmlReport(p.title,txt)); }
+    };
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _injectReportUI);
+else _injectReportUI();
+
+// ---------------- Platform credentials center (13 platforms self-serve) ----------------
+let _credMap = {};
+function _credChip(slug, p){
+  return `<span class="credchip ${p.ready?"ok":"todo"}" onclick="jumpCred('${slug}')"
+    title="Klicken, um ${p.label} zu verbinden">${p.ready?"✓":"⚠"} ${p.label}${p.source==="self"?" · manuell":""}</span>`;
+}
+function jumpCred(slug){
+  const el=document.getElementById(`credPanel_${slug}`);
+  if(!el) return;
+  el.open=true;
+  el.scrollIntoView({behavior:"smooth", block:"start"});
+  el.classList.remove("credflash"); void el.offsetWidth;
+  el.classList.add("credflash");
+  setTimeout(()=>el.classList.remove("credflash"), 1600);
+}
+function goCredCenter(){
+  const box=document.getElementById("credBanner");
+  if(!box) return;
+  box.scrollIntoView({behavior:"smooth", block:"start"});
+  box.classList.remove("credflash"); void box.offsetWidth;
+  box.classList.add("credflash");
+  setTimeout(()=>box.classList.remove("credflash"), 1600);
+}
+function _credForm(p, slug){
+  if(p.oauth){
+    return `
+      <div id="ebayAppConfigWrap">
+        <p class="hint" style="margin:4px 0">📋 <b>Schritt 1:</b> geben Sie Ihre eBay-Developer-App-Zugangsdaten ein (von <a href="https://developer.ebay.com/" target="_blank" rel="noopener">developer.ebay.com</a>):</p>
+        <div style="margin:4px 0">
+          <label style="font-size:12px">Client-ID *</label>
+          <input id="ebay_client_id" type="text" placeholder="eBay Client-ID" style="width:100%;margin-top:2px">
+        </div>
+        <div style="margin:4px 0">
+          <label style="font-size:12px">Client-Secret *</label>
+          <input id="ebay_client_secret" type="password" placeholder="eBay Client-Secret" style="width:100%;margin-top:2px">
+        </div>
+        <button class="btn" style="margin:4px 0 0;padding:6px 14px" onclick="saveEbayAppConfig()">App-Zugangsdaten speichern</button>
+        <div id="ebayAppConfigStatus" style="margin-top:6px"></div>
+      </div>
+      <div id="ebayConnectWrap" style="margin-top:8px;display:${p.app_configured?'block':'none'}">
+        <p class="hint" style="margin:4px 0">🔗 <b>Schritt 2:</b>${p.connected?'<b style="color:#1a7f37">Autorisiert ✓</b>, Echtzeit-Sync bereit.':' Klicken Sie auf die Schaltfläche unten, um zu eBay zu wechseln und die Verkäufer-Autorisierung abzuschließen:'}</p>
+        ${!p.connected?'<button class="btn" style="margin:0;padding:6px 14px" onclick="ebayConnect()">eBay autorisieren →</button>':''}
+      </div>`;
+  }
+  if(p.connected){
+    return `<p class="hint" style="margin:4px 0">✓ Selbst verbunden (${p.source==="self"?"eigene Verkäufer-Zugangsdaten, AES-256-verschlüsselt gespeichert":"serverseitig vorkonfiguriert"})${p.connected_at?` · aktualisiert ${p.connected_at.slice(0,10)}`:""}.</p>
+      <button class="btn ghost" style="margin:4px 0 0;padding:4px 12px" onclick="delCreds('${slug}')">Verbindung trennen und Zugangsdaten löschen</button>`;
+  }
+  const g=p.guide||{};
+  const fields=(g.fields||[]).map(f=>`<div style="margin:4px 0"><label style="font-size:12px">${f.label} * <span class="hint">— ${f.hint}</span></label>
+    <input id="cred_${slug}_${f.key}" type="${f.secret?"password":"text"}" placeholder="${f.label}" style="width:100%"></div>`).join("");
+  return `<details style="margin:4px 0"><summary style="cursor:pointer;font-weight:700;font-size:13px">📎 Zugangsdaten beschaffen und verbinden (Schritt-für-Schritt-Anleitung)</summary>
+    <p class="hint" style="margin:6px 0">① Gehen Sie zu <a href="${g.apply_url}" target="_blank" rel="noopener">${g.apply_url}</a> (offizielles Entwickler-/Verkäufer-Backend).</p>
+    <p class="hint" style="margin:2px 0">② ${g.apply_note||""}</p>
+    <p class="hint" style="margin:2px 0">③ Fügen Sie die Zugangsdaten in das untenstehende Formular ein → speichern. Zugangsdaten werden nur AES-256-verschlüsselt gespeichert; Oberfläche und Protokolle zeigen nie den Klartext.</p>
+    <p class="hint" style="margin:2px 0">Wird nach der Verbindung freigeschaltet: ${p.unlocks}</p></details>
+    <div style="margin-top:6px">${fields}
+    <button class="btn" style="margin:4px 0 0;padding:6px 14px" onclick="saveCreds('${slug}')">Speichern und verbinden ${g.label||""}</button></div>`;
+}
+let _credLoaded = false;
+async function loadCredStatus(force){
+  const box=document.getElementById("credBanner");
+  if(_credLoaded && !force) return;
+  try{
+    const d=await api("/compliance/credentials?lang=de");
+    _credMap=d.platforms||{};
+    let amazonStatus="unconnected";
+    try{ amazonStatus=(await api("/connectors/amazon/status")).status||"unconnected"; }catch(e){}
+    const readyN=Object.values(_credMap).filter(p=>p.ready).length;
+    const totalN=Object.keys(_credMap).length;
+    let html=`<div style="margin:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:700;font-size:14px">🔗 Plattform-Zugangsdaten-Center <span class="badge">${readyN}/${totalN} bereit</span></div>
+        <button class="btn ghost" style="margin:0;padding:4px 12px;white-space:nowrap" id="credToggleBtn" onclick="toggleCredBanner()" title="Zugangsdaten-Center ein-/ausklappen">Einklappen ▲</button>
+      </div>
+      <div id="credBody">
+      <p class="hint" style="margin:0 0 8px">🔑 <b>Einmal verbinden, kontoübergreifend nutzen</b>: jede Plattform einmal verbinden (auf Ihrem Konto gespeichert, AES-256-verschlüsselt) und alle Funktionen sowie die Automatisierungs-Pipeline unten nutzen automatisch dieselben Zugangsdaten — <b>keine Plattform muss zweimal verbunden werden</b>. 13 Plattformen unterstützen manuelle Eingabe oder Ein-Klick-OAuth; nach der Verbindung schalten Sie den automatischen Nachrichten-Import, das Zurückschreiben von Compliance-Blöcken und das Listing-Backfill frei.</p>
+      <div class="credchips" style="margin-bottom:8px">${Object.entries(_credMap).map(([slug,p])=>_credChip(slug,p)).join("")}</div>`;
+    const order=Object.entries(_credMap).sort((a,b)=>(a[1].ready?1:0)-(b[1].ready?1:0));
+    html+=order.map(([slug,p])=>{
+      const amazonBadge = slug==="amazon"
+        ? (amazonStatus==="connected" ? '<span style="color:#1a7f37;font-size:12px"> · verbunden ✓</span>'
+           : amazonStatus==="pending" ? '<span style="color:#a15c00;font-size:12px"> · Autorisierung ausstehend (refresh_token fehlt)</span>'
+           : '<span style="color:var(--muted);font-size:12px"> · nicht verbunden</span>')
+        : "";
+      return `
+      <details id="credPanel_${slug}" style="margin:6px 0;border:1px solid var(--border);border-radius:8px;padding:8px 12px;background:#fff">
+        <summary style="cursor:pointer;font-weight:700;font-size:13.5px">${p.ready?"✓":"⚠"} ${p.label}${amazonBadge}${p.oauth?" (OAuth-Autorisierung)":" (manuelle Eingabe)"}</summary>
+        <div style="margin-top:4px">${_credForm(p, slug)}</div></details>`;
+    }).join("");
+    html+=`<div style="margin-top:6px;display:flex;justify-content:flex-end;gap:8px;align-items:center">
+      ${d.all_ready?'<span class="hint" style="color:#1a7f37;margin-right:auto">✓ Alle 13 Plattform-Zugangsdaten bereit.</span>':""}
+      <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="loadCredStatus(true)">↻ Erneut prüfen</button>
+      ${(!_credMap.ebay.ready&&_credMap.ebay.app_configured&&!_credMap.ebay.connected)?'<button class="btn" style="margin:0;padding:4px 12px" onclick="ebayConnect()">eBay autorisieren</button>':""}
+    </div></div>`;
+    box.innerHTML=html; box.classList.remove("hidden"); _credLoaded=true;
+  }catch(e){
+    box.innerHTML=`<p class="hint">Status der Plattform-Zugangsdaten konnte nicht geladen werden: ${esc(e.message)} (<a href="javascript:loadCredStatus(true)">erneut versuchen</a>)</p>`;
+    box.classList.remove("hidden");
+  }
+}
+function toggleCredBanner(){
+  const body=document.getElementById("credBody");
+  const btn=document.getElementById("credToggleBtn");
+  if(!body||!btn) return;
+  const collapsed = body.style.display==="none";
+  body.style.display = collapsed ? "" : "none";
+  btn.textContent = collapsed ? "Einklappen \u25B2" : "Ausklappen \u25BC";
+}
+async function saveCreds(platform){
+  const g=(_credMap[platform]||{}).guide||{};
+  const creds={};
+  (g.fields||[]).forEach(f=>{ creds[f.key]=document.getElementById(`cred_${platform}_${f.key}`).value; });
+  try{
+    const d=await api(`/compliance/credentials/${platform}`,{method:"POST",body:JSON.stringify({credentials:creds})});
+    _credLoaded=false; await loadCredStatus(true);
+  }catch(e){ alert(`Speichern fehlgeschlagen: ${e.message}`); }
+}
+async function delCreds(platform){
+  if(!confirm("Verbindung trennen? Der verschlüsselte Zugangs-Datensatz für diese Plattform wird gelöscht.")) return;
+  try{ await api(`/compliance/credentials/${platform}`,{method:"DELETE"});
+    _credLoaded=false; await loadCredStatus(true); }
+  catch(e){ alert(`Trennen fehlgeschlagen: ${e.message}`); }
+}
+async function ebayConnect(){
+  try{ const d=await api("/ebay/auth-url"); location.href=d.auth_url; }
+  catch(e){ document.getElementById("credBanner").innerHTML=`<p class="hint">eBay-Autorisierungs-Link konnte nicht abgerufen werden: ${esc(e.message)} (App-Zugangsdaten EBAY_CLIENT_ID / EBAY_CLIENT_SECRET nicht konfiguriert)</p>`; }
+}
+async function saveEbayAppConfig(){
+  const cid=document.getElementById("ebay_client_id").value.trim();
+  const csec=document.getElementById("ebay_client_secret").value.trim();
+  const statusEl=document.getElementById("ebayAppConfigStatus");
+  if(!cid||!csec){ statusEl.innerHTML='<p style="color:#c0392b;font-size:12px">Bitte geben Sie die vollständige Client-ID und das Client-Secret ein</p>'; return; }
+  try{
+    const d=await api("/compliance/ebay/app-config",{method:"POST",body:JSON.stringify({client_id:cid,client_secret:csec})});
+    statusEl.innerHTML='<p style="color:#1a7f37;font-size:12px">✓ App-Zugangsdaten gespeichert, der Autorisieren-Button erscheint unten</p>';
+    _credLoaded=false; await loadCredStatus(true);
+  }catch(e){ statusEl.innerHTML=`<p style="color:#c0392b;font-size:12px">Speichern fehlgeschlagen: ${esc(e.message)}</p>`; }
+}
+
+// ---------------- Unified inbox ----------------
+let _inboxFilter = "";
+let _inboxConvId = "";
+function platLabel(p){
+  return ({amazon:"Amazon",amazon_us:"Amazon US",ebay:"eBay",otto:"Otto",
+    allegro:"Allegro",emag:"eMAG",kaufland:"Kaufland",bol:"bol.com",
+    zalando:"Zalando",cdiscount:"Cdiscount",tiktok:"TikTok",
+    fruugo:"Fruugo",walmart:"Walmart",miravia:"Miravia"})[p] || p;
+}
+async function loadInbox(){
+  try{
+    const q = _inboxFilter ? ("?platform="+_inboxFilter) : "";
+    const d = await api("/inbox/conversations"+q);
+    const dist = d.platform_distribution || {};
+    const chips = [`<span class="filter-chip ${_inboxFilter===''?'active':''}" onclick="setInboxFilter('')">Alle (${d.total})</span>`]
+      .concat(Object.entries(dist).map(([p,n])=>
+        `<span class="filter-chip ${_inboxFilter===p?'active':''}" onclick="setInboxFilter('${p}')">${platLabel(p)} (${n})</span>`));
+    document.getElementById("inboxFilters").innerHTML = chips.join("");
+    const list = d.items.map(c=>`<div class="inbox-item ${c.id===_inboxConvId?'active':''}" onclick="openConversation('${c.id}')">
+      <div class="top"><span class="plat">${platLabel(c.platform)}</span>
+        <span class="meta2">${c.unread_count?('●'+c.unread_count):''}</span></div>
+      <div class="subj">${esc(c.subject||'(kein Betreff)')}</div>
+      <div class="meta2">${esc(c.buyer_id||'')} · ${(c.last_message_at||'').slice(0,16).replace('T',' ')}</div>
+    </div>`).join("");
+    document.getElementById("inboxList").innerHTML = list || '<p class="hint" style="padding:16px">Noch keine Konversationen. Klicken Sie auf „Demo-Konversationen laden", um das zentrale Postfach auszuprobieren.</p>';
+  }catch(e){ document.getElementById("inboxList").innerHTML = `<p class="msg err">${e.message}</p>`; }
+}
+function setInboxFilter(p){ _inboxFilter=p; loadInbox(); }
+document.getElementById("btnInboxSeed").onclick=async()=>{
+  try{ await api("/inbox/conversations/seed-demo",{method:"POST"}); await loadInbox();
+       document.getElementById("inboxThread").innerHTML='<div class="empty">← Wählen Sie links eine Konversation, um den Thread zu sehen.</div>'; }
+  catch(e){ document.getElementById("inboxList").innerHTML=`<p class="msg err">${e.message}</p>`; }
+};
+document.getElementById("btnInboxRefresh").onclick=loadInbox;
+async function openConversation(id){
+  _inboxConvId = id;
+  try{
+    const d = await api("/inbox/conversations/"+id);
+    const c = d.conversation;
+    const rows = d.messages.map(m=>{
+      const tags=[];
+      if(m.gpsr_incident) tags.push('<span class="tag gpsr">🛡️ GPSR-Sicherheitsvorfall</span>');
+      if(m.needs_escalation) tags.push('<span class="tag esc">⚠️ Übergabe an Mensch vorgeschlagen</span>');
+      if(m.direction==="outgoing" && m.ai_act_disclosure) tags.push('<span class="tag ai">🤖 KI-Recht-Hinweis erfolgt</span>');
+      return `<div class="msg-row ${m.direction}">
+        <div class="who">${m.direction==='incoming'?'Käufer · '+esc(c.buyer_id):'Wir (KI-Kundenservice)'}</div>
+        <div class="msg-bubble">${esc(m.body)}</div>
+        ${tags.length?`<div class="tags">${tags.join('')}</div>`:''}
+      </div>`;
+    }).join("");
+    document.getElementById("inboxThread").innerHTML = `
+      <div class="thread-head"><div><span class="plat">${platLabel(c.platform)}</span>
+        <b style="margin-left:8px">${esc(c.subject||'')}</b></div>
+        <span class="hint">${esc(c.buyer_id||'')}</span></div>
+      <div id="threadMsgs">${rows}</div>
+      <div class="composer">
+        <textarea id="replyBox" placeholder="Antwort tippen… (automatisch durch den kombinierten GPSR- + KI-Recht-Workflow verarbeitet)"></textarea>
+        <button class="btn" id="btnReply" style="margin-top:8px">Antwort senden</button>
+      </div>`;
+    document.getElementById("btnReply").onclick=()=>sendReply(id);
+    const t=document.getElementById("threadMsgs"); if(t) t.scrollTop=t.scrollHeight;
+  }catch(e){ document.getElementById("inboxThread").innerHTML=`<p class="msg err">${e.message}</p>`; }
+}
+async function sendReply(id){
+  const box=document.getElementById("replyBox");
+  const msg=box.value.trim(); if(!msg) return;
+  const btn=document.getElementById("btnReply"); btn.disabled=true; btn.textContent="Verarbeite…";
+  try{
+    const r = await api("/inbox/conversations/"+id+"/reply",{method:"POST",body:JSON.stringify({message:msg})});
+    const t=document.getElementById("threadMsgs");
+    t.insertAdjacentHTML("beforeend", `<div class="msg-row in"><div class="who">Käufer</div>
+      <div class="msg-bubble">${esc(msg)}</div></div>
+      <div class="msg-row out"><div class="who">Wir (KI-Kundenservice)</div>
+      <div class="msg-bubble">${esc(r.reply)}</div>
+      <div class="tags">${r.gpsr_incident?'<span class="tag gpsr">🛡️ GPSR-Sicherheitsvorfall</span>':''}
+        ${r.needs_escalation?'<span class="tag esc">⚠️ Übergabe an Mensch vorgeschlagen</span>':''}
+        ${r.ai_act_disclosure?'<span class="tag ai">🤖 KI-Recht-Hinweis erfolgt</span>':''}</div></div>`);
+    box.value=""; t.scrollTop=t.scrollHeight;
+    loadInbox();
+  }catch(e){ alert(e.message); }
+  btn.disabled=false; btn.textContent="Antwort senden";
+}
+
+// Auto-restore login
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+  _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear(); })
+  .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
+
+function _maybeShowOnboardOnAppear(){ setTimeout(_maybeShowOnboard, 350); }
 </script>
-
-  <script src="/effects.js"></script>
-<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+<div id="onboardMask">
+  <div id="onboardModal">
+    <div id="onboardStep" class="on">
+      <h3>🔗 1 · Plattform-Zugangsdaten verbinden</h3>
+      <p>CrossAIO funktioniert als unabhängige Workbench — verbinden Sie Ihre eBay-/andere Plattform-Zugangsdaten einmalig, und die Automatisierungs-Pipeline kann Käuferanfragen, Listings und Berichte plattformübergreifend verknüpfen.</p>
+      <ul><li>Sobald Zugangsdaten gespeichert sind, ketten sich Shop-Probleme automatisch durch alle 6 Funktionen.</li>
+      <li>Andere Plattform-Connectoren zeigen <b>„Zugang erwartet"</b>, bis Sie sie hinzufügen.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>⚙️ 2 · Automatisierungs-Pipeline je Tarif</h3>
+      <p>Wie oft die Workbench automatisch läuft, wird von Ihrem Abonnement bestimmt:</p>
+      <ul><li><b>Free</b> — nur manuelle Werkzeuge auf Abruf.</li>
+      <li><b>Starter (€29)</b> — tägliches Monitoring, wöchentlicher Bericht per E-Mail.</li>
+      <li><b>Pro (€49)</b> — täglicher Check + tägliche E-Mail, Auto-Antwort-Entwürfe, automatisches Writeback.</li>
+      <li><b>Business (€149)</b> — Nahezu-Echtzeit-Alarme, Auto-Antwort-Versand ohne Bestätigung, unbegrenzte Plattform-Connectoren.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>🧰 3 · Was jedes Panel kann</h3>
+      <ul><li>📦 <b>Listing-Generator</b> — Titel / 5 Bullet-Punkte / Detailseite + GPSR-Block; plus eine Mehrländer-Matrix.</li>
+      <li>🛡️ <b>GPSR-Check</b> — kostenloser Einzelprodukt-Compliance-Scan; vollständiger Risiko-/Fehlstellen-/Korrektur-Bericht auch im Free-Tarif verfügbar.</li>
+      <li>💬 <b>KI-Kundenservice</b> — Absichts- + stimmungsbewusste konforme Antworten.</li>
+      <li>📥 <b>Postfach</b> — eine Thread-Ansicht über 13 Plattformen.</li>
+      <li>📣 <b>Anzeigentexte</b> — machen Sie aus intakten Listings Anzeigen.</li>
+      <li>🔄 <b>Bewertungs-Rewrite</b> — beheben Sie die Ursache aus einer negativen Bewertung.</li>
+      <li>📡 <b>Monitoring</b> — täglicher Listing-Risiko-Check + Bericht per E-Mail.</li>
+      <li>📄 <b>Jedes Panel</b> — „Bericht erstellen" stellt einen client-seitigen Bericht zusammen, den Sie kopieren oder als .txt / .html herunterladen können.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>💳 4 · Tarife &amp; Kontingente</h3>
+      <ul><li><b>Free €0</b> — 5 Aufrufe/Tag, manuelles Copy-Paste-Writeback.</li>
+      <li><b>Starter €29</b> — 50 Aufrufe/Tag, 1 Plattform, manuelles Copy-Paste.</li>
+      <li><b>Pro €49</b> — 200 Aufrufe/Tag, 3 Plattformen, Ein-Klick-Bestätigung-Writeback.</li>
+      <li><b>Business €149</b> — 1000 Aufrufe/Tag, unbegrenzte Plattformen, vollautomatisches Writeback &amp; Antwort.</li></ul>
+      <p class="hint">Jahresabrechnung: €23 / €39 / €119 pro Monat.</p>
+    </div>
+    <div id="onboardDots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div id="onboardFoot">
+      <button id="onboardSkip">Überspringen</button>
+      <button id="onboardNext">Weiter →</button>
+    </div>
+  </div>
+</div>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"en")}catch(e){}})();</script>
 </body>
 </html>

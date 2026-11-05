@@ -25,3 +25,11 @@ backend/tests/*.db-journal
 backend/tests/*.db
 backend/tests/*.db-journal
 _shots/
+
+# 本机运维临时产物（不入库）
+*.db.bak*
+*.log
+*.log.err
+.restart-trigger
+cloudflared.exe
+render_out/

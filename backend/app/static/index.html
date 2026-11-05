@@ -137,6 +137,65 @@
   #credBanner details summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
   #credBanner details summary::before{content:"▶";display:inline-block;transition:transform .2s;font-size:11px;color:var(--muted)}
   #credBanner details[open] summary::before{transform:rotate(90deg)}
+
+  /* === Upgrade: automation meta row, notifications, onboarding, panel hints, report panel === */
+  .auto-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0 4px;font-size:13px}
+  .auto-meta .freq{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#1d4ed8;background:#eaf2ff;border:1px solid #c7d2fe;border-radius:999px;padding:3px 12px}
+  .auto-meta .next{color:var(--muted)}
+  .auto-meta .next b{color:var(--text)}
+  .auto-rules{margin:8px 0 4px;padding:10px 14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.8);font-size:12.5px;line-height:1.7}
+  .auto-rules .rt{font-weight:700;color:var(--primary);margin-bottom:4px;font-size:12px}
+  .auto-rules .rrow{display:flex;gap:8px;align-items:baseline}
+  .auto-rules .rrow .arrow{color:var(--muted)}
+  .auto-empty{color:var(--muted);font-size:13px;padding:8px 0}
+
+  .panel-hint{font-size:12px;color:var(--muted);margin:-6px 0 10px;line-height:1.5}
+
+  #notifBell{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.7);border:1px solid var(--border);font-size:17px;user-select:none}
+  #notifBell:hover{background:#eff6ff}
+  #notifBadge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--err);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+  #notifBadge.on{display:inline-flex}
+  #notifDrop{position:absolute;top:46px;right:0;width:380px;max-width:92vw;background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:14px;box-shadow:0 22px 60px rgba(15,23,42,.22);backdrop-filter:blur(18px);z-index:120;display:none;flex-direction:column;overflow:hidden}
+  #notifDrop.open{display:flex}
+  #notifHead{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700}
+  #notifHead button{background:transparent;border:none;color:var(--primary);font-size:12px;cursor:pointer;font-weight:600}
+  #notifList{max-height:380px;overflow-y:auto}
+  .nitem{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer}
+  .nitem:hover{background:#f8fafc}
+  .nitem.unread{background:#f5f8ff}
+  .nitem .nicon{font-size:16px;flex:0 0 auto}
+  .nitem .nbody{flex:1;min-width:0}
+  .nitem .ntitle{font-weight:700;color:var(--text)}
+  .nitem .nbody2{color:var(--muted);font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nitem .ntime{color:var(--muted);font-size:11px;margin-top:3px}
+  .nitem .nread{font-size:11px;color:var(--primary);margin-left:4px;flex:0 0 auto}
+  #notifEmpty{padding:30px 14px;text-align:center;color:var(--muted);font-size:13px}
+
+  #onboardMask{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  #onboardMask.open{display:flex}
+  #onboardModal{background:#fff;border-radius:18px;max-width:520px;width:100%;padding:28px 28px 22px;box-shadow:0 30px 80px rgba(15,23,42,.35);position:relative}
+  #onboardDots{display:flex;gap:6px;justify-content:center;margin:14px 0 18px}
+  #onboardDots .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;transition:.2s}
+  #onboardDots .dot.on{background:var(--primary);transform:scale(1.25)}
+  #onboardStep{display:none}
+  #onboardStep.on{display:block}
+  #onboardStep h3{font-size:17px;margin-bottom:8px;color:var(--text)}
+  #onboardStep p{font-size:13.5px;line-height:1.7;color:#475569}
+  #onboardStep ul{margin:8px 0 0 18px;font-size:13px;color:#475569;line-height:1.8}
+  #onboardFoot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:1px solid var(--border);padding-top:14px}
+  #onboardSkip{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+  #onboardNext{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer}
+  #onboardNext:hover{background:var(--primary-dark)}
+
+  /* === Report area (per-panel) === */
+  .report-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .report-actions button{background:transparent;color:var(--primary);border:1px solid #c7d2fe;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;font-weight:600}
+  .report-actions button:hover{background:#eff6ff}
+  .report-box{margin-top:14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.85);padding:14px 16px;font-size:13px;line-height:1.7;display:none;white-space:pre-wrap;word-break:break-word;max-height:480px;overflow-y:auto}
+  .report-box.open{display:block}
+  .report-box .rhead{font-weight:700;color:var(--primary);font-size:13.5px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .report-box .ractions{display:flex;gap:8px;margin-bottom:10px}
+  .report-box .ractions button{background:#fff;border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11.5px;cursor:pointer;color:#334155}
 </style>
 </head>
 <body>
@@ -150,12 +209,27 @@
     <a href="/pricing" class="hint" style="text-decoration:none">定价</a>
     <a href="/skills" class="hint" style="text-decoration:none">开源 Skills</a>
     <a href="/gpsr-check" class="hint" style="text-decoration:none">免费体检落地页</a>
+    <a href="/academy" class="hint" style="text-decoration:none">🎓 Academy</a>
+    <a href="/community" class="hint" style="text-decoration:none">💬 社区</a>
+    <a href="/blog" class="hint" style="text-decoration:none">📝 博客</a>
+    <a href="/podcast" class="hint" style="text-decoration:none">🎬 视频播客</a>
+    <a href="/summit" class="hint" style="text-decoration:none">🎊 峰会</a>
+    <a href="/trust" class="hint" style="text-decoration:none">🤝 透明承诺</a>
   </div>
-  <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center;margin-top:10px">
-    <a href="/app" data-lang="zh" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">中文</a>
-    <a href="/en/app" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7d0e8">EN</a>
-    <a href="/de/app" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7d0e8">DE</a>
-    <a href="/fr/app" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#c7d0e8">FR</a>
+      <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:4px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;font-size:12.5px">
+    🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:12.5px;color:#334155;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/app">English</option>
+        <option value="/de/app">Deutsch</option>
+        <option value="/fr/app">Français</option>
+        <option value="/app" selected>中文</option>
+    </select>
+  </div>
+<div style="position:relative;display:inline-flex;align-items:center">
+    <div id="notifBell" title="通知">🔔<span id="notifBadge">0</span></div>
+    <div id="notifDrop">
+      <div id="notifHead"><span>通知</span><button id="notifReadAll">全部已读</button></div>
+      <div id="notifList"></div>
+    </div>
   </div>
   <div id="userbar"></div>
 </header>
@@ -193,6 +267,14 @@
     <h2 style="font-size:16px;margin:0 0 4px">🤖 自动化流水线 <span class="badge">按订阅自动识别 · 自动处理</span></h2>
     <p class="hint" style="margin:4px 0">凭证接入后，店铺问题自动串连 6 大功能：监控体检识别风险 → 高风险自动生成 GPSR 合规块 → 买家消息自动生成合规回复 → 差评/广告联动建议。</p>
     <div id="autoQuota" class="hint" style="margin:2px 0"></div>
+    <div class="auto-meta" id="autoMeta">
+      <span class="freq" id="autoFreq">⚙️ —</span>
+      <span class="next" id="autoNext">下次自动运行：<b>—</b></span>
+    </div>
+    <div class="auto-rules" id="autoRules" style="display:none">
+      <div class="rt">⚡ 触发规则</div>
+      <div id="autoRulesBody"></div>
+    </div>
     <div class="autochips" id="autoChips"></div>
     <div class="row" style="gap:8px;align-items:center">
       <button class="btn" id="btnAutoRun" style="margin:0">▶ 立即跑一轮自动处理</button>
@@ -204,6 +286,7 @@
   <!-- 产品描述 -->
   <div id="tab-desc" class="card">
     <h2>📦 产品描述生成器</h2>
+    <p class="panel-hint">输入产品名+关键词，选平台和目标语言，一键输出标题/五点描述/详情页/后台搜索词 + 可直接粘贴的 GPSR 合规块。</p>
     <details class="howto"><summary>❓ 怎么用（3 步）</summary>
       <ol>
         <li>填 <b>产品名称</b> + <b>核心关键词</b>（逗号分隔，如 wireless, bluetooth）。</li>
@@ -248,6 +331,7 @@
   <!-- GPSR 合规体检 -->
   <div id="tab-gpsr" class="card hidden">
     <h2>🛡️ GPSR 合规体检 <span class="badge">免费</span></h2>
+    <p class="panel-hint">粘贴产品描述，自动扫描缺失的 GPSR 信息（制造商/警告语/安全项），返回可直接粘贴的合规块；免费版可生成完整体检报告。</p>
     <details class="howto"><summary>❓ 怎么用（3 步）</summary>
       <ol>
         <li>填 <b>产品名称</b> + <b>核心关键词</b>（决定命中的 CE 类目，如 toy, puzzle）。</li>
@@ -279,6 +363,7 @@
   <!-- AI客服 -->
   <div id="tab-cs" class="card hidden">
     <h2>💬 AI 客服演示</h2>
+    <p class="panel-hint">粘贴买家消息，AI 自动识别意图和情绪，生成合规回复（含 EU AI Act 第 50 条披露）；自动化需 Pro 及以上套餐。</p>
     <details class="howto"><summary>❓ 怎么用（2 步）</summary>
       <ol>
         <li>输入 <b>买家消息</b>（如 Where is my order #123-...?），可附 <b>订单号</b>。</li>
@@ -314,6 +399,7 @@
   <!-- 广告文案 -->
   <div id="tab-ad" class="card hidden">
     <h2>📣 广告文案生成器</h2>
+    <p class="panel-hint">把健康 listing 转成 Google/Meta 广告标题和短文案；无需凭证，消耗当日生成额度。</p>
     <details class="howto"><summary>❓ 怎么用（2 步）</summary>
       <ol>
         <li>填 <b>产品名称</b> / <b>目标受众</b>（如 fitness enthusiasts）/ <b>独特卖点</b>。</li>
@@ -334,6 +420,7 @@
   <!-- 差评改写 + 属性校验 -->
   <div id="tab-review" class="card hidden">
     <h2>🔄 差评 → Listing 改写</h2>
+    <p class="panel-hint">粘贴差评，自动定位 listing 缺口，生成五点修复方案，从根因上改写描述避免再次发生。</p>
     <details class="howto"><summary>❓ 怎么用（两块功能）</summary>
       <ol>
         <li><b>差评分析</b>：粘贴差评原文（每行一条）→ 可选填星级与材质 → 点「分析差评并生成修复」→ 输出问题主题 + 每个主题的五点描述修复文案；命中安全词会触发 🚨 GPSR 安全事件预警和处置步骤。</li>
@@ -391,6 +478,7 @@
   <!-- Listing 监控（7x24） -->
   <div id="tab-watch" class="card hidden">
     <h2>📡 Listing 监控 <span class="badge">7x24</span></h2>
+    <p class="panel-hint">添加你的 listing，每日自动体检、标记 GPSR/规则风险、生成合规块并发日报邮件（Pro：每日；Business：实时预警）。</p>
     <details class="howto"><summary>❓ 怎么用（3 步）</summary>
       <ol>
         <li>在下方「添加 listing 到监控仓库」填 SKU / 产品名称 / 平台 / 关键词，最好粘贴<b>现有标题和描述</b>（引擎据此检测欧代、警示语等 GPSR 要素）→ 点「添加并立即体检」。</li>
@@ -427,6 +515,7 @@
   <!-- 订阅 -->
   <div id="tab-bill" class="card hidden">
     <h2>💳 订阅管理</h2>
+    <p class="panel-hint">Free / Starter / Pro / Business 四档，日额度、平台连接器数量与写回分级随套餐升级。</p>
     <details class="howto"><summary>❓ 怎么用</summary>
       <ol>
         <li>上方显示当前套餐与今日用量（免费版每天 5 次）。</li>
@@ -450,6 +539,7 @@
   <!-- 统一收件箱 -->
   <div id="tab-inbox" class="card hidden">
     <h2>📥 统一收件箱 <span class="badge">13 平台统一</span></h2>
+    <p class="panel-hint">所有已接入平台的买家消息汇到一个会话视图；AI 起草合规回复，Pro 一键确认发送，Business 自动发送。</p>
     <details class="howto"><summary>❓ 怎么用（3 步）</summary>
       <ol>
         <li>点「<b>载入演示会话</b>」体验多平台统一视图（正式环境接好平台凭证后买家消息自动导入，无需手动）。</li>
@@ -493,6 +583,7 @@ console.log("[CrossAIO] build 2026-10-30-cred2 · cred=scroll");
   const t = q.get("token");
   if(t){
     localStorage.setItem("cb_token", t);
+    localStorage.setItem("crossaio_token", t);
     q.delete("token");
     const s = q.toString();
     history.replaceState(null, "", "/app" + (s ? "?" + s : ""));
@@ -507,7 +598,7 @@ function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":
 async function api(path, opts={}){
   const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
   const data = await r.json().catch(()=>({}));
-  if(!r.ok) throw new Error(data.detail || r.statusText);
+  if(!r.ok){ if(r.status===401) throw new Error("请先登录后继续"); throw new Error(data.detail || r.statusText); }
   return data;
 }
 
@@ -531,10 +622,11 @@ async function auth(path){
   if(!email||!password) return setMsg("authMsg","请输入邮箱和密码","err");
   try{
     const d = await api(path,{method:"POST",body:JSON.stringify({email,password})});
-    TOKEN=d.access_token; localStorage.setItem("cb_token",TOKEN);
+    TOKEN=d.access_token; localStorage.setItem("cb_token",TOKEN); localStorage.setItem("crossaio_token",TOKEN);
     ME = await api("/users/me");
     renderUserbar();
     showApp(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+    _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear();
   }catch(e){ setMsg("authMsg", e.message, "err"); }
 }
 document.getElementById("btnLogin").onclick=()=>auth("/users/login");
@@ -592,7 +684,7 @@ document.getElementById("btnDesc").onclick=async()=>{
 const MATRIX_DEFAULTS = ["amazon","ebay","cdiscount","otto","allegro","emag","tiktok","fruugo"];
 (function initMatrix(){
   const box = document.getElementById("matrixPlatforms");
-  fetch(API+"/products/platforms").then(r=>r.json()).then(reg=>{
+  fetch(API+"/products/platforms?lang=zh").then(r=>r.json()).then(reg=>{
     box.innerHTML = Object.entries(reg).map(([k,v])=>{
       const checked = MATRIX_DEFAULTS.includes(k) ? "checked" : "";
       return `<label style="display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer">
@@ -860,7 +952,7 @@ async function loadSubscription(){
 document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
   trackEvent("subscribe_click",{plan:b.dataset.plan});
   try{
-    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan})});
+    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan, billing:(window.__upgBilling||"monthly")})});
     // 生产路径：Stripe / PayPal 返回支付链接 → 直接跳转收银台
     if(r.mode==="stripe" && r.checkout_url){ window.location.href=r.checkout_url; return; }
     if(r.mode==="paypal" && r.approve_url){ window.location.href=r.approve_url; return; }
@@ -869,13 +961,24 @@ document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
     setMsg("subInfo","已切换到 "+b.dataset.plan+"（本地模拟）","ok"); loadSubscription();
   }catch(e){ setMsg("subInfo", e.message, "err"); }
 });
+// 定价页 ?plan= → 注册后 ?upgrade=X 自动发起升级（直达收银台）
+(function(){
+  const up = new URLSearchParams(location.search).get("upgrade");
+  if(up && ["starter","pro","business"].indexOf(up) >= 0){
+    window.__upgBilling = (new URLSearchParams(location.search).get("billing") === "yearly") ? "yearly" : "monthly";
+    try{ history.replaceState({}, "", location.pathname); }catch(e){}
+    const b = document.querySelector('[data-plan="' + up + '"]');
+    if(b) setTimeout(function(){ b.click(); }, 600);
+  }
+})();
+
 
 // ===== Listing 监控（7x24）=====
 const LEVEL_BADGE = {high:"🔴", medium:"🟡", low:"🟢"};
 (async function initWatchPlatform(){
   const sel=document.getElementById("w_platform");
   try{
-    const reg=await (await fetch(API+"/products/platforms")).json();
+    const reg=await (await fetch(API+"/products/platforms?lang=zh")).json();
     sel.innerHTML=Object.entries(reg).map(([k,v])=>`<option value="${k}">${v.display}</option>`).join("");
   }catch(e){ sel.innerHTML='<option value="amazon">Amazon 欧洲站</option>'; }
 })();
@@ -1005,6 +1108,235 @@ async function runPipeline(){
 }
 document.getElementById("btnAutoRun").onclick=runPipeline;
 
+// ---- 自动化元信息：频率 / 下次运行 / 触发规则（接口未返回时优雅降级） ----
+const _FREQ_TXT = {manual:"✋ 按需手动", daily:"📅 每日自动", daily_xN:"📅 每日自动（多轮）", realtime:"⚡ 近实时"};
+function _deriveFreq(plan){
+  if(plan==="free") return "manual";
+  if(plan==="starter") return "daily";
+  if(plan==="pro") return "daily_xN";
+  if(plan==="business") return "realtime";
+  return "manual";
+}
+function _fmtNext(iso){
+  if(!iso) return null;
+  try{ const d=new Date(iso); if(isNaN(d)) return null;
+    return d.toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+  }catch(e){ return null; }
+}
+async function _fillAutoMeta(){
+  try{
+    const d = await api("/automation/status");
+    const plan = d.plan || (ME && ME.plan) || "free";
+    const freq = d.frequency || _deriveFreq(plan);
+    document.getElementById("autoFreq").textContent = _FREQ_TXT[freq] || _FREQ_TXT["manual"];
+    const nextTxt = _fmtNext(d.next_run_at);
+    document.getElementById("autoNext").innerHTML = nextTxt
+      ? `下次自动运行：<b>${esc(nextTxt)}</b>`
+      : `下次自动运行：<b>按需手动运行</b>`;
+    const rules = (d.trigger_rules && d.trigger_rules.slice(0,3)) || [];
+    const box = document.getElementById("autoRules");
+    if(rules.length){
+      box.style.display="block";
+      document.getElementById("autoRulesBody").innerHTML = rules.map(r=>{
+        const ev = r.event || r.trigger || "—";
+        const ac = r.action || "—";
+        return `<div class="rrow"><span>🔔 ${esc(ev)}</span><span class="arrow">→</span><span>${esc(ac)}</span></div>`;
+      }).join("");
+    }else{
+      box.style.display="none";
+    }
+  }catch(e){ /* 优雅：留默认 */ }
+}
+
+// ---- 通知中心 ----
+const _NOTIF_ICON = {risk:"⚠️", report:"📊", reply:"💬", writeback:"↩️", system:"🔔"};
+async function fetchNotifications(){
+  try{
+    const d = await api("/notifications");
+    const list = Array.isArray(d)? d : (d.items || d.notifications || []);
+    renderNotifications(list.slice(0,50));
+  }catch(e){ renderNotifications([]); }
+}
+function renderNotifications(list){
+  const box = document.getElementById("notifList");
+  if(!list.length){ box.innerHTML = `<div id="notifEmpty">暂无通知</div>`; return; }
+  box.innerHTML = list.map(n=>{
+    const icon = _NOTIF_ICON[n.type] || "🔔";
+    const unread = !n.read && !n.is_read;
+    const time = n.created_at ? _fmtNext(n.created_at) : "";
+    return `<div class="nitem ${unread?"unread":""}" data-id="${esc(n.id)}">
+      <span class="nicon">${icon}</span>
+      <div class="nbody">
+        <div class="ntitle">${esc(n.title||"")}${unread?'<span class="nread">· 新</span>':""}</div>
+        <div class="nbody2">${esc(n.body||"")}</div>
+        <div class="ntime">${esc(time)}</div>
+      </div></div>`;
+  }).join("");
+  box.querySelectorAll(".nitem").forEach(el=>el.onclick=()=>markRead(el.dataset.id, el));
+}
+async function markRead(id, el){
+  if(!id) return;
+  try{ await api("/notifications/"+id+"/read",{method:"POST"}); }catch(e){}
+  if(el){ el.classList.remove("unread"); const tag=el.querySelector(".nread"); if(tag) tag.remove(); }
+  pollUnread();
+}
+async function markAllRead(){
+  try{ await api("/notifications/read-all",{method:"POST"}); }catch(e){}
+  fetchNotifications(); pollUnread();
+}
+async function pollUnread(){
+  try{
+    const d = await api("/notifications/unread-count");
+    const n = (typeof d.count==="number")? d.count : (typeof d.unread==="number"? d.unread : 0);
+    const badge = document.getElementById("notifBadge");
+    if(n>0){ badge.textContent = n>99?"99+":String(n); badge.classList.add("on"); }
+    else{ badge.classList.remove("on"); }
+  }catch(e){ /* 静默 */ }
+}
+function _wireUp(){
+  document.getElementById("notifBell").onclick = (e)=>{
+    e.stopPropagation();
+    const drop = document.getElementById("notifDrop");
+    drop.classList.toggle("open");
+    if(drop.classList.contains("open")) fetchNotifications();
+  };
+  document.getElementById("notifDrop").onclick = (e)=> e.stopPropagation();
+  document.getElementById("notifReadAll").onclick = markAllRead;
+  document.addEventListener("click", ()=>{ const d=document.getElementById("notifDrop"); if(d) d.classList.remove("open"); });
+  document.getElementById("onboardSkip").onclick = _dismissOnboard;
+  document.getElementById("onboardNext").onclick = ()=>{
+    if(_onboardStep >= _ONBOARD_TOTAL-1){ _dismissOnboard(); return; }
+    _onboardStep++; _showOnboardStep();
+  };
+}
+
+// ---- 新手引导 ----
+let _onboardStep = 0;
+const _ONBOARD_TOTAL = 4;
+function _showOnboardStep(){
+  const steps = document.querySelectorAll("#onboardStep");
+  steps.forEach((s,i)=>s.classList.toggle("on", i===_onboardStep));
+  document.querySelectorAll("#onboardDots .dot").forEach((d,i)=>d.classList.toggle("on", i===_onboardStep));
+  document.getElementById("onboardNext").textContent = (_onboardStep===_ONBOARD_TOTAL-1)? "开始使用 →" : "下一步 →";
+}
+function _dismissOnboard(){
+  try{ localStorage.setItem("crossaio_onboard_seen_"+(document.documentElement.lang||"zh"), "1"); }catch(e){}
+  document.getElementById("onboardMask").classList.remove("open");
+}
+function _maybeShowOnboard(){
+  try{
+    const key = "crossaio_onboard_seen_"+(document.documentElement.lang||"zh");
+    if(localStorage.getItem(key)==="1") return;
+  }catch(e){}
+  _onboardStep = 0; _showOnboardStep();
+  document.getElementById("onboardMask").classList.add("open");
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _wireUp);
+else _wireUp();
+setInterval(()=>{ if(TOKEN) pollUnread(); }, 60000);
+
+// ---- 各面板报告（客户端组装：当次输入 + 结果文本） ----
+const _PANEL_REPORTS = [
+  {key:"desc",   title:"产品描述生成报告",
+   card:"#tab-desc", inputs:[["d_name","产品名"],["d_kw","关键词"],["d_platform","平台"],["d_lang","语言"]],
+   results:["descResult","matrixResult"]},
+  {key:"gpsr",    title:"GPSR 合规体检报告（免费）",
+   card:"#tab-gpsr", inputs:[["g_name","产品名"],["g_kw","关键词"],["g_platform","平台"]],
+   results:["gpsrResult"]},
+  {key:"cs",      title:"AI 客服会话报告",
+   card:"#tab-cs", inputs:[["cs_msg","买家消息"],["cs_platform","平台"],["cs_order","订单号"]],
+   results:["chatBox"]},
+  {key:"ad",      title:"广告文案报告",
+   card:"#tab-ad", inputs:[["a_name","产品名"],["a_platform","平台"],["a_audience","受众"],["a_usp","卖点"]],
+   results:["adResult"]},
+  {key:"review",  title:"差评改写报告",
+   card:"#tab-review", inputs:[["rv_text","差评"],["rv_rating","评分"],["rv_material","材质"],["rr_platform","回复平台"],["rr_text","回复差评"]],
+   results:["rvResult","rrResult","attrResult"]},
+  {key:"watch",   title:"Listing 监控报告",
+   card:"#tab-watch", inputs:[["w_sku","SKU"],["w_name","产品名"],["w_platform","平台"],["w_kw","关键词"]],
+   results:["watchReportBox","watchList","watchDetail"]},
+  {key:"inbox",   title:"统一收件箱报告",
+   card:"#tab-inbox", inputs:[],
+   results:["inboxList","inboxThread"]},
+];
+function _grabText(id){ const el=document.getElementById(id); if(!el) return "";
+  const t=(el.innerText||"").trim(); return t && el.innerHTML.trim() ? t : ""; }
+function _buildReport(p){
+  const lines=[];
+  lines.push(p.title);
+  lines.push("生成时间："+new Date().toLocaleString());
+  lines.push("来源：CrossAIO 工作台");
+  lines.push("");
+  lines.push("== 输入 ==");
+  let hasInput=false;
+  p.inputs.forEach(([id,label])=>{
+    const el=document.getElementById(id); if(!el) return;
+    const v=(el.value||"").trim(); if(v){ lines.push(label+"："+v); hasInput=true; }
+  });
+  if(!hasInput) lines.push("（未捕获到输入）");
+  lines.push("");
+  lines.push("== 结果 ==");
+  let hasResult=false;
+  p.results.forEach(rid=>{ const t=_grabText(rid); if(t){ lines.push("-- "+rid+" --"); lines.push(t); hasResult=true; } });
+  if(!hasResult) lines.push("（尚无结果——请先在面板里跑一次，再生成报告）");
+  lines.push("");
+  lines.push("== 建议下一步 ==");
+  lines.push("1. 检查上方结果，修复被标记的问题项。");
+  lines.push("2. 在顶部凭证中心接入平台，可自动写回/同步。");
+  lines.push("3. 修复后重新跑一次，确认闭环。");
+  return lines.join("\n");
+}
+function _downloadBlob(name, mime, content){
+  const blob = new Blob([content], {type:mime});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 400);
+}
+function _toHtmlReport(title, txt){
+  const escT = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
+<style>body{font-family:Segoe UI,system-ui,sans-serif;max-width:820px;margin:30px auto;padding:0 20px;color:#1e293b;line-height:1.6}
+h1{color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:8px}
+pre{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;font-size:13px}
+.meta{color:#64748b;font-size:12px}</style></head>
+<body><h1>${title}</h1><div class="meta">可打印报告 · 由 CrossAIO 生成</div><pre>${escT}</pre></body></html>`;
+}
+function _injectReportUI(){
+  _PANEL_REPORTS.forEach(p=>{
+    const card = document.querySelector(p.card); if(!card) return;
+    if(document.getElementById("reportBox-"+p.key)) return;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <div class="report-actions">
+        <button type="button" data-rkey="${p.key}" data-act="generate">📄 生成报告</button>
+        <button type="button" data-rkey="${p.key}" data-act="txt">⬇ 导出 .txt</button>
+        <button type="button" data-rkey="${p.key}" data-act="html">⬇ 导出 .html</button>
+      </div>
+      <div class="report-box" id="reportBox-${p.key}">
+        <div class="rhead"><span>📄 ${p.title}</span>
+          <span class="ractions"><button type="button" data-rkey="${p.key}" data-act="copy">复制</button></span></div>
+        <div class="rbody" style="white-space:pre-wrap"></div>
+      </div>`;
+    card.appendChild(wrap);
+  });
+  document.querySelectorAll(".report-actions button, .ractions button").forEach(b=>{
+    b.onclick = ()=>{
+      const key = b.dataset.rkey; if(!key) return;
+      const p = _PANEL_REPORTS.find(x=>x.key===key); if(!p) return;
+      const act = b.dataset.act;
+      const txt = _buildReport(p);
+      const box = document.getElementById("reportBox-"+key);
+      if(act==="generate"){ box.classList.add("open"); box.querySelector(".rbody").textContent = txt; }
+      else if(act==="copy"){ navigator.clipboard?.writeText(txt).then(()=>{ b.textContent="已复制 ✓"; setTimeout(()=>b.textContent="复制",1500); }).catch(()=>{}); }
+      else if(act==="txt"){ _downloadBlob("crossaio-"+key+"-report.txt","text/plain;charset=utf-8",txt); }
+      else if(act==="html"){ _downloadBlob("crossaio-"+key+"-report.html","text/html;charset=utf-8",_toHtmlReport(p.title,txt)); }
+    };
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _injectReportUI);
+else _injectReportUI();
+
 // ---------------- 平台凭证接入中心（13 平台自助） ----------------
 let _credLoaded = false;
 function _credChip(slug, p){
@@ -1084,7 +1416,7 @@ async function loadCredStatus(force){
     let html=`<div style="margin:0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <div style="font-weight:700;font-size:14px">🔗 平台凭证接入中心 <span class="badge">${readyN}/${totalN} 已就绪</span></div>
-        <button class="btn ghost" style="margin:0;padding:3px 12px" id="credToggleBtn" onclick="toggleCredBanner()" title="收起/展开接入中心">收起 ▲</button>
+        <button class="btn ghost" style="margin:0;padding:4px 12px;white-space:nowrap" id="credToggleBtn" onclick="toggleCredBanner()" title="收起/展开接入中心">收起 ▲</button>
       </div>
       <div id="credBody">
       <p class="hint" style="margin:0 0 8px">🔑 <b>一次接入、全站复用</b>：每个平台只需接入一次（存入你的账号，AES-256 加密），下方全部功能与自动化流水线自动共用同一份凭证，<b>任何功能都不需要重复接入</b>。13 平台支持自助粘贴凭证或一键 OAuth 授权；接入后解锁消息自动导入 / 合规块写回 / Listing 回填。</p>
@@ -1153,8 +1485,10 @@ async function saveEbayAppConfig(){
 }
 
 // 自动恢复登录态
-if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); })
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+  _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear(); })
   .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
+function _maybeShowOnboardOnAppear(){ setTimeout(_maybeShowOnboard, 350); }
 
 // ---------------- 统一收件箱 ----------------
 let _inboxFilter = "";   // 当前平台筛选（空=全部）
@@ -1248,6 +1582,48 @@ async function sendReply(id){
 }
 
 </script>
+<div id="onboardMask">
+  <div id="onboardModal">
+    <div id="onboardStep" class="on">
+      <h3>🔗 1 · 接入平台凭证</h3>
+      <p>CrossAIO 是独立工作台——只需接入一次 eBay 或其他平台凭证，自动化流水线就能把买家消息、listing、报告串联起来。</p>
+      <ul><li>凭证接入后，店铺问题自动在 6 大功能之间流转。</li>
+      <li>其余平台连接器在你接入前会显示「待凭据启用」。</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>⚙️ 2 · 按订阅档位的自动化流水线</h3>
+      <p>工作台自动运行频率由你的订阅决定：</p>
+      <ul><li><b>Free</b> — 仅按需手动工具。</li>
+      <li><b>Starter（€29）</b> — 每日监控体检，每周发一封报告邮件。</li>
+      <li><b>Pro（€49）</b> — 每日体检+每日邮件，自动回复草稿、一键写回。</li>
+      <li><b>Business（€149）</b> — 近实时预警，自动回复无需确认，平台连接器不限量。</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>🧰 3 · 各面板用法</h3>
+      <ul><li>📦 <b>Listing 生成器</b> — 标题/五点/详情页 + GPSR 合规块，另支持多国矩阵。</li>
+      <li>🛡️ <b>GPSR 体检</b> — 单品免费合规扫描；免费档也能生成完整体检报告。</li>
+      <li>💬 <b>AI 客服</b> — 识别意图+情绪的合规回复。</li>
+      <li>📥 <b>统一收件箱</b> — 13 平台一个会话视图。</li>
+      <li>📣 <b>广告文案</b> — 健康 listing 一键转广告。</li>
+      <li>🔄 <b>差评改写</b> — 从差评定位 listing 根因。</li>
+      <li>📡 <b>Listing 监控</b> — 每日 listing 风险体检+报告邮件。</li>
+      <li>📄 <b>每个面板</b> — 都有「生成报告」，可复制或下载为 .txt / .html。</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>💳 4 · 套餐与额度</h3>
+      <ul><li><b>Free €0</b> — 每天 5 次调用，手动复制粘贴写回。</li>
+      <li><b>Starter €29</b> — 每天 50 次调用，1 个平台，手动复制粘贴。</li>
+      <li><b>Pro €49</b> — 每天 200 次调用，3 个平台，一键确认写回。</li>
+      <li><b>Business €149</b> — 每天 1000 次调用，平台不限量，全自动写回与回复。</li></ul>
+      <p class="hint">年付折算：每月 €23 / €39 / €119。</p>
+    </div>
+    <div id="onboardDots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div id="onboardFoot">
+      <button id="onboardSkip">跳过</button>
+      <button id="onboardNext">下一步 →</button>
+    </div>
+  </div>
+</div>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
 </body>
 </html>

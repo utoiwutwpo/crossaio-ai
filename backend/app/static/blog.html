@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="en" href="/blog">
+<link rel="alternate" hreflang="x-default" href="/blog">
+<title>Blog — GPSR, Localization & EU Marketplace Growth | CrossAIO</title>
+<meta name="description" content="Practical guides for European cross-border sellers: GPSR compliance, listing localization, marketplace rules for Allegro, Kaufland, bol.com, eMAG, and transparent pricing.">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;min-width:1080px;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;max-width:1240px;margin:0 auto}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .navlinks{display:flex;gap:22px;font-size:14.5px;font-weight:600}
+  .navlinks a:hover{color:var(--blue)}
+
+  /* ===== H10-style split hero ===== */
+  .hero{position:relative;background:linear-gradient(135deg,#0b1030 0%,#16204d 55%,#231457 100%);color:#fff;overflow:hidden}
+  .hero .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;pointer-events:none}
+  .hero .b1{width:420px;height:420px;background:#2563eb;top:-140px;right:8%;animation:drift 9s ease-in-out infinite alternate}
+  .hero .b2{width:340px;height:340px;background:#8b5cf6;bottom:-160px;left:-80px;animation:drift 11s ease-in-out infinite alternate-reverse}
+  @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,26px) scale(1.12)}}
+  .hero-in{position:relative;max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.08fr .92fr;gap:52px;align-items:center;padding:64px 32px 72px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 16px;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#c7d2fe}
+  .hero h1{font-size:42px;line-height:1.18;margin:18px 0 14px;letter-spacing:-.5px}
+  .hero h1 .grad{background:linear-gradient(90deg,#60a5fa,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.sub{color:#cbd5e1;font-size:16.5px;max-width:540px}
+  .hero-ctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+  .btn{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;font-weight:700;font-size:15px;padding:13px 28px;border-radius:11px;transition:.2s;box-shadow:0 8px 22px rgba(37,99,235,.35)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(37,99,235,.45)}
+  .btn.ghost{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.35);box-shadow:none}
+  .trust-chips{display:flex;gap:18px;margin-top:24px;font-size:13px;color:#94a3b8;flex-wrap:wrap}
+  .trust-chips span{display:inline-flex;align-items:center;gap:6px}
+  .trust-chips b{color:#4ade80;font-weight:800}
+  .hero-visual{position:relative}
+  .hero-visual img.photo{width:100%;border-radius:20px;box-shadow:0 30px 70px rgba(2,6,23,.55);display:block}
+  .float-card{position:absolute;background:#fff;color:var(--ink);border-radius:14px;padding:12px 18px;box-shadow:0 16px 40px rgba(2,6,23,.35);animation:float 5s ease-in-out infinite}
+  .float-card .v{font-weight:800;font-size:19px;color:var(--blue)}
+  .float-card .k{font-size:12px;color:var(--muted)}
+  .fc1{top:-16px;left:-26px}
+  .fc2{bottom:-18px;right:-14px;animation-delay:1.6s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  /* ===== stats strip ===== */
+  .stats{max-width:1080px;margin:-34px auto 0;padding:0 32px;position:relative;z-index:2}
+  .stats-in{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 18px 44px rgba(15,23,42,.10);overflow:hidden}
+  .stat{padding:22px 18px;text-align:center;border-right:1px solid var(--border)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-size:30px;font-weight:800;color:var(--navy)}
+  .stat .n em{font-style:normal;color:var(--blue)}
+  .stat .l{font-size:13px;color:var(--muted)}
+
+  /* ===== posts ===== */
+  main{max-width:1120px;margin:0 auto;padding:48px 32px}
+  .sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:22px}
+  .sec-head h2{font-size:27px;letter-spacing:-.3px}
+  .sec-head p{color:var(--muted);font-size:14.5px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .post-card{border:1px solid var(--border);border-radius:16px;padding:26px;cursor:pointer;transition:.22s;background:#fff;position:relative;overflow:hidden}
+  .post-card::before{content:"";position:absolute;left:0;top:0;height:4px;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:.3s}
+  .post-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(37,99,235,.14)}
+  .post-card:hover::before{width:100%}
+  .post-card h2{font-size:20px;margin:10px 0 8px;line-height:1.4}
+  .post-card p{color:var(--muted);font-size:14.5px}
+  .meta{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .tag{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;border-radius:6px;font-size:12px;padding:2px 9px;margin-right:6px;font-weight:600}
+  .back{color:var(--blue);font-weight:700;font-size:14px;cursor:pointer;margin-bottom:20px;display:inline-block}
+  article h2{font-size:21px;margin:26px 0 10px}
+  article p{margin:12px 0;color:#1e293b;font-size:15.5px}
+  article ol,article ul{margin:12px 0 12px 26px}
+  article li{margin:6px 0}
+  .article-hero{width:100%;border-radius:14px;margin:18px 0}
+  article img.body-img{max-width:92%;border-radius:12px;margin:16px auto;display:block;box-shadow:0 10px 30px rgba(15,23,42,.12)}
+  article video{max-width:100%;border-radius:12px;margin:14px 0;display:block}
+
+  /* ===== video strip ===== */
+  .video-sec{max-width:1120px;margin:8px auto 0;padding:0 32px}
+  .vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .vid-card{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#fff;transition:.2s}
+  .vid-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(37,99,235,.14)}
+  .vid-card video{width:100%;aspect-ratio:16/9;display:block;background:#0b1030}
+  .vid-card .cap{padding:14px 18px;font-weight:700;font-size:15px}
+  .vid-card .cap small{display:block;color:var(--muted);font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+
+  /* ===== testimonials ===== */
+  .testi{background:linear-gradient(135deg,#f8fafc,#eef2ff);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:56px;padding:56px 32px}
+  .testi-in{max-width:1120px;margin:0 auto}
+  .testi h2{text-align:center;font-size:27px;margin-bottom:8px}
+  .testi .lead{text-align:center;color:var(--muted);font-size:15px;margin-bottom:30px}
+  .t-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .t-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;transition:.2s}
+  .t-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(37,99,235,.12)}
+  .t-card .stars{color:#f59e0b;font-size:14px;letter-spacing:2px;margin-bottom:10px}
+  .t-card q{font-size:14px;color:#1e293b;display:block;line-height:1.65;min-height:88px}
+  .t-who{display:flex;align-items:center;gap:11px;margin-top:14px}
+  .t-who img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #e0e7ff}
+  .t-who .nm{font-weight:700;font-size:14px}
+  .t-who .rl{font-size:12.5px;color:var(--muted)}
+
+  .cta{background:linear-gradient(135deg,var(--navy),#1e1b4b);border-radius:18px;padding:34px;text-align:center;margin:44px 0 0;color:#fff}
+  .cta .btn{margin-top:12px}
+  .loading{color:var(--muted);text-align:center;padding:40px}
+  footer{border-top:1px solid var(--border);margin-top:56px;padding:26px 32px;text-align:center;color:var(--muted);font-size:13.5px}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.on{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="/"><span class="dot">C</span>CrossAIO</a>
+  <div class="navlinks">
+    <a href="/compliance-check">Free GPSR Check</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/blog">Blog</a>
+    <a href="/podcast">Podcast</a>
+    <a href="/trust">Trust</a>
+    <a href="/signin" id="navAuth">Sign in</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="hero-in">
+    <div>
+      <span class="eyebrow">✦ Growth Blog · EU Sellers</span>
+      <h1>Compliance & growth playbooks,<br>written for <span class="grad">European sellers</span></h1>
+      <p class="sub">GPSR enforcement, listing localization, marketplace rules for Allegro, Kaufland, bol.com and eMAG — practical, English-first, no fluff.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="/compliance-check">Run the free GPSR check →</a>
+        <a class="btn ghost" href="/academy">Learn in the Academy</a>
+      </div>
+      <div class="trust-chips">
+        <span><b>✓</b> No commission</span>
+        <span><b>✓</b> Cancel in 1 click</span>
+        <span><b>✓</b> Free plan forever</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img class="photo" src="/img/hero-seller.png" alt="European e-commerce seller packing orders in a Berlin office">
+      <div class="float-card fc1"><div class="v">13+</div><div class="k">EU marketplaces covered</div></div>
+      <div class="float-card fc2"><div class="v">30 sec</div><div class="k">Full GPSR listing scan</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stats-in">
+    <div class="stat"><div class="n"><em data-count="14">0</em></div><div class="l">In-depth guides published</div></div>
+    <div class="stat"><div class="n"><em data-count="13">0</em></div><div class="l">EU marketplaces analyzed</div></div>
+    <div class="stat"><div class="n"><em data-count="12">0</em></div><div class="l">Video podcast episodes</div></div>
+    <div class="stat"><div class="n"><em data-count="100">0</em>%</div><div class="l">Free to read, always</div></div>
+  </div>
+</div>
+
+<main id="main">
+  <div class="loading">Loading posts…</div>
+</main>
+
+<section class="testi reveal">
+  <div class="testi-in">
+    <h2>Sellers across Europe read along</h2>
+    <p class="lead">From Berlin to Madrid — operators who ship to all of the EU.</p>
+    <div class="t-grid">
+      <div class="t-card"><div class="stars">★★★★★</div><q>The GPSR checklist post alone saved us a delisting on Kaufland. Clear, current, no legalese.</q><div class="t-who"><img src="/img/avatar-de.png" alt="Lena, Berlin"><div><div class="nm">Lena K. 🇩🇪</div><div class="rl">Home & Living seller · Berlin</div></div></div></div>
+      <div class="t-card"><div class="stars">★★★★★</div><q>Finally a blog that treats localization as a system, not a translation bill. The matrix article changed our workflow.</q><div class="t-who"><img src="/img/avatar-fr.png" alt="Thomas, Paris"><div><div class="nm">Thomas R. 🇫🇷</div><div class="rl">Beauty brand · Paris</div></div></div></div>
+      <div class="t-card"><div class="stars">★★★★★</div><q>I forwarded the Allegro guide to my whole team. We doubled PL orders in a quarter.</q><div class="t-who"><img src="/img/avatar-pl.png" alt="Agnieszka, Warsaw"><div><div class="nm">Agnieszka W. 🇵🇱</div><div class="rl">Electronics · Warsaw</div></div></div></div>
+      <div class="t-card"><div class="stars">★★★★★</div><q>Transparent pricing posts convinced me to try the tool. The blog walks the same talk.</q><div class="t-who"><img src="/img/avatar-es.png" alt="Javier, Madrid"><div><div class="nm">Javier M. 🇪🇸</div><div class="rl">Sports gear · Madrid</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="video-sec reveal" id="videoSec" style="margin-top:48px">
+  <div class="sec-head"><div><h2>🎥 Prefer video?</h2><p>Watch the latest episodes of the CrossAIO video podcast — every article topic has an episode.</p></div><a class="btn ghost" style="box-shadow:none;border:1.5px solid var(--border);color:var(--blue);background:#fff" href="/podcast">All episodes →</a></div>
+  <div class="vid-grid" id="vidGrid"><div class="loading">Loading videos…</div></div>
+</section>
+
+<footer>CrossAIO — GPSR compliance, localization and multi-platform growth for European cross-border sellers.<br><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/trust">Trust</a></footer>
+
+<script>
+const LANG = "en";   // 英文首发（后端多语能力保留，页面仅 EN）
+
+function esc(s) { const d = document.createElement("div"); d.textContent = s || ""; return d.innerHTML; }
+// 关键修复：video_url 可能是绝对域名（www.crossaio.com，尚未解析到本服务器），强制转相对路径保证可播
+function relUrl(u){ if(!u) return u; const i = u.indexOf("/podcast-audio/"); return i >= 0 ? u.slice(i) : u; }
+
+function mdLite(t) {
+  const lines = esc(t).split("\n");
+  const out = [];
+  let inList = false;
+  for (let ln of lines) {
+    ln = ln.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+    const imgM = ln.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imgM) { if (inList) { out.push("</ol>"); inList = false; } out.push(`<img class="body-img" src="${imgM[2]}" alt="${imgM[1]}">`); }
+    else if (ln.startsWith("## ")) { if (inList) { out.push("</ol>"); inList = false; } out.push("<h2>" + ln.slice(3) + "</h2>"); }
+    else if (/^\d+\.\s/.test(ln)) { if (!inList) { out.push("<ol>"); inList = true; } out.push("<li>" + ln.replace(/^\d+\.\s/, "") + "</li>"); }
+    else if (ln.startsWith("- "))   { if (!inList) { out.push("<ul>"); inList = true; } out.push("<li>" + ln.slice(2) + "</li>"); }
+    else if (ln.trim() === "")      { }
+    else { if (inList) { out.push("</ol>"); inList = false; } out.push(ln.trim() ? "<p>" + ln + "</p>" : ""); }
+  }
+  if (inList) out.push("</ol>");
+  return out.join("");
+}
+
+async function api(path) {
+  const r = await fetch(path);
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+async function loadList() {
+  const m = document.getElementById("main");
+  m.innerHTML = '<div class="loading">Loading posts…</div>';
+  try {
+    const posts = await api("/api/v1/blog/posts?lang=" + LANG);
+    if (!posts.length) { m.innerHTML = '<div class="loading">No posts yet.</div>'; return; }
+    m.innerHTML = `
+      <div class="sec-head reveal"><div><h2>Latest guides</h2><p>New playbooks every week — bookmark this page.</p></div></div>
+      <div class="grid">` + posts.map(p => `
+      <div class="post-card reveal" onclick="location.hash='${p.slug}'">
+        <div class="meta">${(p.published_at || "").slice(0, 10)} · ${(p.tags || "").split(",").map(t => '<span class="tag">' + esc(t.trim()) + "</span>").join("")}</div>
+        <h2>${esc(p.title)}</h2>
+        <p>${esc(p.excerpt)}</p>
+      </div>`).join("") + `</div>
+      <div class="cta reveal"><b style="font-size:18px">Check your listings for GPSR gaps — free, in 30 seconds.</b><br>
+        <a class="btn" href="/compliance-check">Run the free check →</a></div>`;
+    observeReveals();
+  } catch (e) {
+    m.innerHTML = '<div class="loading">Could not load posts (is the API up?).</div>';
+  }
+}
+
+async function loadPost(slug) {
+  const m = document.getElementById("main");
+  m.innerHTML = '<div class="loading">Loading…</div>';
+  try {
+    const p = await api("/api/v1/blog/posts/" + slug);
+    document.title = p.title + " | CrossAIO";
+    const HERO = {
+      "gpsr-block-teardown-five-real-causes":"/img/content/gpsr-checklist.png",
+      "one-price-27-vat-rates-margin-teardown":"/img/content/vat-margin-map.png",
+      "ai-cs-24-languages-aiact-safe":"/img/content/ai-cs-multilingual.png",
+      "eu-warehouse-cross-border-shipping":"/img/content/eu-warehouse.png"
+    };
+    m.innerHTML = `
+      <span class="back" onclick="location.hash='';loadList()">← All posts</span>
+      <img class="article-hero" src="${HERO[slug]||"/img/hero-seller.png"}" alt="">
+      <div class="meta">${(p.published_at || "").slice(0, 10)} · ${esc(p.author)} · ${p.views} views</div>
+      <h1 style="font-size:30px;line-height:1.3;margin:10px 0 16px">${esc(p.title)}</h1>
+      <article>${mdLite(p.body)}</article>
+      <div class="cta"><b>Put it into practice — scan your listings free.</b><br>
+        <a class="btn" href="/compliance-check">Run the free check →</a></div>`;
+    window.scrollTo(0, 0);
+  } catch (e) {
+    m.innerHTML = '<div class="loading">Post not found.</div>';
+  }
+}
+
+// 相关视频：动态取播客最新 2 集视频
+(async function loadVideos(){
+  try{
+    const eps=(await api("/api/v1/podcast/episodes")).filter(e=>e.video_url).sort((a,b)=>b.episode_no-a.episode_no).slice(0,2);
+    if(!eps.length){document.getElementById("videoSec").style.display="none";return;}
+    document.getElementById("vidGrid").innerHTML=eps.map(e=>`
+      <div class="vid-card">
+        <video controls preload="metadata" poster="${(()=>{const n=e.episode_no;return n<=9?`/podcast-audio/video/ep${n}-cover.png`:`/podcast-audio/video/feat${n-9}-cover.png`;})()}" src="${esc(relUrl(e.video_url))}"></video>
+        <div class="cap"><small>Episode ${e.episode_no} · Video</small>${esc(e.title)}</div>
+      </div>`).join("");
+  }catch(e){document.getElementById("videoSec").style.display="none";}
+})();
+
+// 数字滚动
+(function counters(){
+  const els=document.querySelectorAll("[data-count]");
+  const io=new IntersectionObserver(es=>es.forEach(en=>{
+    if(!en.isIntersecting)return;
+    const el=en.target,target=+el.dataset.count,t0=performance.now();
+    (function tick(t){const k=Math.min((t-t0)/1200,1);el.textContent=Math.round(target*(0.2+0.8*k*k));if(k<1)requestAnimationFrame(tick);else el.textContent=target;})(t0);
+    io.unobserve(el);
+  }),{threshold:.4});
+  els.forEach(el=>io.observe(el));
+})();
+
+// 滚动浮现
+function observeReveals(){
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("on");io.unobserve(en.target);}}),{threshold:.12});
+  document.querySelectorAll(".reveal:not(.on)").forEach(el=>io.observe(el));
+}
+observeReveals();
+
+function route() {
+  const slug = location.hash.replace("#", "");
+  if (slug) loadPost(slug); else loadList();
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+
+<script>
+// 导航登录态感知：跨页统一（兼容 cb_token / crossaio_token 双 key）
+(function(){
+  function tok(){ try{ return localStorage.getItem("crossaio_token") || localStorage.getItem("cb_token") || ""; }catch(e){ return ""; } }
+  var el = document.getElementById("navAuth");
+  if(!el) return;
+  var t = tok();
+  if(!t){ el.textContent = "Sign in"; el.href = "/signin"; el.title = ""; return; }
+  el.textContent = "Account"; el.href = "/app"; el.title = "Signed in";
+  fetch("/api/v1/users/me", {headers:{"Authorization":"Bearer " + t}})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(m){
+      if(!m) return;
+      var n = (m.full_name || m.email || "").split("@")[0];
+      if(n) el.textContent = n;
+      el.title = m.email || "";
+    })
+    .catch(function(){});
+})();
+</script>
+</body>
+</html>

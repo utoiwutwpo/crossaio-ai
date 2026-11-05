@@ -24,11 +24,165 @@ _PLATFORM_DISPLAY = {
     "bol": ("bol.com", "🇳🇱🇧🇪 荷兰 / 比利时 · nl"),
 }
 
+# 交叉链接卡片内嵌官方 logo；bol 无 logo，键缺失时只渲染文字
+_X_LOGO = {
+    "allegro": ("allegro.svg", "Allegro"),
+    "emag": ("emag.svg", "eMAG"),
+    "cdiscount": ("cdiscount.png", "Cdiscount"),
+    "otto": ("otto.svg", "Otto"),
+    "kaufland": ("kaufland.svg", "Kaufland"),
+}
+
+
+def _x_inner(platform: str, sub: str) -> str:
+    """x-link 内部：[logo img] + [name + small sub]。bol 无 logo 时只输出文字块。"""
+    name = _PLATFORM_DISPLAY[platform][0]
+    logo = _X_LOGO.get(platform)
+    img = (f'<img class="x-logo" src="/img/logos/{logo[0]}" alt="{logo[1]}" />'
+           if logo else "")
+    return f'{img}<span class="x-txt">{name}<small>{sub}</small></span>'
+
 _LANG_NAME = {
     "en": "英语", "de": "德语", "fr": "法语", "es": "西语", "it": "意语",
     "pl": "波兰语", "ro": "罗马尼亚语", "nl": "荷兰语", "sv": "瑞典语",
     "cs": "捷克语", "sk": "斯洛伐克语", "hu": "匈牙利语", "bg": "保加利亚语",
 }
+
+# ---------------------------------------------------------------------------
+# 规则页外壳视觉（en/de/fr/zh 共用）— 视觉蓝本 en/home.html
+# 深色 page-head 科技层 + 玻璃内容卡 + gh-code 警示样例窗 + 页尾合规 CTA 带。
+# 纯展示层；平台数据 / 文案 / 路由 / 切换器 / hreflang 一律不动。
+# ---------------------------------------------------------------------------
+_RULES_CSS = """
+  :root{--navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#fff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--violet:#7c3aed;
+    --ok:#059669;--err:#dc2626}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
+  a{text-decoration:none;color:inherit}
+
+  /* dark page-head tech layer */
+  .page-head{position:relative;overflow:hidden;
+    background:
+      radial-gradient(1100px 520px at 82% 18%,rgba(124,58,237,.45),transparent 62%),
+      radial-gradient(820px 460px at 12% 100%,rgba(29,78,216,.38),transparent 55%),
+      linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
+    padding:64px 24px 76px;text-align:center;color:#fff}
+  .ph-grid{position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 70% at 50% 40%,#000 30%,transparent 78%);
+    mask-image:radial-gradient(ellipse 75% 70% at 50% 40%,#000 30%,transparent 78%)}
+  .ph-glow{position:absolute;inset:0;pointer-events:none}
+  .ph-glow i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:glowpulse 9s ease-in-out infinite}
+  .ph-glow i.g1{width:400px;height:400px;left:50%;top:-120px;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 70%)}
+  .ph-glow i.g2{width:340px;height:340px;right:-90px;bottom:-140px;background:radial-gradient(circle,rgba(59,130,246,.5),transparent 70%);animation-delay:3s}
+  @keyframes glowpulse{0%,100%{opacity:.45}50%{opacity:.75}}
+  .particles{position:absolute;inset:0;pointer-events:none}
+  .particles i{position:absolute;width:5px;height:5px;border-radius:50%;background:#93c5fd;opacity:0;animation:ptw 7s linear infinite}
+  .particles i:nth-child(2){width:4px;height:4px;background:#c4b5fd;animation-delay:1.1s;animation-duration:9s}
+  .particles i:nth-child(3){width:6px;height:6px;background:#a5b4fc;animation-delay:2.2s;animation-duration:6s}
+  .particles i:nth-child(4){width:4px;height:4px;background:#93c5fd;animation-delay:3.3s;animation-duration:8s}
+  .particles i:nth-child(5){width:5px;height:5px;background:#c4b5fd;animation-delay:.6s;animation-duration:10s}
+  .particles i:nth-child(6){width:3px;height:3px;background:#a5b4fc;animation-delay:1.8s;animation-duration:7s}
+  .particles i:nth-child(7){width:5px;height:5px;background:#93c5fd;animation-delay:2.9s;animation-duration:9s}
+  .particles i:nth-child(8){width:4px;height:4px;background:#c4b5fd;animation-delay:4s;animation-duration:6.5s}
+  .particles i:nth-child(9){width:5px;height:5px;background:#a5b4fc;animation-delay:.9s;animation-duration:8.5s}
+  .particles i:nth-child(10){width:3px;height:3px;background:#93c5fd;animation-delay:2.5s;animation-duration:11s}
+  .particles i:nth-child(11){width:4px;height:4px;background:#c4b5fd;animation-delay:3.7s;animation-duration:7.5s}
+  .particles i:nth-child(12){width:6px;height:6px;background:#a5b4fc;animation-delay:1.4s;animation-duration:9.5s}
+  @keyframes ptw{0%{transform:translateY(0);opacity:0}8%{opacity:.85}85%{opacity:.5}100%{transform:translateY(-60vh);opacity:0}}
+  .ph-inner{position:relative;z-index:2;max-width:880px;margin:0 auto}
+  .ph-emblem{width:58px;height:58px;margin:0 auto 18px;filter:drop-shadow(0 10px 26px rgba(124,58,237,.55))}
+  .page-head .eyebrow{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c4b5fd;margin-bottom:14px;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.35);padding:7px 16px;border-radius:999px;backdrop-filter:blur(6px)}
+  .page-head h1{font-size:36px;font-weight:800;line-height:1.2;margin-bottom:12px;text-shadow:0 0 44px rgba(147,197,253,.35)}
+  .page-head p{color:#c7d0e8;font-size:15px;max-width:680px;margin:0 auto 22px}
+  .ph-badges{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+  .ph-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 15px;font-size:12.5px;font-weight:700;color:#e2e8f0;backdrop-filter:blur(6px)}
+  .ph-badge.ph-auth{background:rgba(139,92,246,.18);border-color:rgba(196,181,253,.45);color:#e9d5ff;box-shadow:0 0 22px rgba(139,92,246,.35)}
+
+  section{max-width:900px;margin:0 auto;padding:44px 24px}
+  h2.sec{font-size:19px;font-weight:800;margin:26px 0 14px}
+
+  /* glass content cards */
+  .card{background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:24px 26px;margin-bottom:16px;box-shadow:0 6px 24px rgba(15,23,42,.06);transition:.25s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 42px rgba(37,99,235,.12);border-color:#bfdbfe}
+  .card h3{font-size:15px;font-weight:800;margin-bottom:10px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+  .badge{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:700;color:#334155}
+  .card.danger{border-color:#fecaca;background:rgba(254,242,242,.85)}
+  .card.danger h3{color:var(--err)}
+  .card ul{margin:8px 0 0 20px}
+  .card li{font-size:14px;color:#334155;padding:3px 0}
+  .policy-link{display:inline-block;color:var(--blue);font-weight:700;font-size:13.5px;word-break:break-all}
+  .policy-link:hover{color:var(--violet)}
+
+  /* gh-code warning sample window */
+  .gh-code{background:#0a0f2e;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;font-family:ui-monospace,Consolas,monospace}
+  .gh-code .bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#131a3a;border-bottom:1px solid rgba(255,255,255,.08)}
+  .gh-code .bar i{width:11px;height:11px;border-radius:50%;display:block}
+  .gh-code .bar i:nth-child(1){background:#f87171}
+  .gh-code .bar i:nth-child(2){background:#fbbf24}
+  .gh-code .bar i:nth-child(3){background:#34d399}
+  .gh-code .bar span{margin-left:8px;font-size:11.5px;color:#94a3b8}
+  .gh-code .body{padding:16px 18px;color:#e2e8f0;font-size:13.5px;white-space:pre-wrap;overflow-x:auto}
+  .lock{background:var(--soft);border:1px dashed var(--border);border-radius:12px;padding:16px 20px;font-size:13.5px;color:var(--muted);margin-top:14px}
+
+  /* bottom compliance CTA band */
+  .cta-band{position:relative;overflow:hidden;border-radius:22px;padding:48px 36px;text-align:center;color:#fff;margin:26px 0;
+    background:
+      radial-gradient(900px 420px at 85% 15%,rgba(124,58,237,.42),transparent 60%),
+      linear-gradient(115deg,#0a0f2e,#251a5e 55%,#3b1a86)}
+  .cta-band::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:40px 40px}
+  .cta-band .cta-inner{position:relative;z-index:2}
+  .cta-band h2{font-size:26px;font-weight:800;margin-bottom:10px}
+  .cta-band p{color:#c7d0e8;font-size:14px;margin-bottom:22px}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .pill-blue{background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border-radius:999px;padding:13px 30px;font-size:15px;font-weight:700;border:none;display:inline-block;cursor:pointer;box-shadow:0 12px 32px rgba(124,58,237,.5);transition:.2s;position:relative;overflow:hidden}
+  .pill-blue:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(124,58,237,.6)}
+  .pill-blue::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:shine 3.2s ease-in-out infinite}
+  @keyframes shine{0%{left:-100%}55%,100%{left:100%}}
+  .pill-ghost{background:rgba(255,255,255,.06);color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:12px 26px;font-size:15px;font-weight:600;display:inline-block;cursor:pointer;transition:.2s;backdrop-filter:blur(6px)}
+  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.12);transform:translateY(-2px)}
+  .cta-note{margin-top:16px;font-size:13.5px;color:#c7d0e8}
+  .cta-note a{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  .cta-note a:hover{color:#c4b5fd}
+
+  .x-links{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .x-link{background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:14px;padding:15px 18px;font-weight:800;font-size:14.5px;transition:.25s;display:flex;align-items:center;gap:12px}
+  .x-link .x-logo{height:16px;width:auto;object-fit:contain;flex:0 0 auto;display:block}
+  .x-link .x-txt{display:flex;flex-direction:column;line-height:1.3}
+  .x-link small{font-weight:600;color:var(--muted);font-size:12px;margin-top:2px}
+  .x-link:hover{transform:translateY(-3px);border-color:#bfdbfe;box-shadow:0 14px 32px rgba(37,99,235,.12)}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:28px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer a:hover{color:var(--blue)}
+  @media(max-width:640px){.x-links{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion: reduce){.particles i,.ph-glow i,.pill-blue::after{animation:none}}
+"""
+
+_PARTICLES = (
+    '<div class="particles">'
+    '<i style="left:8%;top:70%"></i><i style="left:16%;top:40%"></i>'
+    '<i style="left:24%;top:82%"></i><i style="left:33%;top:55%"></i>'
+    '<i style="left:42%;top:30%"></i><i style="left:50%;top:75%"></i>'
+    '<i style="left:58%;top:45%"></i><i style="left:66%;top:85%"></i>'
+    '<i style="left:74%;top:35%"></i><i style="left:82%;top:65%"></i>'
+    '<i style="left:88%;top:20%"></i><i style="left:14%;top:15%"></i>'
+    '</div>'
+)
+
+_PHM_EMBLEM = (
+    '<svg class="ph-emblem" viewBox="0 0 64 64" width="58" height="58" aria-hidden="true">'
+    '<defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="1">'
+    '<stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>'
+    '<path d="M32 6 L54 14 V32 C54 46 44 55 32 59 C20 55 10 46 10 32 V14 Z" fill="url(#phg)" opacity=".92"/>'
+    '<path d="M22 32 L29 39 L43 25" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+    '</svg>'
+)
 
 
 def _esc(s: str) -> str:
@@ -55,60 +209,40 @@ def _page(platform: str) -> str:
     reps_html = "".join(
         f'<li>{_esc(r)}</li>' for r in card["rep_requirements"])
     others_html = "".join(
-        f'<a class="x-link" href="/rules/{p}">{_PLATFORM_DISPLAY[p][0]} '
-        f'<small>{_PLATFORM_DISPLAY[p][1]}</small></a>' for p in others)
+        f'<a class="x-link" href="/rules/{p}">{_x_inner(p, _PLATFORM_DISPLAY[p][1])}</a>'
+        for p in others)
+    auth_short = card["authority"].split("（")[0]
 
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{name} GPSR 合规规则 · {native}警示语 · 监管机构 {_esc(card['authority'].split('（')[0])} | CrossAIO</title>
+<title>{name} GPSR 合规规则 · {native}警示语 · 监管机构 {_esc(auth_short)} | CrossAIO</title>
 <meta name="description" content="{name} 平台 GPSR 合规规则速查：{_esc(card['policy_name'])}、当地监管 {_esc(card['authority'])}、欧代字段要求、{native}警示语与合规块生成。缺合规块后果：{_esc(card['enforcement'])}">
 <style>
-  :root{{--navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#fff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626}}
-  *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
-  a{{text-decoration:none;color:inherit}}
-  {NAV_CSS}
-  .page-head{{background:linear-gradient(115deg,#0a0f2e,#3b1a86);padding:56px 24px 64px;text-align:center;color:#fff}}
-  .page-head .eyebrow{{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c4b5fd;margin-bottom:12px}}
-  .page-head h1{{font-size:34px;font-weight:800;margin-bottom:10px}}
-  .page-head p{{color:#c7d0e8;font-size:15px;max-width:680px;margin:0 auto}}
-  section{{max-width:900px;margin:0 auto;padding:40px 24px}}
-  h2{{font-size:24px;font-weight:800;margin-bottom:16px}}
-  .card{{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 6px 24px rgba(15,23,42,.06)}}
-  .card h3{{font-size:15px;font-weight:800;margin-bottom:8px}}
-  .meta-row{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}}
-  .badge{{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:700;color:#334155}}
-  .danger{{border-color:#fecaca;background:#fff5f5}}
-  .danger h3{{color:var(--err)}}
-  .card ul{{margin:8px 0 0 20px}}
-  .card li{{font-size:14px;color:#334155;padding:3px 0}}
-  .policy-link{{color:var(--blue);font-weight:700;font-size:13.5px;word-break:break-all}}
-  .sample{{background:#0a0f2e;color:#e2e8f0;border-radius:12px;padding:18px 20px;font-size:13.5px;font-family:ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-x:auto}}
-  .lock{{background:var(--soft);border:1px dashed var(--border);border-radius:12px;padding:16px 20px;font-size:13.5px;color:var(--muted)}}
-  .cta{{background:linear-gradient(115deg,#0a0f2e,#3b1a86);border-radius:16px;padding:36px 32px;text-align:center;color:#fff;margin:16px 0}}
-  .cta h2{{font-size:24px;font-weight:800;margin-bottom:10px}}
-  .pill-blue{{background:var(--blue-light);color:#fff;border-radius:999px;padding:12px 28px;font-size:15px;font-weight:700;border:none;display:inline-block}}
-  .pill-ghost{{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:11px 26px;font-size:15px;font-weight:600;display:inline-block}}
-  .x-links{{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}}
-  .x-link{{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 18px;font-weight:800;font-size:14.5px}}
-  .x-link small{{display:block;font-weight:600;color:var(--muted);font-size:12px;margin-top:2px}}
-  .x-link:hover{{border-color:var(--blue)}}
-  footer{{border-top:1px solid var(--border);background:var(--soft);padding:28px 24px;text-align:center;font-size:13px;color:var(--muted)}}
-  footer a:hover{{color:var(--blue)}}
-  @media(max-width:640px){{.x-links{{grid-template-columns:1fr}}}}
+{_RULES_CSS}
+{NAV_CSS}
 </style>
 </head>
 <body>
-{site_nav("platforms", platform)}
+{site_nav("platforms", platform, switcher=_switcher_rules(f"/rules/{platform}", "zh"))}
 
 <div class="page-head">
-  <div class="eyebrow">{name} · GPSR 平台原生规则</div>
-  <h1>{name} GPSR 合规规则速查</h1>
-  <p>{_esc(card['policy_name'])}<br>当地监管机构：{_esc(card['authority'])} · 平台原生语言：{native}</p>
+  <div class="ph-grid"></div>
+  <div class="ph-glow"><i class="g1"></i><i class="g2"></i></div>
+  {_PARTICLES}
+  <div class="ph-inner">
+    {_PHM_EMBLEM}
+    <div class="eyebrow">{name} · GPSR 平台原生规则</div>
+    <h1>{name} GPSR 合规规则速查</h1>
+    <p>{_esc(card['policy_name'])}<br>当地监管机构：{_esc(card['authority'])} · 平台原生语言：{native}</p>
+    <div class="ph-badges">
+      <span class="ph-badge">🏪 {name}</span>
+      <span class="ph-badge">{countries}</span>
+      <span class="ph-badge ph-auth">🛡️ {_esc(auth_short)}</span>
+    </div>
+  </div>
 </div>
 
 <section>
@@ -139,19 +273,27 @@ def _page(platform: str) -> str:
 
   <div class="card">
     <h3>🌐 {native}警示语样例（玩具窒息警示 — 最高频执法类目）</h3>
-    <div class="sample">{_esc(sample)}</div>
-    <div class="lock" style="margin-top:12px">🔒 其余类目（电气/PPE/母婴/食品接触等）全部 {card['warning_language_count']} 语言警示语 + 完整合规块，
+    <div class="gh-code">
+      <div class="bar"><i></i><i></i><i></i><span>warning · {_esc(card['native_language'])}.txt</span></div>
+      <div class="body">{_esc(sample)}</div>
+    </div>
+    <div class="lock">🔒 其余类目（电气/PPE/母婴/食品接触等）全部 {card['warning_language_count']} 语言警示语 + 完整合规块，
     在 <a href="/pricing" style="color:var(--blue);font-weight:700">Starter 档（€29/月）</a>解锁，含{name}平台原生头部与欧代行，可直接粘贴或经 API 回填。</div>
   </div>
 
-  <div class="cta">
-    <h2>你的 {name} listing 合规吗？30 秒免费体检</h2>
-    <p style="color:#c7d0e8;font-size:14px;margin-bottom:20px">输入产品标题与关键词，立刻看到缺什么、会被{_esc(card['authority'].split('（')[0])}怎么罚</p>
-    <a href="/gpsr-check" style="margin-right:10px"><button class="pill-blue">免费体检 {name} listing →</button></a>
-    <a href="/pricing"><button class="pill-ghost">解锁原生合规块</button></a>
+  <div class="cta-band">
+    <div class="cta-inner">
+      <h2>你的 {name} listing 合规吗？30 秒免费体检</h2>
+      <p>输入产品标题与关键词，立刻看到缺什么、会被{_esc(auth_short)}怎么罚</p>
+      <div class="cta-row">
+        <a href="/gpsr-check"><button class="pill-blue">免费体检 {name} listing →</button></a>
+        <a href="/compliance-check"><button class="pill-ghost">一键合规体检</button></a>
+      </div>
+      <div class="cta-note">查看 <a href="/pricing">定价与解锁原生合规块 →</a></div>
+    </div>
   </div>
 
-  <h2 style="font-size:18px">其他已深耕平台的原生规则页</h2>
+  <h2 class="sec">其他已深耕平台的原生规则页</h2>
   <div class="x-links">{others_html}</div>
 </section>
 
@@ -181,7 +323,7 @@ _LANG_PREFIX = {"zh": "", "en": "/en", "de": "/de", "fr": "/fr"}
 
 def _hreflang_rules(base: str, lang: str) -> str:
     """<head> 内 5 行 hreflang；中文路径无前缀，x-default 指向中文版。"""
-    b = settings.app_url.rstrip("/")
+    b = settings.public_url
     return (
         f'<link rel="alternate" hreflang="zh" href="{b}{base}">\n'
         f'<link rel="alternate" hreflang="en" href="{b}/en{base}">\n'
@@ -192,20 +334,18 @@ def _hreflang_rules(base: str, lang: str) -> str:
 
 
 def _switcher_rules(base: str, lang: str) -> str:
-    """语言切换器（冻结 markup，同 gpsr_pages）；当前语言高亮 + aria-current。"""
+    """语言切换器：🌐 图标 + 原生下拉（英文第一、中文最后）。"""
     paths = {"zh": base, "en": "/en" + base, "de": "/de" + base, "fr": "/fr" + base}
-    items = []
-    for code, label in (("zh", "中文"), ("en", "EN"), ("de", "DE"), ("fr", "FR")):
-        if code == lang:
-            style = ("text-decoration:none;font-size:12.5px;font-weight:700;"
-                     "padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff")
-            items.append(f'<a href="{paths[code]}" data-lang="{code}" aria-current="page" style="{style}">{label}</a>')
-        else:
-            style = ("text-decoration:none;font-size:12.5px;font-weight:700;"
-                     "padding:4px 10px;border-radius:999px;color:#334155")
-            items.append(f'<a href="{paths[code]}" data-lang="{code}" style="{style}">{label}</a>')
+    full = {"en": "English", "de": "Deutsch", "fr": "Français", "zh": "中文"}
+    opts = "".join(
+        f'<option value="{paths[code]}" data-lang="{code}"{" selected" if code == lang else ""}>{full[code]}</option>'
+        for code in ("en", "de", "fr", "zh"))
     return ('<div class="lang-switch" role="navigation" aria-label="Language" '
-            'style="display:inline-flex;gap:6px;align-items:center">' + "".join(items) + "</div>")
+            'style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;'
+            'border-radius:999px;background:#fff;color:#0f172a;font-size:13px">'
+            '🌐<select onchange="location.href=this.value" '
+            'style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">'
+            + opts + '</select></div>')
 
 
 _LANG_SCRIPT = ('<script>(function(){try{localStorage.setItem("crossaio_lang",'
@@ -263,6 +403,7 @@ _RULES_I18N = {
             "cta_p": "Enter your product title and keywords and instantly see what's missing and how {authority} will penalize it",
             "btn1": "Free check of {name} listing →",
             "btn2": "Unlock the native compliance block",
+            "btn3": "One-click compliance check",
             "xlinks_h2": "Native rule pages of other platforms we've deep-dived",
             "footer_home": "Home", "footer_rules": "Rules reference",
             "footer_pricing": "Pricing", "footer_check": "Free check",
@@ -390,6 +531,7 @@ _RULES_I18N = {
             "cta_p": "Produkttitel und Keywords eingeben und sofort sehen, was fehlt und wie {authority} es ahnden wird",
             "btn1": "Kostenloser Check des {name}-Listings →",
             "btn2": "Native Compliance-Block freischalten",
+            "btn3": "Compliance-Check in einem Klick",
             "xlinks_h2": "Native Regel-Seiten weiterer Plattformen",
             "footer_home": "Startseite", "footer_rules": "Regelübersicht",
             "footer_pricing": "Preise", "footer_check": "Kostenloser Check",
@@ -517,6 +659,7 @@ _RULES_I18N = {
             "cta_p": "Saisissez titre produit et mots-clés, et voyez immédiatement ce qui manque et comment {authority} sanctionnera",
             "btn1": "Vérification gratuite du listing {name} →",
             "btn2": "Débloquer le bloc de conformité natif",
+            "btn3": "Vérification conformité en 1 clic",
             "xlinks_h2": "Pages de règles natives d'autres plateformes",
             "footer_home": "Accueil", "footer_rules": "Référentiel de règles",
             "footer_pricing": "Tarifs", "footer_check": "Vérification gratuite",
@@ -620,8 +763,8 @@ def _page_i18n(platform: str, lang: str) -> str:
     rules_html = "".join(f'<li>{_esc(r)}</li>' for r in pd["rules"])
     reps_html = "".join(f'<li>{_esc(r)}</li>' for r in pd["rep_requirements"])
     others_html = "".join(
-        f'<a class="x-link" href="{p}/rules/{x}">{_PLATFORM_DISPLAY[x][0]} '
-        f'<small>{i18n["countries"][x]}</small></a>' for x in others)
+        f'<a class="x-link" href="{p}/rules/{x}">{_x_inner(x, i18n["countries"][x])}</a>'
+        for x in others)
 
     title = d["title"].format(name=name, native=_esc(native), authority=_esc(authority))
     desc = d["desc"].format(
@@ -639,6 +782,7 @@ def _page_i18n(platform: str, lang: str) -> str:
     cta_h2 = d["cta_h2"].format(name=name)
     cta_p = d["cta_p"].format(authority=_esc(authority))
     btn1 = d["btn1"].format(name=name)
+    auth_short = authority.split(" (")[0]
     lock = d["lock"].format(
         n=card["warning_language_count"], name=name,
         pricing=f'<a href="{p}/pricing" style="color:var(--blue);font-weight:700">{_esc(d["pricing_starter"])}</a>')
@@ -652,50 +796,28 @@ def _page_i18n(platform: str, lang: str) -> str:
 <meta name="description" content="{desc}">
 {_hreflang_rules(base, lang)}
 <style>
-  :root{{--navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#fff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626}}
-  *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
-  a{{text-decoration:none;color:inherit}}
-  {NAV_CSS}
-  .page-head{{background:linear-gradient(115deg,#0a0f2e,#3b1a86);padding:56px 24px 64px;text-align:center;color:#fff}}
-  .page-head .eyebrow{{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c4b5fd;margin-bottom:12px}}
-  .page-head h1{{font-size:34px;font-weight:800;margin-bottom:10px}}
-  .page-head p{{color:#c7d0e8;font-size:15px;max-width:680px;margin:0 auto}}
-  section{{max-width:900px;margin:0 auto;padding:40px 24px}}
-  h2{{font-size:24px;font-weight:800;margin-bottom:16px}}
-  .card{{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 6px 24px rgba(15,23,42,.06)}}
-  .card h3{{font-size:15px;font-weight:800;margin-bottom:8px}}
-  .meta-row{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}}
-  .badge{{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:700;color:#334155}}
-  .danger{{border-color:#fecaca;background:#fff5f5}}
-  .danger h3{{color:var(--err)}}
-  .card ul{{margin:8px 0 0 20px}}
-  .card li{{font-size:14px;color:#334155;padding:3px 0}}
-  .policy-link{{color:var(--blue);font-weight:700;font-size:13.5px;word-break:break-all}}
-  .sample{{background:#0a0f2e;color:#e2e8f0;border-radius:12px;padding:18px 20px;font-size:13.5px;font-family:ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-x:auto}}
-  .lock{{background:var(--soft);border:1px dashed var(--border);border-radius:12px;padding:16px 20px;font-size:13.5px;color:var(--muted)}}
-  .cta{{background:linear-gradient(115deg,#0a0f2e,#3b1a86);border-radius:16px;padding:36px 32px;text-align:center;color:#fff;margin:16px 0}}
-  .cta h2{{font-size:24px;font-weight:800;margin-bottom:10px}}
-  .pill-blue{{background:var(--blue-light);color:#fff;border-radius:999px;padding:12px 28px;font-size:15px;font-weight:700;border:none;display:inline-block}}
-  .pill-ghost{{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:11px 26px;font-size:15px;font-weight:600;display:inline-block}}
-  .x-links{{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}}
-  .x-link{{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 18px;font-weight:800;font-size:14.5px}}
-  .x-link small{{display:block;font-weight:600;color:var(--muted);font-size:12px;margin-top:2px}}
-  .x-link:hover{{border-color:var(--blue)}}
-  footer{{border-top:1px solid var(--border);background:var(--soft);padding:28px 24px;text-align:center;font-size:13px;color:var(--muted)}}
-  footer a:hover{{color:var(--blue)}}
-  @media(max-width:640px){{.x-links{{grid-template-columns:1fr}}}}
+{_RULES_CSS}
+{NAV_CSS}
 </style>
 </head>
 <body>
-{site_nav("platforms", platform, lang=lang)}
-<div style="max-width:900px;margin:0 auto;padding:12px 24px 0;text-align:right">{_switcher_rules(base, lang)}</div>
+{site_nav("platforms", platform, lang=lang, switcher=_switcher_rules(base, lang))}
 
 <div class="page-head">
-  <div class="eyebrow">{eyebrow}</div>
-  <h1>{h1}</h1>
-  <p>{head_p}</p>
+  <div class="ph-grid"></div>
+  <div class="ph-glow"><i class="g1"></i><i class="g2"></i></div>
+  {_PARTICLES}
+  <div class="ph-inner">
+    {_PHM_EMBLEM}
+    <div class="eyebrow">{eyebrow}</div>
+    <h1>{h1}</h1>
+    <p>{head_p}</p>
+    <div class="ph-badges">
+      <span class="ph-badge">🏪 {name}</span>
+      <span class="ph-badge">{countries}</span>
+      <span class="ph-badge ph-auth">🛡️ {_esc(auth_short)}</span>
+    </div>
+  </div>
 </div>
 
 <section>
@@ -726,18 +848,26 @@ def _page_i18n(platform: str, lang: str) -> str:
 
   <div class="card">
     <h3>{sample_h3}</h3>
-    <div class="sample">{_esc(sample)}</div>
-    <div class="lock" style="margin-top:12px">{lock}</div>
+    <div class="gh-code">
+      <div class="bar"><i></i><i></i><i></i><span>warning · {_esc(card['native_language'])}.txt</span></div>
+      <div class="body">{_esc(sample)}</div>
+    </div>
+    <div class="lock">{lock}</div>
   </div>
 
-  <div class="cta">
-    <h2>{cta_h2}</h2>
-    <p style="color:#c7d0e8;font-size:14px;margin-bottom:20px">{cta_p}</p>
-    <a href="{p}/gpsr-check" style="margin-right:10px"><button class="pill-blue">{btn1}</button></a>
-    <a href="{p}/pricing"><button class="pill-ghost">{_esc(d['btn2'])}</button></a>
+  <div class="cta-band">
+    <div class="cta-inner">
+      <h2>{cta_h2}</h2>
+      <p>{cta_p}</p>
+      <div class="cta-row">
+        <a href="{p}/gpsr-check"><button class="pill-blue">{btn1}</button></a>
+        <a href="{p}/compliance-check"><button class="pill-ghost">{_esc(d['btn3'])}</button></a>
+      </div>
+      <div class="cta-note"><a href="{p}/pricing">{_esc(d['btn2'])} →</a></div>
+    </div>
   </div>
 
-  <h2 style="font-size:18px">{_esc(d['xlinks_h2'])}</h2>
+  <h2 class="sec">{_esc(d['xlinks_h2'])}</h2>
   <div class="x-links">{others_html}</div>
 </section>
 

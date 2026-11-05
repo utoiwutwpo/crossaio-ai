@@ -24,6 +24,9 @@ PLANS: dict = {
         "auto_writeback": False,       # 不自动写回
         "auto_reply": False,           # 不自动回复买家消息
         "realtime_alerts": False,
+        # 【P0】订阅驱动的自动体检频率：
+        # manual=免费手动；daily=每日 1 次；daily_xN=每日多次（≥8h 一轮）；realtime=近实时事件触发
+        "automation_frequency": "manual",
     },
     "starter": {
         "monthly_price_usd": 29,
@@ -35,6 +38,7 @@ PLANS: dict = {
         "auto_writeback": False,       # 提供复制粘贴，不自动写回
         "auto_reply": False,
         "realtime_alerts": False,
+        "automation_frequency": "daily",
     },
     "pro": {
         "monthly_price_usd": 49,
@@ -46,6 +50,7 @@ PLANS: dict = {
         "auto_writeback": True,        # 已接入平台自动写回
         "auto_reply": True,            # 自动生成回复草稿，确认后发送
         "realtime_alerts": False,
+        "automation_frequency": "daily_xN",
     },
     "business": {
         "monthly_price_usd": 149,
@@ -57,7 +62,17 @@ PLANS: dict = {
         "auto_writeback": True,
         "auto_reply": True,            # 自动发送（无需人工确认）
         "realtime_alerts": True,
+        "automation_frequency": "realtime",
     },
+}
+
+# 各频率档对应的"距上次自动运行多久才再次自动跑"间隔（秒）。
+# free/manual 不自动跑；starter 每日 1 次；pro 每 8h（每日约 3 次）；business 每 10min（近实时）。
+AUTOMATION_INTERVALS = {
+    "manual": None,
+    "daily": 24 * 3600,
+    "daily_xN": 8 * 3600,
+    "realtime": 10 * 60,
 }
 
 
@@ -84,6 +99,17 @@ def can_auto_reply(user: User) -> bool:
 def email_frequency(user: User) -> str:
     """日报邮件频率：none / weekly / daily。"""
     return plan_config(user.plan).get("email_frequency", "none")
+
+
+def automation_frequency(user: User) -> str:
+    """【P0】订阅驱动的自动体检频率：
+    manual / daily / daily_xN / realtime。"""
+    return plan_config(user.plan).get("automation_frequency", "manual")
+
+
+def automation_interval_seconds(user: User):
+    """【P0】该用户套餐自动体检的最小间隔秒数；manual 返回 None（不自动跑）。"""
+    return AUTOMATION_INTERVALS.get(automation_frequency(user))
 
 
 def usage_today(db: Session, user_id: str) -> int:

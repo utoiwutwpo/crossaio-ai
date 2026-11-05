@@ -46,9 +46,99 @@
   footer{border-top:1px solid #eef1f5;padding:18px 24px;display:flex;justify-content:space-between;
        flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
   footer a{color:var(--muted);margin:0 6px}
+/* ---- 导航 ---- */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem{position:relative}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a.solo::after{display:none}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:260px;background:#fff;border-radius:12px;
+    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
 </style>
 </head>
 <body>
+<nav>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem">
+      <a>产品能力</a>
+      <div class="dropdown">
+        <a href="/features/gpsr"><span>🛡️ GPSR 合规引擎<small>CE 类目 → 警示语 → 合规块 → 回填</small></span></a>
+        <a href="/features/listing-generator"><span>📦 Listing 生成器<small>四件套 + 字数硬校验 + 评分</small></span></a>
+        <a href="/features/matrix"><span>🌍 多平台矩阵<small>一次输入 → 13 平台批量本地化</small></span></a>
+        <a href="/features/review-rewrite"><span>📈 差评改写闭环<small>主题定位 → 五点修复 + 语义评分</small></span></a>
+        <a href="/features/ai-service"><span>💬 AI 客服 + Art.50<small>AI Act 披露内嵌 + eBay 接入</small></span></a>
+        <a href="/features/safety-redline"><span>🚨 政策安全红线层<small>威胁/勒索识别 → 转人工留证</small></span></a>
+        <a href="/features/inbox"><span>📥 统一收件箱<small>13 平台消息一处管 · 母语回复</small></span></a>
+        <a href="/features/ad-copy"><span>📣 广告文案生成<small>禁用词前置拦截 + A/B 变体</small></span></a>
+        <a href="/features/listing-watch"><span>📡 Listing 监控日报<small>每日自动体检 · 风险升级即报</small></span></a>
+        <a href="/features"><span>🗂️ 产品能力总览<small>九大能力 · 每个能力一个独立页面</small></span></a>
+      </div>
+    </div>
+    <div class="navitem">
+      <a>覆盖平台</a>
+      <div class="dropdown">
+        <a href="/rules/allegro"><span>🇵🇱 Allegro 规则详情<small>波兰语政策 + UOKiK 监管 + 平台特有规则</small></span></a>
+        <a href="/rules/emag"><span>🇷🇴 eMAG 规则详情<small>罗马尼亚语政策 + ANPC 监管</small></span></a>
+        <a href="/rules/cdiscount"><span>🇫🇷 Cdiscount 规则详情<small>法语政策（Loi Toubon）+ DGCCRF 监管</small></span></a>
+        <a href="/rules/otto"><span>🇩🇪 Otto 规则详情<small>德语政策 + ProdSG + GS 标志</small></span></a>
+        <a href="/rules/kaufland"><span>🇩🇪 Kaufland 规则详情<small>德/捷/斯四国站点规则</small></span></a>
+        <a href="/rules/bol"><span>🇳🇱 bol.com 规则详情<small>荷兰语政策 + ACM 监管</small></span></a>
+        <a href="/rules"><span>📋 全部 13 平台速查表<small>字数 / 语言 / GPSR 要点一览</small></span></a>
+      </div>
+    </div>
+    <div class="navitem">
+      <a>免费工具</a>
+      <div class="dropdown">
+        <a href="/compliance-check"><span>✅ 一键合规体检<small>体检 → 欧代标注 → 技术文件清单，30 秒出报告</small></span></a>
+        <a href="/gpsr-check"><span>🛡️ GPSR 合规体检<small>免注册 30 秒，只报问题不收费</small></span></a>
+        <a href="/rules"><span>📋 平台规则速查表<small>13 平台字数/语言/GPSR 要点</small></span></a>
+        <a href="/skills"><span>🎁 开源 Skills<small>GPSR 检查器 + 规则库，MIT 免费</small></span></a>
+      </div>
+    </div>
+    <div class="navitem">
+      <a>社区</a>
+      <div class="dropdown">
+        <a href="/academy"><span>🎓 CrossAIO Academy<small>免费 GPSR 合规课程 · 结业证书可公开验证</small></span></a>
+        <a href="/community"><span>💬 卖家社区论坛<small>欧洲跨境卖家交流 · 证书徽章身份</small></span></a>
+        <a href="/blog"><span>📝 博客<small>GPSR 合规 / 多平台本地化 / 增长干货</small></span></a>
+        <a href="/podcast"><span>🎬 视频播客<small>GPSR 合规与跨境增长视频节目 · 在线观看</small></span></a>
+        <a href="/summit"><span>🎊 虚拟峰会<small>12 月 10-11 日 · 免费报名</small></span></a>
+        <a href="/trust"><span>🤝 透明承诺<small>一口价 0 抽成 · 一键取消 · 公开对比</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="/pricing">定价</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;font-size:13px">
+      🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/" data-lang="en">English</option>
+        <option value="/de/" data-lang="de">Deutsch</option>
+        <option value="/fr/" data-lang="fr">Français</option>
+        <option value="/" data-lang="zh" selected>中文</option>
+      </select>
+    </div>
+    <a class="login-link" href="/signin">登录</a>
+    <a href="/signup"><button class="pill-nav">免费注册</button></a>
+  </div>
+</nav>
 <main>
   <div class="logo"><span class="dot">🤖</span>CrossAIO</div>
   <h1>创建免费账号</h1>
@@ -77,14 +167,7 @@
 </main>
 <footer>
   <div><a href="#">隐私政策</a>|<a href="#">服务条款</a></div>
-  <div>
-    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-      <a href="/signup" data-lang="zh" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">中文</a>
-      <a href="/en/signup" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
-      <a href="/de/signup" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
-      <a href="/fr/signup" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
-    </div>
-  </div>
+  
   <div>CrossAIO © 2026</div>
 </footer>
 
@@ -93,10 +176,36 @@ const API = "/api/v1";
 const msg = document.getElementById("msg");
 function show(t, cls){ msg.className = "msg "+cls; msg.textContent = t; }
 
-// Google OAuth 回调兜底：URL 携带 token 时直接落库并进工作台（正常路径已直达 /app）
+// token 统一落库：旧 key(cb_token)供工作台使用，新 key(crossaio_token)供社区/学院/信任页使用
+function storeToken(t){
+  try{ localStorage.setItem("cb_token", t); localStorage.setItem("crossaio_token", t); }catch(e){}
+}
+// 回跳原页面：优先 ?next=，其次同源 referrer（如从 /community 点导航栏 Sign up 过来），默认进工作台
+function nextUrl(){
+  // 定价页带入的 ?plan= 注册后直接发起升级（自动弹出 Stripe 收银台）
+  const mLang = location.pathname.match(/^\/(en|de|fr)(\/|$)/);
+  const pfx = mLang ? "/" + mLang[1] : "";
+  const up = new URLSearchParams(location.search).get("plan");
+  const bl = new URLSearchParams(location.search).get("billing");
+  if(up && ["starter","pro","business"].indexOf(up) >= 0) return pfx + "/app?upgrade=" + up + (bl === "yearly" ? "&billing=yearly" : "");
+  const n = new URLSearchParams(location.search).get("next");
+  if(n && n.startsWith("/") && !n.startsWith("//") && n.indexOf("://") < 0) return n;
+  try{
+    const r = document.referrer;
+    if(r){
+      const u = new URL(r);
+      if(u.origin === location.origin && u.pathname !== "/signin" && u.pathname !== "/signup"){
+        return u.pathname + (u.search || "");
+      }
+    }
+  }catch(e){}
+  return "/app";
+}
+
+// Google OAuth 回调兜底：URL 携带 token 时直接落库并回跳（正常路径已直达目标页）
 (function(){
   const t = new URLSearchParams(location.search).get("token");
-  if(t){ localStorage.setItem("cb_token", t); location.replace("/app"); }
+  if(t){ storeToken(t); location.replace(nextUrl()); }
 })();
 
 document.getElementById("form").onsubmit = async (e) => {
@@ -119,8 +228,8 @@ document.getElementById("form").onsubmit = async (e) => {
       body:JSON.stringify({email:document.getElementById("email").value.trim(), password:pass})});
     const d = await r.json();
     if(!r.ok) throw new Error(d.detail || "注册失败");
-    localStorage.setItem("cb_token", d.access_token);
-    location.href = "/app";
+    storeToken(d.access_token);
+    location.href = nextUrl();
   }catch(err){ show(err.message, "err"); }
   btn.disabled = false; btn.textContent = "免费注册";
 };
@@ -132,7 +241,7 @@ async function googleFlow(){
     show("Google 注册尚未启用：在 backend/.env 配置 GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET，并在 Google 控制台登记重定向 URI http://localhost:9000/users/google（见 README）。先用邮箱注册。", "info");
     return;
   }
-  location.href = "/users/google?next=/app";
+  location.href = "/users/google?next=" + encodeURIComponent(nextUrl());
 }
 </script>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>

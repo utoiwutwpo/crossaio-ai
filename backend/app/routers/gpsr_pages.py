@@ -170,7 +170,7 @@ def _track(slug: str) -> str:
   try{{
     var API = "/api/v1";
     fetch(API+"/analytics/track",{{method:"POST",headers:{{"Content-Type":"application/json"}},
-      body:JSON.stringify({{event_type:"landing_view", platform:null, meta:{{page:"gpsr-hub", slug:"{slug}"}}}}}})}}).catch(function(){{}});
+      body:JSON.stringify({{event_type:"landing_view", platform:null, meta:{{page:"gpsr-hub", slug:"{slug}"}}}})}}).catch(function(){{}});
   }}catch(e){{}}
 }})();
 </script>"""
@@ -179,7 +179,7 @@ def _track(slug: str) -> str:
 def _hreflang(active: str, lang: str) -> str:
     """<head> 内 5 行 hreflang；中文路径无前缀，x-default 指向中文版。"""
     base = "/gpsr-check" if active == "home" else f"/gpsr-check/{active}"
-    b = settings.app_url.rstrip("/")
+    b = settings.public_url
     return (
         f'<link rel="alternate" hreflang="zh" href="{b}{base}">\n'
         f'<link rel="alternate" hreflang="en" href="{b}/en{base}">\n'
@@ -190,21 +190,19 @@ def _hreflang(active: str, lang: str) -> str:
 
 
 def _switcher(active: str, lang: str) -> str:
-    """语言切换器（冻结 markup）；当前语言高亮 + aria-current。"""
+    """语言切换器：🌐 图标 + 原生下拉（英文第一、中文最后）。"""
     base = "/gpsr-check" if active == "home" else f"/gpsr-check/{active}"
     paths = {"zh": base, "en": "/en" + base, "de": "/de" + base, "fr": "/fr" + base}
-    items = []
-    for code, label in (("zh", "中文"), ("en", "EN"), ("de", "DE"), ("fr", "FR")):
-        if code == lang:
-            style = ("text-decoration:none;font-size:12.5px;font-weight:700;"
-                     "padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff")
-            items.append(f'<a href="{paths[code]}" data-lang="{code}" aria-current="page" style="{style}">{label}</a>')
-        else:
-            style = ("text-decoration:none;font-size:12.5px;font-weight:700;"
-                     "padding:4px 10px;border-radius:999px;color:#334155")
-            items.append(f'<a href="{paths[code]}" data-lang="{code}" style="{style}">{label}</a>')
+    full = {"en": "English", "de": "Deutsch", "fr": "Français", "zh": "中文"}
+    opts = "".join(
+        f'<option value="{paths[code]}" data-lang="{code}"{" selected" if code == lang else ""}>{full[code]}</option>'
+        for code in ("en", "de", "fr", "zh"))
     return ('<div class="lang-switch" role="navigation" aria-label="Language" '
-            'style="display:inline-flex;gap:6px;align-items:center">' + "".join(items) + "</div>")
+            'style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;'
+            'border-radius:999px;background:#fff;color:#0f172a;font-size:13px">'
+            '🌐<select onchange="location.href=this.value" '
+            'style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">'
+            + opts + '</select></div>')
 
 
 _LANG_SCRIPT = ('<script>(function(){try{localStorage.setItem("crossaio_lang",'
@@ -226,8 +224,7 @@ def _shell(active: str, title: str, meta_desc: str, body: str, lang: str = "zh")
 <style>{_GPSR_CSS}</style>
 </head>
 <body>
-{site_nav("tools", lang=lang)}
-{_switcher(active, lang)}
+{site_nav("tools", lang=lang, switcher=_switcher(active, lang))}
 {_gnav(active, lang)}
 {body}
 {_xlinks(active, lang)}
@@ -345,7 +342,8 @@ _GPSR_CSS = """
   .sites{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .site{border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;background:#fff;transition:.15s;animation:cb-fadeup .6s ease-out both}
   .site:hover{border-color:var(--blue-light,#3b82f6);box-shadow:0 8px 24px rgba(37,99,235,.10);transform:translateY(-2px)}
-  .site .mark{flex:0 0 auto;display:flex;align-items:center}
+  .site .mark{flex:0 0 auto;display:flex;align-items:center;line-height:0}
+  .site .mark .mark-img{height:22px;width:auto;object-fit:contain;display:block}
   .site .meta{font-size:12px;color:var(--muted);text-align:right;line-height:1.5}
   .site .meta b{display:block;font-size:13px;color:var(--ink)}
   .mark-note{font-size:11px;color:#94a3b8;text-align:center;margin-top:14px}
@@ -376,9 +374,111 @@ _GPSR_CSS = """
     .fblock{grid-template-columns:1fr;gap:26px}
     .sites{grid-template-columns:1fr}
     .ptiers{grid-template-columns:1fr}
+    .orbits{display:none}
   }
+
+  /* ===== CrossAIO redesign: shared glass / glow / tech-layer shell ===== */
+  .hero{position:relative;z-index:2}
+  /* tech layers (grid + glow blobs + rising particles) */
+  .hero-grid{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%);
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%)}
+  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .hero-glow i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:glowpulse 9s ease-in-out infinite}
+  .hero-glow i.g1{width:420px;height:420px;left:52%;top:-90px;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 70%)}
+  .hero-glow i.g2{width:360px;height:360px;right:-80px;bottom:-120px;background:radial-gradient(circle,rgba(59,130,246,.5),transparent 70%);animation-delay:3s}
+  @keyframes glowpulse{0%,100%{opacity:.45}50%{opacity:.75}}
+  .particles{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .particles i{position:absolute;width:5px;height:5px;border-radius:50%;background:#93c5fd;opacity:0;animation:ptw 7s linear infinite}
+  .particles i:nth-child(2){width:4px;height:4px;background:#c4b5fd;animation-delay:1.1s;animation-duration:9s}
+  .particles i:nth-child(3){width:6px;height:6px;background:#a5b4fc;animation-delay:2.2s;animation-duration:6s}
+  .particles i:nth-child(4){width:4px;height:4px;background:#93c5fd;animation-delay:3.3s;animation-duration:8s}
+  .particles i:nth-child(5){width:5px;height:5px;background:#c4b5fd;animation-delay:.6s;animation-duration:10s}
+  .particles i:nth-child(6){width:3px;height:3px;background:#a5b4fc;animation-delay:1.8s;animation-duration:7s}
+  .particles i:nth-child(7){width:5px;height:5px;background:#93c5fd;animation-delay:2.9s;animation-duration:9s}
+  .particles i:nth-child(8){width:4px;height:4px;background:#c4b5fd;animation-delay:4s;animation-duration:6.5s}
+  .particles i:nth-child(9){width:5px;height:5px;background:#a5b4fc;animation-delay:.9s;animation-duration:8.5s}
+  @keyframes ptw{
+    0%{transform:translateY(0);opacity:0}
+    8%{opacity:.85}
+    85%{opacity:.5}
+    100%{transform:translateY(-60vh);opacity:0}
+  }
+
+  /* gradient glowing CTA + shine sweep */
+  .pill-blue{background:linear-gradient(90deg,var(--blue-light),var(--violet));
+    box-shadow:0 12px 32px rgba(124,58,237,.5);position:relative;overflow:hidden;transition:.2s}
+  .pill-blue:hover{background:linear-gradient(90deg,var(--blue-light),var(--violet));
+    transform:translateY(-2px);box-shadow:0 16px 40px rgba(124,58,237,.62)}
+  .pill-blue::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+    animation:shine 3.2s ease-in-out infinite}
+  @keyframes shine{0%{left:-100%}55%,100%{left:100%}}
+  .pill-ghost{transition:.2s;backdrop-filter:blur(6px)}
+  .pill-ghost:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+
+  /* stat cards: glass card + border glow on hover */
+  .stats .stat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:26px 18px;
+    box-shadow:0 8px 28px rgba(15,23,42,.06)}
+  .stats .stat:hover{box-shadow:0 16px 40px rgba(37,99,235,.14);border-color:#bfdbfe}
+
+  /* guides cards: glass lift */
+  .guides .gcard{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid var(--border)}
+  .guides .gcard:hover{transform:translateY(-5px);box-shadow:0 20px 46px rgba(15,23,42,.14);border-color:#bfdbfe}
+
+  /* danger band: warning glass card with ⚠ markers */
+  .danger-band{background:linear-gradient(135deg,#fff5f5,#fff1f2);border:1px solid #fecaca;
+    border-left:4px solid var(--err);border-radius:18px;box-shadow:0 12px 36px rgba(220,38,38,.10)}
+  .danger-band ul{list-style:none;margin-left:0}
+  .danger-band li{list-style:none;position:relative;padding-left:26px}
+  .danger-band li::before{content:"⚠";position:absolute;left:0;top:4px;color:var(--err);font-weight:700}
+
+  /* tier band: glowing gradient */
+  .tier{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c4b5fd;
+    box-shadow:0 10px 30px rgba(139,92,246,.14)}
+  .tier a{background:linear-gradient(90deg,var(--blue-light),var(--violet));
+    box-shadow:0 8px 20px rgba(124,58,237,.35)}
+  .tier a:hover{background:linear-gradient(90deg,var(--blue-light),var(--violet));filter:brightness(1.08)}
+
+  /* check form: glass card + focus glow ring */
+  #check .panel{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border:1px solid var(--border);box-shadow:0 24px 60px rgba(15,23,42,.10)}
+  input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,130,246,.15)}
+
+  /* compare table: highlight the CrossAIO column */
+  .compare table{background:#fff;border:1px solid var(--border);border-radius:16px;
+    box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden}
+  .compare table th:nth-child(3),.compare table td:nth-child(3){background:rgba(5,150,105,.06);
+    border-left:1px solid #d1fae5}
+
+  /* pricing tiers: glass cards */
+  .ptier{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px rgba(15,23,42,.06);transition:.25s}
+  .ptier:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(15,23,42,.12)}
+  .ptier.hot{border-color:var(--blue);box-shadow:0 18px 50px rgba(37,99,235,.18)}
+
+  /* CTA band: dark grid texture + glow */
+  .cta-band{position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(15,10,60,.4)}
+  .cta-band::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:40px 40px}
+  .cta-band h2,.cta-band p,.cta-band a{position:relative}
+
+  /* FAQ cards */
+  .faq details{transition:.2s}
+  .faq details:hover{border-color:#bfdbfe;box-shadow:0 8px 26px rgba(37,99,235,.08)}
+
+  /* gnav pill bar: subtle glass */
+  .gnav{box-shadow:0 1px 0 rgba(15,23,42,.03)}
+  .glink{transition:.15s}
+
   @media (prefers-reduced-motion: reduce){
-    .spin,.typing i,.chat,.gcard,.fvisual,.site,.pricing-card{animation:none}
+    .spin,.typing i,.chat,.gcard,.fvisual,.site,.pricing-card,
+    .particles i,.hero-glow i,.pill-blue::after{animation:none}
   }
 """
 
@@ -704,33 +804,33 @@ def _aiact_banner(lang: str = "zh") -> str:
     return _AIACT_BANNER if lang == "zh" else _AIACT_BANNER_I18N[lang]
 
 _PLATFORM_MARKS = {
-    "amazon": ('<svg viewBox="0 0 122 40" width="118" height="39" role="img" aria-label="Amazon"><text x="0" y="21" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="23" letter-spacing="-1.2" fill="#232F3E">amazon</text><path d="M6 27 C 34 38, 76 38, 100 25" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M100 25 l -0.5 7 M100 25 l -8 -0.5" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg>',
+    "amazon": ('<img class="mark-img" src="/img/logos/amazon.svg" alt="Amazon" />',
                "欧洲站 + 美国站", "英/德/法/意/西 等 9 国 + 🇺🇸 美国 · en"),
-    "ebay": ('<svg viewBox="0 0 104 40" width="96" height="37" role="img" aria-label="eBay"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="30" letter-spacing="-1"><tspan fill="#E53238">e</tspan><tspan fill="#0064D2">b</tspan><tspan fill="#F5AF02">a</tspan><tspan fill="#86B817">y</tspan></text></svg>',
+    "ebay": ('<img class="mark-img" src="/img/logos/ebay.svg" alt="eBay" />',
              "eBay", "英/德/法/意/西 · en"),
-    "allegro": ('<svg viewBox="0 0 110 40" width="104" height="38" role="img" aria-label="Allegro"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="-1" fill="#FF5A00">allegro</text></svg>',
+    "allegro": ('<img class="mark-img" src="/img/logos/allegro.svg" alt="Allegro" />',
                 "Allegro", "🇵🇱 波兰/捷克/匈牙利 · pl"),
-    "otto": ('<svg viewBox="0 0 96 40" width="92" height="38" role="img" aria-label="Otto"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="2.5" fill="#D4021D">OTTO</text></svg>',
+    "otto": ('<img class="mark-img" src="/img/logos/otto.svg" alt="Otto" />',
              "Otto", "🇩🇪 德国 · de"),
-    "cdiscount": ('<svg viewBox="0 0 128 40" width="122" height="38" role="img" aria-label="Cdiscount"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" letter-spacing="-0.5"><tspan fill="#FFCF00">C</tspan><tspan fill="#004890">discount</tspan></text></svg>',
+    "cdiscount": ('<img class="mark-img" src="/img/logos/cdiscount.png" alt="Cdiscount" />',
                   "Cdiscount", "🇫🇷 法国 · fr"),
-    "emag": ('<svg viewBox="0 0 100 40" width="96" height="38" role="img" aria-label="eMAG"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#F26722">e</tspan><tspan fill="#005B94">MAG</tspan></text></svg>',
+    "emag": ('<img class="mark-img" src="/img/logos/emag.svg" alt="eMAG" />',
              "eMAG", "🇷🇴 罗马尼亚/匈/保 · ro"),
-    "tiktok": ('<svg viewBox="0 0 120 40" width="106" height="38" role="img" aria-label="TikTok Shop"><g transform="translate(2,6)"><rect x="0" y="0" width="28" height="28" rx="7" fill="#010101"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#25F4EE" transform="translate(-0.8,-0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#FE2C55" transform="translate(0.8,0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#fff"/></g><text x="36" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="19" letter-spacing="-0.5" fill="#010101">TikTok</text></svg>',
+    "tiktok": ('<img class="mark-img" src="/img/logos/tiktok.svg" alt="TikTok Shop" />',
                "TikTok Shop", "🇬🇧🇺🇸 英美 + 🇪🇸🇮🇹🇩🇪🇫🇷 欧盟 · en"),
     "fruugo": ('<svg viewBox="0 0 106 40" width="100" height="38" role="img" aria-label="Fruugo"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#94C11F">fru</tspan><tspan fill="#5FA02E">ugo</tspan></text></svg>',
                "Fruugo", "泛欧 20+ 国 · en"),
-    "walmart": ('<svg viewBox="0 0 128 40" width="124" height="39" role="img" aria-label="Walmart"><text x="0" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="24" letter-spacing="-0.5" fill="#0071CE">Walmart</text><g transform="translate(112,19)"><g fill="#FFC220"><rect x="-2" y="-10" width="4" height="7.2" rx="2"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(60)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(120)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(180)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(240)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(300)"/></g></g></svg>',
+    "walmart": ('<img class="mark-img" src="/img/logos/walmart.svg" alt="Walmart" />',
                 "Walmart", "🇺🇸 美国 · en"),
-    "kaufland": ('<svg viewBox="0 0 150 40" width="132" height="36" role="img" aria-label="Kaufland"><rect x="0" y="4" width="32" height="32" rx="4" fill="#E10911"/><text x="16" y="29" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">K</text><text x="38" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="24" fill="#E10911">Kaufland</text></svg>',
+    "kaufland": ('<img class="mark-img" src="/img/logos/kaufland.svg" alt="Kaufland" />',
                  "Kaufland", "🇩🇪 德/奥/捷/斯 · de"),
-    "zalando": ('<svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="Zalando"><text x="0" y="29" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="30" fill="#FF6900" font-style="italic">zalando</text></svg>',
+    "zalando": ('<img class="mark-img" src="/img/logos/zalando.svg" alt="Zalando" />',
                 "Zalando", "🇪🇺 欧洲时尚 · en→多语言"),
     "bol": ('<svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="bol.com"><text x="0" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" fill="#0000A4">bol.</text><text x="58" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" fill="#F29B00">com</text></svg>',
             "bol.com", "🇳🇱 荷兰/比利时 · nl"),
 }
 
-# 平台字标卡的 (name, meta) 按语言翻译；svg 标记始终复用 _PLATFORM_MARKS
+# 平台字标卡的 (name, meta) 按语言翻译；mark 始终复用 _PLATFORM_MARKS（官方 logo 图片，fruugo/bol 无 logo 保留内联 SVG 字标）
 _PLATFORM_META_I18N = {
     "en": {
         "amazon": ("Amazon EU + US", "UK/DE/FR/IT/ES & 9 more + 🇺🇸 US · en"),
@@ -1380,6 +1480,9 @@ def _home_t(lang: str) -> str:
     <div class="orbit o2"><div class="spin"><i></i></div></div>
     <div class="orbit o3"><div class="spin"><i></i></div></div>
   </div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"><i class="g1"></i><i class="g2"></i></div>
+  <div class="particles"><i style="left:8%;top:70%"></i><i style="left:16%;top:40%"></i><i style="left:24%;top:82%"></i><i style="left:33%;top:55%"></i><i style="left:42%;top:30%"></i><i style="left:50%;top:75%"></i><i style="left:58%;top:45%"></i><i style="left:66%;top:85%"></i><i style="left:74%;top:35%"></i></div>
   <div class="hero">
     <div>
       <div class="eyebrow">{t["eyebrow"]}</div>
@@ -1617,12 +1720,12 @@ def _platforms(lang: str = "zh") -> str:
     P = lambda p: _lp(p, lang)
     cards = []
     meta_map = _PLATFORM_META_I18N.get(lang)
-    for i, (key, (svg, name, meta)) in enumerate(_PLATFORM_MARKS.items()):
+    for i, (key, (mark, name, meta)) in enumerate(_PLATFORM_MARKS.items()):
         if meta_map and key in meta_map:
             name, meta = meta_map[key]
         cards.append(
             f'<div class="site" style="animation-delay:{min(i * 0.06, 0.6):.2f}s">'
-            f'<span class="mark">{svg}</span>'
+            f'<span class="mark">{mark}</span>'
             f'<span class="meta"><b>{_esc(name)}</b>{_esc(meta)}</span></div>')
     body = f"""
 <div class="hero-solo">

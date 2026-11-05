@@ -44,6 +44,10 @@ class Settings(BaseSettings):
     stripe_price_starter: str = ""
     stripe_price_pro: str = ""
     stripe_price_business: str = ""
+    # 年付价格（相当于月付的年总价：€276 / €468 / €1428）
+    stripe_price_starter_year: str = ""
+    stripe_price_pro_year: str = ""
+    stripe_price_business_year: str = ""
 
     # ===== 支付（PayPal，上线时填；与 Stripe 并行提供）=====
     paypal_client_id: str = ""
@@ -73,12 +77,30 @@ class Settings(BaseSettings):
     # ===== 应用 =====
     app_name: str = "CrossAIO"
     app_url: str = "http://localhost:8000"
+    # 对外公开域名（SEO/展示链接用：sitemap、canonical、RSS、邮件）。
+    # 留空则回退 app_url。OAuth 回调始终用 app_url，与开发者控制台注册值保持一致。
+    public_base_url: str = ""
+    # SEO 身份域名（sitemap/robots/canonical/hreflang 用）：默认生产域名，
+    # 本机/内网部署也会输出正确的收录地址，可用 SITE_PUBLIC_URL 覆盖。
+    site_public_url: str = "https://www.crossaio.com"
+    # Google Search Console 所有权验证文件内容（访问 /google****.html 时返回）。
+    google_site_verification: str = ""
     cors_origins: str = "*"  # 生产改为具体域名
 
     class Config:
         env_file = str(ENV_FILE)
         env_file_encoding = "utf-8"
         extra = "ignore"
+
+    @property
+    def public_url(self) -> str:
+        """对外公开基址：优先 PUBLIC_BASE_URL，否则回退 APP_URL。"""
+        return (self.public_base_url or self.app_url).rstrip("/")
+
+    @property
+    def site_url(self) -> str:
+        """SEO 身份基址：优先 SITE_PUBLIC_URL，否则回退 public_url。"""
+        return (self.site_public_url or self.public_url).rstrip("/")
 
 
 settings = Settings()

@@ -12,11 +12,14 @@ from sqlalchemy.orm import Session
 from .database import User
 from .config import settings
 
-# plan → settings 里价格字段名
+# plan → settings 里价格字段名（billing: monthly / yearly）
 PRICE_FIELD = {
-    "starter": "stripe_price_starter",
-    "pro": "stripe_price_pro",
-    "business": "stripe_price_business",
+    ("starter", "monthly"): "stripe_price_starter",
+    ("pro", "monthly"): "stripe_price_pro",
+    ("business", "monthly"): "stripe_price_business",
+    ("starter", "yearly"): "stripe_price_starter_year",
+    ("pro", "yearly"): "stripe_price_pro_year",
+    ("business", "yearly"): "stripe_price_business_year",
 }
 
 
@@ -24,7 +27,7 @@ def map_price_to_plan(price_id: str) -> str | None:
     """Stripe price_id 反查套餐名；未匹配返回 None（未知价格忽略）"""
     if not price_id:
         return None
-    for plan, field in PRICE_FIELD.items():
+    for (plan, _billing), field in PRICE_FIELD.items():
         if getattr(settings, field, "") == price_id:
             return plan
     return None
@@ -58,16 +61,17 @@ def apply_payment_failed(db: Session, user: User) -> None:
     db.commit()
 
 
-def create_checkout_session(user: User, plan: str, origin: str) -> dict:
+def create_checkout_session(user: User, plan: str, origin: str, billing: str = "monthly") -> dict:
     """创建 Stripe Checkout Session（subscription 模式）
 
+    billing: "monthly" | "yearly"（年付一次性扣年总价）
     返回 {"url": ..., "session_id": ...}；配置缺失时抛 ValueError。
     """
     import stripe  # 懒导入：未安装 stripe 包时仅在真实收款路径报错
 
-    price_field = PRICE_FIELD.get(plan)
+    price_field = PRICE_FIELD.get((plan, billing))
     if not price_field:
-        raise ValueError(f"plan '{plan}' is not purchasable")
+        raise ValueError(f"plan '{plan}' with billing '{billing}' is not purchasable")
     if not settings.stripe_secret_key:
         raise ValueError("stripe_secret_key not configured")
     price_id = getattr(settings, price_field, "")
@@ -79,10 +83,10 @@ def create_checkout_session(user: User, plan: str, origin: str) -> dict:
         mode="subscription",
         customer_email=user.email,
         line_items=[{"price": price_id, "quantity": 1}],
-        success_url=f"{origin}/app?checkout=success&plan={plan}",
+        success_url=f"{origin}/app?checkout=success&plan={plan}&billing={billing}",
         cancel_url=f"{origin}/pricing?checkout=cancelled",
         client_reference_id=user.id,
-        metadata={"user_id": user.id, "plan": plan},
-        subscription_data={"metadata": {"user_id": user.id, "plan": plan}},
+        metadata={"user_id": user.id, "plan": plan, "billing": billing},
+        subscription_data={"metadata": {"user_id": user.id, "plan": plan, "billing": billing}},
     )
     return {"url": session.url, "session_id": session.id}

@@ -190,8 +190,12 @@ async def google_oauth_flow(request: Request, response: Response,
             "state": state,
         }
         redirect = RedirectResponse(GOOGLE_AUTH_URL + "?" + urlencode(params))
+        # secure 动态判断：https 请求（含 cloudflared 的 X-Forwarded-Proto）才加 Secure，
+        # 否则用户经 http（如 Tailscale IP / localhost）访问时 cookie 不回传 → state 校验必挂
+        _https = (request.url.scheme == "https"
+                  or request.headers.get("x-forwarded-proto", "") == "https")
         redirect.set_cookie("cb_oauth_state", signed, max_age=1800, httponly=True,
-                            samesite="lax", secure=settings.app_url.startswith("https"))
+                            samesite="lax", secure=_https)
         return redirect
 
     # ---- 回调：校验 state → code 换 id_token → 登录/注册 → 回跳 ----

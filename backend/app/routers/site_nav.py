@@ -221,7 +221,7 @@ def _dd_link(href: str, icon: str, label: str, sub: str, key: str = "", active_i
             f'<small>{sub}</small></span></a>')
 
 
-def site_nav(active: str = "", active_item: str = "", lang: str = "zh") -> str:
+def site_nav(active: str = "", active_item: str = "", lang: str = "zh", switcher: str = "") -> str:
     """渲染首页同款多页式导航。
 
     active: 当前区块（"features" / "platforms" / "tools" / "pricing"）
@@ -284,6 +284,7 @@ def site_nav(active: str = "", active_item: str = "", lang: str = "zh") -> str:
     <div class="navitem{active_cls("pricing")}"><a class="solo" href="{pricing_href}">{nav["pricing"]}</a></div>
   </div>
   <div class="right">
+    {switcher}
     <a class="login-link" href="{signin_href}">{nav["signin"]}</a>
     <a href="{signup_href}"><button class="pill-nav">{nav["signup"]}</button></a>
   </div>

@@ -147,17 +147,320 @@ PASTE_PLATFORMS = [p for p, cfg in PLATFORM_CRED_REGISTRY.items()
                    if not cfg.get("oauth")]
 
 
-def cred_guide(platform: str) -> dict | None:
-    """对外暴露的接入指南（不含任何密钥值）。"""
+# ---------------------------------------------------------------------------
+# 多语言包（en / de / fr）— 与 PLATFORM_CRED_REGISTRY 同 key 同字段顺序。
+# 每平台: {label, apply_note, unlocks, fields: [(label, hint), ...]}
+# fields 顺序必须与注册表 fields 一致（不含 key/secret 标记，直接按位置对齐）。
+# ---------------------------------------------------------------------------
+PLATFORM_CRED_I18N: Dict[str, Dict[str, dict]] = {
+    "en": {
+        "amazon": {
+            "label": "Amazon Europe",
+            "apply_note": "Seller Central → Integration → Developer, register an LWA application; available to Professional seller accounts, some permissions require Amazon review (1–3 days).",
+            "fields": [("LWA Client ID", "Client ID on the developer profile page"),
+                       ("LWA Client Secret", "Same page as the Client ID"),
+                       ("Seller Refresh Token", "Obtained after authorising the seller profile; long-lived")],
+            "unlocks": "Write GPSR compliance blocks back to real Amazon Listings (backfill dry_run=False)",
+        },
+        "amazon_us": {
+            "label": "Amazon US",
+            "apply_note": "Same process as Europe; for the US marketplace select North America in your developer profile.",
+            "fields": [("LWA Client ID", "Client ID on the developer profile page"),
+                       ("LWA Client Secret", "Same page as the Client ID"),
+                       ("Seller Refresh Token", "Long-lived once authorised")],
+            "unlocks": "Compliance block write-back for the US marketplace + Listing backfill",
+        },
+        "ebay": {
+            "label": "eBay",
+            "apply_note": "No seller-side developer account needed: once the platform operator configures the app, the seller just clicks \"Authorise\" to complete OAuth (token stored encrypted).",
+            "fields": [],
+            "unlocks": "Real-time buyer message sync + direct AI reply sending",
+        },
+        "allegro": {
+            "label": "Allegro (Poland)",
+            "apply_note": "Register an app for free at developer.allegro.pl and you get a Client ID/Secret instantly (sandbox instant; production auto-approved).",
+            "fields": [("Client ID", "Allegro app list page"),
+                       ("Client Secret", "Same page as the Client ID")],
+            "unlocks": "Polish buyer message auto-import + compliant replies",
+        },
+        "otto": {
+            "label": "Otto (Germany)",
+            "apply_note": "OTTO Marketplace sellers can apply for API access at developer.otto.market; requires an activated seller account.",
+            "fields": [("Client ID", "OTTO developer backend"),
+                       ("Client Secret", "Developer backend")],
+            "unlocks": "German buyer message auto-import + compliant replies",
+        },
+        "kaufland": {
+            "label": "Kaufland (Germany / CEE)",
+            "apply_note": "One of the lowest barriers: Kaufland Seller Portal → Settings → API generates a Client-Key / Secret-Key directly, no extra review.",
+            "fields": [("Client Key", "Seller Portal → API settings"),
+                       ("Secret Key", "Generated on the same page as the Client Key")],
+            "unlocks": "Multi-country buyer message auto-import + compliant replies",
+        },
+        "cdiscount": {
+            "label": "Cdiscount (France)",
+            "apply_note": "Register at dev.cdiscount.com and link a Cdiscount seller account; SOAP API credentials are sent by e-mail from the operator.",
+            "fields": [("API Key", "Cdiscount developer e-mail"),
+                       ("Seller login", "Cdiscount backend account")],
+            "unlocks": "French buyer message auto-import + compliant replies",
+        },
+        "emag": {
+            "label": "eMAG (Romania)",
+            "apply_note": "eMAG Marketplace seller backend → Settings → API access; usable immediately after generating.",
+            "fields": [("API Token", "eMAG seller backend API page")],
+            "unlocks": "Romanian buyer message auto-import + compliant replies",
+        },
+        "zalando": {
+            "label": "Zalando (European fashion)",
+            "apply_note": "Zalando Partner Program (zDirect) members can apply for an API client; review is stricter.",
+            "fields": [("Client ID", "zDirect backend"),
+                       ("Client Secret", "zDirect backend")],
+            "unlocks": "Multilingual buyer message auto-import + compliant replies",
+        },
+        "bol": {
+            "label": "bol.com (Netherlands / Belgium)",
+            "apply_note": "Log in at developer.bol.com with your seller account and create API credentials (Client ID + Secret); effective immediately.",
+            "fields": [("Client ID", "bol developer backend"),
+                       ("Client Secret", "Developer backend")],
+            "unlocks": "Dutch buyer message auto-import + compliant replies",
+        },
+        "walmart": {
+            "label": "Walmart (US)",
+            "apply_note": "Walmart Seller Center → Settings → generate API Key (available to sellers instantly).",
+            "fields": [("Client ID", "Seller Center → API Key"),
+                       ("Client Secret", "Generated on the same page")],
+            "unlocks": "English buyer message auto-import + compliant replies",
+        },
+        "fruugo": {
+            "label": "Fruugo (pan-European)",
+            "apply_note": "Fruugo Merchant Portal → Account → API, generate a Merchant ID + API Key.",
+            "fields": [("Merchant ID", "Merchant Portal"),
+                       ("API Key", "Merchant Portal")],
+            "unlocks": "Multilingual buyer message auto-import + compliant replies",
+        },
+        "tiktok": {
+            "label": "TikTok Shop",
+            "apply_note": "TikTok Shop Partner Center → Developer → create an app (individual sellers can use a self-use app).",
+            "fields": [("App Key", "Partner Center"),
+                       ("App Secret", "Partner Center")],
+            "unlocks": "English buyer message auto-import + compliant replies",
+        },
+    },
+    "de": {
+        "amazon": {
+            "label": "Amazon Europa",
+            "apply_note": "Seller Central → Integrationen → Entwickler, LWA-Anwendung registrieren; für Professional-Verkäuferkonten verfügbar, einzelne Berechtigungen erfordern eine Amazon-Prüfung (1–3 Tage).",
+            "fields": [("LWA Client ID", "Client ID auf der Entwickler-Profilseite"),
+                       ("LWA Client Secret", "Gleiche Seite wie die Client ID"),
+                       ("Refresh Token des Verkäufers", "Nach Freigabe des Verkäuferprofils eingetauscht, langfristig gültig")],
+            "unlocks": "Compliance-Blöcke in echte Amazon-Listings zurückschreiben (Backfill dry_run=False)",
+        },
+        "amazon_us": {
+            "label": "Amazon USA",
+            "apply_note": "Wie beim europäischen Prozess; für den US-Marktplatz im Entwicklerprofil Nordamerika wählen.",
+            "fields": [("LWA Client ID", "Client ID auf der Entwickler-Profilseite"),
+                       ("LWA Client Secret", "Gleiche Seite wie die Client ID"),
+                       ("Refresh Token des Verkäufers", "Nach Autorisierung langfristig gültig")],
+            "unlocks": "Compliance-Block-Rückschreiben für den US-Marktplatz + Listing-Backfill",
+        },
+        "ebay": {
+            "label": "eBay",
+            "apply_note": "Kein eigenes Entwicklerkonto nötig: Nachdem der Betreiber die App konfiguriert hat, klickt der Verkäufer nur auf „Autorisieren“, um die OAuth-Freigabe abzuschließen (Token verschlüsselt gespeichert).",
+            "fields": [],
+            "unlocks": "Echtzeit-Sync der Käufernachrichten + direkter Versand von KI-Antworten",
+        },
+        "allegro": {
+            "label": "Allegro (Polen)",
+            "apply_note": "Auf developer.allegro.pl kostenlos eine Anwendung registrieren — Client ID/Secret gibt es sofort (Sandbox sofort, Produktion automatisch freigegeben).",
+            "fields": [("Client ID", "Anwendungsliste bei Allegro"),
+                       ("Client Secret", "Gleiche Seite wie die Client ID")],
+            "unlocks": "Automatischer Import polnischer Käufernachrichten + konforme Antworten",
+        },
+        "otto": {
+            "label": "Otto (Deutschland)",
+            "apply_note": "OTTO-Marketplace-Verkäufer können unter developer.otto.market API-Zugang beantragen; ein aktiviertes Verkäuferkonto ist erforderlich.",
+            "fields": [("Client ID", "OTTO-Entwicklerbackend"),
+                       ("Client Secret", "Entwicklerbackend")],
+            "unlocks": "Automatischer Import deutscher Käufernachrichten + konforme Antworten",
+        },
+        "kaufland": {
+            "label": "Kaufland (Deutschland / Osteuropa)",
+            "apply_note": "Eine der niedrigsten Hürden: Kaufland Seller Portal → Einstellungen → API erzeugt Client-Key / Secret-Key direkt, ohne weitere Prüfung.",
+            "fields": [("Client Key", "Seller Portal → API-Einstellungen"),
+                       ("Secret Key", "Auf derselben Seite wie der Client Key erzeugt")],
+            "unlocks": "Automatischer Import von Käufernachrichten aus mehreren Ländern + konforme Antworten",
+        },
+        "cdiscount": {
+            "label": "Cdiscount (Frankreich)",
+            "apply_note": "Auf dev.cdiscount.com registrieren und ein Cdiscount-Verkäuferkonto verknüpfen; die SOAP-API-Zugangsdaten verschickt der Betreiber per E-Mail.",
+            "fields": [("API Key", "Cdiscount-Entwickler-E-Mail"),
+                       ("Verkäufer-Login", "Cdiscount-Backend-Konto")],
+            "unlocks": "Automatischer Import französischer Käufernachrichten + konforme Antworten",
+        },
+        "emag": {
+            "label": "eMAG (Rumänien)",
+            "apply_note": "eMAG-Marketplace-Verkäuferbackend → Einstellungen → API-Zugang; nach dem Erzeugen sofort nutzbar.",
+            "fields": [("API Token", "API-Seite im eMAG-Verkäuferbackend")],
+            "unlocks": "Automatischer Import rumänischer Käufernachrichten + konforme Antworten",
+        },
+        "zalando": {
+            "label": "Zalando (europäische Mode)",
+            "apply_note": "Mitglieder des Zalando Partner Program (zDirect) können einen API-Client beantragen; die Prüfung ist strenger.",
+            "fields": [("Client ID", "zDirect-Backend"),
+                       ("Client Secret", "zDirect-Backend")],
+            "unlocks": "Automatischer Import mehrsprachiger Käufernachrichten + konforme Antworten",
+        },
+        "bol": {
+            "label": "bol.com (Niederlande / Belgien)",
+            "apply_note": "Auf developer.bol.com mit dem Verkäuferkonto anmelden und API-Zugangsdaten erstellen (Client ID + Secret), sofort wirksam.",
+            "fields": [("Client ID", "bol-Entwicklerbackend"),
+                       ("Client Secret", "Entwicklerbackend")],
+            "unlocks": "Automatischer Import niederländischer Käufernachrichten + konforme Antworten",
+        },
+        "walmart": {
+            "label": "Walmart (USA)",
+            "apply_note": "Walmart Seller Center → Einstellungen → API-Key erzeugen (für Verkäufer sofort verfügbar).",
+            "fields": [("Client ID", "Seller Center → API-Key"),
+                       ("Client Secret", "Auf derselben Seite erzeugt")],
+            "unlocks": "Automatischer Import englischer Käufernachrichten + konforme Antworten",
+        },
+        "fruugo": {
+            "label": "Fruugo (paneuropäisch)",
+            "apply_note": "Fruugo Merchant Portal → Konto → API, Merchant ID + API-Key erzeugen.",
+            "fields": [("Merchant ID", "Merchant Portal"),
+                       ("API Key", "Merchant Portal")],
+            "unlocks": "Automatischer Import mehrsprachiger Käufernachrichten + konforme Antworten",
+        },
+        "tiktok": {
+            "label": "TikTok Shop",
+            "apply_note": "TikTok Shop Partner Center → Entwickler → Anwendung erstellen (Einzelverkäufer können eine Selbstnutzungs-App verwenden).",
+            "fields": [("App Key", "Partner Center"),
+                       ("App Secret", "Partner Center")],
+            "unlocks": "Automatischer Import englischer Käufernachrichten + konforme Antworten",
+        },
+    },
+    "fr": {
+        "amazon": {
+            "label": "Amazon Europe",
+            "apply_note": "Seller Central → Intégration → Développeur, enregistrez une application LWA ; réservé aux comptes vendeurs Professionnels, certaines autorisations exigent une validation Amazon (1 à 3 jours).",
+            "fields": [("LWA Client ID", "Client ID sur la page du profil développeur"),
+                       ("LWA Client Secret", "Même page que le Client ID"),
+                       ("Refresh Token vendeur", "Obtenu après autorisation du profil vendeur ; valide longtemps")],
+            "unlocks": "Écriture réelle des blocs de conformité sur les listings Amazon (backfill dry_run=False)",
+        },
+        "amazon_us": {
+            "label": "Amazon États-Unis",
+            "apply_note": "Même procédure que l'Europe ; pour la place de marché US, sélectionnez l'Amérique du Nord dans le profil développeur.",
+            "fields": [("LWA Client ID", "Client ID sur la page du profil développeur"),
+                       ("LWA Client Secret", "Même page que le Client ID"),
+                       ("Refresh Token vendeur", "Valide longtemps après autorisation")],
+            "unlocks": "Écriture des blocs de conformité sur la place de marché US + backfill des listings",
+        },
+        "ebay": {
+            "label": "eBay",
+            "apply_note": "Aucun compte développeur côté vendeur : une fois l'application configurée par l'opérateur de la plateforme, le vendeur clique simplement sur « Autoriser » pour finaliser l'OAuth (jeton stocké chiffré).",
+            "fields": [],
+            "unlocks": "Synchronisation en temps réel des messages acheteurs + envoi direct des réponses IA",
+        },
+        "allegro": {
+            "label": "Allegro (Pologne)",
+            "apply_note": "Inscrivez gratuitement une application sur developer.allegro.pl et obtenez immédiatement un Client ID/Secret (sandbox instantané, production validée automatiquement).",
+            "fields": [("Client ID", "Page de la liste des applications Allegro"),
+                       ("Client Secret", "Même page que le Client ID")],
+            "unlocks": "Import automatique des messages acheteurs en polonais + réponses conformes",
+        },
+        "otto": {
+            "label": "Otto (Allemagne)",
+            "apply_note": "Les vendeurs OTTO Marketplace peuvent demander un accès API sur developer.otto.market ; un compte vendeur activé est requis.",
+            "fields": [("Client ID", "Back-end développeur OTTO"),
+                       ("Client Secret", "Back-end développeur")],
+            "unlocks": "Import automatique des messages acheteurs en allemand + réponses conformes",
+        },
+        "kaufland": {
+            "label": "Kaufland (Allemagne / Europe centrale)",
+            "apply_note": "L'une des barrières les plus basses : Kaufland Seller Portal → Paramètres → API génère directement un Client-Key / Secret-Key, sans validation supplémentaire.",
+            "fields": [("Client Key", "Seller Portal → Paramètres API"),
+                       ("Secret Key", "Généré sur la même page que le Client Key")],
+            "unlocks": "Import automatique des messages acheteurs multi-pays + réponses conformes",
+        },
+        "cdiscount": {
+            "label": "Cdiscount (France)",
+            "apply_note": "Inscrivez-vous sur dev.cdiscount.com et liez un compte vendeur Cdiscount ; les identifiants SOAP API sont envoyés par e-mail par l'opérateur.",
+            "fields": [("API Key", "E-mail développeur Cdiscount"),
+                       ("Identifiant vendeur", "Compte back-end Cdiscount")],
+            "unlocks": "Import automatique des messages acheteurs en français + réponses conformes",
+        },
+        "emag": {
+            "label": "eMAG (Roumanie)",
+            "apply_note": "Back-end vendeur eMAG Marketplace → Paramètres → accès API ; utilisable immédiatement après génération.",
+            "fields": [("API Token", "Page API du back-end vendeur eMAG")],
+            "unlocks": "Import automatique des messages acheteurs en roumain + réponses conformes",
+        },
+        "zalando": {
+            "label": "Zalando (mode européenne)",
+            "apply_note": "Les membres du Zalando Partner Program (zDirect) peuvent demander un client API ; la validation est plus stricte.",
+            "fields": [("Client ID", "Back-end zDirect"),
+                       ("Client Secret", "Back-end zDirect")],
+            "unlocks": "Import automatique des messages acheteurs multilingues + réponses conformes",
+        },
+        "bol": {
+            "label": "bol.com (Pays-Bas / Belgique)",
+            "apply_note": "Connectez-vous sur developer.bol.com avec votre compte vendeur et créez les identifiants API (Client ID + Secret), effectifs immédiatement.",
+            "fields": [("Client ID", "Back-end développeur bol"),
+                       ("Client Secret", "Back-end développeur")],
+            "unlocks": "Import automatique des messages acheteurs en néerlandais + réponses conformes",
+        },
+        "walmart": {
+            "label": "Walmart (États-Unis)",
+            "apply_note": "Walmart Seller Center → Paramètres → génération de la clé API (disponible immédiatement pour les vendeurs).",
+            "fields": [("Client ID", "Seller Center → clé API"),
+                       ("Client Secret", "Généré sur la même page")],
+            "unlocks": "Import automatique des messages acheteurs en anglais + réponses conformes",
+        },
+        "fruugo": {
+            "label": "Fruugo (pan-européen)",
+            "apply_note": "Fruugo Merchant Portal → Compte → API, générez un Merchant ID + une clé API.",
+            "fields": [("Merchant ID", "Merchant Portal"),
+                       ("API Key", "Merchant Portal")],
+            "unlocks": "Import automatique des messages acheteurs multilingues + réponses conformes",
+        },
+        "tiktok": {
+            "label": "TikTok Shop",
+            "apply_note": "TikTok Shop Partner Center → Développeur → créer une application (les vendeurs individuels peuvent utiliser une application à usage personnel).",
+            "fields": [("App Key", "Partner Center"),
+                       ("App Secret", "Partner Center")],
+            "unlocks": "Import automatique des messages acheteurs en anglais + réponses conformes",
+        },
+    },
+}
+
+
+def _tr(platform: str, lang: str) -> dict | None:
+    """取指定语言的平台文案包（zh 之外的语言缺省回退中文）。"""
+    if lang in ("zh", "", None):
+        return None
+    return PLATFORM_CRED_I18N.get(lang, {}).get(platform)
+
+
+def cred_guide(platform: str, lang: str = "zh") -> dict | None:
+    """对外暴露的接入指南（不含任何密钥值）。lang 支持 zh/en/de/fr。"""
     cfg = PLATFORM_CRED_REGISTRY.get(platform)
     if not cfg:
         return None
+    tr = _tr(platform, lang)
+    label = (tr or cfg)["label"] if tr else cfg["label"]
+    apply_note = tr["apply_note"] if tr else cfg["apply_note"]
+    unlocks = tr["unlocks"] if tr else cfg["unlocks"]
+    fields = cfg["fields"]
+    if tr:
+        fields = [(k, tr["fields"][i][0], s, tr["fields"][i][1])
+                  for i, (k, _l, s, _h) in enumerate(fields)]
     return {
-        "label": cfg["label"],
+        "label": label,
         "oauth": cfg.get("oauth", False),
         "apply_url": cfg["apply_url"],
-        "apply_note": cfg["apply_note"],
+        "apply_note": apply_note,
         "fields": [{"key": k, "label": l, "secret": s, "hint": h}
-                   for k, l, s, h in cfg["fields"]],
-        "unlocks": cfg["unlocks"],
+                   for k, l, s, h in fields],
+        "unlocks": unlocks,
     }

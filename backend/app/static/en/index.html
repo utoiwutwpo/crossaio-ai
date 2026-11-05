@@ -126,6 +126,65 @@
   details.cred-details{border:1px solid var(--border);border-radius:8px;padding:10px 14px;background:#fafbfc}
   details.cred-details summary::-webkit-details-marker{display:none}
   details.cred-details[open] summary{margin-bottom:6px}
+
+  /* === Upgrade: automation meta row, notifications, onboarding, panel hints === */
+  .auto-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0 4px;font-size:13px}
+  .auto-meta .freq{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#1d4ed8;background:#eaf2ff;border:1px solid #c7d2fe;border-radius:999px;padding:3px 12px}
+  .auto-meta .next{color:var(--muted)}
+  .auto-meta .next b{color:var(--text)}
+  .auto-rules{margin:8px 0 4px;padding:10px 14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.8);font-size:12.5px;line-height:1.7}
+  .auto-rules .rt{font-weight:700;color:var(--primary);margin-bottom:4px;font-size:12px}
+  .auto-rules .rrow{display:flex;gap:8px;align-items:baseline}
+  .auto-rules .rrow .arrow{color:var(--muted)}
+  .auto-empty{color:var(--muted);font-size:13px;padding:8px 0}
+
+  .panel-hint{font-size:12px;color:var(--muted);margin:-6px 0 10px;line-height:1.5}
+
+  #notifBell{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.7);border:1px solid var(--border);font-size:17px;user-select:none}
+  #notifBell:hover{background:#eff6ff}
+  #notifBadge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--err);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+  #notifBadge.on{display:inline-flex}
+  #notifDrop{position:absolute;top:46px;right:0;width:380px;max-width:92vw;background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:14px;box-shadow:0 22px 60px rgba(15,23,42,.22);backdrop-filter:blur(18px);z-index:120;display:none;flex-direction:column;overflow:hidden}
+  #notifDrop.open{display:flex}
+  #notifHead{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700}
+  #notifHead button{background:transparent;border:none;color:var(--primary);font-size:12px;cursor:pointer;font-weight:600}
+  #notifList{max-height:380px;overflow-y:auto}
+  .nitem{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer}
+  .nitem:hover{background:#f8fafc}
+  .nitem.unread{background:#f5f8ff}
+  .nitem .nicon{font-size:16px;flex:0 0 auto}
+  .nitem .nbody{flex:1;min-width:0}
+  .nitem .ntitle{font-weight:700;color:var(--text)}
+  .nitem .nbody2{color:var(--muted);font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nitem .ntime{color:var(--muted);font-size:11px;margin-top:3px}
+  .nitem .nread{font-size:11px;color:var(--primary);margin-left:4px;flex:0 0 auto}
+  #notifEmpty{padding:30px 14px;text-align:center;color:var(--muted);font-size:13px}
+
+  #onboardMask{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  #onboardMask.open{display:flex}
+  #onboardModal{background:#fff;border-radius:18px;max-width:520px;width:100%;padding:28px 28px 22px;box-shadow:0 30px 80px rgba(15,23,42,.35);position:relative}
+  #onboardDots{display:flex;gap:6px;justify-content:center;margin:14px 0 18px}
+  #onboardDots .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;transition:.2s}
+  #onboardDots .dot.on{background:var(--primary);transform:scale(1.25)}
+  #onboardStep{display:none}
+  #onboardStep.on{display:block}
+  #onboardStep h3{font-size:17px;margin-bottom:8px;color:var(--text)}
+  #onboardStep p{font-size:13.5px;line-height:1.7;color:#475569}
+  #onboardStep ul{margin:8px 0 0 18px;font-size:13px;color:#475569;line-height:1.8}
+  #onboardFoot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:1px solid var(--border);padding-top:14px}
+  #onboardSkip{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+  #onboardNext{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer}
+  #onboardNext:hover{background:var(--primary-dark)}
+
+  /* === Report area (per-panel) === */
+  .report-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .report-actions button{background:transparent;color:var(--primary);border:1px solid #c7d2fe;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;font-weight:600}
+  .report-actions button:hover{background:#eff6ff}
+  .report-box{margin-top:14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.85);padding:14px 16px;font-size:13px;line-height:1.7;display:none;white-space:pre-wrap;word-break:break-word;max-height:480px;overflow-y:auto}
+  .report-box.open{display:block}
+  .report-box .rhead{font-weight:700;color:var(--primary);font-size:13.5px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .report-box .ractions{display:flex;gap:8px;margin-bottom:10px}
+  .report-box .ractions button{background:#fff;border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11.5px;cursor:pointer;color:#334155}
 </style>
 </head>
 <body>
@@ -140,11 +199,20 @@
     <a href="/en/skills" class="hint" style="text-decoration:none">Open-source Skills</a>
     <a href="/en/gpsr-check" class="hint" style="text-decoration:none">Free GPSR check</a>
   </div>
-  <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-    <a href="/app" data-lang="zh" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">中文</a>
-    <a href="/en/app" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
-    <a href="/de/app" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
-    <a href="/fr/app" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+      <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:4px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;font-size:12.5px">
+    🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:12.5px;color:#334155;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/app" selected>English</option>
+        <option value="/de/app">Deutsch</option>
+        <option value="/fr/app">Français</option>
+        <option value="/app">中文</option>
+    </select>
+  </div>
+<div style="position:relative;display:inline-flex;align-items:center">
+    <div id="notifBell" title="Notifications">🔔<span id="notifBadge">0</span></div>
+    <div id="notifDrop">
+      <div id="notifHead"><span>Notifications</span><button id="notifReadAll">Mark all read</button></div>
+      <div id="notifList"></div>
+    </div>
   </div>
   <div id="userbar"></div>
 </header>
@@ -182,6 +250,14 @@
     <h2 style="font-size:16px;margin:0 0 4px">🤖 Automation pipeline <span class="badge">auto-detect · auto-process by subscription</span></h2>
     <p class="hint" style="margin:4px 0">Once credentials are connected, store issues chain across 6 features automatically: monitoring checkups detect risks → high-risk items auto-generate GPSR blocks → buyer messages auto-generate compliant replies → review/ad suggestions follow.</p>
     <div id="autoQuota" class="hint" style="margin:2px 0"></div>
+    <div class="auto-meta" id="autoMeta">
+      <span class="freq" id="autoFreq">⚙️ —</span>
+      <span class="next" id="autoNext">Next auto run: <b>—</b></span>
+    </div>
+    <div class="auto-rules" id="autoRules" style="display:none">
+      <div class="rt">⚡ Trigger rules</div>
+      <div id="autoRulesBody"></div>
+    </div>
     <div class="autochips" id="autoChips"></div>
     <div class="row" style="gap:8px;align-items:center">
       <button class="btn" id="btnAutoRun" style="margin:0">▶ Run an auto-processing round now</button>
@@ -193,6 +269,7 @@
   <!-- Product description -->
   <div id="tab-desc" class="card">
     <h2>📦 Product description generator</h2>
+    <p class="panel-hint">Enter product name + keywords, pick a platform and target language — output a title, 5 bullets, detail page, search terms and a paste-ready GPSR block.</p>
     <details class="howto"><summary>❓ How to use (3 steps)</summary>
       <ol>
         <li>Enter <b>product name</b> + <b>core keywords</b> (comma-separated, e.g. wireless, bluetooth).</li>
@@ -237,6 +314,7 @@
   <!-- GPSR compliance check -->
   <div id="tab-gpsr" class="card hidden">
     <h2>🛡️ GPSR compliance check <span class="badge">Free</span></h2>
+    <p class="panel-hint">Paste a product description — we scan for missing GPSR info (manufacturer, warnings, safety) and return a ready-to-paste compliance block.</p>
     <details class="howto"><summary>❓ How to use (3 steps)</summary>
       <ol>
         <li>Enter <b>product name</b> + <b>core keywords</b> (determines the matched CE category, e.g. toy, puzzle).</li>
@@ -267,6 +345,7 @@
   <!-- AI customer service -->
   <div id="tab-cs" class="card hidden">
     <h2>💬 AI customer service demo</h2>
+    <p class="panel-hint">Paste a buyer message — the AI detects intent and emotion and drafts a compliant reply with Art.50 disclosure. Requires Pro or above for automation.</p>
     <details class="howto"><summary>❓ How to use (2 steps)</summary>
       <ol>
         <li>Enter a <b>buyer message</b> (e.g. Where is my order #123-...?), optionally with an <b>order number</b>.</li>
@@ -302,6 +381,7 @@
   <!-- Ad copy -->
   <div id="tab-ad" class="card hidden">
     <h2>📣 Ad copy generator</h2>
+    <p class="panel-hint">Turn healthy listings into ad headlines and short body copy for Google/Meta — no credentials needed, consumes your daily generation quota.</p>
     <details class="howto"><summary>❓ How to use (2 steps)</summary>
       <ol>
         <li>Enter <b>product name</b> / <b>target audience</b> (e.g. fitness enthusiasts) / <b>unique selling point</b>.</li>
@@ -322,6 +402,7 @@
   <!-- Review rewrite + attribute validation -->
   <div id="tab-review" class="card hidden">
     <h2>🔄 Negative review → Listing rewrite</h2>
+    <p class="panel-hint">Paste a negative review — we locate the listing gap and generate a 5-point fix to rewrite the description and prevent recurrence.</p>
     <details class="howto"><summary>❓ How to use (two features)</summary>
       <ol>
         <li><b>Review analysis</b>: paste the negative review text (one per line) → optionally fill in star rating and material → click "Analyze review and generate fix" → outputs problem themes + per-theme bullet-fix copy; hitting safety words triggers a 🚨 GPSR safety incident alert and handling steps.</li>
@@ -379,6 +460,7 @@
   <!-- Listing monitoring (7x24) -->
   <div id="tab-watch" class="card hidden">
     <h2>📡 Listing monitoring <span class="badge">7x24</span></h2>
+    <p class="panel-hint">Add your listings — we run a daily checkup, flag GPSR/rule risks, generate compliance blocks and email you a report (Pro: daily, Business: realtime alerts).</p>
     <details class="howto"><summary>❓ How to use (3 steps)</summary>
       <ol>
         <li>Below, "Add a listing to the monitoring repo": fill in SKU / product name / platform / keywords, ideally paste the <b>current title and description</b> (the engine detects EU Rep, warnings and other GPSR elements from it) → click "Add and run checkup now".</li>
@@ -415,6 +497,7 @@
   <!-- Subscription -->
   <div id="tab-bill" class="card hidden">
     <h2>💳 Subscription</h2>
+    <p class="panel-hint">Free / Starter / Pro / Business — daily quota, platform connectors and writeback tier all scale with your plan.</p>
     <details class="howto"><summary>❓ How to use</summary>
       <ol>
         <li>The box above shows your current plan and today's usage (free plan: 5 calls/day).</li>
@@ -438,6 +521,7 @@
   <!-- Unified inbox -->
   <div id="tab-inbox" class="card hidden">
     <h2>📥 Unified inbox <span class="badge">13 platforms unified</span></h2>
+    <p class="panel-hint">Buyer messages from all connected platforms land in one thread view — AI drafts compliant replies, you confirm (Pro) or it auto-sends (Business).</p>
     <details class="howto"><summary>❓ How to use (3 steps)</summary>
       <ol>
         <li>Click "<b>Load demo conversations</b>" to experience the multi-platform unified view (in production, once platform credentials are connected, buyer messages are imported automatically with no manual work).</li>
@@ -494,7 +578,7 @@ function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":
 async function api(path, opts={}){
   const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
   const data = await r.json().catch(()=>({}));
-  if(!r.ok) throw new Error(data.detail || r.statusText);
+  if(!r.ok){ if(r.status===401) throw new Error("Please sign in to continue"); throw new Error(data.detail || r.statusText); }
   return data;
 }
 
@@ -521,6 +605,7 @@ async function auth(path){
     ME = await api("/users/me");
     renderUserbar();
     showApp(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+    _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear();
   }catch(e){ setMsg("authMsg", e.message, "err"); }
 }
 document.getElementById("btnLogin").onclick=()=>auth("/users/login");
@@ -572,7 +657,7 @@ document.getElementById("btnDesc").onclick=async()=>{
 const MATRIX_DEFAULTS = ["amazon","ebay","cdiscount","otto","allegro","emag","tiktok","fruugo"];
 (function initMatrix(){
   const box = document.getElementById("matrixPlatforms");
-  fetch(API+"/products/platforms").then(r=>r.json()).then(reg=>{
+  fetch(API+"/products/platforms?lang=en").then(r=>r.json()).then(reg=>{
     box.innerHTML = Object.entries(reg).map(([k,v])=>{
       const checked = MATRIX_DEFAULTS.includes(k) ? "checked" : "";
       return `<label style="display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer">
@@ -831,18 +916,29 @@ async function loadSubscription(){
 }
 document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
   try{
-    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan})});
+    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan, billing:(window.__upgBilling||"monthly")})});
     if(r.mode==="stripe" && r.checkout_url){ window.location.href=r.checkout_url; return; }
     if(r.mode==="paypal" && r.approve_url){ window.location.href=r.approve_url; return; }
     setMsg("subInfo","Switched to "+b.dataset.plan+" (local demo)","ok"); loadSubscription();
   }catch(e){ setMsg("subInfo", e.message, "err"); }
 });
+// 定价页 ?plan= → 注册后 ?upgrade=X 自动发起升级（直达收银台）
+(function(){
+  const up = new URLSearchParams(location.search).get("upgrade");
+  if(up && ["starter","pro","business"].indexOf(up) >= 0){
+    window.__upgBilling = (new URLSearchParams(location.search).get("billing") === "yearly") ? "yearly" : "monthly";
+    try{ history.replaceState({}, "", location.pathname); }catch(e){}
+    const b = document.querySelector('[data-plan="' + up + '"]');
+    if(b) setTimeout(function(){ b.click(); }, 600);
+  }
+})();
+
 
 const LEVEL_BADGE = {high:"🔴", medium:"🟡", low:"🟢"};
 (async function initWatchPlatform(){
   const sel=document.getElementById("w_platform");
   try{
-    const reg=await (await fetch(API+"/products/platforms")).json();
+    const reg=await (await fetch(API+"/products/platforms?lang=en")).json();
     sel.innerHTML=Object.entries(reg).map(([k,v])=>`<option value="${k}">${v.display}</option>`).join("");
   }catch(e){ sel.innerHTML='<option value="amazon">Amazon EU</option>'; }
 })();
@@ -936,7 +1032,7 @@ const _AUTO_STATE_TXT = {active:"⚙️ Running automatically", ready:"✅ Ready
   no_credential:"🔌 Awaiting credential", locked_plan:"🔒 Plan upgrade required", waiting_connector:"⏳ Waiting for connector"};
 async function loadAutomationStatus(){
   try{
-    const d = await api("/automation/status");
+    const d = await api("/automation/status?lang=en");
     const card = document.getElementById("autoCard");
     card.classList.remove("hidden");
     const q = d.platform_quota;
@@ -970,6 +1066,236 @@ async function runPipeline(){
   btn.disabled=false; btn.textContent="▶ Run an auto-processing round now";
 }
 document.getElementById("btnAutoRun").onclick=runPipeline;
+
+// ---- Automation meta: frequency / next_run / trigger_rules (graceful if API omits them) ----
+const _FREQ_TXT = {manual:"✋ On-demand manual", daily:"📅 Daily auto", daily_xN:"📅 Daily auto (multiple rounds)", realtime:"⚡ Near-real-time"};
+function _deriveFreq(plan){
+  if(plan==="free") return "manual";
+  if(plan==="starter") return "daily";
+  if(plan==="pro") return "daily_xN";
+  if(plan==="business") return "realtime";
+  return "manual";
+}
+function _fmtNext(iso){
+  if(!iso) return null;
+  try{ const d=new Date(iso); if(isNaN(d)) return null;
+    return d.toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+  }catch(e){ return null; }
+}
+async function _fillAutoMeta(){
+  try{
+    const d = await api("/automation/status?lang=en");
+    const plan = d.plan || (ME && ME.plan) || "free";
+    const freq = d.frequency || _deriveFreq(plan);
+    document.getElementById("autoFreq").textContent = _FREQ_TXT[freq] || _FREQ_TXT["manual"];
+    const nextTxt = _fmtNext(d.next_run_at);
+    document.getElementById("autoNext").innerHTML = nextTxt
+      ? `Next auto run: <b>${esc(nextTxt)}</b>`
+      : `Next auto run: <b>on-demand manual</b>`;
+    const rules = (d.trigger_rules && d.trigger_rules.slice(0,3)) || [];
+    const box = document.getElementById("autoRules");
+    if(rules.length){
+      box.style.display="block";
+      document.getElementById("autoRulesBody").innerHTML = rules.map(r=>{
+        const ev = r.event || r.trigger || "—";
+        const ac = r.action || "—";
+        return `<div class="rrow"><span>🔔 ${esc(ev)}</span><span class="arrow">→</span><span>${esc(ac)}</span></div>`;
+      }).join("");
+    }else{
+      box.style.display="none";
+    }
+  }catch(e){ /* graceful: leave defaults */ }
+}
+
+// ---- Notification center ----
+const _NOTIF_ICON = {risk:"⚠️", report:"📊", reply:"💬", writeback:"↩️", system:"🔔"};
+async function fetchNotifications(){
+  try{
+    const d = await api("/notifications");
+    const list = Array.isArray(d)? d : (d.items || d.notifications || []);
+    renderNotifications(list.slice(0,50));
+  }catch(e){ /* silent: backend endpoint may not exist yet */ renderNotifications([]); }
+}
+function renderNotifications(list){
+  const box = document.getElementById("notifList");
+  if(!list.length){ box.innerHTML = `<div id="notifEmpty">No notifications yet</div>`; return; }
+  box.innerHTML = list.map(n=>{
+    const icon = _NOTIF_ICON[n.type] || "🔔";
+    const unread = !n.read && !n.is_read;
+    const time = n.created_at ? _fmtNext(n.created_at) : "";
+    return `<div class="nitem ${unread?"unread":""}" data-id="${esc(n.id)}">
+      <span class="nicon">${icon}</span>
+      <div class="nbody">
+        <div class="ntitle">${esc(n.title||"")}${unread?'<span class="nread">• new</span>':""}</div>
+        <div class="nbody2">${esc(n.body||"")}</div>
+        <div class="ntime">${esc(time)}</div>
+      </div></div>`;
+  }).join("");
+  box.querySelectorAll(".nitem").forEach(el=>el.onclick=()=>markRead(el.dataset.id, el));
+}
+async function markRead(id, el){
+  if(!id) return;
+  try{ await api("/notifications/"+id+"/read",{method:"POST"}); }catch(e){}
+  if(el){ el.classList.remove("unread"); const tag=el.querySelector(".nread"); if(tag) tag.remove(); }
+  pollUnread();
+}
+async function markAllRead(){
+  try{ await api("/notifications/read-all",{method:"POST"}); }catch(e){}
+  fetchNotifications(); pollUnread();
+}
+async function pollUnread(){
+  try{
+    const d = await api("/notifications/unread-count");
+    const n = (typeof d.count==="number")? d.count : (typeof d.unread==="number"? d.unread : 0);
+    const badge = document.getElementById("notifBadge");
+    if(n>0){ badge.textContent = n>99?"99+":String(n); badge.classList.add("on"); }
+    else{ badge.classList.remove("on"); }
+  }catch(e){ /* silent */ }
+}
+function _wireUp(){
+  document.getElementById("notifBell").onclick = (e)=>{
+    e.stopPropagation();
+    const drop = document.getElementById("notifDrop");
+    drop.classList.toggle("open");
+    if(drop.classList.contains("open")) fetchNotifications();
+  };
+  document.getElementById("notifDrop").onclick = (e)=> e.stopPropagation();
+  document.getElementById("notifReadAll").onclick = markAllRead;
+  document.addEventListener("click", ()=>{ const d=document.getElementById("notifDrop"); if(d) d.classList.remove("open"); });
+  document.getElementById("onboardSkip").onclick = _dismissOnboard;
+  document.getElementById("onboardNext").onclick = ()=>{
+    if(_onboardStep >= _ONBOARD_TOTAL-1){ _dismissOnboard(); return; }
+    _onboardStep++; _showOnboardStep();
+  };
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _wireUp);
+else _wireUp();
+setInterval(()=>{ if(TOKEN) pollUnread(); }, 60000);
+
+// ---- Onboarding wizard ----
+let _onboardStep = 0;
+const _ONBOARD_TOTAL = 4;
+function _showOnboardStep(){
+  const steps = document.querySelectorAll("#onboardStep");
+  steps.forEach((s,i)=>s.classList.toggle("on", i===_onboardStep));
+  document.querySelectorAll("#onboardDots .dot").forEach((d,i)=>d.classList.toggle("on", i===_onboardStep));
+  document.getElementById("onboardNext").textContent = (_onboardStep===_ONBOARD_TOTAL-1)? "Start using →" : "Next →";
+}
+function _dismissOnboard(){
+  try{ localStorage.setItem("crossaio_onboard_seen_"+(document.documentElement.lang||"en"), "1"); }catch(e){}
+  document.getElementById("onboardMask").classList.remove("open");
+}
+function _maybeShowOnboard(){
+  try{
+    const key = "crossaio_onboard_seen_"+(document.documentElement.lang||"en");
+    if(localStorage.getItem(key)==="1") return;
+  }catch(e){}
+  _onboardStep = 0; _showOnboardStep();
+  document.getElementById("onboardMask").classList.add("open");
+}
+setInterval(()=>{ if(TOKEN) pollUnread(); }, 60000);
+
+// ---- Per-panel report (client-side assembled: inputs + latest result text) ----
+const _PANEL_REPORTS = [
+  {key:"desc",   title:"Product description report",
+   card:"#tab-desc", inputs:[["d_name","Product name"],["d_kw","Keywords"],["d_platform","Platform"],["d_lang","Language"]],
+   results:["descResult","matrixResult"]},
+  {key:"gpsr",    title:"GPSR compliance check report (free)",
+   card:"#tab-gpsr", inputs:[["g_name","Product name"],["g_kw","Keywords"],["g_platform","Platform"]],
+   results:["gpsrResult"]},
+  {key:"cs",      title:"AI customer service session report",
+   card:"#tab-cs", inputs:[["cs_msg","Buyer message"],["cs_platform","Platform"],["cs_order","Order #"]],
+   results:["chatBox"]},
+  {key:"ad",      title:"Ad copy report",
+   card:"#tab-ad", inputs:[["a_name","Product name"],["a_platform","Platform"],["a_audience","Audience"],["a_usp","USP"]],
+   results:["adResult"]},
+  {key:"review",  title:"Review rewrite report",
+   card:"#tab-review", inputs:[["rv_text","Negative review"],["rv_rating","Rating"],["rv_material","Material"],["rr_platform","Reply platform"],["rr_text","Reply review"]],
+   results:["rvResult","rrResult","attrResult"]},
+  {key:"watch",   title:"Listing monitoring report",
+   card:"#tab-watch", inputs:[["w_sku","SKU"],["w_name","Product name"],["w_platform","Platform"],["w_kw","Keywords"]],
+   results:["watchReportBox","watchList","watchDetail"]},
+  {key:"inbox",   title:"Unified inbox report",
+   card:"#tab-inbox", inputs:[],
+   results:["inboxList","inboxThread"]},
+];
+function _grabText(id){ const el=document.getElementById(id); if(!el) return "";
+  const t=(el.innerText||"").trim(); return t && el.innerHTML.trim() ? t : ""; }
+function _buildReport(p){
+  const lines=[];
+  lines.push(p.title);
+  lines.push("Generated: "+new Date().toLocaleString());
+  lines.push("Source: CrossAIO workbench");
+  lines.push("");
+  lines.push("== Inputs ==");
+  let hasInput=false;
+  p.inputs.forEach(([id,label])=>{
+    const el=document.getElementById(id); if(!el) return;
+    const v=(el.value||"").trim(); if(v){ lines.push(label+": "+v); hasInput=true; }
+  });
+  if(!hasInput) lines.push("(no input captured)");
+  lines.push("");
+  lines.push("== Results ==");
+  let hasResult=false;
+  p.results.forEach(rid=>{ const t=_grabText(rid); if(t){ lines.push("-- "+rid+" --"); lines.push(t); hasResult=true; } });
+  if(!hasResult) lines.push("(no result yet — run the panel first, then generate report)");
+  lines.push("");
+  lines.push("== Suggested next steps ==");
+  lines.push("1. Review the result above and fix any flagged items.");
+  lines.push("2. Connect platform credentials in the top credentials center to write back / auto-sync.");
+  lines.push("3. Re-run after fixes to confirm closure.");
+  return lines.join("\n");
+}
+function _downloadBlob(name, mime, content){
+  const blob = new Blob([content], {type:mime});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 400);
+}
+function _toHtmlReport(title, txt){
+  const escT = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
+<style>body{font-family:Segoe UI,system-ui,sans-serif;max-width:820px;margin:30px auto;padding:0 20px;color:#1e293b;line-height:1.6}
+h1{color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:8px}
+pre{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;font-size:13px}
+.meta{color:#64748b;font-size:12px}</style></head>
+<body><h1>${title}</h1><div class="meta">Printable report · generated by CrossAIO</div><pre>${escT}</pre></body></html>`;
+}
+function _injectReportUI(){
+  _PANEL_REPORTS.forEach(p=>{
+    const card = document.querySelector(p.card); if(!card) return;
+    if(document.getElementById("reportBox-"+p.key)) return;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <div class="report-actions">
+        <button type="button" data-rkey="${p.key}" data-act="generate">📄 Generate report</button>
+        <button type="button" data-rkey="${p.key}" data-act="txt">⬇ Export .txt</button>
+        <button type="button" data-rkey="${p.key}" data-act="html">⬇ Export .html</button>
+      </div>
+      <div class="report-box" id="reportBox-${p.key}">
+        <div class="rhead"><span>📄 ${p.title}</span>
+          <span class="ractions"><button type="button" data-rkey="${p.key}" data-act="copy">Copy</button></span></div>
+        <div class="rbody" style="white-space:pre-wrap"></div>
+      </div>`;
+    card.appendChild(wrap);
+  });
+  document.querySelectorAll(".report-actions button, .ractions button").forEach(b=>{
+    b.onclick = ()=>{
+      const key = b.dataset.rkey; if(!key) return;
+      const p = _PANEL_REPORTS.find(x=>x.key===key); if(!p) return;
+      const act = b.dataset.act;
+      const txt = _buildReport(p);
+      const box = document.getElementById("reportBox-"+key);
+      if(act==="generate"){ box.classList.add("open"); box.querySelector(".rbody").textContent = txt; }
+      else if(act==="copy"){ navigator.clipboard?.writeText(txt).then(()=>{ b.textContent="Copied ✓"; setTimeout(()=>b.textContent="Copy",1500); }).catch(()=>{}); }
+      else if(act==="txt"){ _downloadBlob("crossaio-"+key+"-report.txt","text/plain;charset=utf-8",txt); }
+      else if(act==="html"){ _downloadBlob("crossaio-"+key+"-report.html","text/html;charset=utf-8",_toHtmlReport(p.title,txt)); }
+    };
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _injectReportUI);
+else _injectReportUI();
 
 // ---------------- Platform credentials center (13 platforms self-serve) ----------------
 let _credMap = {};
@@ -1035,16 +1361,18 @@ async function loadCredStatus(force){
   const box=document.getElementById("credBanner");
   if(_credLoaded && !force) return;
   try{
-    const d=await api("/compliance/credentials");
+    const d=await api("/compliance/credentials?lang=en");
     _credMap=d.platforms||{};
     let amazonStatus="unconnected";
     try{ amazonStatus=(await api("/connectors/amazon/status")).status||"unconnected"; }catch(e){}
     const readyN=Object.values(_credMap).filter(p=>p.ready).length;
     const totalN=Object.keys(_credMap).length;
     let html=`<div style="margin:0">
-      <div style="font-weight:700;font-size:14px;margin-bottom:6px">
-        🔗 Platform credentials center <span class="badge">${readyN}/${totalN} ready</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:700;font-size:14px">🔗 Platform credentials center <span class="badge">${readyN}/${totalN} ready</span></div>
+        <button class="btn ghost" style="margin:0;padding:4px 12px;white-space:nowrap" id="credToggleBtn" onclick="toggleCredBanner()" title="Collapse/expand credentials center">Collapse ▲</button>
       </div>
+      <div id="credBody">
       <p class="hint" style="margin:0 0 8px">🔑 <b>Connect once, reuse site-wide</b>: connect each platform once (stored on your account, AES-256 encrypted) and all the features and automation pipeline below automatically share the same credentials — <b>no platform needs to be connected twice</b>. 13 platforms support self-serve credential paste or one-click OAuth; once connected, you unlock automatic message import / compliance block write-back / Listing backfill.</p>
       <div class="credchips" style="margin-bottom:8px">${Object.entries(_credMap).map(([slug,p])=>_credChip(slug,p)).join("")}</div>`;
     const order=Object.entries(_credMap).sort((a,b)=>(a[1].ready?1:0)-(b[1].ready?1:0));
@@ -1063,12 +1391,20 @@ async function loadCredStatus(force){
       ${d.all_ready?'<span class="hint" style="color:#1a7f37;margin-right:auto">✓ All 13 platform credentials ready.</span>':""}
       <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="loadCredStatus(true)">↻ Recheck</button>
       ${(!_credMap.ebay.ready&&_credMap.ebay.app_configured&&!_credMap.ebay.connected)?'<button class="btn" style="margin:0;padding:4px 12px" onclick="ebayConnect()">Authorize eBay</button>':""}
-    </div>`;
+    </div></div>`;
     box.innerHTML=html; box.classList.remove("hidden"); _credLoaded=true;
   }catch(e){
     box.innerHTML=`<p class="hint">Failed to load platform credential status: ${esc(e.message)} (<a href="javascript:loadCredStatus(true)">retry</a>)</p>`;
     box.classList.remove("hidden");
   }
+}
+function toggleCredBanner(){
+  const body=document.getElementById("credBody");
+  const btn=document.getElementById("credToggleBtn");
+  if(!body||!btn) return;
+  const collapsed = body.style.display==="none";
+  body.style.display = collapsed ? "" : "none";
+  btn.textContent = collapsed ? "Collapse \u25B2" : "Expand \u25BC";
 }
 async function saveCreds(platform){
   const g=(_credMap[platform]||{}).guide||{};
@@ -1185,9 +1521,54 @@ async function sendReply(id){
 }
 
 // Auto-restore login
-if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus(); })
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+  _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear(); })
   .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
+
+function _maybeShowOnboardOnAppear(){ setTimeout(_maybeShowOnboard, 350); }
 </script>
-<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+<div id="onboardMask">
+  <div id="onboardModal">
+    <div id="onboardStep" class="on">
+      <h3>🔗 1 · Connect your platform credentials</h3>
+      <p>CrossAIO works as an independent workbench — connect your eBay / other platform credentials once, and the automation pipeline can link buyer messages, listings and reports across them.</p>
+      <ul><li>Once credentials are saved, store issues chain across all 6 features automatically.</li>
+      <li>Other platform connectors show <b>"awaiting credential"</b> until you add them.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>⚙️ 2 · Automation pipeline by plan</h3>
+      <p>How often the workbench auto-runs is set by your subscription:</p>
+      <ul><li><b>Free</b> — on-demand manual tools only.</li>
+      <li><b>Starter (€29)</b> — daily monitoring checkup, weekly report email.</li>
+      <li><b>Pro (€49)</b> — daily checkup + daily email, auto-reply drafts, auto writeback.</li>
+      <li><b>Business (€149)</b> — near-real-time alerts, auto-reply sends without confirmation, unlimited platform connectors.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>🧰 3 · What each panel does</h3>
+      <ul><li>📦 <b>Listing generator</b> — title / 5 bullets / detail page + GPSR block; plus a multi-country matrix.</li>
+      <li>🛡️ <b>GPSR check</b> — free single-product compliance scan; full risk / missing-items / fix report available even on Free.</li>
+      <li>💬 <b>AI customer service</b> — intent + emotion aware compliant replies.</li>
+      <li>📥 <b>Inbox</b> — one thread view across 13 platforms.</li>
+      <li>📣 <b>Ad copy</b> — turn healthy listings into ads.</li>
+      <li>🔄 <b>Review rewrite</b> — fix the root cause from a negative review.</li>
+      <li>📡 <b>Monitoring</b> — daily listing risk checkup + report email.</li>
+      <li>📄 <b>Every panel</b> — "Generate report" assembles a client-side report you can copy or download as .txt / .html.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>💳 4 · Plans &amp; quotas</h3>
+      <ul><li><b>Free €0</b> — 5 calls/day, manual copy-paste writeback.</li>
+      <li><b>Starter €29</b> — 50 calls/day, 1 platform, manual copy-paste.</li>
+      <li><b>Pro €49</b> — 200 calls/day, 3 platforms, one-click confirm writeback.</li>
+      <li><b>Business €149</b> — 1000 calls/day, unlimited platforms, fully automatic writeback &amp; reply.</li></ul>
+      <p class="hint">Annual billing: €23 / €39 / €119 per month.</p>
+    </div>
+    <div id="onboardDots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div id="onboardFoot">
+      <button id="onboardSkip">Skip</button>
+      <button id="onboardNext">Next →</button>
+    </div>
+  </div>
+</div>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"en")}catch(e){}})();</script>
 </body>
 </html>

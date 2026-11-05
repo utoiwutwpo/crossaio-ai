@@ -42,6 +42,9 @@ class User(Base):
     stripe_customer_id = Column(String(255), default="")
     stripe_subscription_id = Column(String(255), default="")
     stripe_status = Column(String(50), default="")
+    # 【P0】该用户最近一次自动体检轮（按订阅频率触发）的 UTC 时间戳；
+    # None = 尚未自动跑过（视为到期，下一轮扫描即跑）。
+    last_auto_watch_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -364,6 +367,20 @@ class ReviewRewriteLog(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class Notification(Base):
+    """【P2】站内通知闭环：体检新风险 / 日报生成 / AI 回复 / 写回结果 / 连接器状态变化。"""
+    __tablename__ = "notifications"
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    # risk / report / reply / writeback / system
+    type = Column(String(20), default="system", index=True)
+    title = Column(String(255), default="")
+    body = Column(Text, default="")
+    read = Column(Boolean, default=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+
 def _ensure_column(engine, table: str, column_name: str, ddl: str) -> None:
     """SQLite 幂等加列：create_all 不会为已存在的表补列（清单 §6 迁移要求）。
 
@@ -391,6 +408,9 @@ def init_db() -> None:
                    "related_audit_id VARCHAR(32)")
     _ensure_column(engine, "usage_logs", "with_compliance",
                    "with_compliance BOOLEAN DEFAULT 0")
+    # 【P0】订阅驱动的自动体检：users 表记录最近一次自动运行时间（旧库升级路径）
+    _ensure_column(engine, "users", "last_auto_watch_at",
+                   "last_auto_watch_at DATETIME")
     # 【P0-4】默认差评改写规则模板写入（幂等：仅首次初始化）
     from .experts.review_rewrite import DEFAULT_REVIEW_RULES
     from .ebay_service import encrypt_secret

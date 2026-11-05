@@ -9,42 +9,124 @@
 <link rel="alternate" hreflang="de" href="http://localhost:9000/de/terms">
 <link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/terms">
 <link rel="alternate" hreflang="x-default" href="http://localhost:9000/terms">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤖</text></svg>">
 <style>
   :root{--navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669}
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--violet:#7c3aed;--ok:#059669}
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
   body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8}
   a{color:var(--blue);text-decoration:none}
-  nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;max-width:1100px;margin:0 auto}
-  .logo{font-weight:800;font-size:18px}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(99,102,241,.4)}
+  .menu{display:flex;gap:6px}
+  .navitem{position:relative}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a.solo::after{display:none}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:270px;background:#fff;border-radius:12px;box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
   nav .right{display:flex;gap:14px;align-items:center}
-  .container{max-width:820px;margin:0 auto;padding:24px 24px 80px}
-  h1{font-size:30px;margin:12px 0 6px}
-  .updated{color:var(--muted);font-size:13px;margin-bottom:28px}
+  .pill-nav{background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 6px 18px rgba(99,102,241,.35);transition:.2s}
+  .pill-nav:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(99,102,241,.45)}
+
+  .doc-head{background:
+    radial-gradient(1100px 500px at 70% 20%,rgba(124,58,237,.45),transparent 60%),
+    linear-gradient(115deg,#0a0f2e 0%,#141040 50%,#3b1a86 100%);
+    padding:56px 24px 64px;text-align:center;color:#fff;position:relative;overflow:hidden}
+  .doc-head::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+  .doc-head .in{position:relative;z-index:2}
+  .doc-head h1{font-size:34px;font-weight:800;margin-bottom:8px}
+  .doc-head .updated{color:#a5b4d4;font-size:13.5px}
+
+  .container{max-width:860px;margin:-32px auto 0;padding:36px 32px 80px;background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:0 18px 50px rgba(15,23,42,.08);position:relative;z-index:3}
+  @media(max-width:640px){.container{margin:-24px 16px 0;padding:24px 20px}}
   h2{font-size:20px;margin:32px 0 10px;color:var(--navy)}
+  h2:first-of-type{margin-top:8px}
   p,li{margin:8px 0;color:#334155}
   ul{padding-left:22px}
   .card{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin:20px 0}
   .placeholder{background:#fff7ed;color:#9a3412;border:1px dashed #fdba74;border-radius:6px;padding:1px 6px;font-weight:600}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
 </style>
+  <link rel="stylesheet" href="/effects.css">
 </head>
 <body>
+
 <nav>
-  <span class="logo">CrossAIO</span>
-  <div class="right">
-    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-      <a href="/terms" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
-      <a href="/en/terms" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff" aria-current="page">EN</a>
-      <a href="/de/terms" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
-      <a href="/fr/terms" data-lang="fr" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">FR</a>
+  <a class="logo" href="/en/"><span class="dot">🤖</span>CrossAIO</a>
+  <div class="menu">
+    <div class="navitem">
+      <a>Product</a>
+      <div class="dropdown">
+        <a href="/en/features/gpsr"><span>🛡️ GPSR compliance engine<small>CE category → warnings → compliance block → backfill</small></span></a>
+        <a href="/en/features/listing-generator"><span>📦 Listing generator<small>Four-piece set + word-count validation + score</small></span></a>
+        <a href="/en/features/matrix"><span>🌍 Multi-platform matrix<small>One input → localized to 13 platforms</small></span></a>
+        <a href="/en/features/review-rewrite"><span>📈 Review rewriting loop<small>Topic mapping → 5-point fixes + semantic score</small></span></a>
+        <a href="/en/features/ai-service"><span>💬 AI customer service<small>AI Act Art.50 disclosure built-in + eBay</small></span></a>
+        <a href="/en/features/safety-redline"><span>🚨 Policy safety red-line<small>Threat/extortion detection → human handoff</small></span></a>
+        <a href="/en/features/inbox"><span>📥 Unified inbox<small>13-platform messages · native replies</small></span></a>
+        <a href="/en/features/ad-copy"><span>📣 Ad copy generator<small>Banned-word pre-check + A/B variants</small></span></a>
+        <a href="/en/features/listing-watch"><span>📡 Listing monitoring<small>Daily auto-audit · instant risk alerts</small></span></a>
+        <a href="/en/features"><span>🗂️ Capabilities overview<small>Nine capabilities · one page each</small></span></a>
+      </div>
     </div>
-    <a href="/en/">← Back to home</a>
+    <div class="navitem">
+      <a>Platforms</a>
+      <div class="dropdown">
+        <a href="/en/rules/allegro"><span>🇵🇱 Allegro rules<small>Polish policy + UOKiK oversight</small></span></a>
+        <a href="/en/rules/emag"><span>🇷🇴 eMAG rules<small>Romanian policy + ANPC oversight</small></span></a>
+        <a href="/en/rules/cdiscount"><span>🇫🇷 Cdiscount rules<small>French policy (Loi Toubon) + DGCCRF</small></span></a>
+        <a href="/en/rules/otto"><span>🇩🇪 Otto rules<small>German policy + ProdSG + GS mark</small></span></a>
+        <a href="/en/rules/kaufland"><span>🇩🇪 Kaufland rules<small>DE/CZ/SK four-country sites</small></span></a>
+        <a href="/en/rules/bol"><span>🇳🇱 bol.com rules<small>Dutch policy + ACM oversight</small></span></a>
+        <a href="/en/rules"><span>📋 All 13 platforms cheat sheet<small>Word limits / languages / GPSR essentials</small></span></a>
+      </div>
+    </div>
+    <div class="navitem">
+      <a>Free tools</a>
+      <div class="dropdown">
+        <a href="/en/compliance-check"><span>✅ One-click compliance check<small>Check → EU Rep → technical file list, 30s report</small></span></a>
+        <a href="/en/gpsr-check"><span>🛡️ GPSR compliance check<small>Free, no registration, 30 seconds</small></span></a>
+        <a href="/en/rules"><span>📋 Platform rules cheat sheet<small>Word limits / languages / GPSR essentials</small></span></a>
+        <a href="/en/skills"><span>🎁 Open-source Skills<small>GPSR checker + rules library, MIT free</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="/en/pricing">Pricing</a></div>
+  </div>
+  <div class="right">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;font-size:13px">
+      🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/terms" data-lang="en" selected>English</option>
+        <option value="/de/terms" data-lang="de">Deutsch</option>
+        <option value="/fr/terms" data-lang="fr">Français</option>
+        <option value="/terms" data-lang="zh">中文</option>
+      </select>
+    </div>
+    <a href="/en/signin" style="font-size:14px;color:var(--muted)">Sign in</a>
+    <a href="/en/signup"><button class="pill-nav">Start free</button></a>
   </div>
 </nav>
-<div class="container">
-  <h1>Terms of Service</h1>
-  <p class="updated">Last updated: 2026-10-29 (template, pending legal review and entry of entity details)</p>
 
+<div class="doc-head">
+  <div class="in">
+    <h1>Terms of Service</h1>
+    <p class="updated">Last updated: 2026-10-29 (template, pending legal review and entry of entity details)</p>
+  </div>
+</div>
+
+<div class="container">
   <div class="card">
     <strong>Service provider:</strong> <span class="placeholder">[[Legal entity name]]</span><br>
     Registered address: <span class="placeholder">[[Registered address]]</span><br>
@@ -83,6 +165,15 @@
   <h2>8. Governing law and disputes</h2>
   <p>These terms are governed by <span class="placeholder">[[Governing law / jurisdiction, e.g. Singapore or an EU member state]]</span>. Disputes should first be resolved through friendly negotiation; failing that, they are submitted to <span class="placeholder">[[Competent court / arbitration body]]</span>.</p>
 </div>
+
+<footer>
+  <div class="cols">
+    <a href="/en/">Home</a><a href="/en/pricing">Pricing</a><a href="/en/gpsr-check">Free check</a><a href="/en/privacy">Privacy Policy</a><a href="/en/terms">Terms of Service</a>
+  </div>
+  CrossAIO — the all-Europe platform Listing quality + compliance engine
+</footer>
+
+  <script src="/effects.js"></script>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
 </body>
 </html>

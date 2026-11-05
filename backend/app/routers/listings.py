@@ -69,7 +69,10 @@ def add_listing(body: WatchCreateRequest, user: User = Depends(get_current_user)
                      bullets=body.bullets, description=body.description)
     db.add(w)
     db.commit()
-    diff = check_one(db, w)
+    diff = check_one(db, user, w)
+    # 【P0】新 listing 入监控 → 事件触发（drain 时已即时体检，此处保留队列语义）
+    from ..automation_events import enqueue
+    enqueue(user.id, "new_watch_listing", {"watch_id": w.id})
     return {"listing": _watch_out(w, detail=True), "first_check": diff}
 
 
@@ -129,7 +132,7 @@ def update_listing(wid: str, body: WatchUpdateRequest,
                 val = val[:100]
             setattr(w, field, val)
     db.commit()
-    diff = check_one(db, w)
+    diff = check_one(db, user, w)
     return {"listing": _watch_out(w, detail=True), "check": diff}
 
 
@@ -150,7 +153,7 @@ def recheck(wid: str, user: User = Depends(get_current_user),
     w = db.get(ListingWatch, wid)
     if not w or w.user_id != user.id:
         raise HTTPException(404, "listing 不存在")
-    diff = check_one(db, w)
+    diff = check_one(db, user, w)
     return {"listing": _watch_out(w, detail=True), "check": diff}
 
 

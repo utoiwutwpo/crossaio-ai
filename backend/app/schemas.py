@@ -294,6 +294,7 @@ class AdCopyResponse(BaseModel):
 # ========== 订阅 ==========
 class SubscriptionCreate(BaseModel):
     plan: Literal["starter", "pro", "business"]
+    billing: Literal["monthly", "yearly"] = "monthly"
 
 
 class SubscriptionInfo(BaseModel):

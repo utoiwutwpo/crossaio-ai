@@ -133,6 +133,65 @@
   #credBanner details summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
   #credBanner details summary::before{content:"▶";display:inline-block;transition:transform .2s;font-size:11px;color:var(--muted)}
   #credBanner details[open] summary::before{transform:rotate(90deg)}
+
+  /* === Upgrade : meta d'automatisation, notifications, onboarding, conseils panneaux === */
+  .auto-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0 4px;font-size:13px}
+  .auto-meta .freq{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#1d4ed8;background:#eaf2ff;border:1px solid #c7d2fe;border-radius:999px;padding:3px 12px}
+  .auto-meta .next{color:var(--muted)}
+  .auto-meta .next b{color:var(--text)}
+  .auto-rules{margin:8px 0 4px;padding:10px 14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.8);font-size:12.5px;line-height:1.7}
+  .auto-rules .rt{font-weight:700;color:var(--primary);margin-bottom:4px;font-size:12px}
+  .auto-rules .rrow{display:flex;gap:8px;align-items:baseline}
+  .auto-rules .rrow .arrow{color:var(--muted)}
+  .auto-empty{color:var(--muted);font-size:13px;padding:8px 0}
+
+  .panel-hint{font-size:12px;color:var(--muted);margin:-6px 0 10px;line-height:1.5}
+
+  #notifBell{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.7);border:1px solid var(--border);font-size:17px;user-select:none}
+  #notifBell:hover{background:#eff6ff}
+  #notifBadge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--err);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+  #notifBadge.on{display:inline-flex}
+  #notifDrop{position:absolute;top:46px;right:0;width:380px;max-width:92vw;background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:14px;box-shadow:0 22px 60px rgba(15,23,42,.22);backdrop-filter:blur(18px);z-index:120;display:none;flex-direction:column;overflow:hidden}
+  #notifDrop.open{display:flex}
+  #notifHead{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700}
+  #notifHead button{background:transparent;border:none;color:var(--primary);font-size:12px;cursor:pointer;font-weight:600}
+  #notifList{max-height:380px;overflow-y:auto}
+  .nitem{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer}
+  .nitem:hover{background:#f8fafc}
+  .nitem.unread{background:#f5f8ff}
+  .nitem .nicon{font-size:16px;flex:0 0 auto}
+  .nitem .nbody{flex:1;min-width:0}
+  .nitem .ntitle{font-weight:700;color:var(--text)}
+  .nitem .nbody2{color:var(--muted);font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nitem .ntime{color:var(--muted);font-size:11px;margin-top:3px}
+  .nitem .nread{font-size:11px;color:var(--primary);margin-left:4px;flex:0 0 auto}
+  #notifEmpty{padding:30px 14px;text-align:center;color:var(--muted);font-size:13px}
+
+  #onboardMask{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  #onboardMask.open{display:flex}
+  #onboardModal{background:#fff;border-radius:18px;max-width:520px;width:100%;padding:28px 28px 22px;box-shadow:0 30px 80px rgba(15,23,42,.35);position:relative}
+  #onboardDots{display:flex;gap:6px;justify-content:center;margin:14px 0 18px}
+  #onboardDots .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;transition:.2s}
+  #onboardDots .dot.on{background:var(--primary);transform:scale(1.25)}
+  #onboardStep{display:none}
+  #onboardStep.on{display:block}
+  #onboardStep h3{font-size:17px;margin-bottom:8px;color:var(--text)}
+  #onboardStep p{font-size:13.5px;line-height:1.7;color:#475569}
+  #onboardStep ul{margin:8px 0 0 18px;font-size:13px;color:#475569;line-height:1.8}
+  #onboardFoot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:1px solid var(--border);padding-top:14px}
+  #onboardSkip{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+  #onboardNext{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer}
+  #onboardNext:hover{background:var(--primary-dark)}
+
+  /* === Zone de rapport (par panneau) === */
+  .report-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .report-actions button{background:transparent;color:var(--primary);border:1px solid #c7d2fe;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;font-weight:600}
+  .report-actions button:hover{background:#eff6ff}
+  .report-box{margin-top:14px;border:1px dashed #c7d2fe;border-radius:10px;background:rgba(245,248,255,.85);padding:14px 16px;font-size:13px;line-height:1.7;display:none;white-space:pre-wrap;word-break:break-word;max-height:480px;overflow-y:auto}
+  .report-box.open{display:block}
+  .report-box .rhead{font-weight:700;color:var(--primary);font-size:13.5px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .report-box .ractions{display:flex;gap:8px;margin-bottom:10px}
+  .report-box .ractions button{background:#fff;border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11.5px;cursor:pointer;color:#334155}
 </style>
 </head>
 <body>
@@ -147,11 +206,20 @@
     <a href="/fr/skills" class="hint" style="text-decoration:none">Skills open source</a>
     <a href="/fr/gpsr-check" class="hint" style="text-decoration:none">Page de vérification gratuite</a>
   </div>
-  <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-    <a href="/app" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
-    <a href="/en/app" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
-    <a href="/de/app" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
-    <a href="/fr/app" data-lang="fr" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">FR</a>
+      <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:4px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;font-size:12.5px">
+    🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:12.5px;color:#334155;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/app">English</option>
+        <option value="/de/app">Deutsch</option>
+        <option value="/fr/app" selected>Français</option>
+        <option value="/app">中文</option>
+    </select>
+  </div>
+<div style="position:relative;display:inline-flex;align-items:center">
+    <div id="notifBell" title="Notifications">🔔<span id="notifBadge">0</span></div>
+    <div id="notifDrop">
+      <div id="notifHead"><span>Notifications</span><button id="notifReadAll">Tout marquer lu</button></div>
+      <div id="notifList"></div>
+    </div>
   </div>
   <div id="userbar"></div>
 </header>
@@ -189,6 +257,14 @@
     <h2 style="font-size:16px;margin:0 0 4px">🤖 Pipeline d'automatisation <span class="badge">Détection automatique selon l'abonnement · Traitement automatique</span></h2>
     <p class="hint" style="margin:4px 0">Une fois les identifiants connectés, les problèmes de vos boutiques enchaînent automatiquement les 6 fonctionnalités : la surveillance détecte les risques → les blocs GPSR sont générés pour les risques élevés → les réponses conformes sont rédigées pour les messages acheteurs → suggestions croisées avis négatifs / publicité.</p>
     <div id="autoQuota" class="hint" style="margin:2px 0"></div>
+    <div class="auto-meta" id="autoMeta">
+      <span class="freq" id="autoFreq">⚙️ —</span>
+      <span class="next" id="autoNext">Prochaine exécution auto : <b>—</b></span>
+    </div>
+    <div class="auto-rules" id="autoRules" style="display:none">
+      <div class="rt">⚡ Règles déclencheurs</div>
+      <div id="autoRulesBody"></div>
+    </div>
     <div class="autochips" id="autoChips"></div>
     <div class="row" style="gap:8px;align-items:center">
       <button class="btn" id="btnAutoRun" style="margin:0">▶ Lancer un cycle de traitement automatique</button>
@@ -200,6 +276,7 @@
   <!-- Description produit -->
   <div id="tab-desc" class="card">
     <h2>📦 Générateur de description produit</h2>
+    <p class="panel-hint">Saisissez nom du produit + mots-clés, choisissez la plateforme et la langue cible — sortie : titre, 5 points, page détaillée, mots-clés et bloc GPSR prêt à coller.</p>
     <details class="howto"><summary>❓ Mode d'emploi (3 étapes)</summary>
       <ol>
         <li>Renseignez le <b>nom du produit</b> + les <b>mots-clés principaux</b> (séparés par des virgules, ex : wireless, bluetooth).</li>
@@ -244,6 +321,7 @@
   <!-- Vérification de conformité GPSR -->
   <div id="tab-gpsr" class="card hidden">
     <h2>🛡️ Vérification de conformité GPSR <span class="badge">Gratuit</span></h2>
+    <p class="panel-hint">Collez une description produit — nous détectons les infos GPSR manquantes (fabricant, avertissements, sécurité) et renvoyons un bloc de conformité prêt à coller.</p>
     <details class="howto"><summary>❓ Mode d'emploi (3 étapes)</summary>
       <ol>
         <li>Renseignez le <b>nom du produit</b> + les <b>mots-clés principaux</b> (qui déterminent la catégorie CE détectée, ex : toy, puzzle).</li>
@@ -275,6 +353,7 @@
   <!-- Service client IA -->
   <div id="tab-cs" class="card hidden">
     <h2>💬 Démo du service client IA</h2>
+    <p class="panel-hint">Collez un message acheteur — l'IA détecte l'intention et l'émotion et rédige une réponse conforme avec divulgation art.50. L'automatisation nécessite Pro ou supérieur.</p>
     <details class="howto"><summary>❓ Mode d'emploi (2 étapes)</summary>
       <ol>
         <li>Saisissez le <b>message de l'acheteur</b> (ex : Where is my order #123-...?), en joignant éventuellement le <b>numéro de commande</b>.</li>
@@ -310,6 +389,7 @@
   <!-- Rédaction publicitaire -->
   <div id="tab-ad" class="card hidden">
     <h2>📣 Générateur de textes publicitaires</h2>
+    <p class="panel-hint">Transformez des listings sains en titres et courtes descriptions pour Google/Meta — aucun identifiant requis, consomme votre quota quotidien.</p>
     <details class="howto"><summary>❓ Mode d'emploi (2 étapes)</summary>
       <ol>
         <li>Renseignez le <b>nom du produit</b> / la <b>cible</b> (ex : fitness enthusiasts) / l'<b>argument unique de vente</b>.</li>
@@ -330,6 +410,7 @@
   <!-- Réécriture des avis négatifs + vérification des attributs -->
   <div id="tab-review" class="card hidden">
     <h2>🔄 Avis négatif → Réécriture du listing</h2>
+    <p class="panel-hint">Collez un avis négatif — nous localisons la lacune du listing et générons une correction en 5 points pour réécrire la description et éviter la récurrence.</p>
     <details class="howto"><summary>❓ Mode d'emploi (deux modules)</summary>
       <ol>
         <li><b>Analyse des avis négatifs</b> : collez le texte des avis négatifs (un par ligne) → renseignez éventuellement la note et la matière → cliquez sur « Analyser les avis et générer la correction » → thèmes de problèmes + texte de correction en cinq points pour chaque thème ; la détection de mots de sécurité déclenche l'🚨 alerte d'incident de sécurité GPSR et les étapes de traitement.</li>
@@ -387,6 +468,7 @@
   <!-- Surveillance des listings (24h/24 et 7j/7) -->
   <div id="tab-watch" class="card hidden">
     <h2>📡 Surveillance des listings <span class="badge">24h/24 et 7j/7</span></h2>
+    <p class="panel-hint">Ajoutez vos listings — nous effectuons un contrôle quotidien, signalons les risques GPSR/règles, générons des blocs de conformité et vous envoyons un rapport par e-mail (Pro : quotidien, Business : alertes temps réel).</p>
     <details class="howto"><summary>❓ Mode d'emploi (3 étapes)</summary>
       <ol>
         <li>Dans « Ajouter un listing au dépôt de surveillance » ci-dessous, renseignez SKU / nom du produit / plateforme / mots-clés, et collez de préférence <b>le titre et la description existants</b> (le moteur en détecte les éléments GPSR : délégué UE, avertissements, etc.) → cliquez sur « Ajouter et vérifier immédiatement ».</li>
@@ -423,6 +505,7 @@
   <!-- Abonnement -->
   <div id="tab-bill" class="card hidden">
     <h2>💳 Gestion de l'abonnement</h2>
+    <p class="panel-hint">Free / Starter / Pro / Business — quota quotidien, connecteurs plateformes et niveau de writeback évoluent selon votre plan.</p>
     <details class="howto"><summary>❓ Mode d'emploi</summary>
       <ol>
         <li>En haut s'affichent le plan actuel et l'utilisation du jour (5 appels par jour pour le plan gratuit).</li>
@@ -446,6 +529,7 @@
   <!-- Boîte de réception unifiée -->
   <div id="tab-inbox" class="card hidden">
     <h2>📥 Boîte de réception unifiée <span class="badge">13 plateformes unifiées</span></h2>
+    <p class="panel-hint">Les messages acheteurs de toutes les plateformes connectées arrivent dans une seule vue — l'IA rédige des réponses conformes, vous validez (Pro) ou envoi automatique (Business).</p>
     <details class="howto"><summary>❓ Mode d'emploi (3 étapes)</summary>
       <ol>
         <li>Cliquez sur « <b>Charger des conversations de démonstration</b> » pour découvrir la vue unifiée multi-plateformes (en production, les messages acheteurs sont importés automatiquement une fois les identifiants connectés, sans saisie manuelle).</li>
@@ -503,7 +587,7 @@ function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":
 async function api(path, opts={}){
   const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
   const data = await r.json().catch(()=>({}));
-  if(!r.ok) throw new Error(data.detail || r.statusText);
+  if(!r.ok){ if(r.status===401) throw new Error("Veuillez vous connecter"); throw new Error(data.detail || r.statusText); }
   return data;
 }
 
@@ -531,6 +615,7 @@ async function auth(path){
     ME = await api("/users/me");
     renderUserbar();
     showApp(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+    _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear();
   }catch(e){ setMsg("authMsg", e.message, "err"); }
 }
 document.getElementById("btnLogin").onclick=()=>auth("/users/login");
@@ -588,7 +673,7 @@ document.getElementById("btnDesc").onclick=async()=>{
 const MATRIX_DEFAULTS = ["amazon","ebay","cdiscount","otto","allegro","emag","tiktok","fruugo"];
 (function initMatrix(){
   const box = document.getElementById("matrixPlatforms");
-  fetch(API+"/products/platforms").then(r=>r.json()).then(reg=>{
+  fetch(API+"/products/platforms?lang=fr").then(r=>r.json()).then(reg=>{
     box.innerHTML = Object.entries(reg).map(([k,v])=>{
       const checked = MATRIX_DEFAULTS.includes(k) ? "checked" : "";
       return `<label style="display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer">
@@ -856,7 +941,7 @@ async function loadSubscription(){
 document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
   trackEvent("subscribe_click",{plan:b.dataset.plan});
   try{
-    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan})});
+    const r=await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan, billing:(window.__upgBilling||"monthly")})});
     // Chemin de production : Stripe / PayPal renvoient un lien de paiement → redirection directe vers la caisse
     if(r.mode==="stripe" && r.checkout_url){ window.location.href=r.checkout_url; return; }
     if(r.mode==="paypal" && r.approve_url){ window.location.href=r.approve_url; return; }
@@ -865,13 +950,24 @@ document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
     setMsg("subInfo","Passage à "+b.dataset.plan+" (simulation locale)","ok"); loadSubscription();
   }catch(e){ setMsg("subInfo", e.message, "err"); }
 });
+// 定价页 ?plan= → 注册后 ?upgrade=X 自动发起升级（直达收银台）
+(function(){
+  const up = new URLSearchParams(location.search).get("upgrade");
+  if(up && ["starter","pro","business"].indexOf(up) >= 0){
+    window.__upgBilling = (new URLSearchParams(location.search).get("billing") === "yearly") ? "yearly" : "monthly";
+    try{ history.replaceState({}, "", location.pathname); }catch(e){}
+    const b = document.querySelector('[data-plan="' + up + '"]');
+    if(b) setTimeout(function(){ b.click(); }, 600);
+  }
+})();
+
 
 // ===== Surveillance des listings (24h/24 et 7j/7) =====
 const LEVEL_BADGE = {high:"🔴", medium:"🟡", low:"🟢"};
 (async function initWatchPlatform(){
   const sel=document.getElementById("w_platform");
   try{
-    const reg=await (await fetch(API+"/products/platforms")).json();
+    const reg=await (await fetch(API+"/products/platforms?lang=fr")).json();
     sel.innerHTML=Object.entries(reg).map(([k,v])=>`<option value="${k}">${v.display}</option>`).join("");
   }catch(e){ sel.innerHTML='<option value="amazon">Amazon (Europe)</option>'; }
 })();
@@ -965,7 +1061,7 @@ const _AUTO_STATE_TXT = {active:"⚙️ En cours d'exécution automatique", read
   no_credential:"🔌 En attente d'identifiants", locked_plan:"🔒 Mise à niveau requise", waiting_connector:"⏳ En attente de connecteur"};
 async function loadAutomationStatus(){
   try{
-    const d = await api("/automation/status");
+    const d = await api("/automation/status?lang=fr");
     const card = document.getElementById("autoCard");
     card.classList.remove("hidden");
     const q = d.platform_quota;
@@ -1000,6 +1096,238 @@ async function runPipeline(){
   btn.disabled=false; btn.textContent="▶ Lancer un cycle de traitement automatique";
 }
 document.getElementById("btnAutoRun").onclick=runPipeline;
+
+// ---- Meta d'automatisation : fréquence / prochaine exécution / règles déclencheurs (graceful si l'API les omet) ----
+const _FREQ_TXT = {manual:"✋ Manuel à la demande", daily:"📅 Quotidien automatique", daily_xN:"📅 Quotidien auto (plusieurs cycles)", realtime:"⚡ Temps quasi réel"};
+function _deriveFreq(plan){
+  if(plan==="free") return "manual";
+  if(plan==="starter") return "daily";
+  if(plan==="pro") return "daily_xN";
+  if(plan==="business") return "realtime";
+  return "manual";
+}
+function _fmtNext(iso){
+  if(!iso) return null;
+  try{ const d=new Date(iso); if(isNaN(d)) return null;
+    return d.toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+  }catch(e){ return null; }
+}
+async function _fillAutoMeta(){
+  try{
+    const d = await api("/automation/status?lang=fr");
+    const plan = d.plan || (ME && ME.plan) || "free";
+    const freq = d.frequency || _deriveFreq(plan);
+    document.getElementById("autoFreq").textContent = _FREQ_TXT[freq] || _FREQ_TXT["manual"];
+    const nextTxt = _fmtNext(d.next_run_at);
+    document.getElementById("autoNext").innerHTML = nextTxt
+      ? `Prochaine exécution auto : <b>${esc(nextTxt)}</b>`
+      : `Prochaine exécution auto : <b>manuel à la demande</b>`;
+    const rules = (d.trigger_rules && d.trigger_rules.slice(0,3)) || [];
+    const box = document.getElementById("autoRules");
+    if(rules.length){
+      box.style.display="block";
+      document.getElementById("autoRulesBody").innerHTML = rules.map(r=>{
+        const ev = r.event || r.trigger || "—";
+        const ac = r.action || "—";
+        return `<div class="rrow"><span>🔔 ${esc(ev)}</span><span class="arrow">→</span><span>${esc(ac)}</span></div>`;
+      }).join("");
+    }else{
+      box.style.display="none";
+    }
+  }catch(e){ /* gracieux : on garde les valeurs par défaut */ }
+}
+
+// ---- Centre de notifications ----
+const _NOTIF_ICON = {risk:"⚠️", report:"📊", reply:"💬", writeback:"↩️", system:"🔔"};
+async function fetchNotifications(){
+  try{
+    const d = await api("/notifications");
+    const list = Array.isArray(d)? d : (d.items || d.notifications || []);
+    renderNotifications(list.slice(0,50));
+  }catch(e){ /* silencieux : l'API backend n'existe peut-être pas encore */ renderNotifications([]); }
+}
+function renderNotifications(list){
+  const box = document.getElementById("notifList");
+  if(!list.length){ box.innerHTML = `<div id="notifEmpty">Aucune notification</div>`; return; }
+  box.innerHTML = list.map(n=>{
+    const icon = _NOTIF_ICON[n.type] || "🔔";
+    const unread = !n.read && !n.is_read;
+    const time = n.created_at ? _fmtNext(n.created_at) : "";
+    return `<div class="nitem ${unread?"unread":""}" data-id="${esc(n.id)}">
+      <span class="nicon">${icon}</span>
+      <div class="nbody">
+        <div class="ntitle">${esc(n.title||"")}${unread?'<span class="nread">• nouveau</span>':""}</div>
+        <div class="nbody2">${esc(n.body||"")}</div>
+        <div class="ntime">${esc(time)}</div>
+      </div></div>`;
+  }).join("");
+  box.querySelectorAll(".nitem").forEach(el=>el.onclick=()=>markRead(el.dataset.id, el));
+}
+async function markRead(id, el){
+  if(!id) return;
+  try{ await api("/notifications/"+id+"/read",{method:"POST"}); }catch(e){}
+  if(el){ el.classList.remove("unread"); const tag=el.querySelector(".nread"); if(tag) tag.remove(); }
+  pollUnread();
+}
+async function markAllRead(){
+  try{ await api("/notifications/read-all",{method:"POST"}); }catch(e){}
+  fetchNotifications(); pollUnread();
+}
+async function pollUnread(){
+  try{
+    const d = await api("/notifications/unread-count");
+    const n = (typeof d.count==="number")? d.count : (typeof d.unread==="number"? d.unread : 0);
+    const badge = document.getElementById("notifBadge");
+    if(n>0){ badge.textContent = n>99?"99+":String(n); badge.classList.add("on"); }
+    else{ badge.classList.remove("on"); }
+  }catch(e){ /* silencieux */ }
+}
+function _wireUp(){
+  document.getElementById("notifBell").onclick = (e)=>{
+    e.stopPropagation();
+    const drop = document.getElementById("notifDrop");
+    drop.classList.toggle("open");
+    if(drop.classList.contains("open")) fetchNotifications();
+  };
+  document.getElementById("notifDrop").onclick = (e)=> e.stopPropagation();
+  document.getElementById("notifReadAll").onclick = markAllRead;
+  document.addEventListener("click", ()=>{ const d=document.getElementById("notifDrop"); if(d) d.classList.remove("open"); });
+  document.getElementById("onboardSkip").onclick = _dismissOnboard;
+  document.getElementById("onboardNext").onclick = ()=>{
+    if(_onboardStep >= _ONBOARD_TOTAL-1){ _dismissOnboard(); return; }
+    _onboardStep++; _showOnboardStep();
+  };
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _wireUp);
+else _wireUp();
+setInterval(()=>{ if(TOKEN) pollUnread(); }, 60000);
+
+// ---- Assistant d'onboarding ----
+let _onboardStep = 0;
+const _ONBOARD_TOTAL = 4;
+function _showOnboardStep(){
+  const steps = document.querySelectorAll("#onboardStep");
+  steps.forEach((s,i)=>s.classList.toggle("on", i===_onboardStep));
+  document.querySelectorAll("#onboardDots .dot").forEach((d,i)=>d.classList.toggle("on", i===_onboardStep));
+  document.getElementById("onboardNext").textContent = (_onboardStep===_ONBOARD_TOTAL-1)? "Commencer →" : "Suivant →";
+}
+function _dismissOnboard(){
+  try{ localStorage.setItem("crossaio_onboard_seen_"+(document.documentElement.lang||"fr"), "1"); }catch(e){}
+  document.getElementById("onboardMask").classList.remove("open");
+}
+function _maybeShowOnboard(){
+  try{
+    const key = "crossaio_onboard_seen_"+(document.documentElement.lang||"fr");
+    if(localStorage.getItem(key)==="1") return;
+  }catch(e){}
+  _onboardStep = 0; _showOnboardStep();
+  document.getElementById("onboardMask").classList.add("open");
+}
+
+// ---- Rapport par panneau (assemblé côté client : entrées + dernier résultat) ----
+const _PANEL_REPORTS = [
+  {key:"desc",   title:"Rapport de description produit",
+   card:"#tab-desc", inputs:[["d_name","Nom du produit"],["d_kw","Mots-clés"],["d_platform","Plateforme"],["d_lang","Langue"]],
+   results:["descResult","matrixResult"]},
+  {key:"gpsr",    title:"Rapport de vérification GPSR (gratuit)",
+   card:"#tab-gpsr", inputs:[["g_name","Nom du produit"],["g_kw","Mots-clés"],["g_platform","Plateforme"]],
+   results:["gpsrResult"]},
+  {key:"cs",      title:"Rapport de session service client IA",
+   card:"#tab-cs", inputs:[["cs_msg","Message acheteur"],["cs_platform","Plateforme"],["cs_order","N° commande"]],
+   results:["chatBox"]},
+  {key:"ad",      title:"Rapport de texte publicitaire",
+   card:"#tab-ad", inputs:[["a_name","Nom du produit"],["a_platform","Plateforme"],["a_audience","Cible"],["a_usp","Argument unique"]],
+   results:["adResult"]},
+  {key:"review",  title:"Rapport de réécriture d'avis",
+   card:"#tab-review", inputs:[["rv_text","Avis négatif"],["rv_rating","Note"],["rv_material","Matière"],["rr_platform","Plateforme de réponse"],["rr_text","Avis à répondre"]],
+   results:["rvResult","rrResult","attrResult"]},
+  {key:"watch",   title:"Rapport de surveillance des listings",
+   card:"#tab-watch", inputs:[["w_sku","SKU"],["w_name","Nom du produit"],["w_platform","Plateforme"],["w_kw","Mots-clés"]],
+   results:["watchReportBox","watchList","watchDetail"]},
+  {key:"inbox",   title:"Rapport de boîte de réception unifiée",
+   card:"#tab-inbox", inputs:[],
+   results:["inboxList","inboxThread"]},
+];
+function _grabText(id){ const el=document.getElementById(id); if(!el) return "";
+  const t=(el.innerText||"").trim(); return t && el.innerHTML.trim() ? t : ""; }
+function _buildReport(p){
+  const lines=[];
+  lines.push(p.title);
+  lines.push("Généré : "+new Date().toLocaleString());
+  lines.push("Source : Workbench CrossAIO");
+  lines.push("");
+  lines.push("== Entrées ==");
+  let hasInput=false;
+  p.inputs.forEach(([id,label])=>{
+    const el=document.getElementById(id); if(!el) return;
+    const v=(el.value||"").trim(); if(v){ lines.push(label+" : "+v); hasInput=true; }
+  });
+  if(!hasInput) lines.push("(aucune entrée capturée)");
+  lines.push("");
+  lines.push("== Résultats ==");
+  let hasResult=false;
+  p.results.forEach(rid=>{ const t=_grabText(rid); if(t){ lines.push("-- "+rid+" --"); lines.push(t); hasResult=true; } });
+  if(!hasResult) lines.push("(pas encore de résultat — exécutez d'abord le panneau, puis générez le rapport)");
+  lines.push("");
+  lines.push("== Prochaines étapes suggérées ==");
+  lines.push("1. Relisez le résultat ci-dessus et corrigez les éléments signalés.");
+  lines.push("2. Connectez les identifiants plateforme dans le centre en haut pour écrire / synchroniser automatiquement.");
+  lines.push("3. Relancez après corrections pour confirmer la clôture.");
+  return lines.join("\n");
+}
+function _downloadBlob(name, mime, content){
+  const blob = new Blob([content], {type:mime});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 400);
+}
+function _toHtmlReport(title, txt){
+  const escT = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
+<style>body{font-family:Segoe UI,system-ui,sans-serif;max-width:820px;margin:30px auto;padding:0 20px;color:#1e293b;line-height:1.6}
+h1{color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:8px}
+pre{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;font-size:13px}
+.meta{color:#64748b;font-size:12px}</style></head>
+<body><h1>${title}</h1><div class="meta">Rapport imprimable · généré par CrossAIO</div><pre>${escT}</pre></body></html>`;
+}
+function _injectReportUI(){
+  _PANEL_REPORTS.forEach(p=>{
+    const card = document.querySelector(p.card); if(!card) return;
+    if(document.getElementById("reportBox-"+p.key)) return;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <div class="report-actions">
+        <button type="button" data-rkey="${p.key}" data-act="generate">📄 Générer le rapport</button>
+        <button type="button" data-rkey="${p.key}" data-act="txt">⬇ Exporter .txt</button>
+        <button type="button" data-rkey="${p.key}" data-act="html">⬇ Exporter .html</button>
+      </div>
+      <div class="report-box" id="reportBox-${p.key}">
+        <div class="rhead"><span>📄 ${p.title}</span>
+          <span class="ractions"><button type="button" data-rkey="${p.key}" data-act="copy">Copier</button></span></div>
+        <div class="rbody" style="white-space:pre-wrap"></div>
+      </div>`;
+    card.appendChild(wrap);
+  });
+  document.querySelectorAll(".report-actions button, .ractions button").forEach(b=>{
+    b.onclick = ()=>{
+      const key = b.dataset.rkey; if(!key) return;
+      const p = _PANEL_REPORTS.find(x=>x.key===key); if(!p) return;
+      const act = b.dataset.act;
+      const txt = _buildReport(p);
+      const box = document.getElementById("reportBox-"+key);
+      if(act==="generate"){ box.classList.add("open"); box.querySelector(".rbody").textContent = txt; }
+      else if(act==="copy"){ navigator.clipboard?.writeText(txt).then(()=>{ b.textContent="Copié ✓"; setTimeout(()=>b.textContent="Copier",1500); }).catch(()=>{}); }
+      else if(act==="txt"){ _downloadBlob("crossaio-"+key+"-report.txt","text/plain;charset=utf-8",txt); }
+      else if(act==="html"){ _downloadBlob("crossaio-"+key+"-report.html","text/html;charset=utf-8",_toHtmlReport(p.title,txt)); }
+    };
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", _injectReportUI);
+else _injectReportUI();
+
+function _maybeShowOnboardOnAppear(){ setTimeout(_maybeShowOnboard, 350); }
+
 
 // ---------------- Centre de connexion des identifiants (13 plateformes en mode autonome) ----------------
 let _credLoaded = false;
@@ -1069,7 +1397,7 @@ async function loadCredStatus(force){
   const box=document.getElementById("credBanner");
   if(_credLoaded && !force) return;
   try{
-    const d=await api("/compliance/credentials");
+    const d=await api("/compliance/credentials?lang=fr");
     _credMap=d.platforms||{};
     // 【P0-1】État de connexion Amazon à trois états (unconnected / pending / connected, déduit localement)
     let amazonStatus="unconnected";
@@ -1078,9 +1406,11 @@ async function loadCredStatus(force){
     const totalN=Object.keys(_credMap).length;
     // Partie haute (titre + description + pastilles) toujours dépliée ; chaque formulaire replié par défaut, déplié au clic
     let html=`<div style="margin:0">
-      <div style="font-weight:700;font-size:14px;margin-bottom:6px">
-        🔗 Centre de connexion des identifiants plateforme <span class="badge">${readyN}/${totalN} prêtes</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:700;font-size:14px">🔗 Centre de connexion des identifiants plateforme <span class="badge">${readyN}/${totalN} prêtes</span></div>
+        <button class="btn ghost" style="margin:0;padding:4px 12px;white-space:nowrap" id="credToggleBtn" onclick="toggleCredBanner()" title="Replier/déplier le centre des identifiants">Replier ▲</button>
       </div>
+      <div id="credBody">
       <p class="hint" style="margin:0 0 8px">🔑 <b>Une seule connexion, réutilisée partout</b> : chaque plateforme ne se connecte qu'une fois (stockée sur votre compte, chiffrement AES-256), et toutes les fonctionnalités ci-dessous ainsi que le pipeline d'automatisation partagent automatiquement les mêmes identifiants, <b>aucune fonction ne nécessite une reconnexion</b>. Les 13 plateformes acceptent la saisie manuelle des identifiants ou l'autorisation OAuth en un clic ; la connexion débloque l'import automatique des messages / l'écriture du bloc de conformité / le rapatriement des listings.</p>
       <div class="credchips" style="margin-bottom:8px">${Object.entries(_credMap).map(([slug,p])=>_credChip(slug,p)).join("")}</div>`;
     // Rend les panneaux de connexion par plateforme (priorité aux non prêtes) ; tous repliés par défaut
@@ -1100,12 +1430,20 @@ async function loadCredStatus(force){
       ${d.all_ready?'<span class="hint" style="color:#1a7f37;margin-right:auto">✓ Les 13 plateformes sont connectées.</span>':""}
       <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="loadCredStatus(true)">↻ Actualiser la détection</button>
       ${(!_credMap.ebay.ready&&_credMap.ebay.app_configured&&!_credMap.ebay.connected)?'<button class="btn" style="margin:0;padding:4px 12px" onclick="ebayConnect()">Autoriser eBay</button>':""}
-    </div>`;
+    </div></div>`;
     box.innerHTML=html; box.classList.remove("hidden"); _credLoaded=true;
   }catch(e){
     box.innerHTML=`<p class="hint">Échec de la récupération des identifiants : ${esc(e.message)}（<a href="javascript:loadCredStatus(true)">réessayer</a>）</p>`;
     box.classList.remove("hidden");
   }
+}
+function toggleCredBanner(){
+  const body=document.getElementById("credBody");
+  const btn=document.getElementById("credToggleBtn");
+  if(!body||!btn) return;
+  const collapsed = body.style.display==="none";
+  body.style.display = collapsed ? "" : "none";
+  btn.textContent = collapsed ? "Replier \u25B2" : "Déplier \u25BC";
 }
 async function saveCreds(platform){
   const g=(_credMap[platform]||{}).guide||{};
@@ -1139,7 +1477,8 @@ async function saveEbayAppConfig(){
 }
 
 // Restauration automatique de la session
-if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus(); })
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
+  _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear(); })
   .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
 
 // ---------------- Boîte de réception unifiée ----------------
@@ -1234,6 +1573,48 @@ async function sendReply(id){
 }
 
 </script>
+<div id="onboardMask">
+  <div id="onboardModal">
+    <div id="onboardStep" class="on">
+      <h3>🔗 1 · Connectez vos identifiants plateforme</h3>
+      <p>CrossAIO fonctionne comme un espace de travail indépendant — connectez une fois vos identifiants eBay / autre plateforme, et le pipeline d'automatisation peut relier les messages acheteurs, les listings et les rapports entre eux.</p>
+      <ul><li>Une fois les identifiants enregistrés, les problèmes de boutique enchaînent automatiquement les 6 fonctionnalités.</li>
+      <li>Les autres connecteurs affichent <b>« en attente d'identifiants »</b> tant que vous ne les avez pas ajoutés.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>⚙️ 2 · Pipeline d'automatisation selon le plan</h3>
+      <p>La fréquence d'exécution automatique est définie par votre abonnement :</p>
+      <ul><li><b>Free</b> — outils manuels à la demande uniquement.</li>
+      <li><b>Starter (29 €)</b> — contrôle quotidien de surveillance, rapport hebdomadaire par e-mail.</li>
+      <li><b>Pro (49 €)</b> — contrôle quotidien + e-mail quotidien, brouillons de réponses auto, écriture automatique.</li>
+      <li><b>Business (149 €)</b> — alertes quasi temps réel, envoi auto des réponses sans confirmation, connecteurs plateformes illimités.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>🧰 3 · Rôle de chaque panneau</h3>
+      <ul><li>📦 <b>Générateur de listing</b> — titre / 5 points / page détaillée + bloc GPSR ; plus une matrice multi-pays.</li>
+      <li>🛡️ <b>Vérification GPSR</b> — scan de conformité gratuit mono-produit ; rapport complet risque / éléments manquants / correction disponible même sur Free.</li>
+      <li>💬 <b>Service client IA</b> — réponses conformes avec détection d'intention et d'émotion.</li>
+      <li>📥 <b>Boîte de réception</b> — une vue de fil sur 13 plateformes.</li>
+      <li>📣 <b>Rédaction publicitaire</b> — transformez des listings sains en publicités.</li>
+      <li>🔄 <b>Réécriture d'avis</b> — corrigez la cause racine d'un avis négatif.</li>
+      <li>📡 <b>Surveillance</b> — contrôle quotidien des risques listing + rapport par e-mail.</li>
+      <li>📄 <b>Chaque panneau</b> — « Générer le rapport » assemble un rapport côté client que vous pouvez copier ou télécharger en .txt / .html.</li></ul>
+    </div>
+    <div id="onboardStep">
+      <h3>💳 4 · Plans &amp; quotas</h3>
+      <ul><li><b>Free 0 €</b> — 5 appels/jour, writeback manuel par copier-coller.</li>
+      <li><b>Starter 29 €</b> — 50 appels/jour, 1 plateforme, copier-coller manuel.</li>
+      <li><b>Pro 49 €</b> — 200 appels/jour, 3 plateformes, writeback sur validation en un clic.</li>
+      <li><b>Business 149 €</b> — 1000 appels/jour, plateformes illimitées, writeback &amp; réponse entièrement automatiques.</li></ul>
+      <p class="hint">Facturation annuelle : 23 € / 39 € / 119 € par mois.</p>
+    </div>
+    <div id="onboardDots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div id="onboardFoot">
+      <button id="onboardSkip">Passer</button>
+      <button id="onboardNext">Suivant →</button>
+    </div>
+  </div>
+</div>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
 </body>
 </html>

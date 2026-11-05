@@ -11,22 +11,25 @@
 <link rel="alternate" hreflang="de" href="http://localhost:9000/de/">
 <link rel="alternate" hreflang="fr" href="http://localhost:9000/fr/">
 <link rel="alternate" hreflang="x-default" href="http://localhost:9000/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤖</text></svg>">
 <style>
   :root{
     --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--violet:#7c3aed;
+    --ok:#059669;--err:#dc2626;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
   a{text-decoration:none;color:inherit}
 
-  .topbar{background:linear-gradient(90deg,#1d4ed8,#7c3aed);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar{background:linear-gradient(90deg,#1a5cf0,#6d5bf5);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px;position:relative;z-index:70}
   .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+  .topbar b:hover{color:#dbeafe}
 
   nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
   .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
-  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(99,102,241,.4)}
   .menu{display:flex;gap:6px}
   .navitem{position:relative}
   .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
@@ -42,80 +45,212 @@
   .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
   .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
   nav .right{display:flex;gap:14px;align-items:center}
-  .login-link{font-size:14px;color:var(--muted)}
-  .login-link:hover{color:var(--ink)}
-  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
-  .pill-nav:hover{background:var(--blue-dark)}
-  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
-  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+  .pill-nav{background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 6px 18px rgba(99,102,241,.35);transition:.2s}
+  .pill-nav:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(99,102,241,.45)}
 
-  /* ---------- Hero ---------- */
-  .hero-wrap{background:radial-gradient(900px 480px at 80% 20%,rgba(124,58,237,.40),transparent 60%),
-       radial-gradient(800px 420px at 8% 100%,rgba(29,78,216,.35),transparent 55%),
-       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#2a1560 100%);
+  .hero-wrap{background:
+    radial-gradient(1100px 600px at 78% 30%,rgba(124,58,237,.5),transparent 62%),
+    radial-gradient(900px 500px at 10% 100%,rgba(29,78,216,.4),transparent 55%),
+    linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
     position:relative;overflow:hidden}
-  .hero{position:relative;max-width:1180px;margin:0 auto;padding:72px 32px 80px;color:#fff;z-index:2}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
-  .hero h1{font-size:44px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:18px}
-  .hero h1 .accent{color:#a5b4fc}
-  .hero p.sub{font-size:16.5px;color:#d3d9ea;max-width:680px;margin-bottom:28px}
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
-  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 30px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
-  .pill-blue:hover{background:var(--blue-dark)}
-  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 28px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
-  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
-  .hero .tiny{font-size:12.5px;color:#9aa6c4}
-  .hero .tiny b{color:#e2e8f0}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:84px 32px 96px;display:grid;
+    grid-template-columns:1.02fr .98fr;gap:44px;align-items:center;color:#fff;z-index:2}
+  .hero-grid{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%);
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%)}
+  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .hero-glow i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:glowpulse 9s ease-in-out infinite}
+  .hero-glow i.g1{width:420px;height:420px;left:52%;top:-90px;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 70%)}
+  .hero-glow i.g2{width:360px;height:360px;right:-80px;bottom:-120px;background:radial-gradient(circle,rgba(59,130,246,.5),transparent 70%);animation-delay:3s}
+  @keyframes glowpulse{0%,100%{opacity:.45}50%{opacity:.75}}
+  .particles{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .particles i{position:absolute;width:5px;height:5px;border-radius:50%;background:#93c5fd;opacity:0;animation:ptw 7s linear infinite}
+  .particles i:nth-child(2){width:4px;height:4px;background:#c4b5fd;animation-delay:1.1s;animation-duration:9s}
+  .particles i:nth-child(3){width:6px;height:6px;background:#a5b4fc;animation-delay:2.2s;animation-duration:6s}
+  .particles i:nth-child(4){width:4px;height:4px;background:#93c5fd;animation-delay:3.3s;animation-duration:8s}
+  .particles i:nth-child(5){width:5px;height:5px;background:#c4b5fd;animation-delay:.6s;animation-duration:10s}
+  .particles i:nth-child(6){width:3px;height:3px;background:#a5b4fc;animation-delay:1.8s;animation-duration:7s}
+  .particles i:nth-child(7){width:5px;height:5px;background:#93c5fd;animation-delay:2.9s;animation-duration:9s}
+  .particles i:nth-child(8){width:4px;height:4px;background:#c4b5fd;animation-delay:4s;animation-duration:6.5s}
+  .particles i:nth-child(9){width:5px;height:5px;background:#a5b4fc;animation-delay:.9s;animation-duration:8.5s}
+  .particles i:nth-child(10){width:3px;height:3px;background:#93c5fd;animation-delay:2.5s;animation-duration:11s}
+  .particles i:nth-child(11){width:4px;height:4px;background:#c4b5fd;animation-delay:3.7s;animation-duration:7.5s}
+  .particles i:nth-child(12){width:6px;height:6px;background:#a5b4fc;animation-delay:1.4s;animation-duration:9.5s}
+  .particles i:nth-child(13){width:4px;height:4px;background:#93c5fd;animation-delay:4.4s;animation-duration:8s}
+  .particles i:nth-child(14){width:5px;height:5px;background:#c4b5fd;animation-delay:3s;animation-duration:10.5s}
+  @keyframes ptw{
+    0%{transform:translateY(0);opacity:0}
+    8%{opacity:.85}
+    85%{opacity:.5}
+    100%{transform:translateY(-60vh);opacity:0}
+  }
+  .orbits{position:absolute;top:50%;right:-210px;width:820px;height:820px;margin-top:-410px;z-index:1;pointer-events:none}
+  .orbit{position:absolute;border:1px solid rgba(255,255,255,.10);border-radius:50%}
+  .orbit.o1{inset:0}
+  .orbit.o2{inset:90px}
+  .orbit.o3{inset:180px;border-color:rgba(139,92,246,.28)}
+  .orbit .spin{position:absolute;inset:0;animation:rot linear infinite}
+  .orbit.o1 .spin{animation-duration:30s}
+  .orbit.o2 .spin{animation-duration:20s;animation-direction:reverse}
+  .orbit.o3 .spin{animation-duration:14s}
+  .orbit .spin i{position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%}
+  .orbit.o1 .spin i{background:#4ade80;box-shadow:0 0 16px 3px rgba(74,222,128,.6)}
+  .orbit.o2 .spin i{background:#60a5fa;box-shadow:0 0 16px 3px rgba(96,165,250,.6)}
+  .orbit.o3 .spin i{background:#c4b5fd;box-shadow:0 0 16px 3px rgba(196,181,253,.6)}
+  @keyframes rot{to{transform:rotate(360deg)}}
 
-  .logos{margin-top:44px;display:flex;gap:26px;flex-wrap:wrap;align-items:center;opacity:.85}
-  .logos span{font-size:14px;font-weight:700;color:#c7cee4;letter-spacing:.02em}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.35);padding:7px 16px;border-radius:999px;backdrop-filter:blur(6px)}
+  .hero h1{font-size:44px;line-height:1.18;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
+  .hero h1 .accent{background:linear-gradient(90deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.sub{color:#c7d0e8;max-width:560px;font-size:16px;margin-bottom:28px}
+  .hero p.sub b{color:#fff}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .pill-blue{background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border-radius:999px;padding:14px 32px;font-size:15.5px;font-weight:700;display:inline-block;box-shadow:0 12px 32px rgba(124,58,237,.5);transition:.2s;position:relative;overflow:hidden}
+  .pill-blue:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(124,58,237,.6)}
+  .pill-blue::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:shine 3.2s ease-in-out infinite}
+  @keyframes shine{0%{left:-100%}55%,100%{left:100%}}
+  .pill-ghost{background:rgba(255,255,255,.06);color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:13px 28px;font-size:15px;font-weight:600;display:inline-block;transition:.2s;backdrop-filter:blur(6px)}
+  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.12);transform:translateY(-2px)}
+  .hero .trust{margin-top:22px;display:flex;gap:8px 20px;flex-wrap:wrap;font-size:12.5px;color:#9aa6c4}
+  .hero .trust span{display:inline-flex;align-items:center;gap:6px}
+  .hero .trust svg{width:14px;height:14px;flex:0 0 auto}
 
-  section{max-width:1180px;margin:0 auto;padding:72px 32px}
-  .sec-head{text-align:center;margin-bottom:44px}
-  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-  .sec-title{font-size:30px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-  .sec-sub{color:var(--muted);font-size:15px;max-width:640px;margin:0 auto}
+  .mockup-cell{min-width:0;position:relative;z-index:3}
+  .mk-float{animation:mkfloat 6s ease-in-out infinite}
+  @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .mk-scan{animation:mkscan 4.5s ease-in-out infinite;pointer-events:none}
+  @keyframes mkscan{0%{transform:translateY(60px);opacity:0}12%{opacity:.5}88%{opacity:.5}100%{transform:translateY(392px);opacity:0}}
+  .mk-dot{animation:mkpulse 1.6s ease-in-out infinite}
+  .mk-dot.d2{animation-delay:.3s}.mk-dot.d3{animation-delay:.6s}
+  @keyframes mkpulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .mk-chip{animation:mkfade 5.5s ease-in-out infinite}
+  .mk-chip.c2{animation-delay:1.2s}
+  @keyframes mkfade{0%,100%{opacity:1}50%{opacity:.55}}
 
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  @media(max-width:900px){.grid3{grid-template-columns:1fr}}
-  .fcard{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;transition:.15s}
-  .fcard:hover{border-color:var(--blue);box-shadow:0 12px 36px rgba(37,99,235,.10);transform:translateY(-3px)}
-  .fcard .ico{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--purple));
-    display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
-  .fcard h3{font-size:17px;margin-bottom:8px}
-  .fcard p{font-size:13.5px;color:#475569}
+  section{max-width:1240px;margin:0 auto;padding:76px 24px}
+  .sec-head{text-align:center;margin-bottom:40px}
+  .sec-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;background:#eff6ff;border:1px solid #dbeafe;padding:5px 14px;border-radius:999px}
+  .sec-title{font-size:32px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:15px;max-width:720px;margin:0 auto}
 
-  /* audit band */
-  .audit{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;border-radius:22px;padding:48px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
-  @media(max-width:900px){.audit{grid-template-columns:1fr}}
-  .audit h2{font-size:26px;margin-bottom:12px}
-  .audit p{color:#c7cee4;font-size:14.5px;margin-bottom:18px}
-  .audit ul{list-style:none;font-size:14px}
-  .audit ul li{padding:6px 0 6px 28px;position:relative}
-  .audit ul li::before{content:"✓";position:absolute;left:0;color:#4ade80;font-weight:800}
-  .audit .big{font-size:15px;font-weight:700}
-  .audit .pill-blue{background:#fff;color:var(--navy)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+  .stat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:26px 18px;box-shadow:0 8px 28px rgba(15,23,42,.06);transition:.25s}
+  .stat:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(37,99,235,.14);border-color:#bfdbfe}
+  .stat .n{font-size:34px;font-weight:800;line-height:1.2;
+    background:linear-gradient(90deg,var(--blue),var(--purple),var(--blue));background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:shimmer 4s linear infinite}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  .stat .l{font-size:13px;color:var(--muted)}
+  @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
 
-  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
-  @media(max-width:900px){.metrics{grid-template-columns:repeat(2,1fr)}}
-  .metric{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:26px 16px}
-  .metric .v{font-size:30px;font-weight:800;color:var(--blue)}
-  .metric .k{font-size:13px;color:var(--muted);margin-top:4px}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:980px){.features{grid-template-columns:1fr}}
+  .fcard{display:block;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:28px 24px;transition:.25s;position:relative;overflow:hidden}
+  .fcard::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:linear-gradient(135deg,rgba(37,99,235,.4),rgba(139,92,246,.35),transparent 60%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.25s}
+  .fcard:hover{transform:translateY(-5px);box-shadow:0 20px 46px rgba(15,23,42,.12);border-color:#bfdbfe}
+  .fcard:hover::before{opacity:1}
+  .fcard .ico{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:16px;box-shadow:0 8px 20px rgba(99,102,241,.35)}
+  .fcard h3{font-size:17.5px;font-weight:700;margin-bottom:7px}
+  .fcard p{font-size:13.5px;color:var(--muted)}
+  .fcard .go{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:13px;font-weight:700;color:var(--blue)}
+  .fcard:hover .go{color:var(--violet)}
+  .fcard .go::after{content:"→";transition:transform .2s}
+  .fcard:hover .go::after{transform:translateX(3px)}
 
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
-  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
-  .step{border:1.5px solid var(--border);border-radius:16px;padding:24px;position:relative;background:#fff}
-  .step .n{position:absolute;top:-14px;left:20px;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
-  .step h4{font-size:15.5px;margin:6px 0 6px}
-  .step p{font-size:13px;color:#475569}
+  .comp-band{background:linear-gradient(120deg,#0b1030,#251a5e 60%,#3b1a86);border-radius:24px;max-width:1180px;margin:0 auto;padding:52px 44px;color:#fff;position:relative;overflow:hidden}
+  .comp-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .comp-band .grid2{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:26px;z-index:2}
+  @media(max-width:900px){.comp-band .grid2{grid-template-columns:1fr}}
+  .comp-col{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:26px 26px;backdrop-filter:blur(8px)}
+  .comp-col h3{font-size:19px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:9px}
+  .comp-col h3 .tag{font-size:11px;font-weight:800;letter-spacing:.08em;border-radius:999px;padding:3px 10px}
+  .tag.t1{background:rgba(74,222,128,.18);color:#86efac;border:1px solid rgba(74,222,128,.35)}
+  .tag.t2{background:rgba(196,181,253,.16);color:#c4b5fd;border:1px solid rgba(196,181,253,.35)}
+  .comp-col p{font-size:13.5px;color:#c7d0e8;margin-bottom:10px}
+  .comp-col ul{margin:6px 0 4px 2px;list-style:none}
+  .comp-col li{font-size:13.5px;color:#dbe3f2;padding:3.5px 0 3.5px 22px;position:relative}
+  .comp-col li::before{content:"✓";position:absolute;left:0;color:#86efac;font-weight:800}
+  .comp-col li.warn::before{content:"⚠";color:#fbbf24}
+  .comp-col .big{font-size:20px;font-weight:800;color:#fff;margin:10px 0 2px}
+  .comp-col .big small{font-size:12.5px;color:#9aa6c4;font-weight:600}
+  .comp-cta{position:relative;z-index:2;text-align:center;margin-top:30px}
+  .comp-cta .pill-blue{margin-top:6px}
 
-  .cta-band{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;text-align:center;border-radius:22px;padding:56px 32px}
-  .cta-band h2{font-size:28px;margin-bottom:12px}
-  .cta-band p{color:#c7cee4;margin-bottom:24px;font-size:15px}
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
+  @media(max-width:980px){.flow{grid-template-columns:1fr}}
+  .step{border:1px solid var(--border);border-radius:16px;padding:24px 22px;background:#fff;transition:.25s;position:relative}
+  .step:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(37,99,235,.12);border-color:#bfdbfe}
+  .step .n{width:32px;height:32px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:12px;box-shadow:0 6px 16px rgba(99,102,241,.35)}
+  .step h4{font-size:15.5px;margin-bottom:6px}
+  .step p{font-size:13px;color:var(--muted)}
 
-  footer{border-top:1px solid var(--border);background:var(--soft);padding:40px 24px;text-align:center;font-size:13px;color:var(--muted);margin-top:40px}
+  .faq{max-width:840px;margin:0 auto}
+  .faq details{border:1px solid var(--border);border-radius:14px;margin-bottom:12px;background:#fff;transition:.2s}
+  .faq details[open]{border-color:#bfdbfe;box-shadow:0 8px 26px rgba(37,99,235,.08)}
+  .faq summary{padding:16px 20px;font-size:14.5px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  .faq summary::after{content:"+";color:var(--muted);font-weight:400;font-size:17px;transition:.2s}
+  .faq details[open] summary::after{content:"–";transform:rotate(180deg)}
+  .faq .a{padding:0 20px 16px;font-size:13.5px;color:var(--muted)}
+
+  .cta-band{background:linear-gradient(115deg,#0a0f2e,#251a5e 55%,#3b1a86);border-radius:24px;max-width:1180px;margin:0 auto 70px;padding:56px 40px;text-align:center;color:#fff;position:relative;overflow:hidden}
+  .cta-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .cta-band h2{position:relative;font-size:28px;font-weight:800;margin-bottom:12px}
+  .cta-band p{position:relative;color:#c7d0e8;margin-bottom:26px;font-size:15px}
+  .cta-band .pill-blue{margin-right:6px}
+
+  /* trust wall (13 platforms) */
+  .twall{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+  @media(max-width:980px){.twall{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:560px){.twall{grid-template-columns:repeat(2,1fr)}}
+  .twall .tp{display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;transition:.22s}
+  .twall .tp:hover{transform:translateY(-3px);border-color:#bfdbfe;box-shadow:0 12px 28px rgba(37,99,235,.12)}
+  .twall .tp .f{font-size:22px;line-height:1}
+  .twall .tp .nm{font-size:12.5px;font-weight:700;color:#334155}
+  .twall .tp small{font-size:10.5px;color:var(--muted)}
+  .twall .tp .tplogo{height:20px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px}
+
+  /* testimonials */
+  .tquotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:980px){.tquotes{grid-template-columns:1fr}}
+  .tquote{background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:26px 24px;transition:.25s;position:relative;overflow:hidden}
+  .tquote::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:linear-gradient(135deg,rgba(37,99,235,.4),rgba(139,92,246,.35),transparent 60%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.25s}
+  .tquote:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(15,23,42,.12);border-color:#bfdbfe}
+  .tquote:hover::before{opacity:1}
+  .tquote .av{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 8px 20px rgba(99,102,241,.35);margin-bottom:14px;display:block}
+  .tquote .stars{color:#f59e0b;font-size:15px;letter-spacing:2px;margin-bottom:10px}
+  .tquote p{font-size:13.5px;color:#334155;margin-bottom:12px}
+  .tquote .res{font-size:17px;font-weight:800;margin-bottom:10px;background:linear-gradient(90deg,var(--blue),var(--purple));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tquote .who{font-size:13px;font-weight:700;color:var(--ink)}
+  .tquote .who small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+
+  /* compliance & security badges */
+  .trust-badges{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:34px}
+  .tbadge{display:inline-flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:10px 18px;font-size:13px;font-weight:700;color:#334155;transition:.2s}
+  .tbadge:hover{border-color:#bfdbfe;box-shadow:0 8px 22px rgba(37,99,235,.10);transform:translateY(-2px)}
+
+  /* no-risk guarantee band */
+  .guarantee{background:linear-gradient(120deg,#0b1030,#251a5e 60%,#3b1a86);border-radius:24px;max-width:1180px;margin:0 auto 24px;padding:40px 40px;color:#fff;position:relative;overflow:hidden;text-align:center}
+  .guarantee::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .guarantee h2{position:relative;font-size:24px;font-weight:800;margin-bottom:18px}
+  .guarantee .g-items{position:relative;display:flex;justify-content:center;flex-wrap:wrap;gap:14px 40px;z-index:2}
+  .guarantee .g-item{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:700}
+  .guarantee .g-item svg{width:17px;height:17px;flex:0 0 auto}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:40px 24px;text-align:center;font-size:13px;color:var(--muted)}
   footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
   footer a:hover{color:var(--blue)}
+  @media(max-width:980px){
+    .hero{grid-template-columns:1fr;padding:56px 24px 72px}
+    .hero h1{font-size:34px}
+    .orbits{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .particles i,.hero-glow i,.mk-float,.mk-scan,.mk-dot,.mk-chip,.pill-blue::after,.stat .n{animation:none}
+  }
 </style>
   <link rel="stylesheet" href="/effects.css">
 </head>
@@ -159,115 +294,303 @@
         <a href="/fr/skills"><span>🎁 Skills open source<small>Vérificateur GPSR + bibliothèque de règles, MIT gratuit</small></span></a>
       </div>
     </div>
+    <div class="navitem">
+      <a>Communauté</a>
+      <div class="dropdown">
+        <a href="/academy"><span>🎓 CrossAIO Academy<small>Cours GPSR gratuit · certificat vérifiable publiquement</small></span></a>
+        <a href="/community"><span>💬 Forum vendeurs<small>Vendeurs cross-border européens · badges de certificat</small></span></a>
+        <a href="/blog"><span>📝 Blog<small>GPSR / localisation / croissance</small></span></a>
+        <a href="/podcast"><span>🎬 Podcast vidéo<small>Épisodes vidéo sur la GPSR & la croissance</small></span></a>
+        <a href="/summit"><span>🎊 Sommet virtuel<small>10-11 déc. 2026 · inscription gratuite</small></span></a>
+        <a href="/trust"><span>🤝 Engagement transparent<small>Prix fixe 0% commission · résiliation en 1 clic · comparaison publique</small></span></a>
+      </div>
+    </div>
     <div class="navitem"><a class="solo" href="/fr/pricing" style="text-decoration:none">Tarifs</a></div>
   </div>
   <div class="right">
-    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:6px;align-items:center">
-      <a href="/" data-lang="zh" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">中文</a>
-      <a href="/en/" data-lang="en" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">EN</a>
-      <a href="/de/" data-lang="de" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:#334155">DE</a>
-      <a href="/fr/" data-lang="fr" aria-current="page" style="text-decoration:none;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#2563eb;color:#fff">FR</a>
-    </div>
-    <a class="login-link" href="/fr/signin">Connexion</a>
+      <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:4px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;font-size:12.5px">
+    🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:12.5px;color:#334155;outline:none;cursor:pointer;font-weight:700">
+        <option value="/en/">English</option>
+        <option value="/de/">Deutsch</option>
+        <option value="/fr/" selected>Français</option>
+        <option value="/">中文</option>
+    </select>
+  </div>
+<a class="login-link" href="/fr/signin">Connexion</a>
     <a href="/fr/signup"><button class="pill-nav">Inscription gratuite</button></a>
   </div>
 </nav>
 
-<!-- Hero -->
 <div class="hero-wrap">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"><i class="g1"></i><i class="g2"></i></div>
+  <div class="particles"><i style="left:8%;top:70%"></i><i style="left:16%;top:40%"></i><i style="left:24%;top:82%"></i><i style="left:33%;top:55%"></i><i style="left:42%;top:30%"></i><i style="left:50%;top:75%"></i><i style="left:58%;top:45%"></i><i style="left:66%;top:85%"></i><i style="left:74%;top:35%"></i><i style="left:82%;top:65%"></i><i style="left:88%;top:20%"></i><i style="left:93%;top:50%"></i><i style="left:14%;top:15%"></i><i style="left:70%;top:12%"></i></div>
+  <div class="orbits">
+    <div class="orbit o1"><div class="spin"><i></i></div></div>
+    <div class="orbit o2"><div class="spin"><i></i></div></div>
+    <div class="orbit o3"><div class="spin"><i></i></div></div>
+  </div>
   <div class="hero">
-    <div class="eyebrow">✦ Conçu pour les vendeurs e-commerce transfrontaliers</div>
-    <h1>Un outil pour la qualité des listings<br>et la <span class="accent">conformité en Europe</span></h1>
-    <p class="sub">CrossAIO est un moteur tout-en-un pour les vendeurs e-commerce transfrontaliers : génération IA des listings, vérification de conformité GPSR, boîte de réception unifiée, rédaction publicitaire, réécriture des avis négatifs et surveillance des listings 24h/24 et 7j/7. Un seul outil pour gérer Amazon, eBay, Otto, Allegro, Cdiscount, eMAG, TikTok Shop et 13 plateformes européennes.</p>
-    <div class="cta-row">
-      <a href="/fr/signup"><button class="pill-blue">Démarrer l'essai gratuit — 5 générations par jour</button></a>
-      <a href="/fr/gpsr-check"><button class="pill-ghost">Vérification gratuite en 30 secondes →</button></a>
+    <div>
+      <div class="eyebrow">✦ Conçu pour les vendeurs e-commerce transfrontaliers</div>
+      <h1>Un outil pour la qualité des listings<br>et la <span class="accent">conformité en Europe</span></h1>
+      <p class="sub">CrossAIO est un moteur tout-en-un pour les vendeurs e-commerce transfrontaliers : <b>génération IA des listings</b>, vérification de conformité GPSR, boîte de réception unifiée, rédaction publicitaire, réécriture des avis négatifs et <b>surveillance des listings 24h/24 et 7j/7</b>.</p>
+      <div class="cta-row">
+        <a href="/fr/signup"><button class="pill-blue">Démarrer l'essai gratuit — 5 générations par jour</button></a>
+        <a href="/fr/gpsr-check"><button class="pill-ghost">Vérification gratuite en 30 secondes →</button></a>
+      </div>
+      <div class="trust">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Sans carte bancaire</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Sans engagement</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Licence MIT open source</span>
+      </div>
     </div>
-    <p class="tiny">✓ Sans carte bancaire · ✓ Sans engagement · ✓ Licence MIT open source</p>
-    <div class="logos">
-      <span>Amazon</span><span>eBay</span><span>Otto</span><span>Allegro</span>
-      <span>Cdiscount</span><span>eMAG</span><span>Kaufland</span><span>bol.com</span><span>TikTok Shop</span>
+    <div class="mockup-cell">
+      <svg viewBox="0 0 620 430" width="100%" role="img" aria-label="Aperçu du poste de travail CrossAIO : génération de listing avec bloc de conformité GPSR et score de risque" style="max-width:560px;display:block;margin:0 auto;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))">
+        <defs>
+          <linearGradient id="mkScanG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3b82f6" stop-opacity="0"/>
+            <stop offset=".5" stop-color="#3b82f6" stop-opacity=".18"/>
+            <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
+          </linearGradient>
+          <clipPath id="mkClip"><rect x="10" y="10" width="600" height="410" rx="16"/></clipPath>
+          <linearGradient id="mkBtn" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+        <g class="mk-float">
+          <rect x="10" y="10" width="600" height="410" rx="16" fill="#ffffff"/>
+          <rect x="10" y="10" width="600" height="44" rx="16" fill="#f1f5f9"/>
+          <rect x="10" y="38" width="600" height="16" fill="#f1f5f9"/>
+          <circle class="mk-dot" cx="34" cy="32" r="6" fill="#fca5a5"/>
+          <circle class="mk-dot d2" cx="54" cy="32" r="6" fill="#fcd34d"/>
+          <circle class="mk-dot d3" cx="74" cy="32" r="6" fill="#86efac"/>
+          <rect x="26" y="60" width="24" height="24" rx="7" fill="url(#mkBtn)"/>
+          <text x="38" y="78" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial">🤖</text>
+          <text x="60" y="77" font-size="14" font-weight="700" fill="#0f172a" font-family="Arial">CrossAIO — Moteur Listing + Conformité</text>
+          <text x="548" y="77" font-size="11" fill="#059669" font-family="Arial">● LIVE 7j/7</text>
+
+          <rect x="26" y="100" width="180" height="150" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="40" y="124" font-size="12" font-weight="700" fill="#0f172a" font-family="Arial">Saisie produit</text>
+          <rect x="40" y="134" width="150" height="18" rx="4" fill="#e2e8f0"/>
+          <text x="46" y="147" font-size="10" fill="#475569" font-family="Arial">Casque sans fil</text>
+          <rect x="40" y="158" width="150" height="18" rx="4" fill="#e2e8f0"/>
+          <text x="46" y="171" font-size="10" fill="#475569" font-family="Arial">EAN 4 002345 678901</text>
+          <rect x="40" y="182" width="150" height="18" rx="4" fill="#e2e8f0"/>
+          <text x="46" y="195" font-size="10" fill="#475569" font-family="Arial">Catégorie : électronique</text>
+          <rect x="40" y="212" width="150" height="24" rx="12" fill="url(#mkBtn)"/>
+          <text x="115" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Arial">Générer →</text>
+
+          <rect x="222" y="100" width="180" height="150" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+          <text x="236" y="124" font-size="12" font-weight="700" fill="#0f172a" font-family="Arial">Listing (Otto · DE)</text>
+          <rect x="236" y="132" width="150" height="7" rx="3.5" fill="#e2e8f0"/>
+          <rect x="236" y="132" width="112" height="7" rx="3.5" fill="#059669"/>
+          <text x="376" y="138" font-size="9.5" fill="#059669" font-family="Arial">47/70</text>
+          <text x="236" y="162" font-size="10" fill="#334155" font-family="Arial">Casque sans fil à réduction</text>
+          <text x="236" y="176" font-size="10" fill="#334155" font-family="Arial">de bruit, Bluetooth 5.3…</text>
+          <rect x="236" y="188" width="150" height="7" rx="3.5" fill="#f1f5f9"/>
+          <rect x="236" y="202" width="150" height="7" rx="3.5" fill="#f1f5f9"/>
+          <rect x="236" y="216" width="150" height="7" rx="3.5" fill="#f1f5f9"/>
+          <text x="236" y="236" font-size="10" font-weight="700" fill="#1d4ed8" font-family="Arial">Score 94/100 · validé</text>
+
+          <rect x="418" y="100" width="176" height="150" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+          <text x="432" y="122" font-size="11" font-weight="700" fill="#065f46" font-family="Arial">🛡 Bloc conformité GPSR</text>
+          <rect x="432" y="132" width="148" height="16" rx="4" fill="#d1fae5"/>
+          <text x="438" y="144" font-size="9.5" fill="#065f46" font-family="Arial">Représentant UE : CB-REP GmbH</text>
+          <rect x="432" y="154" width="148" height="16" rx="4" fill="#d1fae5"/>
+          <text x="438" y="166" font-size="9.5" fill="#065f46" font-family="Arial">Avertissement (DE) ✓</text>
+          <rect x="432" y="176" width="148" height="16" rx="4" fill="#d1fae5"/>
+          <text x="438" y="188" font-size="9.5" fill="#065f46" font-family="Arial">Fabricant + EAN ✓</text>
+          <rect x="432" y="206" width="72" height="22" rx="11" fill="url(#mkBtn)"/>
+          <text x="468" y="221" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="Arial">Copier</text>
+          <rect x="512" y="206" width="68" height="22" rx="11" fill="#fff" stroke="#bfdbfe"/>
+          <text x="546" y="221" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8" font-family="Arial">Backfill</text>
+
+          <rect x="26" y="266" width="568" height="52" rx="10" fill="#0b1030"/>
+          <text x="44" y="288" font-size="12" font-weight="700" fill="#fff" font-family="Arial">Surveillance des listings 24h/24 et 7j/7</text>
+          <text x="44" y="306" font-size="10.5" fill="#9aa6c4" font-family="Arial">audit auto quotidien · alertes de risque · rapport quotidien</text>
+          <circle class="mk-dot" cx="548" cy="290" r="6" fill="#4ade80"/>
+          <text x="524" y="294" font-size="10" fill="#86efac" font-family="Arial">ACTIF</text>
+
+          <g class="mk-chip">
+            <rect x="26" y="334" width="132" height="30" rx="15" fill="#f1f5f9"/>
+            <text x="92" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇩🇪 Otto · DE</text>
+            <rect x="166" y="334" width="140" height="30" rx="15" fill="#f1f5f9"/>
+            <text x="236" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇵🇱 Allegro · PL</text>
+          </g>
+          <g class="mk-chip c2">
+            <rect x="314" y="334" width="146" height="30" rx="15" fill="#f1f5f9"/>
+            <text x="387" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇳🇱 bol.com · NL</text>
+            <rect x="468" y="334" width="126" height="30" rx="15" fill="#f1f5f9"/>
+            <text x="531" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇫🇷 Cdiscount</text>
+          </g>
+          <text x="26" y="392" font-size="11" fill="#94a3b8" font-family="Arial">+ 9 autres plateformes · une saisie, chaque marketplace</text>
+
+          <rect class="mk-scan" x="10" y="0" width="600" height="34" fill="url(#mkScanG)" clip-path="url(#mkClip)"/>
+        </g>
+      </svg>
     </div>
   </div>
 </div>
 
-<!-- Vue d'ensemble des fonctionnalités -->
-<section>
+<section class="reveal">
+  <div class="stats">
+    <div class="stat"><div class="n"><span class="count-up">8000</span>+</div><div class="l">commerçants accompagnés en Europe</div></div>
+    <div class="stat"><div class="n"><span class="count-up">250000</span>+</div><div class="l">annonces générées et localisées</div></div>
+    <div class="stat"><div class="n"><span class="count-up">13</span></div><div class="l">plateformes couvertes</div></div>
+    <div class="stat"><div class="n"><span class="count-up">94</span>%</div><div class="l">de réussite au contrôle de conformité</div></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Fiable partout</div>
+    <h2 class="sec-title">Plateformes prises en charge</h2>
+    <p class="sec-sub">Une seule saisie, tous les marchés — packs de règles intégrés pour les 13 plateformes</p>
+  </div>
+  <div class="twall">
+    <div class="tp"><img class="tplogo" src="/img/logos/amazon.svg" alt="Amazon EU"/><span class="nm">Amazon EU</span><small>DE/FR/IT/ES</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/amazon.svg" alt="Amazon US"/><span class="nm">Amazon US</span><small>US/CA/MX</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/ebay.svg" alt="eBay"/><span class="nm">eBay</span><small>UE + international</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/allegro.svg" alt="Allegro"/><span class="nm">Allegro</span><small>Pologne · PL</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/otto.svg" alt="Otto"/><span class="nm">Otto</span><small>Allemagne · DE</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/cdiscount.png" alt="Cdiscount"/><span class="nm">Cdiscount</span><small>France · FR</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/emag.svg" alt="eMAG"/><span class="nm">eMAG</span><small>Roumanie · RO</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/kaufland.svg" alt="Kaufland"/><span class="nm">Kaufland</span><small>DE / CZ / SK</small></div>
+    <div class="tp"><span class="f">🇳🇱</span><span class="nm">bol.com</span><small>NL · EAN requis</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/zalando.svg" alt="Zalando"/><span class="nm">Zalando</span><small>Mode européenne</small></div>
+    <div class="tp"><span class="f">🇪🇺</span><span class="nm">Fruugo</span><small>pan-européen</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/tiktok.svg" alt="TikTok Shop"/><span class="nm">TikTok Shop</span><small>Social commerce</small></div>
+    <div class="tp"><img class="tplogo" src="/img/logos/walmart.svg" alt="Walmart"/><span class="nm">Walmart</span><small>US</small></div>
+  </div>
+</section>
+
+<section id="features" class="reveal">
   <div class="sec-head">
     <div class="sec-eyebrow">Fonctionnalités</div>
     <h2 class="sec-title">Tout ce qu'il faut pour vendre en Europe, réuni</h2>
     <p class="sec-sub">Génération, conformité, service client, publicité, avis et surveillance — une seule plateforme.</p>
   </div>
-  <div class="grid3">
-    <div class="fcard"><div class="ico">✍️</div><h3>Génération IA des listings</h3><p>Titres, puces et description optimisés pour chaque plateforme (limites de caractères et langues respectées), avec adaptation sémantique aux questions Rufus / iZi.</p></div>
-    <div class="fcard"><div class="ico">🛡️</div><h3>Vérification de conformité GPSR</h3><p>Identification automatique des catégories CE, langues d'avertissement requises, checklist légale et bloc de conformité prêt à coller sur le listing.</p></div>
-    <div class="fcard"><div class="ico">📥</div><h3>Boîte de réception unifiée</h3><p>Un seul fil pour les messages de tous les canaux, avec brouillons de réponse IA et signalement des incidents de sécurité.</p></div>
-    <div class="fcard"><div class="ico">📣</div><h3>Rédaction publicitaire</h3><p>Textes publicitaires et CTA adaptés à chaque plateforme et à chaque public cible.</p></div>
-    <div class="fcard"><div class="ico">⭐</div><h3>Réécriture des avis négatifs</h3><p>Analyse des griefs, réponses publiques et messages privés, avec contrôle de conformité et traçabilité.</p></div>
-    <div class="fcard"><div class="ico">📡</div><h3>Surveillance des listings 24h/24 et 7j/7</h3><p>Contrôle quotidien automatisé de vos listings, rapport de risque quotidien et alerte en cas de dégradation.</p></div>
+  <div class="features">
+    <a class="fcard" href="/fr/features/listing-generator"><div class="ico">✍️</div><h3>Génération IA des listings</h3><p>Titres, puces et description optimisés pour chaque plateforme (limites de caractères et langues respectées), avec adaptation sémantique aux questions Rufus / iZi.</p><span class="go">Générer un listing</span></a>
+    <a class="fcard" href="/fr/features/gpsr"><div class="ico">🛡️</div><h3>Vérification de conformité GPSR</h3><p>Identification automatique des catégories CE, langues d'avertissement requises, checklist légale et bloc de conformité prêt à coller sur le listing.</p><span class="go">Explorer le moteur</span></a>
+    <a class="fcard" href="/fr/features/inbox"><div class="ico">📥</div><h3>Boîte de réception unifiée</h3><p>Un seul fil pour les messages de tous les canaux, avec brouillons de réponse IA et signalement des incidents de sécurité.</p><span class="go">Voir comment ça marche</span></a>
+    <a class="fcard" href="/fr/features/ad-copy"><div class="ico">📣</div><h3>Rédaction publicitaire</h3><p>Textes publicitaires et CTA adaptés à chaque plateforme et à chaque public cible.</p><span class="go">Booster vos listings</span></a>
+    <a class="fcard" href="/fr/features/review-rewrite"><div class="ico">⭐</div><h3>Réécriture des avis négatifs</h3><p>Analyse des griefs, réponses publiques et messages privés, avec contrôle de conformité et traçabilité.</p><span class="go">Boucler la boucle avis</span></a>
+    <a class="fcard" href="/fr/features/listing-watch"><div class="ico">📡</div><h3>Surveillance des listings 24h/24 et 7j/7</h3><p>Contrôle quotidien automatisé de vos listings, rapport de risque quotidien et alerte en cas de dégradation.</p><span class="go">Mettre en place la surveillance</span></a>
   </div>
 </section>
 
-<!-- Enjeux de conformité -->
-<section>
-  <div class="audit">
-    <div>
-      <h2>Le GPSR en vigueur depuis le 13 décembre 2024 — êtes-vous prêt ?</h2>
-      <p>Le règlement (UE) 2023/988 (GPSR) exige un délégué UE, des avertissements de sécurité en langue locale et une traçabilité du produit. Le moindre écart entraîne refus de mise en ligne, retrait d'offre ou suspension de compte.</p>
-      <ul>
-        <li>Délégué UE manquant → motif n°1 de blocage sur Amazon Europe, Otto, Allegro</li>
-        <li>Avertissements en mauvaise langue → reprise de travail sur Cdiscount, eMAG</li>
-        <li>Incident de sécurité non déclaré → notification Safety Gate sous 15 jours exigée par l'article 35</li>
-      </ul>
+<section class="reveal">
+  <div class="comp-band">
+    <div class="grid2">
+      <div class="comp-col">
+        <h3>🛡️ GPSR — Règle (UE) 2023/988 <span class="tag t1">EN VIGUEUR</span></h3>
+        <p class="big">Délégué UE manquant ou avertissements en mauvaise langue = <small>refus de mise en ligne, retrait d'offre ou suspension</small></p>
+        <ul>
+          <li>Délégué UE manquant → motif n°1 de blocage sur Amazon Europe, Otto, Allegro</li>
+          <li>Avertissements en mauvaise langue → reprise de travail sur Cdiscount, eMAG</li>
+          <li class="warn">Incident de sécurité non déclaré → notification Safety Gate sous 15 jours (article 35)</li>
+        </ul>
+      </div>
+      <div class="comp-col">
+        <h3>⚖️ Service client IA — Art. 50 de l'AI Act <span class="tag t2">DIVULGATION</span></h3>
+        <p>Chaque réponse du service client IA signale automatiquement à l'acheteur que <b style="color:#fff">vous discutez avec une IA</b>, dans la langue de la plateforme.</p>
+        <ul>
+          <li>Divulgation Art. 50 de l'AI Act intégrée à chaque réponse</li>
+          <li>Couche de lignes rouges : détection menace/chantage → transfert humain</li>
+        </ul>
+      </div>
     </div>
-    <div>
-      <p class="big">Checklist de conformité GPSR à cocher en 5 minutes :</p>
-      <a href="/fr/compliance-check"><button class="pill-blue">Ouvrir la checklist gratuite →</button></a>
-      <p style="margin-top:16px;color:#9aa6c4;font-size:13px">Ou <a href="/fr/gpsr-check" style="color:#a5b4fc;font-weight:700">vérifier un produit en 30 secondes →</a></p>
+    <div class="comp-cta">
+      <a href="/fr/gpsr-check"><button class="pill-blue">Vérification gratuite en 30 secondes →</button></a>
     </div>
   </div>
 </section>
 
-<!-- Indicateurs -->
-<section>
-  <div class="metrics">
-    <div class="metric"><div class="v">13</div><div class="k">plateformes européennes et américaines prises en charge</div></div>
-    <div class="metric"><div class="v">15 M€</div><div class="k">de chiffre d'affaires sous surveillance</div></div>
-    <div class="metric"><div class="v">24h/24</div><div class="k">et 7j/7 de surveillance automatique des listings</div></div>
-    <div class="metric"><div class="v">69</div><div class="k">lexiques de sécurité bilingues (FR/EN)</div></div>
-  </div>
-</section>
-
-<!-- Flux de travail -->
-<section>
+<section class="reveal">
   <div class="sec-head">
     <div class="sec-eyebrow">Flux de travail</div>
     <h2 class="sec-title">De l'idée au listing conforme en 4 étapes</h2>
   </div>
-  <div class="steps">
+  <div class="flow">
     <div class="step"><div class="n">1</div><h4>Saisissez le produit</h4><p>Nom du produit, mots-clés, plateforme cible. Aucune donnée sensible requise.</p></div>
     <div class="step"><div class="n">2</div><h4>Génération IA</h4><p>Titre, puces et description optimisés, avec respect des règles de chaque plateforme.</p></div>
-    <div class="step"><div class="n">3</div><h3>Vérification GPSR</h3><p>Catégorie CE, langues d'avertissement et bloc de conformité générés automatiquement.</p></div>
+    <div class="step"><div class="n">3</div><h4>Vérification GPSR</h4><p>Catégorie CE, langues d'avertissement et bloc de conformité générés automatiquement.</p></div>
     <div class="step"><div class="n">4</div><h4>Surveillance continue</h4><p>Contrôle quotidien, rapport de risque et alerte en cas de problème.</p></div>
   </div>
 </section>
 
-<!-- CTA de fin -->
-<section>
-  <div class="cta-band">
-    <h2>Un outil pour la qualité des listings et la conformité en Europe</h2>
-    <p>Choisissez un plan pour débloquer la vérification GPSR complète, la matrice multi-plateformes, la boîte de réception unifiée et la surveillance quotidienne.</p>
-    <a href="/fr/signup"><button class="pill-blue">Démarrer l'essai gratuit — 5 générations par jour</button></a>
-    &nbsp;
-    <a href="/fr/pricing"><button class="pill-ghost">Voir les tarifs →</button></a>
+<section class="reveal">
+  <div class="sec-head">
+    <div class="sec-eyebrow">FAQ</div>
+    <h2 class="sec-title">Questions fréquentes</h2>
+  </div>
+  <div class="faq">
+    <details><summary>Dois-je fournir les identifiants de ma plateforme ?</summary><div class="a">Seulement si vous voulez le backfill en un clic ou l'import automatique. Les identifiants sont stockés en chiffrement AES-256, et vous pouvez déconnecter à tout moment.</div></details>
+    <details><summary>La vérification GPSR gratuite est-elle vraiment gratuite ?</summary><div class="a">Oui. Le plan gratuit ne nécessite aucune carte bancaire ; la vérification GPSR gratuite est accessible sans inscription. L'inscription débloque 5 générations par jour.</div></details>
+    <details><summary>Est-ce un conseil juridique ?</summary><div class="a">Non. CrossAIO est un outil d'ingénierie ; les rapports de vérification sont une checklist pour vous aider à identifier les risques, ils ne se substituent pas à un avis juridique professionnel.</div></details>
   </div>
 </section>
 
+<section class="reveal">
+  <div class="sec-head">
+    <div class="sec-eyebrow">La voix des vendeurs</div>
+    <h2 class="sec-title">Ils nous font confiance</h2>
+    <p class="sec-sub">Des résultats concrets en France — conformité d'abord, croissance ensuite</p>
+  </div>
+  <div class="tquotes">
+    <div class="tquote">
+      <img class="av" src="/img/avatars/fr1.jpg" alt="Commerçante Maison Lumière" />
+      <div class="stars">★★★★★</div>
+      <p>« Un seul workbench pour nos annonces françaises et le bloc EU-Rep — l'EPR et les avertissements sont toujours prêts. »</p>
+      <div class="res">+27 % de ventes en 90 jours</div>
+      <div class="who">Maison Lumière<small>Lyon · Cdiscount + Amazon.fr</small></div>
+    </div>
+    <div class="tquote">
+      <img class="av" src="/img/avatars/fr2.jpg" alt="Commerçant Atelier Nord" />
+      <div class="stars">★★★★★</div>
+      <p>« Les blocs de conformité ont mis fin à nos suspensions de fiches produits. »</p>
+      <div class="res">0 rejet en 4 mois</div>
+      <div class="who">Atelier Nord<small>Paris · eBay + Fruugo</small></div>
+    </div>
+    <div class="tquote">
+      <img class="av" src="/img/avatars/fr3.jpg" alt="Commerçante Provence Déco" />
+      <div class="stars">★★★★★</div>
+      <p>« Les traductions locales ont fait décoller notre taux de conversion. »</p>
+      <div class="res">+34 % de conversion</div>
+      <div class="who">Provence Déco<small>Marseille · Amazon.fr + Cdiscount</small></div>
+    </div>
+  </div>
+  <div class="trust-badges">
+    <span class="tbadge">🇪🇺 Conforme RGPD</span>
+    <span class="tbadge">⚖️ Conforme à l'EU AI Act</span>
+    <span class="tbadge">🔒 Paiements sécurisés Stripe</span>
+    <span class="tbadge">✓ Sans carte bancaire</span>
+  </div>
+</section>
+
+<div class="guarantee reveal">
+  <h2>Garantie sans risque</h2>
+  <div class="g-items">
+    <span class="g-item"><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>Contrôle de conformité gratuit</span>
+    <span class="g-item"><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>5 générations gratuites par jour</span>
+    <span class="g-item"><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>Annulable à tout moment</span>
+  </div>
+</div>
+
+<div class="cta-band reveal">
+  <h2>Un outil pour la qualité des listings et la conformité en Europe</h2>
+  <p>Démarrez gratuitement : 5 générations par jour · sans carte bancaire</p>
+  <a href="/fr/signup"><button class="pill-blue">Démarrer l'essai gratuit →</button></a>
+  <a href="/fr/gpsr-check"><button class="pill-ghost">Vérification GPSR gratuite</button></a>
+</div>
+
 <footer>
   <div class="cols">
-    <a href="/fr/">Accueil</a><a href="/fr/rules">Référentiel de règles</a><a href="/fr/pricing">Tarifs</a><a href="/fr/gpsr-check">Vérification gratuite</a><a href="/fr/skills">Skills open source</a>
+    <a href="/fr/">Accueil</a><a href="/fr/pricing">Tarifs</a><a href="/fr/rules">Référentiel de règles</a><a href="/fr/gpsr-check">Vérification gratuite</a><a href="/fr/skills">Skills open source</a><a href="/fr/privacy">Politique de confidentialité</a><a href="/fr/terms">Conditions d'utilisation</a>
   </div>
-  CrossAIO — moteur de qualité de listings et de conformité pour toutes les plateformes européennes
+  <div>CrossAIO — moteur de qualité de listings et de conformité pour toutes les plateformes européennes · © 2026</div>
 </footer>
 
   <script src="/effects.js"></script>
