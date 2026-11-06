@@ -130,10 +130,10 @@ def _seo_head_tags(path: str, html: str) -> str:
     desc = (SEO_PAGE_DESC.get(sub) or SEO_GENERIC_DESC).get(lang) or SEO_GENERIC_DESC["en"]
     has_desc = 'name="description"' in html
     has_og = 'property="og:title"' in html
-    # 顺序：英文优先，中文最后（en → de → fr → zh）
+    # 顺序：英文优先（en → de → fr）；2026-11-06 决策 zh 不做 SEO，不入 hreflang
     alternates = "".join(
         f'<link rel="alternate" hreflang="{lg}" href="{_e(_u(lg))}">'
-        for lg in ("en", "de", "fr", "zh"))
+        for lg in ("en", "de", "fr"))
     alternates += f'<link rel="alternate" hreflang="x-default" href="{_e(_u("en"))}">'
     desc_tags = "" if has_desc else f'<meta name="description" content="{_e(desc)}">'
     og_tags = "" if has_og else (
@@ -539,7 +539,9 @@ SITEMAP_PATHS = (
     "/features/review-rewrite", "/features/ai-service",
     "/features/safety-redline", "/features/inbox", "/features/ad-copy",
     "/features/listing-watch",
-    # 平台原生规则落地页（6 平台）
+    # 平台原生规则落地页（2026-11-06 补齐 registry 全部 13 平台）
+    "/rules/amazon", "/rules/amazon_us", "/rules/ebay", "/rules/zalando",
+    "/rules/fruugo", "/rules/walmart", "/rules/tiktok",
     "/rules/allegro", "/rules/emag", "/rules/cdiscount", "/rules/otto",
     "/rules/kaufland", "/rules/bol",
     # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）

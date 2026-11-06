@@ -16,6 +16,13 @@ from .site_nav import NAV_CSS, site_nav
 router = APIRouter()
 
 _PLATFORM_DISPLAY = {
+    "amazon": ("Amazon EU", "🇪🇺 EU 多站点 · en/de/fr/it/es/nl/pl"),
+    "amazon_us": ("Amazon US", "🇺🇸 美国 · en（GPSR 不直接适用）"),
+    "ebay": ("eBay", "🇩🇪🇪🇺 ebay.de / eBay EU · de/en/fr"),
+    "zalando": ("Zalando", "🇪🇺 EU 15 国 · de/fr/it/es/nl"),
+    "fruugo": ("Fruugo", "🌍 30+ 国 · 多语言翻译矩阵"),
+    "walmart": ("Walmart", "🇺🇸 美国 · en（GPSR 不直接适用）"),
+    "tiktok": ("TikTok Shop", "🇪🇺 EU · de/fr/it/es/en"),
     "allegro": ("Allegro", "🇵🇱 波兰 / 捷克 / 斯洛伐克 · pl/cs/sk"),
     "emag": ("eMAG", "🇷🇴 罗马尼亚 / 匈牙利 / 保加利亚 · ro/hu/bg"),
     "cdiscount": ("Cdiscount", "🇫🇷 法国 · fr"),
@@ -322,14 +329,13 @@ _LANG_PREFIX = {"zh": "", "en": "/en", "de": "/de", "fr": "/fr"}
 
 
 def _hreflang_rules(base: str, lang: str) -> str:
-    """<head> 内 5 行 hreflang；中文路径无前缀，x-default 指向中文版。"""
+    """<head> 内 4 行 hreflang；2026-11-06 决策 zh 不做 SEO，x-default 指向 en 版。"""
     b = settings.public_url
     return (
-        f'<link rel="alternate" hreflang="zh" href="{b}{base}">\n'
         f'<link rel="alternate" hreflang="en" href="{b}/en{base}">\n'
         f'<link rel="alternate" hreflang="de" href="{b}/de{base}">\n'
         f'<link rel="alternate" hreflang="fr" href="{b}/fr{base}">\n'
-        f'<link rel="alternate" hreflang="x-default" href="{b}{base}">'
+        f'<link rel="alternate" hreflang="x-default" href="{b}/en{base}">'
     )
 
 
@@ -367,6 +373,13 @@ _RULES_I18N = {
             "otto": "🇩🇪 Germany · de",
             "kaufland": "🇩🇪🇦🇹🇨🇿🇸🇰 Germany / Austria / Czechia / Slovakia · de/cs/sk",
             "bol": "🇳🇱🇧🇪 Netherlands / Belgium · nl",
+            "amazon": "🇪🇺 EU multi-site (DE/FR/IT/ES/PL/SE/NL/BE/AT/IE) · en/de/fr/it/es/nl/pl",
+            "amazon_us": "🇺🇸 United States · en (GPSR not directly applicable)",
+            "ebay": "🇩🇪🇪🇺 ebay.de / eBay EU sites · de/en/fr",
+            "zalando": "🇪🇺 EU 15 countries · de/fr/it/es/nl etc.",
+            "fruugo": "🌍 30+ countries · multilingual warning matrix",
+            "walmart": "🇺🇸 United States · en (GPSR not directly applicable)",
+            "tiktok": "🇪🇺 TikTok Shop EU (DE/FR/IT/ES/IE) · de/fr/it/es/en",
         },
         "lang_name": {
             "en": "English", "de": "German", "fr": "French", "es": "Spanish",
@@ -381,6 +394,13 @@ _RULES_I18N = {
             "otto": "Market surveillance authorities of the German Länder",
             "kaufland": "Market surveillance authorities (DE) + ČIA/ÚOP (CZ/SK)",
             "bol": "ACM (Netherlands Authority for Consumers and Markets) + FOD (Belgium)",
+            "amazon": "Market surveillance authorities of EU member states (per sales site)",
+            "amazon_us": "CPSC (U.S. Consumer Product Safety Commission)",
+            "ebay": "Market surveillance authorities of EU member states (e.g. German authorities for ebay.de)",
+            "zalando": "Market surveillance authorities of EU member states (15 sales countries)",
+            "fruugo": "Market surveillance authorities of the EU sales countries",
+            "walmart": "CPSC (U.S. Consumer Product Safety Commission)",
+            "tiktok": "Market surveillance authorities of EU member states (TikTok Shop EU sites)",
         },
         "t": {
             "title": "{name} GPSR compliance rules · {native} warnings · market surveillance {authority} | CrossAIO",
@@ -485,6 +505,103 @@ _RULES_I18N = {
                     "Battery products must state RECURSEL/BEBAT recycling information",
                 ],
             },
+            "amazon": {
+                "listing_field": "listing safety attributes / Manage Your Compliance dashboard",
+                "rep_requirements": [
+                    "Manufacturer name + postal address; non-EU manufacturers must have an EU responsible person",
+                    "Product identifier (model/batch) must match the packaging, per ASIN",
+                    "Safety warnings and documents in each site's local language (DE/FR/IT/ES/PL/NL/SE)",
+                ],
+                "enforcement": "ASIN suppression/delisting + Account Health downgrade; bulk uploads missing GPSR fields are blocked with Error 5995; member-state authorities can order recalls",
+                "rules": [
+                    "GPSR applies to all EU-site listings since Dec 13, 2024 (stock already placed on the market before that date is exempt, if provable)",
+                    "The 2026 bottleneck is backend-side: the Manage Your Compliance dashboard, and Error 5995 blocking bulk uploads with missing fields",
+                    "Non-EU sellers must bind an EU responsible person first, otherwise ASINs are suppressed one by one and cannot be fixed via templates",
+                    "Warnings only in English are judged incomplete on the DE/FR/IT/ES sites",
+                    "Suppressed-ASIN appeals need a DoC, EU-rep authorization and test reports; incomplete evidence is rejected",
+                ],
+            },
+            "amazon_us": {
+                "listing_field": "description / Safety information",
+                "rep_requirements": [
+                    "No GPSR fields enforced on Amazon US; goods sold into the EU via FBA/NARF still need an EU responsible person",
+                    "Children's products require CPSIA tracking labels and test reports",
+                ],
+                "enforcement": "Listing removal + selling privileges suspended; CPSC can order recalls and penalties",
+                "rules": [
+                    "GPSR is enforced only inside the EU — US-site listings without GPSR fields are not a violation",
+                    "US safety compliance follows CPSC/FCC/UL category rules, a separate system from GPSR",
+                ],
+            },
+            "ebay": {
+                "listing_field": "Angebotsbeschreibung / Produktsicherheitsangaben",
+                "rep_requirements": [
+                    "Business sellers must show manufacturer name + address and a product identifier",
+                    "Non-EU manufacturers need an EU responsible person; contact info must be readable text (no images)",
+                    "Private sellers of used personal items are exempt from most GPSR duties",
+                ],
+                "enforcement": "Listings hidden or delisted + account feature restrictions; member-state authorities can impose penalties",
+                "rules": [
+                    "Since Dec 13, 2024 commercial sellers on eBay EU sites must provide GPSR information; new listings first, stock progressively",
+                    "Warnings follow each site's language (German is mandatory on ebay.de)",
+                    "Non-compliant listings may be filtered out without notice — audit your listings regularly",
+                ],
+            },
+            "zalando": {
+                "listing_field": "zDirect product data model / safety attributes",
+                "rep_requirements": [
+                    "Non-EU sellers must provide an EU responsible person inside the product data model",
+                    "Compliance documents (DoC, test reports) are submitted and updated via zDirect",
+                    "Product identifier (EAN/model/batch) must match the physical product",
+                ],
+                "enforcement": "Product delisting + partner performance impact; authorities can impose penalties",
+                "rules": [
+                    "Warnings follow the sales-country language across Zalando's 15 EU sites (de/fr/it/es/nl/pl/sv etc.)",
+                    "GPSR safety attributes are part of the product data model — missing fields block listing creation",
+                    "Fashion items face dual duties: REACH/chemical restrictions plus GPSR",
+                ],
+            },
+            "fruugo": {
+                "listing_field": "product feed safety attributes / Safety information",
+                "rep_requirements": [
+                    "Non-EU sellers must provide an EU responsible person inside the product feed",
+                    "Product identifier (model/batch) must match the packaging",
+                    "Feeds missing safety attributes are rejected at listing creation",
+                ],
+                "enforcement": "Feed rejection / delisting + shop suspension; authorities can impose penalties",
+                "rules": [
+                    "Fruugo sells into 30+ countries; warnings are localized via its translation matrix (incl. minor-language markets)",
+                    "Non-EU sellers dominate — a missing EU responsible person is a common feed-rejection reason",
+                    "Safety attributes added after Dec 2024 require existing feeds to be re-submitted with the new fields",
+                ],
+            },
+            "walmart": {
+                "listing_field": "description / Safety information",
+                "rep_requirements": [
+                    "No GPSR fields enforced on Walmart US; cross-border sellers shipping into the EU must arrange an EU responsible person",
+                    "Children's products require CPSIA tracking labels; warnings in English",
+                ],
+                "enforcement": "Listing removal + account suspension; CPSC can order recalls",
+                "rules": [
+                    "Walmart Marketplace is primarily the US site; GPSR only binds EU-internal sales",
+                    "US safety compliance follows CPSC/FDA/FCC category rules",
+                    "Goods shipped into the EU via third-party logistics fall under GPSR: EU responsible person + local-language warnings",
+                ],
+            },
+            "tiktok": {
+                "listing_field": "Product Compliance fields / listing safety information",
+                "rep_requirements": [
+                    "Cross-border sellers must provide an EU responsible person in the listing compliance fields",
+                    "Product identifier (model/batch) must match the physical product",
+                    "Warnings in each site's local language (de/fr/it/es)",
+                ],
+                "enforcement": "Listing delisting + traffic restriction + shop score penalties; authorities can impose penalties",
+                "rules": [
+                    "Since Dec 13, 2024 TikTok Shop EU requires GPSR information on listings; non-compliant items are progressively delisted",
+                    "Safety information must also be shown in short videos and livestreams, not only on the listing page",
+                    "Cross-border shops are the enforcement focus; items without an EU responsible person get throttled or delisted",
+                ],
+            },
         },
     },
     "de": {
@@ -495,6 +612,13 @@ _RULES_I18N = {
             "otto": "🇩🇪 Deutschland · de",
             "kaufland": "🇩🇪🇦🇹🇨🇿🇸🇰 Deutschland / Österreich / Tschechien / Slowakei · de/cs/sk",
             "bol": "🇳🇱🇧🇪 Niederlande / Belgien · nl",
+            "amazon": "🇪🇺 EU-Multisite (DE/FR/IT/ES/PL/SE/NL/BE/AT/IE) · en/de/fr/it/es/nl/pl",
+            "amazon_us": "🇺🇸 USA · en (GPSR nicht unmittelbar anwendbar)",
+            "ebay": "🇩🇪🇪🇺 ebay.de / eBay-EU-Seiten · de/en/fr",
+            "zalando": "🇪🇺 EU 15 Länder · de/fr/it/es/nl u. a.",
+            "fruugo": "🌍 30+ Länder · mehrsprachige Warnmatrix",
+            "walmart": "🇺🇸 USA · en (GPSR nicht unmittelbar anwendbar)",
+            "tiktok": "🇪🇺 TikTok Shop EU (DE/FR/IT/ES/IE) · de/fr/it/es/en",
         },
         "lang_name": {
             "en": "Englisch", "de": "Deutsch", "fr": "Französisch", "es": "Spanisch",
@@ -509,6 +633,13 @@ _RULES_I18N = {
             "otto": "Marktüberwachungsbehörden der deutschen Länder",
             "kaufland": "Marktüberwachungsbehörden (DE) + ČIA/ÚOP (CZ/SK)",
             "bol": "ACM (Niederländische Behörde für Verbraucher und Märkte) + FOD (Belgien)",
+            "amazon": "Marktüberwachungsbehörden der EU-Mitgliedstaaten (je Verkaufsseite)",
+            "amazon_us": "CPSC (U.S. Consumer Product Safety Commission)",
+            "ebay": "Marktüberwachungsbehörden der EU-Mitgliedstaaten (z. B. deutsche Behörden für ebay.de)",
+            "zalando": "Marktüberwachungsbehörden der EU-Mitgliedstaaten (15 Verkaufsländer)",
+            "fruugo": "Marktüberwachungsbehörden der EU-Verkaufsländer",
+            "walmart": "CPSC (U.S. Consumer Product Safety Commission)",
+            "tiktok": "Marktüberwachungsbehörden der EU-Mitgliedstaaten (TikTok Shop EU)",
         },
         "t": {
             "title": "{name} GPSR-Compliance-Regeln · {native} Warnhinweise · Marktüberwachung {authority} | CrossAIO",
@@ -613,6 +744,103 @@ _RULES_I18N = {
                     "Batterieprodukte müssen Recycling-Hinweise zu RECURSEL/BEBAT enthalten",
                 ],
             },
+            "amazon": {
+                "listing_field": "Listing-Sicherheitsattribute / Manage Your Compliance-Dashboard",
+                "rep_requirements": [
+                    "Herstellername + Postadresse; Hersteller außerhalb der EU brauchen einen EU-Verantwortlichen",
+                    "Produktkennzeichnung (Modell/Charge) muss der Verpackung entsprechen, je ASIN",
+                    "Sicherheitswarnungen und Dokumente in der Landessprache je Seite (DE/FR/IT/ES/PL/NL/SE)",
+                ],
+                "enforcement": "ASIN-Sperrung/Löschung + Account-Health-Abwertung; Bulk-Uploads ohne GPSR-Felder werden mit Error 5995 blockiert; Mitgliedstaaten können Rückrufe anordnen",
+                "rules": [
+                    "GPSR gilt seit 13.12.2024 für alle EU-Listings (vor diesem Datum in Verkehr gebrachter Bestand ist nachweislich befreit)",
+                    "Der Engpass 2026 liegt im Backend: das Manage Your Compliance-Dashboard und Error 5995, der Bulk-Uploads mit fehlenden Feldern blockiert",
+                    "Nicht-EU-Verkäufer müssen zuerst einen EU-Verantwortlichen hinterlegen, sonst werden ASINs einzeln gesperrt und lassen sich nicht per Vorlage korrigieren",
+                    "Nur englische Warnhinweise gelten auf den DE/FR/IT/ES-Seiten als unvollständig",
+                    "Einsprüche gegen gesperrte ASINs brauchen DoC, EU-Verantwortlichen-Bevollmächtigung und Prüfberichte; unvollständige Nachweise werden abgelehnt",
+                ],
+            },
+            "amazon_us": {
+                "listing_field": "description / Safety information",
+                "rep_requirements": [
+                    "Auf Amazon US werden keine GPSR-Felder verlangt; über FBA/NARF in die EU verkaufte Ware braucht trotzdem einen EU-Verantwortlichen",
+                    "Kinderprodukte brauchen CPSIA-Tracking-Labels und Prüfberichte",
+                ],
+                "enforcement": "Listing-Löschung + Verkaufsberechtigung ausgesetzt; die CPSC kann Rückrufe und Strafen anordnen",
+                "rules": [
+                    "GPSR wird nur innerhalb der EU durchgesetzt — US-Listings ohne GPSR-Felder sind kein Verstoß",
+                    "Die US-Sicherheitscompliance folgt CPSC/FCC/UL-Kategorienregeln, ein eigenes System neben dem GPSR",
+                ],
+            },
+            "ebay": {
+                "listing_field": "Angebotsbeschreibung / Produktsicherheitsangaben",
+                "rep_requirements": [
+                    "Gewerbliche Anbieter müssen Herstellername + Adresse und eine Produktkennzeichnung angeben",
+                    "Hersteller außerhalb der EU brauchen einen EU-Verantwortlichen; Kontaktdaten müssen lesbarer Text sein (keine Bilder)",
+                    "Privatanbieter gebrauchter Gegenstände sind von den meisten GPSR-Pflichten befreit",
+                ],
+                "enforcement": "Listings versteckt/gelöscht + Konto-Funktionsbeschränkungen; Mitgliedstaaten können Bußgelder verhängen",
+                "rules": [
+                    "Seit 13.12.2024 müssen gewerbliche Anbieter auf eBay-EU-Seiten GPSR-Informationen liefern; zuerst neue Listings, Bestand schrittweise",
+                    "Warnhinweise folgen der Sprache der jeweiligen Seite (Deutsch ist auf ebay.de Pflicht)",
+                    "Nicht konforme Listings können ohne Ankündigung gefiltert werden — Listings regelmäßig prüfen",
+                ],
+            },
+            "zalando": {
+                "listing_field": "zDirect-Produktdatenmodell / Sicherheitsattribute",
+                "rep_requirements": [
+                    "Nicht-EU-Verkäufer müssen einen EU-Verantwortlichen im Produktdatenmodell hinterlegen",
+                    "Compliance-Dokumente (DoC, Prüfberichte) werden über zDirect eingereicht und aktualisiert",
+                    "Produktkennzeichnung (EAN/Modell/Charge) muss dem physischen Produkt entsprechen",
+                ],
+                "enforcement": "Produktlöschung + Auswirkung auf die Partner-Performance; Behörden können Bußgelder verhängen",
+                "rules": [
+                    "Warnhinweise folgen der Sprache des Verkaufslands über Zalandos 15 EU-Seiten (de/fr/it/es/nl/pl/sv u. a.)",
+                    "GPSR-Sicherheitsattribute sind Teil des Produktdatenmodells — fehlende Felder blockieren die Listingerstellung",
+                    "Modeartikel haben Doppelpflichten: REACH/Chemikalienbeschränkungen plus GPSR",
+                ],
+            },
+            "fruugo": {
+                "listing_field": "Sicherheitsattribute im Produkt-Feed / Safety information",
+                "rep_requirements": [
+                    "Nicht-EU-Verkäufer müssen einen EU-Verantwortlichen im Produkt-Feed hinterlegen",
+                    "Produktkennzeichnung (Modell/Charge) muss der Verpackung entsprechen",
+                    "Feeds ohne Sicherheitsattribute werden bei der Listingerstellung abgelehnt",
+                ],
+                "enforcement": "Feed-Ablehnung/Löschung + Shop-Suspendierung; Behörden können Bußgelder verhängen",
+                "rules": [
+                    "Fruugo verkauft in 30+ Länder; Warnhinweise werden über die Übersetzungsmatrix lokalisiert (inkl. kleinerer Sprachmärkte)",
+                    "Nicht-EU-Verkäufer dominieren — ein fehlender EU-Verantwortlicher ist ein häufiger Ablehnungsgrund für Feeds",
+                    "Nach Dezember 2024 ergänzte Sicherheitsattribute erfordern die erneute Einreichung bestehender Feeds",
+                ],
+            },
+            "walmart": {
+                "listing_field": "description / Safety information",
+                "rep_requirements": [
+                    "Auf Walmart US werden keine GPSR-Felder verlangt; grenzüberschreitende Verkäufer, die in die EU liefern, brauchen einen EU-Verantwortlichen",
+                    "Kinderprodukte brauchen CPSIA-Tracking-Labels; Warnhinweise auf Englisch",
+                ],
+                "enforcement": "Listing-Löschung + Konto-Suspendierung; die CPSC kann Rückrufe anordnen",
+                "rules": [
+                    "Walmart Marketplace ist primär die US-Seite; das GPSR bindet nur den EU-Binnenverkauf",
+                    "Die US-Sicherheitscompliance folgt CPSC/FDA/FCC-Kategorienregeln",
+                    "Über Drittagenturen in die EU versandte Ware fällt unter das GPSR: EU-Verantwortlicher + Warnhinweise in Landessprache",
+                ],
+            },
+            "tiktok": {
+                "listing_field": "Product-Compliance-Felder / Sicherheitsangaben im Listing",
+                "rep_requirements": [
+                    "grenzüberschreitende Verkäufer müssen einen EU-Verantwortlichen in den Listing-Compliance-Feldern hinterlegen",
+                    "Produktkennzeichnung (Modell/Charge) muss dem physischen Produkt entsprechen",
+                    "Warnhinweise in der Landessprache der jeweiligen Seite (de/fr/it/es)",
+                ],
+                "enforcement": "Listing-Löschung + Traffic-Drosselung + Shop-Score-Strafen; Behörden können Bußgelder verhängen",
+                "rules": [
+                    "Seit 13.12.2024 verlangt TikTok Shop EU GPSR-Informationen auf Listings; nicht konforme Artikel werden schrittweise gelöscht",
+                    "Sicherheitsinformationen müssen auch in Kurzvideos und Livestreams gezeigt werden, nicht nur auf der Listing-Seite",
+                    "grenzüberschreitende Shops sind der Fokus der Durchsetzung; Artikel ohne EU-Verantwortlichen werden gedrosselt oder gelöscht",
+                ],
+            },
         },
     },
     "fr": {
@@ -623,6 +851,13 @@ _RULES_I18N = {
             "otto": "🇩🇪 Allemagne · de",
             "kaufland": "🇩🇪🇦🇹🇨🇿🇸🇰 Allemagne / Autriche / Tchéquie / Slovaquie · de/cs/sk",
             "bol": "🇳🇱🇧🇪 Pays-Bas / Belgique · nl",
+            "amazon": "🇪🇺 Multi-sites UE (DE/FR/IT/ES/PL/SE/NL/BE/AT/IE) · en/de/fr/it/es/nl/pl",
+            "amazon_us": "🇺🇸 États-Unis · en (GPSR non directement applicable)",
+            "ebay": "🇩🇪🇪🇺 ebay.de / sites eBay UE · de/en/fr",
+            "zalando": "🇪🇺 15 pays UE · de/fr/it/es/nl etc.",
+            "fruugo": "🌍 30+ pays · matrice multilingue d'avertissements",
+            "walmart": "🇺🇸 États-Unis · en (GPSR non directement applicable)",
+            "tiktok": "🇪🇺 TikTok Shop EU (DE/FR/IT/ES/IE) · de/fr/it/es/en",
         },
         "lang_name": {
             "en": "anglais", "de": "allemand", "fr": "français", "es": "espagnol",
@@ -637,6 +872,13 @@ _RULES_I18N = {
             "otto": "Autorités de surveillance du marché des Länder allemands",
             "kaufland": "Autorités de surveillance du marché (DE) + ČIA/ÚOP (CZ/SK)",
             "bol": "ACM (Autorité néerlandaise des consommateurs et des marchés) + FOD (Belgique)",
+            "amazon": "Autorités de surveillance du marché des États membres de l'UE (par site de vente)",
+            "amazon_us": "CPSC (U.S. Consumer Product Safety Commission)",
+            "ebay": "Autorités de surveillance du marché des États membres de l'UE (p. ex. autorités allemandes pour ebay.de)",
+            "zalando": "Autorités de surveillance du marché des États membres de l'UE (15 pays de vente)",
+            "fruugo": "Autorités de surveillance du marché des pays de vente de l'UE",
+            "walmart": "CPSC (U.S. Consumer Product Safety Commission)",
+            "tiktok": "Autorités de surveillance du marché des États membres de l'UE (TikTok Shop EU)",
         },
         "t": {
             "title": "Règles GPSR {name} · avertissements {native} · surveillance {authority} | CrossAIO",
@@ -739,6 +981,103 @@ _RULES_I18N = {
                 "rules": [
                     "Les avertissements en néerlandais sont obligatoires ; les acheteurs belges reçoivent les avertissements en français",
                     "Les produits avec batterie doivent mentionner les consignes de recyclage RECURSEL/BEBAT",
+                ],
+            },
+            "amazon": {
+                "listing_field": "attributs de sécurité du listing / tableau de bord Manage Your Compliance",
+                "rep_requirements": [
+                    "Nom du fabricant + adresse postale ; les fabricants hors UE doivent désigner un responsable UE",
+                    "L'identifiant produit (modèle/lot) doit correspondre à l'emballage, ASIN par ASIN",
+                    "Avertissements de sécurité et documents dans la langue locale de chaque site (DE/FR/IT/ES/PL/NL/SE)",
+                ],
+                "enforcement": "Suppression/déréférencement d'ASIN + déclassement Account Health ; les uploads en masse sans champs GPSR sont bloqués par l'Error 5995 ; les autorités des États membres peuvent ordonner des rappels",
+                "rules": [
+                    "Le GPSR s'applique à tous les listings des sites UE depuis le 13.12.2024 (le stock déjà mis sur le marché avant cette date est exempté, si prouvé)",
+                    "Le point de blocage 2026 est en back-office : le tableau de bord Manage Your Compliance et l'Error 5995 qui bloque les uploads en masse incomplets",
+                    "Les vendeurs hors UE doivent d'abord lier un responsable UE, sinon les ASIN sont supprimés un à un et ne peuvent être corrigés via les modèles",
+                    "Des avertissements uniquement en anglais sont jugés incomplets sur les sites DE/FR/IT/ES",
+                    "Les recours pour ASIN supprimés exigent un DoC, une autorisation de responsable UE et des rapports de test ; les preuves incomplètes sont rejetées",
+                ],
+            },
+            "amazon_us": {
+                "listing_field": "description / Safety information",
+                "rep_requirements": [
+                    "Amazon US n'exige pas de champs GPSR ; les marchandises vendues vers l'UE via FBA/NARF nécessitent quand même un responsable UE",
+                    "Les produits pour enfants exigent des étiquettes de traçabilité CPSIA et des rapports de test",
+                ],
+                "enforcement": "Suppression du listing + privilèges de vente suspendus ; la CPSC peut ordonner des rappels et des pénalités",
+                "rules": [
+                    "Le GPSR ne s'applique qu'au sein de l'UE — les listings du site US sans champs GPSR ne constituent pas une violation",
+                    "La conformité sécurité US suit les règles CPSC/FCC/UL par catégorie, un système distinct du GPSR",
+                ],
+            },
+            "ebay": {
+                "listing_field": "Angebotsbeschreibung / Produktsicherheitsangaben",
+                "rep_requirements": [
+                    "Les vendeurs professionnels doivent indiquer le nom + l'adresse du fabricant et un identifiant produit",
+                    "Les fabricants hors UE ont besoin d'un responsable UE ; les coordonnées doivent être du texte lisible (pas d'images)",
+                    "Les vendeurs particuliers d'objets d'occasion sont exemptés de la plupart des obligations GPSR",
+                ],
+                "enforcement": "Listings masqués ou retirés + restrictions des fonctionnalités du compte ; les autorités des États membres peuvent infliger des sanctions",
+                "rules": [
+                    "Depuis le 13.12.2024, les vendeurs professionnels sur les sites eBay UE doivent fournir les informations GPSR ; d'abord les nouveaux listings, puis le stock progressivement",
+                    "Les avertissements suivent la langue de chaque site (l'allemand est obligatoire sur ebay.de)",
+                    "Les listings non conformes peuvent être filtrés sans préavis — auditez régulièrement vos listings",
+                ],
+            },
+            "zalando": {
+                "listing_field": "modèle de données produit zDirect / attributs de sécurité",
+                "rep_requirements": [
+                    "Les vendeurs hors UE doivent fournir un responsable UE dans le modèle de données produit",
+                    "Les documents de conformité (DoC, rapports de test) sont soumis et mis à jour via zDirect",
+                    "L'identifiant produit (EAN/modèle/lot) doit correspondre au produit physique",
+                ],
+                "enforcement": "Déréférencement du produit + impact sur la performance partenaire ; les autorités peuvent infliger des sanctions",
+                "rules": [
+                    "Les avertissements suivent la langue du pays de vente sur les 15 sites UE de Zalando (de/fr/it/es/nl/pl/sv etc.)",
+                    "Les attributs de sécurité GPSR font partie du modèle de données produit — les champs manquants bloquent la création de listing",
+                    "Les articles de mode cumulent deux obligations : restrictions REACH/chimiques et GPSR",
+                ],
+            },
+            "fruugo": {
+                "listing_field": "attributs de sécurité du flux produit / Safety information",
+                "rep_requirements": [
+                    "Les vendeurs hors UE doivent fournir un responsable UE dans le flux produit",
+                    "L'identifiant produit (modèle/lot) doit correspondre à l'emballage",
+                    "Les flux sans attributs de sécurité sont rejetés à la création de listing",
+                ],
+                "enforcement": "Rejet du flux / déréférencement + suspension de la boutique ; les autorités peuvent infliger des sanctions",
+                "rules": [
+                    "Fruugo vend dans plus de 30 pays ; les avertissements sont localisés via sa matrice de traduction (y compris marchés à petites langues)",
+                    "Les vendeurs hors UE sont majoritaires — un responsable UE manquant est un motif fréquent de rejet de flux",
+                    "Les attributs de sécurité ajoutés après décembre 2024 imposent de resoumettre les flux existants avec les nouveaux champs",
+                ],
+            },
+            "walmart": {
+                "listing_field": "description / Safety information",
+                "rep_requirements": [
+                    "Walmart US n'exige pas de champs GPSR ; les vendeurs transfrontaliers expédiant vers l'UE doivent désigner un responsable UE",
+                    "Les produits pour enfants exigent des étiquettes de traçabilité CPSIA ; avertissements en anglais",
+                ],
+                "enforcement": "Suppression du listing + suspension du compte ; la CPSC peut ordonner des rappels",
+                "rules": [
+                    "Walmart Marketplace est principalement le site US ; le GPSR ne lie que les ventes au sein de l'UE",
+                    "La conformité sécurité US suit les règles CPSC/FDA/FCC par catégorie",
+                    "Les marchandises expédiées vers l'UE via des logistiques tierces relèvent du GPSR : responsable UE + avertissements en langue locale",
+                ],
+            },
+            "tiktok": {
+                "listing_field": "champs Product Compliance / informations de sécurité du listing",
+                "rep_requirements": [
+                    "Les vendeurs transfrontaliers doivent fournir un responsable UE dans les champs de conformité du listing",
+                    "L'identifiant produit (modèle/lot) doit correspondre au produit physique",
+                    "Avertissements dans la langue locale de chaque site (de/fr/it/es)",
+                ],
+                "enforcement": "Déréférencement du listing + restriction de trafic + pénalités sur le score de la boutique ; les autorités peuvent infliger des sanctions",
+                "rules": [
+                    "Depuis le 13.12.2024, TikTok Shop EU exige des informations GPSR sur les listings ; les articles non conformes sont progressivement retirés",
+                    "Les informations de sécurité doivent aussi être montrées dans les vidéos courtes et les lives, pas seulement sur la page listing",
+                    "Les boutiques transfrontalières sont la cible prioritaire ; les articles sans responsable UE sont bridés ou retirés",
                 ],
             },
         },
