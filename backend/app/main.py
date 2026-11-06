@@ -16,6 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from .config import settings
 from .database import init_db
 from . import community_models  # 注册社区/播客/峰会 ORM 模型（随 create_all 自动建表）
+from . import blog_post_pages   # 博客文章真实 URL 页（/en/blog/{slug}，SEO 可索引）
 from .routers import (ads, analytics, billing, customer_service, ebay,
                       listings, products, users, eu_rep, inbox, rule_pages,
                       feature_pages, gpsr_pages, compliance, automation,
@@ -163,7 +164,11 @@ async def seo_head_inject_middleware(request, call_next):
     html = body.decode("utf-8", errors="replace")
     head_i = html.find("<head")
     if head_i < 0 or 'rel="canonical"' in html:
-        return resp  # 非 HTML 结构或已有 SEO 标签：原样返回
+        # body_iterator 已被上方消费，必须用新 Response 重建返回：
+        # 直接 return resp 会得到已耗尽的迭代器 → 200 + 空 body（content-length 超前）。
+        headers = dict(resp.headers)
+        headers.pop("content-length", None)
+        return Response(body, status_code=200, headers=headers, media_type=ctype)
     close_i = html.find(">", head_i)
     if close_i < 0:
         return resp
@@ -193,6 +198,44 @@ app.include_router(rule_pages.router, tags=["rule-pages"])
 # 不能被 /{lang}/features（lang=gpsr-check）抢先匹配吞掉
 app.include_router(gpsr_pages.router, tags=["gpsr-pages"])
 app.include_router(feature_pages.router, tags=["feature-pages"])
+
+# ---------------------------------------------------------------------------
+# 增长页英文版 + 博客文章真实 URL（2026-11-06，SEO 修复）
+# ---------------------------------------------------------------------------
+# 背景：academy/community/blog/podcast/summit/trust 的根路径文件内容本身即英文
+# （html lang="en"），但 sitemap 生成 /en/ 前缀 URL 时无对应路由 → 死链；
+# 博客文章此前只有 hash 路由（/#slug），搜索引擎无法索引。
+# 处理：逐页固定注册（不用 /en/{page} 通配，避免吞掉 /en/rules 等 I18N 页）；
+# 注册顺序必须在 gpsr/feature router 之后、`/{lang}/{page}` 之前。
+# zh 不做 SEO（2026-11-06 决策）：sitemap/hreflang 已整体移除 zh。
+EN_GROWTH_PAGES = ("blog", "academy", "community", "podcast", "summit", "trust")
+_EN_GROWTH_CACHE = {"Cache-Control": "no-cache, no-store, must-revalidate"}
+
+
+def _en_growth_page(page: str):
+    f = Path(__file__).parent / "static" / f"{page}.html"
+    if not f.is_file():
+        raise HTTPException(status_code=404)
+    return FileResponse(f, headers=_EN_GROWTH_CACHE)
+
+
+for _p in EN_GROWTH_PAGES:
+    def _handler(_page: str = _p):
+        return _en_growth_page(_page)
+    app.get(f"/en/{_p}", include_in_schema=False)(_handler)
+
+
+@app.get("/en/blog/{slug}", include_in_schema=False)
+def en_blog_post(slug: str):
+    """博客文章规范 URL（英文，SEO 可索引；正文服务端渲染 + Article JSON-LD）。"""
+    return blog_post_pages.render_post(slug)
+
+
+@app.get("/blog/{slug}", include_in_schema=False)
+def blog_post_root_redirect(slug: str):
+    """根路径文章 URL 归一：规范地址为 /en/blog/{slug}（英文首发）。"""
+    return RedirectResponse(f"/en/blog/{slug}", status_code=301)
+# ---------------------------------------------------------------------------
 app.include_router(compliance.router, prefix=f"{API_PREFIX}/compliance", tags=["compliance"])
 app.include_router(automation.router, prefix=f"{API_PREFIX}", tags=["automation"])
 app.include_router(listings.router, prefix=f"{API_PREFIX}", tags=["watch"])
@@ -502,43 +545,72 @@ SITEMAP_PATHS = (
     # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）
     "/academy", "/community", "/blog", "/podcast", "/summit", "/trust",
 )
-SITEMAP_LANGS = ("en", "de", "fr", "zh")  # 英文优先，中文最后
-SITEMAP_LASTMOD = "2026-11-05"
+SITEMAP_LANGS = ("en", "de", "fr")  # 三语（2026-11-06 决策：zh 不做 SEO，不入 sitemap/hreflang）
+SITEMAP_LASTMOD = "2026-11-06"
+
+# 单语页面：仅英文版真实存在（内容即英文，见 /en/{page} 增长页路由），
+# sitemap 只收录 en；de/fr 无内容版，不得生成死链。
+SITEMAP_EN_ONLY_PATHS = ("/academy", "/community", "/blog", "/podcast",
+                         "/summit", "/trust")
 
 
 def _sitemap_loc(lang: str, path: str) -> str:
-    # 首页特例：英文=根路径（默认首页），中文=/zh/；其余页面中文无前缀
+    # 首页特例：英文=根路径（默认首页）；其余页面按语言前缀。
+    # zh 不做 SEO（2026-11-06 决策）：不再生成 /zh/ URL。
     if path == "/":
-        if lang == "en":
-            return settings.site_url + "/"
-        if lang == "zh":
-            return settings.site_url + "/zh/"
-        return f"{settings.site_url}/{lang}/"
-    return settings.site_url + (path if lang == "zh"
-                                else f"/{lang}/" + path.lstrip("/"))
+        return settings.site_url + ("/" if lang == "en" else f"/{lang}/")
+    return settings.site_url + f"/{lang}/" + path.lstrip("/")
+
+
+def _path_langs(path: str) -> tuple:
+    """每路径收录语言：默认三语；单语页仅 en；博客文章页仅 en（英文首发）。"""
+    if path in SITEMAP_EN_ONLY_PATHS or path.startswith("/blog/"):
+        return ("en",)
+    return SITEMAP_LANGS
+
+
+def _blog_slugs() -> list[str]:
+    """已发布博客文章 slug（sitemap 动态收录 /blog/{slug}，规范 URL 为 /en/blog/{slug}）。
+
+    查询失败时返回空列表——sitemap 仍输出其余页面，不为内容库异常放大故障。
+    """
+    try:
+        from .database import SessionLocal
+        from .community_models import BlogPost
+        db = SessionLocal()
+        try:
+            return [s for (s,) in db.query(BlogPost.slug)
+                    .filter(BlogPost.is_published.is_(True))
+                    .order_by(BlogPost.published_at.desc()).all()]
+        finally:
+            db.close()
+    except Exception:
+        return []
 
 
 @app.get("/sitemap.xml", include_in_schema=False)
 def sitemap_xml():
     """动态站点地图：基址取 settings.site_url（SEO 身份域名）；
-    每条 URL 携带 4 语言 hreflang 互链；登录/注册/工作台不入图。"""
+    每条 URL 携带该路径实际存在语言的 hreflang 互链（单语页仅 en + x-default）；
+    登录/注册/工作台不入图；博客文章随内容库动态收录。"""
     from xml.sax.saxutils import escape
 
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
-    for path in SITEMAP_PATHS:
-        for lang in SITEMAP_LANGS:
-            loc = _sitemap_loc(lang, path)
-            alts = "".join(
-                f'<xhtml:link rel="alternate" hreflang="{lg}" '
-                f'href="{escape(_sitemap_loc(lg, path))}"/>'
-                for lg in SITEMAP_LANGS)
-            alts += (f'<xhtml:link rel="alternate" hreflang="x-default" '
-                     f'href="{escape(_sitemap_loc("en", path))}"/>')
-            out.append(
-                f"  <url><loc>{escape(loc)}</loc>"
-                f"<lastmod>{SITEMAP_LASTMOD}</lastmod>{alts}</url>")
+    paths = list(SITEMAP_PATHS) + [f"/blog/{s}" for s in _blog_slugs()]
+    for path in paths:
+        langs = _path_langs(path)
+        loc = _sitemap_loc(langs[0], path)
+        alts = "".join(
+            f'<xhtml:link rel="alternate" hreflang="{lg}" '
+            f'href="{escape(_sitemap_loc(lg, path))}"/>'
+            for lg in langs)
+        alts += (f'<xhtml:link rel="alternate" hreflang="x-default" '
+                 f'href="{escape(_sitemap_loc("en", path))}"/>')
+        out.append(
+            f"  <url><loc>{escape(loc)}</loc>"
+            f"<lastmod>{SITEMAP_LASTMOD}</lastmod>{alts}</url>")
     out.append("</urlset>")
     return Response("\n".join(out), media_type="application/xml")
 
