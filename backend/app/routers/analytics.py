@@ -25,6 +25,8 @@ VALID_EVENTS = {
     "compliance_audit", "guest_audit", "connector_import",
     # 【P0-3】订阅漏斗：浏览定价页 → 点击订阅/选择 → 升级引导 CTA 展示
     "plan_view", "subscribe_click", "upgrade_cta_shown",
+    # 服务端全站 PV（main.py 中间件写入，覆盖所有 200 HTML 页面）
+    "page_view",
 }
 
 
@@ -112,4 +114,69 @@ def summary(
         "total_events": len(rows),
         "note": "判读基准（COMMUNITY_PLAYBOOK）：check_to_signup >25% 加倍投放；"
                 "高风险报告占比 >40% 说明社群选对；generate_to_upgrade >8% 说明付费钩子成立。",
+    }
+
+
+@router.get("/traffic", summary="全站访问量看板数据（需管理员令牌）")
+def traffic(
+    days: int = 30,
+    x_admin_token: str = Header(default=""),
+    db: Session = Depends(get_db),
+):
+    """服务端 PV 聚合：真人 / 爬虫 / 独立访客 / 按天 / 热门页面 / 来源。"""
+    if not settings.admin_token or x_admin_token != settings.admin_token:
+        raise HTTPException(status_code=403, detail="需要 X-Admin-Token（backend/.env 的 ADMIN_TOKEN）")
+    days = max(1, min(days, 90))
+    since = datetime.utcnow() - timedelta(days=days)
+    rows = (db.query(AnalyticsEvent)
+            .filter(AnalyticsEvent.event_type == "page_view",
+                    AnalyticsEvent.created_at >= since)
+            .order_by(AnalyticsEvent.created_at.desc())
+            .all())
+
+    by_day: dict = defaultdict(lambda: {"human": 0, "bot": 0})
+    by_path: dict = defaultdict(lambda: {"human": 0, "bot": 0})
+    by_ref: dict = defaultdict(int)
+    human_ips = set()
+    human_pv = bot_pv = 0
+    recent = []
+    for r in rows:
+        meta = r.meta or {}
+        kind = "bot" if meta.get("is_bot") else "human"
+        day = r.created_at.strftime("%Y-%m-%d") if r.created_at else "?"
+        path = meta.get("path") or "?"
+        by_day[day][kind] += 1
+        by_path[path][kind] += 1
+        if kind == "human":
+            human_pv += 1
+            if r.ip_hash:
+                human_ips.add(r.ip_hash)
+            ref = (r.utm_source or "").strip()
+            if ref:
+                by_ref[ref] += 1
+            if len(recent) < 30:
+                recent.append({
+                    "at": r.created_at.strftime("%Y-%m-%d %H:%M:%S") if r.created_at else "",
+                    "path": path,
+                    "ip": (r.ip_hash or "")[:8],
+                    "ua": (meta.get("ua") or "")[:120],
+                })
+        else:
+            bot_pv += 1
+
+    return {
+        "days": days,
+        "total_pv": len(rows),
+        "human_pv": human_pv,
+        "bot_pv": bot_pv,
+        "unique_human_visitors": len(human_ips),
+        "by_day": [{"date": d, **v} for d, v in sorted(by_day.items())],
+        "top_pages": [{"path": p, **v} for p, v in
+                      sorted(by_path.items(), key=lambda kv: -(kv[1]["human"] + kv[1]["bot"]))[:20]],
+        "top_referers": [{"ref": k, "count": v} for k, v in
+                         sorted(by_ref.items(), key=lambda kv: -kv[1])[:15]],
+        "recent_human": recent,
+        "ga4_enabled": bool((settings.ga4_measurement_id or "").strip()),
+        "note": "page_view 由服务端中间件记录，覆盖全部 200 HTML 页面；is_bot 按 User-Agent 判定，"
+                "看板页面 /traffic 自身不计入。",
     }

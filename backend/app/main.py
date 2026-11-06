@@ -12,6 +12,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 
 from .config import settings
 from .database import init_db
@@ -87,7 +88,7 @@ SEO_PAGE_DESC = {
         "fr": "Contrôle GPSR gratuit : téléversez vos données produit et obtenez un rapport détaillé au règlement européen sur la sécurité générale des produits, avec plan d'action.",
     },
 }
-_SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup")
+_SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup", "traffic")
 
 
 def _split_lang_path(path: str):
@@ -154,6 +155,58 @@ def _seo_head_tags(path: str, html: str) -> str:
     )
 
 
+# ---------------------------------------------------------------------------
+# 访问量统计（2026-11-06）：服务端 PV + 可选 GA4
+# ---------------------------------------------------------------------------
+_BOT_UA_RE = _re.compile(
+    r"bot|spider|crawl|slurp|bingpreview|facebookexternalhit|curl|python|"
+    r"wget|httpie|headless|monitor|uptimerobot|pingdom|statuscake|ahrefs|"
+    r"semrush|mj12|dotbot|go-http-client", _re.I)
+
+
+def _ga4_snippet() -> str:
+    """Measurement ID 未配置时返回空串，站点保持零第三方脚本。"""
+    mid = (settings.ga4_measurement_id or "").strip()
+    if not mid.startswith("G-") or len(mid) < 5:
+        return ""
+    return (
+        f'<script async src="https://www.googletagmanager.com/gtag/js?id={mid}"></script>'
+        '<script>window.dataLayer=window.dataLayer||[];'
+        'function gtag(){dataLayer.push(arguments);}'
+        'gtag("js",new Date());'
+        f'gtag("config","{mid}");</script>'
+    )
+
+
+def _record_pageview(request) -> None:
+    """服务端记录一次页面浏览，按 UA 区分真人与爬虫。失败绝不阻断业务。"""
+    try:
+        from .database import SessionLocal, AnalyticsEvent
+        from .routers.analytics import ip_hash
+        ua = (request.headers.get("user-agent") or "")[:300]
+        ref = (request.headers.get("referer") or "")[:100]
+        is_bot = bool(_BOT_UA_RE.search(ua))
+        db = SessionLocal()
+        try:
+            db.add(AnalyticsEvent(
+                event_type="page_view",
+                platform="bot" if is_bot else "human",
+                utm_source=ref,
+                utm_medium="",
+                utm_campaign="",
+                ip_hash=ip_hash(request),
+                user_id="",
+                meta={"path": request.url.path[:200], "ua": ua, "is_bot": is_bot},
+            ))
+            db.commit()
+        except Exception:
+            db.rollback()
+        finally:
+            db.close()
+    except Exception:
+        pass
+
+
 @app.middleware("http")
 async def seo_head_inject_middleware(request, call_next):
     resp = await call_next(request)
@@ -162,20 +215,38 @@ async def seo_head_inject_middleware(request, call_next):
         return resp
     body = b"".join([chunk async for chunk in resp.body_iterator])
     html = body.decode("utf-8", errors="replace")
+
+    # 服务端 PV：覆盖全部 200 HTML 页面（静态页 / 动态页 / 已有 canonical 的页）；
+    # 内部看板自身不计入，避免刷新看板污染访问数据。
+    if request.url.path.rstrip("/") != "/traffic":
+        await run_in_threadpool(_record_pageview, request)
+
+    # GA4：ID 未配置时零注入。两个返回分支都要带上，故在此统一改写 body。
     head_i = html.find("<head")
-    if head_i < 0 or 'rel="canonical"' in html:
+    ga4 = _ga4_snippet()
+    if ga4 and head_i >= 0 and "googletagmanager.com/gtag/js" not in html:
+        gi = html.find(">", head_i)
+        if gi >= 0:
+            html = html[:gi + 1] + "\n" + ga4 + html[gi + 1:]
+            body = html.encode("utf-8")
+
+    def _rebuild(_body: bytes) -> Response:
         # body_iterator 已被上方消费，必须用新 Response 重建返回：
         # 直接 return resp 会得到已耗尽的迭代器 → 200 + 空 body（content-length 超前）。
         headers = dict(resp.headers)
         headers.pop("content-length", None)
-        return Response(body, status_code=200, headers=headers, media_type=ctype)
+        return Response(_body, status_code=200, headers=headers, media_type=ctype)
+
+    head_i = html.find("<head")
+    if head_i < 0 or 'rel="canonical"' in html:
+        return _rebuild(body)
     close_i = html.find(">", head_i)
     if close_i < 0:
-        return resp
+        return _rebuild(body)
     try:
         tags = _seo_head_tags(request.url.path, html)
     except Exception:
-        return resp
+        return _rebuild(body)
     new_html = html[:close_i + 1] + "\n" + tags + html[close_i + 1:]
     headers = dict(resp.headers)
     headers.pop("content-length", None)
@@ -328,6 +399,15 @@ def _feature_nav_html(lang: str = "zh") -> str:
               f'<small>{nav["feature_overview_sub"]}</small></span></a>')
     return (f'<div class="fnavitem"><span class="flabel">{nav["features"]} ▾</span>'
             f'<div class="fdrop">{links}</div></div>')
+
+
+@app.get("/traffic", include_in_schema=False)
+def traffic_dashboard():
+    """内部访问量看板（noindex；数据接口需 X-Admin-Token）。"""
+    return FileResponse(
+        Path(__file__).parent / "static" / "traffic.html",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"},
+    )
 
 
 @app.get("/app", include_in_schema=False)
