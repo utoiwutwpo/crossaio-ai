@@ -5,9 +5,11 @@
 用途：用真实数据验证「GPSR 恐惧钩子」假设，决定社群投放是否加倍。
 匿名性：IP 只存 SHA-256 哈希前 16 位，不存原文，不关联个人。
 """
+import base64
 import hashlib
 from datetime import datetime, timedelta
 from collections import Counter, defaultdict
+from urllib.parse import parse_qsl
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from sqlalchemy import func
@@ -35,6 +37,46 @@ def ip_hash(request: Request) -> str:
     return hashlib.sha256(f"{ip}:{settings.jwt_secret}".encode()).hexdigest()[:16]
 
 
+# 2026-11-07 P0-2：服务端转化事件（guest_check / generate / 体检 / signup /
+# upgrade）大多不显式传 utm_*。若不兜底，渠道表里的「体检 / 注册」会全部落到
+# direct，一周后就无法判断哪个渠道真的带来动作。优先级：显式参数 > URL 参数 >
+# caio_attr 归因 cookie > Referer 推断。
+_FB_UTM_KEYS = ("utm_source", "utm_medium", "utm_campaign")
+_FB_REF_CHANNELS = (
+    ("reddit", "reddit"), ("sellerforum", "sellerforum"),
+    ("facebook", "facebook"), ("instagram", "instagram"),
+    ("google.", "google"), ("bing.", "bing"),
+    ("linkedin.", "linkedin"), ("youtube.", "youtube"),
+    ("allegro", "allegro"), ("bol.com", "bol"), ("emag", "emag"),
+)
+
+
+def _fallback_utm(request: Request | None) -> dict:
+    """从 query / caio_attr cookie / Referer 补齐渠道，供所有 track_event 复用。"""
+    if request is None:
+        return {}
+    try:
+        q = request.query_params
+        utm = {k: (q.get(k) or "").strip()[:60] for k in _FB_UTM_KEYS}
+        utm = {k: v for k, v in utm.items() if v}
+        if utm.get("utm_source"):
+            return utm
+        raw = request.cookies.get("caio_attr") or ""
+        if raw:
+            s = base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)).decode()
+            d = {k: v[:60] for k, v in parse_qsl(s, keep_blank_values=False)
+                 if k in _FB_UTM_KEYS}
+            if d.get("utm_source"):
+                return d
+        ref = (request.headers.get("referer") or "").lower()
+        for needle, name in _FB_REF_CHANNELS:
+            if needle in ref:
+                return {"utm_source": name, "utm_medium": "referral"}
+    except Exception:
+        pass
+    return {}
+
+
 def track_event(
     db: Session,
     event_type: str,
@@ -49,13 +91,14 @@ def track_event(
     """内部埋点入口（业务路由里直接调用，失败不影响主流程）。"""
     if event_type not in VALID_EVENTS:
         return
+    fb = _fallback_utm(request)
     try:
         db.add(AnalyticsEvent(
             event_type=event_type,
             platform=platform,
-            utm_source=(utm_source or "")[:100],
-            utm_medium=(utm_medium or "")[:100],
-            utm_campaign=(utm_campaign or "")[:100],
+            utm_source=(utm_source or fb.get("utm_source") or "")[:100],
+            utm_medium=(utm_medium or fb.get("utm_medium") or "")[:100],
+            utm_campaign=(utm_campaign or fb.get("utm_campaign") or "")[:100],
             ip_hash=ip_hash(request) if request else "",
             user_id=user_id,
             meta=meta or {},

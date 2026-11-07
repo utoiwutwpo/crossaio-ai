@@ -325,6 +325,10 @@ async def seo_head_inject_middleware(request, call_next):
             channel = _ref_channel(ref)
             if channel:
                 utm = {"utm_source": channel, "utm_medium": "referral"}
+                # 无 UTM 的渠道点击（FB 云端帖 / Reddit profile）也要持久化，
+                # 否则后续站内跳转后的体检 / 注册事件会丢失渠道归因。
+                new_cookies.append(
+                    f"{_ATTR_COOKIE}={_encode_attr(utm)}; Max-Age=2592000; Path=/; SameSite=Lax")
 
     # 服务端 PV：覆盖全部 200 HTML 页面；内部看板自身不计入，避免刷新污染数据。
     if request.url.path.rstrip("/") != "/traffic":
