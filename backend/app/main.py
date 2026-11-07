@@ -2,11 +2,14 @@
 CrossAIO — FastAPI 主应用
 本地运行：uvicorn app.main:app --reload --port 8000
 """
+import base64 as _base64
 import logging
 import re as _re
+import secrets as _secrets
 import time as _time
 from contextlib import asynccontextmanager
 from pathlib import Path
+from urllib.parse import parse_qsl as _parse_qsl, urlencode as _urlencode
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -156,12 +159,95 @@ def _seo_head_tags(path: str, html: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# 访问量统计（2026-11-06）：服务端 PV + 可选 GA4
+# 访问量统计：服务端 PV + UTM 首触归因 + 可选 GA4
+# 2026-11-07 P0：UA 三态分类（human / bot / probe）与渠道参数落库，
+# 目的是让一周后的「真人访问量 / 渠道转化」可复算、可归因，不再被自检请求灌水。
 # ---------------------------------------------------------------------------
 _BOT_UA_RE = _re.compile(
     r"bot|spider|crawl|slurp|bingpreview|facebookexternalhit|curl|python|"
-    r"wget|httpie|headless|monitor|uptimerobot|pingdom|statuscake|ahrefs|"
-    r"semrush|mj12|dotbot|go-http-client", _re.I)
+    r"wget|httpie|headless|ahrefs|semrush|mj12|dotbot|go-http-client|"
+    r"scrapy|mechanize|libwww|lwp::|java/|node-fetch|axios|okhttp|"
+    r"yandex|baiduspider|duckduckbot|petalbot", _re.I)
+
+# 内部探针 / 平台健康检查 / 自动化浏览器：单列 probe，既不算真人也不算搜索引擎。
+_PROBE_UA_RE = _re.compile(
+    r"uptimerobot|pingdom|statuscake|site24x7|monitor|healthcheck|health-check|"
+    r"kube-probe|elb-healthcheck|googlehc|render/|nagios|zabbix|datadog|"
+    r"newrelic|lighthouse|playwright|puppeteer|selenium|phantomjs|postman|"
+    r"insomnia|crossaio-|check_http", _re.I)
+
+# 真人浏览器必须具备完整指纹：Mozilla/5.0 + 渲染引擎 + 具体浏览器版本号。
+_BROWSER_UA_RE = _re.compile(
+    r"Mozilla/5\.0.*(?:Chrome/\d|Safari/\d|Firefox/\d|Edg/\d|"
+    r"OPR/\d|Version/\d|SamsungBrowser/\d)", _re.I | _re.S)
+
+_UTM_KEYS = ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term")
+_VID_COOKIE = "caio_vid"
+_ATTR_COOKIE = "caio_attr"
+
+# Referer 兜底：已云端排期但链接未带 UTM 的帖子（FB 3 条）仍能归到渠道。
+_REF_CHANNELS = (
+    ("reddit", "reddit"), ("sellerforum", "sellerforum"),
+    ("facebook", "facebook"), ("instagram", "instagram"),
+    ("google.", "google"), ("bing.", "bing"),
+    ("linkedin.", "linkedin"), ("youtube.", "youtube"),
+    ("allegro", "allegro"), ("bol.com", "bol"), ("emag", "emag"),
+)
+
+
+def _classify_ua(ua: str, accept: str, sec_fetch_dest: str) -> str:
+    """返回 human / bot / probe。
+
+    2026-11-06 的看板把「无 UA / 健康检查 / 自建 curl 验证」也算成真人，
+    导致 31 个真人 PV 中几乎没有真实访客。此处改为三态：
+      bot    = 搜索引擎与已知抓取器（仍要单独看，判断收录进度）
+      probe  = 空 UA、无浏览器指纹、健康检查、自动化客户端（不计真人）
+      human  = 完整浏览器指纹 + 文档导航请求头
+    """
+    u = (ua or "").strip()
+    low = u.lower()
+    if _BOT_UA_RE.search(low):
+        return "bot"
+    if not u or len(u) < 25 or _PROBE_UA_RE.search(low):
+        return "probe"
+    if not _BROWSER_UA_RE.search(u):
+        return "probe"
+    if sec_fetch_dest and sec_fetch_dest.lower() not in ("document", "iframe"):
+        return "probe"
+    if "text/html" not in (accept or "").lower():
+        return "probe"
+    return "human"
+
+
+def _utm_from_query(request) -> dict:
+    out = {}
+    for k in _UTM_KEYS:
+        v = (request.query_params.get(k) or "").strip()[:60]
+        if v:
+            out[k] = v
+    return out
+
+
+def _encode_attr(utm: dict) -> str:
+    """cookie 值用 urlsafe base64，避免 & / = 被 Cookie 解析器截断。"""
+    return _base64.urlsafe_b64encode(_urlencode(utm).encode()).decode().rstrip("=")
+
+
+def _decode_attr(raw: str) -> dict:
+    try:
+        s = _base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)).decode()
+        return {k: v[:60] for k, v in _parse_qsl(s, keep_blank_values=False)
+                if k in _UTM_KEYS}
+    except Exception:
+        return {}
+
+
+def _ref_channel(ref: str) -> str:
+    low = (ref or "").lower()
+    for needle, name in _REF_CHANNELS:
+        if needle in low:
+            return name
+    return ""
 
 
 def _ga4_snippet() -> str:
@@ -178,25 +264,30 @@ def _ga4_snippet() -> str:
     )
 
 
-def _record_pageview(request) -> None:
-    """服务端记录一次页面浏览，按 UA 区分真人与爬虫。失败绝不阻断业务。"""
+def _record_pageview(request, vid: str, utm: dict, ua_kind: str, ref: str) -> None:
+    """服务端记录一次页面浏览（含 UTM 首触归因）。失败绝不阻断业务。"""
     try:
         from .database import SessionLocal, AnalyticsEvent
         from .routers.analytics import ip_hash
-        ua = (request.headers.get("user-agent") or "")[:300]
-        ref = (request.headers.get("referer") or "")[:100]
-        is_bot = bool(_BOT_UA_RE.search(ua))
         db = SessionLocal()
         try:
             db.add(AnalyticsEvent(
                 event_type="page_view",
-                platform="bot" if is_bot else "human",
-                utm_source=ref,
-                utm_medium="",
-                utm_campaign="",
+                platform=ua_kind,  # human / bot / probe
+                utm_source=utm.get("utm_source", "")[:100],
+                utm_medium=utm.get("utm_medium", "")[:100],
+                utm_campaign=utm.get("utm_campaign", "")[:100],
                 ip_hash=ip_hash(request),
                 user_id="",
-                meta={"path": request.url.path[:200], "ua": ua, "is_bot": is_bot},
+                meta={
+                    "path": request.url.path[:200],
+                    "ua": (request.headers.get("user-agent") or "")[:300],
+                    "ua_kind": ua_kind,
+                    "is_bot": ua_kind != "human",  # 兼容旧看板字段
+                    "ref": ref[:200],
+                    "vid": vid,
+                    "utm": dict(utm),
+                },
             ))
             db.commit()
         except Exception:
@@ -216,10 +307,35 @@ async def seo_head_inject_middleware(request, call_next):
     body = b"".join([chunk async for chunk in resp.body_iterator])
     html = body.decode("utf-8", errors="replace")
 
-    # 服务端 PV：覆盖全部 200 HTML 页面（静态页 / 动态页 / 已有 canonical 的页）；
-    # 内部看板自身不计入，避免刷新看板污染访问数据。
+    # 匿名访客 ID + 渠道归因 cookie（last non-direct，30 天）。
+    # 只存随机 ID 与 utm_* 参数，不含任何个人信息。
+    vid = request.cookies.get(_VID_COOKIE) or _secrets.token_hex(8)
+    new_cookies: list[str] = []
+    if not request.cookies.get(_VID_COOKIE):
+        new_cookies.append(
+            f"{_VID_COOKIE}={vid}; Max-Age=31536000; Path=/; SameSite=Lax; HttpOnly")
+    ref = (request.headers.get("referer") or "")[:200]
+    utm = _utm_from_query(request)
+    if utm.get("utm_source"):
+        new_cookies.append(
+            f"{_ATTR_COOKIE}={_encode_attr(utm)}; Max-Age=2592000; Path=/; SameSite=Lax")
+    else:
+        utm = _decode_attr(request.cookies.get(_ATTR_COOKIE) or "")
+        if not utm:
+            channel = _ref_channel(ref)
+            if channel:
+                utm = {"utm_source": channel, "utm_medium": "referral"}
+
+    # 服务端 PV：覆盖全部 200 HTML 页面；内部看板自身不计入，避免刷新污染数据。
     if request.url.path.rstrip("/") != "/traffic":
-        await run_in_threadpool(_record_pageview, request)
+        ua_kind = _classify_ua(
+            request.headers.get("user-agent") or "",
+            request.headers.get("accept") or "",
+            request.headers.get("sec-fetch-dest") or "",
+        )
+        await run_in_threadpool(
+            _record_pageview, request, vid=vid, utm=utm,
+            ua_kind=ua_kind, ref=ref)
 
     # GA4：ID 未配置时零注入。两个返回分支都要带上，故在此统一改写 body。
     head_i = html.find("<head")
@@ -230,12 +346,18 @@ async def seo_head_inject_middleware(request, call_next):
             html = html[:gi + 1] + "\n" + ga4 + html[gi + 1:]
             body = html.encode("utf-8")
 
+    def _with_cookies(r: Response) -> Response:
+        for cookie in new_cookies:
+            r.headers.append("set-cookie", cookie)
+        return r
+
     def _rebuild(_body: bytes) -> Response:
         # body_iterator 已被上方消费，必须用新 Response 重建返回：
         # 直接 return resp 会得到已耗尽的迭代器 → 200 + 空 body（content-length 超前）。
         headers = dict(resp.headers)
         headers.pop("content-length", None)
-        return Response(_body, status_code=200, headers=headers, media_type=ctype)
+        return _with_cookies(
+            Response(_body, status_code=200, headers=headers, media_type=ctype))
 
     head_i = html.find("<head")
     if head_i < 0 or 'rel="canonical"' in html:
@@ -250,7 +372,8 @@ async def seo_head_inject_middleware(request, call_next):
     new_html = html[:close_i + 1] + "\n" + tags + html[close_i + 1:]
     headers = dict(resp.headers)
     headers.pop("content-length", None)
-    return HTMLResponse(new_html, status_code=resp.status_code, headers=headers)
+    return _with_cookies(
+        HTMLResponse(new_html, status_code=resp.status_code, headers=headers))
 
 API_PREFIX = "/api/v1"
 app.include_router(users.router, prefix=f"{API_PREFIX}/users", tags=["users"])
@@ -399,6 +522,74 @@ def _feature_nav_html(lang: str = "zh") -> str:
               f'<small>{nav["feature_overview_sub"]}</small></span></a>')
     return (f'<div class="fnavitem"><span class="flabel">{nav["features"]} ▾</span>'
             f'<div class="fdrop">{links}</div></div>')
+
+
+@app.get("/en/sitemap", include_in_schema=False)
+def html_sitemap():
+    """可索引的 HTML 站点地图（英文）：把全部可索引 URL 串成站内抓取枢纽。
+
+    2026-11-07 索引加速：Googlebot 从首页可达的链接出发，能一次性发现
+    13 个平台规则页与 5 篇高意图文章，比只依赖 sitemap.xml 更快。
+    页面自带 canonical + en-only hreflang，避免 middleware 注入 de/fr 死链。
+    """
+    from xml.sax.saxutils import escape
+    base = settings.site_url
+    canonical = f"{base}/en/sitemap"
+    blog_paths = [f"/blog/{s}" for s in _blog_slugs()]
+    rule_paths = [p for p in SITEMAP_PATHS if p.startswith("/rules/")]
+    feature_paths = [p for p in SITEMAP_PATHS if p.startswith("/features")]
+    core_paths = [p for p in SITEMAP_PATHS
+                  if not p.startswith(("/rules/", "/features"))
+                  and p != "/sitemap"]
+    groups = (
+        ("High-intent compliance guides", blog_paths),
+        ("Marketplace rule pages (13 platforms)", rule_paths),
+        ("Product capability pages", feature_paths),
+        ("Core pages", core_paths),
+    )
+
+    def _li(path: str) -> str:
+        url = _sitemap_loc("en", path)
+        label = url[len(base):] or "/"
+        return f'<li><a href="{escape(url)}">{escape(label)}</a></li>'
+
+    sections = []
+    for title, paths in groups:
+        if not paths:
+            continue
+        sections.append(
+            f'<section><h2>{escape(title)} <span class="n">{len(paths)}</span></h2>'
+            f'<ul class="cols">{"".join(_li(p) for p in paths)}</ul></section>')
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Site map | CrossAIO EU compliance guides &amp; marketplace rules</title>
+<link rel="canonical" href="{escape(canonical)}">
+<link rel="alternate" hreflang="en" href="{escape(canonical)}">
+<link rel="alternate" hreflang="x-default" href="{escape(canonical)}">
+<meta name="description" content="Browse every CrossAIO page: EU GPSR compliance guides, Error 5995 and takedown appeal SOPs, and native rule pages for 13 European marketplaces.">
+<style>
+body{{margin:0;background:#f6f7f9;color:#1b1f26;font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
+.wrap{{max-width:1000px;margin:0 auto;padding:36px 20px 70px}}
+h1{{font-size:26px;margin:0 0 6px}} p.sub{{color:#6b7280;margin:0 0 28px}}
+section{{background:#fff;border:1px solid #e6e8ec;border-radius:10px;padding:18px 20px;margin-bottom:16px}}
+h2{{font-size:16px;margin:0 0 12px}} h2 .n{{color:#6b7280;font-weight:400;font-size:13px}}
+ul.cols{{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:4px 20px}}
+li a{{color:#0f766e;text-decoration:none}} li a:hover{{text-decoration:underline}}
+footer{{margin-top:24px;color:#6b7280;font-size:13px}}
+@media(max-width:700px){{ul.cols{{grid-template-columns:1fr}}}}
+</style>
+</head>
+<body><div class="wrap">
+<h1>CrossAIO site map</h1>
+<p class="sub">All indexable English pages, grouped by intent. Updated {SITEMAP_LASTMOD}.</p>
+{''.join(sections)}
+<footer><a href="/en/">Home</a> · <a href="/sitemap.xml">XML sitemap</a> · CrossAIO © 2026</footer>
+</div></body></html>"""
+    return HTMLResponse(page, headers={"Cache-Control": "no-cache"})
 
 
 @app.get("/traffic", include_in_schema=False)
@@ -626,14 +817,15 @@ SITEMAP_PATHS = (
     "/rules/kaufland", "/rules/bol",
     # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）
     "/academy", "/community", "/blog", "/podcast", "/summit", "/trust",
+    "/sitemap",  # HTML 站点地图：首页可达的抓取枢纽（2026-11-07 索引加速）
 )
 SITEMAP_LANGS = ("en", "de", "fr")  # 三语（2026-11-06 决策：zh 不做 SEO，不入 sitemap/hreflang）
-SITEMAP_LASTMOD = "2026-11-06"
+SITEMAP_LASTMOD = "2026-11-07"  # 索引加速：内容更新后改 lastmod，提示 Googlebot 重抓
 
 # 单语页面：仅英文版真实存在（内容即英文，见 /en/{page} 增长页路由），
 # sitemap 只收录 en；de/fr 无内容版，不得生成死链。
 SITEMAP_EN_ONLY_PATHS = ("/academy", "/community", "/blog", "/podcast",
-                         "/summit", "/trust")
+                         "/summit", "/trust", "/sitemap")
 
 
 def _sitemap_loc(lang: str, path: str) -> str:

@@ -117,13 +117,25 @@ def summary(
     }
 
 
+# 与 PV 分开的漏斗/转化事件，用于按渠道判断「推广有没有带来真实动作」
+_TRAFFIC_CONV_EVENTS = (
+    "landing_view", "guest_check", "compliance_audit", "guest_audit",
+    "signup", "generate", "gpsr_unlock_click", "pricing_view",
+    "plan_view", "subscribe_click", "upgrade_cta_shown", "upgrade",
+)
+
+
 @router.get("/traffic", summary="全站访问量看板数据（需管理员令牌）")
 def traffic(
     days: int = 30,
     x_admin_token: str = Header(default=""),
     db: Session = Depends(get_db),
 ):
-    """服务端 PV 聚合：真人 / 爬虫 / 独立访客 / 按天 / 热门页面 / 来源。"""
+    """服务端 PV 聚合：真人 / 爬虫 / 内部探针 / 独立访客 / 渠道归因 / 转化。
+
+    2026-11-07 P0：UA 三态分类（human/bot/probe）+ UTM 归因落库，
+    目的是让「哪个渠道带来多少真人与体检」可被复算，而不是只看一个总 PV。
+    """
     if not settings.admin_token or x_admin_token != settings.admin_token:
         raise HTTPException(status_code=403, detail="需要 X-Admin-Token（backend/.env 的 ADMIN_TOKEN）")
     days = max(1, min(days, 90))
@@ -133,50 +145,98 @@ def traffic(
                     AnalyticsEvent.created_at >= since)
             .order_by(AnalyticsEvent.created_at.desc())
             .all())
+    events = (db.query(AnalyticsEvent)
+              .filter(AnalyticsEvent.event_type.in_(_TRAFFIC_CONV_EVENTS),
+                      AnalyticsEvent.created_at >= since)
+              .all())
 
-    by_day: dict = defaultdict(lambda: {"human": 0, "bot": 0})
-    by_path: dict = defaultdict(lambda: {"human": 0, "bot": 0})
+    by_day: dict = defaultdict(lambda: {"human": 0, "bot": 0, "probe": 0})
+    by_path: dict = defaultdict(lambda: {"human": 0, "bot": 0, "probe": 0})
     by_ref: dict = defaultdict(int)
+    by_channel: dict = defaultdict(lambda: {"pv": 0, "vid": set()})
+    ev_by_channel: dict = defaultdict(Counter)
+    ev_total: Counter = Counter()
     human_ips = set()
-    human_pv = bot_pv = 0
+    human_pv = bot_pv = probe_pv = 0
     recent = []
     for r in rows:
         meta = r.meta or {}
-        kind = "bot" if meta.get("is_bot") else "human"
+        kind = meta.get("ua_kind")
+        if kind not in ("human", "bot", "probe"):
+            # 兼容部署前的旧事件：只有 is_bot 字段
+            kind = "bot" if meta.get("is_bot") else "human"
         day = r.created_at.strftime("%Y-%m-%d") if r.created_at else "?"
         path = meta.get("path") or "?"
         by_day[day][kind] += 1
         by_path[path][kind] += 1
         if kind == "human":
             human_pv += 1
-            if r.ip_hash:
-                human_ips.add(r.ip_hash)
-            ref = (r.utm_source or "").strip()
+            # 匿名访客 cookie 优先于 IP：同一出口 IP 下的多个真实用户能分开计数
+            vid = meta.get("vid") or r.ip_hash or ""
+            if vid:
+                human_ips.add(vid)
+            channel = ((r.utm_source or "").strip()
+                       or (meta.get("utm") or {}).get("utm_source", "")
+                       or "direct")
+            by_channel[channel]["pv"] += 1
+            by_channel[channel]["vid"].add(vid)
+            ref = (meta.get("ref") or "").strip()
             if ref:
                 by_ref[ref] += 1
             if len(recent) < 30:
                 recent.append({
                     "at": r.created_at.strftime("%Y-%m-%d %H:%M:%S") if r.created_at else "",
                     "path": path,
-                    "ip": (r.ip_hash or "")[:8],
+                    "channel": channel,
+                    "ip": vid[:8],
                     "ua": (meta.get("ua") or "")[:120],
                 })
-        else:
+        elif kind == "bot":
             bot_pv += 1
+        else:
+            probe_pv += 1
+
+    for e in events:
+        channel = (e.utm_source or "").strip() or "direct"
+        ev_by_channel[channel][e.event_type] += 1
+        ev_total[e.event_type] += 1
+
+    channels = []
+    for channel in sorted(set(by_channel) | set(ev_by_channel)):
+        c = by_channel.get(channel, {"pv": 0, "vid": set()})
+        ev = ev_by_channel.get(channel, Counter())
+        channels.append({
+            "channel": channel,
+            "human_pv": c["pv"],
+            "unique": len(c["vid"]),
+            "landing": ev.get("landing_view", 0),
+            "checks": (ev.get("guest_check", 0) + ev.get("compliance_audit", 0)
+                       + ev.get("guest_audit", 0)),
+            "signups": ev.get("signup", 0),
+            "generates": ev.get("generate", 0),
+            "upgrades": ev.get("upgrade", 0) + ev.get("subscribe_click", 0),
+        })
+    channels.sort(key=lambda x: (-x["human_pv"], -x["unique"]))
 
     return {
         "days": days,
         "total_pv": len(rows),
         "human_pv": human_pv,
         "bot_pv": bot_pv,
+        "probe_pv": probe_pv,
         "unique_human_visitors": len(human_ips),
         "by_day": [{"date": d, **v} for d, v in sorted(by_day.items())],
         "top_pages": [{"path": p, **v} for p, v in
-                      sorted(by_path.items(), key=lambda kv: -(kv[1]["human"] + kv[1]["bot"]))[:20]],
+                      sorted(by_path.items(),
+                             key=lambda kv: -(kv[1]["human"] + kv[1]["bot"] + kv[1]["probe"]))[:20]],
         "top_referers": [{"ref": k, "count": v} for k, v in
                          sorted(by_ref.items(), key=lambda kv: -kv[1])[:15]],
+        "channels": channels,
+        "conversion_events": dict(ev_total),
         "recent_human": recent,
         "ga4_enabled": bool((settings.ga4_measurement_id or "").strip()),
-        "note": "page_view 由服务端中间件记录，覆盖全部 200 HTML 页面；is_bot 按 User-Agent 判定，"
-                "看板页面 /traffic 自身不计入。",
+        "note": "2026-11-07 口径：UA 三态分类（human/bot/probe），probe=健康检查、自建验证、"
+                "无浏览器指纹请求，不计入真人；utm_* 由 URL 参数或 caio_attr cookie 归因，"
+                "无 UTM 时按 Referer 推断渠道；独立访客用匿名 caio_vid cookie；"
+                "看板页 /traffic 自身不计入。转化事件按 utm_source 归到渠道。",
     }
