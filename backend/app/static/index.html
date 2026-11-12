@@ -1574,7 +1574,15 @@ function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":
 async function api(path, opts={}){
   const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
   const data = await r.json().catch(()=>({}));
-  if(!r.ok){ const e= new Error(r.status===401?((window.__uiLabel?window.__uiLabel("请先登录后继续"):"Please sign in to continue")):((typeof data.detail==="string"&&window.__uiLabel)?window.__uiLabel(data.detail):(data.detail || r.statusText))); e.status=r.status; throw e; }
+  if(!r.ok){
+    const det = String(data.detail||"");
+    // 会话失效（服务端查无此用户 / 401）：显性提示并引导重新登录，避免各面板静默空白
+    if(r.status===401 || det.indexOf("用户不存在")>=0 || det.indexOf("User not found")>=0){
+      try{ window.__sessionExpired = true; }catch(_e){}
+      if(typeof _sessionBar==="function"){ try{ _sessionBar(); }catch(_e){} }
+    }
+    const e= new Error(r.status===401?((window.__uiLabel?window.__uiLabel("请先登录后继续"):"Please sign in to continue")):((typeof data.detail==="string"&&window.__uiLabel)?window.__uiLabel(data.detail):(data.detail || r.statusText))); e.status=r.status; throw e;
+  }
   try{ if(window._wizPing) window._wizPing(); }catch(_e){}
   return data;
 }
@@ -1601,7 +1609,20 @@ function renderUserbar(){
   el.innerHTML = ME ? `<span>${ME.email} · ${ME.plan.toUpperCase()}${ME.daily_limit?`（${WBT("ub_today","今日")} ${ME.usage_today??0}/${ME.daily_limit}）`:""}</span>
     <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()"><span data-i18n="btn_signout">退出</span></button>` : "";
 }
-function logout(){ localStorage.removeItem("cb_token"); location.reload(); }
+function logout(){ localStorage.removeItem("cb_token"); localStorage.removeItem("crossaio_token"); location.reload(); }
+// 会话失效横幅：服务端已无当前账号（多见于部署后数据被重置）时显性提示重新登录
+function _sessionBar(){
+  if(document.getElementById("cxSessionBar")) return;
+  var lg="zh"; try{ lg=document.documentElement.lang||"zh"; }catch(e){}
+  var bar=document.createElement("div");
+  bar.id="cxSessionBar";
+  bar.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:1200;background:#7f1d1d;color:#fff;padding:10px 16px;font-size:13px;display:flex;gap:12px;align-items:center;justify-content:center;box-shadow:0 -2px 12px rgba(0,0,0,.25)";
+  bar.innerHTML='<span>登录状态已失效（服务端查无此账号，通常是本机令牌过期或部署后数据被重置），部分功能会显示为空。</span>'
+    +'<button id="cxSessionBtn" style="background:#fff;color:#7f1d1d;border:0;padding:6px 14px;border-radius:8px;font-weight:700;cursor:pointer">退出并重新登录</button>';
+  document.body.appendChild(bar);
+  var btn=document.getElementById("cxSessionBtn");
+  if(btn) btn.onclick=function(){ try{ localStorage.removeItem("crossaio_token"); localStorage.removeItem("cb_token"); }catch(e){} location.href="/app?lang="+lg; };
+}
 
 async function auth(path){
   const email=document.getElementById("email").value.trim();
