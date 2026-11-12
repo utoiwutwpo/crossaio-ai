@@ -100,6 +100,7 @@ _SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup", "traffic")
 # English-only indexable URLs: resources and articles have no de/fr/zh
 # counterpart, so emitting alternates for them would advertise 404s.
 SITEMAP_EN_ONLY_PATHS = (
+    "/blog",
     "/resources/field-map",
     "/resources/appeal-pack",
     "/resources/weekly-checklist",
@@ -588,6 +589,15 @@ def en_blog_post(slug: str):
     """Canonical article URL: server-rendered, Article JSON-LD, indexable."""
     return blog_post_pages.render_post(slug)
 
+@app.get("/en/blog", include_in_schema=False)
+def en_blog_index():
+    """Article index: internal-link hub for every published post.
+
+    MUST be registered before the /{lang}/{page} catch-all (below), otherwise
+    Starlette matches /en/blog as lang='en', page='blog' and returns 404.
+    """
+    return blog_post_pages.render_index()
+
 @app.get("/en/resources/{slug}", include_in_schema=False)
 def en_resource_page(slug: str):
     """English-only downloadable asset page (FAQPage + BreadcrumbList JSON-LD)."""
@@ -787,8 +797,10 @@ SITEMAP_PATHS = (
     # 平台原生规则落地页（6 平台）
     "/rules/allegro", "/rules/emag", "/rules/cdiscount", "/rules/otto",
     "/rules/kaufland", "/rules/bol",
-    # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）
-    "/academy", "/community", "/blog", "/podcast", "/summit", "/trust",
+    # Growth hub pages: only /blog stays (root /blog is a real page; /{lang}/blog
+    # removed 2026-11-12 — academy/community/podcast/summit/trust have no /{lang}
+    # route in I18N_PAGES, so listing them in the sitemap created 15 dead links).
+    "/blog",
     # Free downloadable assets (English-only, stage-3 2026-11-12)
     "/resources/field-map",
     "/resources/appeal-pack",

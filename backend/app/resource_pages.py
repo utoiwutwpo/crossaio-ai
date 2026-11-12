@@ -111,6 +111,8 @@ RESOURCES = {
             ("13-platform rule library", "/en/rules"),
             ("Listing generator for launch", "/en/features/listing-generator"),
             ("Before-launch capability map", "/en/v2/launch"),
+            ("Why listings get blocked (GPSR)", "/en/blog/why-listings-get-blocked-gpsr"),
+            ("GPSR technical file checklist", "/en/blog/gpsr-technical-file-checklist"),
         ],
         "feature": ("/en/features/listing-generator", "Check your listing fields before upload"),
     },
@@ -152,6 +154,8 @@ RESOURCES = {
             ("Safety red-line checks", "/en/features/safety-redline"),
             ("Accident capability map", "/en/v2/rescue"),
             ("13-platform rule library", "/en/rules"),
+            ("Why listings get blocked (GPSR)", "/en/blog/why-listings-get-blocked-gpsr"),
+            ("EU Responsible Person guide", "/en/blog/eu-responsible-person-complete-guide"),
         ],
         "feature": ("/en/features/safety-redline", "Run the safety red-line check"),
     },
@@ -193,6 +197,8 @@ RESOURCES = {
             ("Listing watch", "/en/features/listing-watch"),
             ("Daily operations capability map", "/en/v2/ops"),
             ("13-platform rule library", "/en/rules"),
+            ("EU VAT / OSS guide", "/en/blog/eu-vat-oss-guide-marketplace-sellers"),
+            ("GPSR technical file checklist", "/en/blog/gpsr-technical-file-checklist"),
         ],
         "feature": ("/en/features/listing-watch", "Set up continuous listing watch"),
     },
@@ -234,6 +240,8 @@ RESOURCES = {
             ("13-platform matrix", "/en/features/matrix"),
             ("Governance capability map", "/en/v2/govern"),
             ("13-platform rule library", "/en/rules"),
+            ("EU Responsible Person guide", "/en/blog/eu-responsible-person-complete-guide"),
+            ("GPSR technical file checklist", "/en/blog/gpsr-technical-file-checklist"),
         ],
         "feature": ("/en/features/matrix", "Open the 13-platform matrix"),
     },
@@ -489,6 +497,20 @@ def _jsonld(slug: str, r: dict) -> str:
     return "\n".join(out)
 
 
+def _published_slugs() -> set:
+    """Blog slugs currently published; empty set on any failure.
+
+    Kept behind a local import so this module still renders in isolation
+    (no project-internal import at module load, per the design constraints).
+    An empty set drops all /en/blog/ cluster links rather than rendering 404s.
+    """
+    try:
+        from .blog_post_pages import published_slugs
+        return published_slugs()
+    except Exception:
+        return set()
+
+
 def _page(slug: str, r: dict) -> str:
     fmt = r["format"]
     fmt_upper = fmt.upper()
@@ -499,9 +521,14 @@ def _page(slug: str, r: dict) -> str:
     rows = "".join(
         f"<tr><td>{escape(k)}</td><td>{escape(v)}</td></tr>"
         for k, v in r["preview_rows"])
+    # 2026-11-12 internal-cluster fix: /en/blog/{s} links render only for
+    # published articles, so the pages can never link a 404 article.
+    pub = _published_slugs()
     cluster = "".join(
         f'<a href="{escape(href)}">{escape(label)}</a>'
-        for label, href in r["cluster"])
+        for label, href in r["cluster"]
+        if not (href.startswith("/en/blog/")
+                and href[len("/en/blog/"):] not in pub))
     faq = "".join(
         f"<details><summary>{escape(q)}</summary><p>{escape(a)}</p></details>"
         for q, a in r["faq"])

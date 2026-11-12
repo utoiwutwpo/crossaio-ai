@@ -172,6 +172,10 @@ def _page(slug: str, title: str, excerpt: str, author: str,
     border-radius:11px;transition:.2s;
     box-shadow:0 8px 22px rgba(37,99,235,.35)}}
   .btn:hover{{transform:translateY(-2px)}}
+  .res{{margin-top:30px;border:1px solid var(--border);border-radius:14px;
+    padding:18px 22px;font-size:14.5px}}
+  .res a{{color:var(--blue);font-weight:600}}
+  .res a:hover{{text-decoration:underline}}
   footer{{border-top:1px solid var(--border);padding:26px 32px;text-align:center;
     color:var(--muted);font-size:13px}}
 </style>
@@ -194,13 +198,19 @@ def _page(slug: str, title: str, excerpt: str, author: str,
   <article>
 {body_html}
   </article>
+  <div class="res"><b>Free downloads</b><br>
+    <a href="/en/resources/field-map">13-platform GPSR field map (CSV)</a> &middot;
+    <a href="/en/resources/appeal-pack">Error 5995 appeal pack (ZIP)</a> &middot;
+    <a href="/en/resources/weekly-checklist">Weekly compliance checklist (PDF)</a> &middot;
+    <a href="/en/resources/dpp-readiness">DPP data readiness checklist (CSV)</a>
+  </div>
   <div class="cta"><b>Check your listings for GPSR gaps — free, in 30 seconds.</b><br>
     <a class="btn" href="/en/gpsr-check?{_UTM.format(slug=escape(slug))}">Run the free check →</a></div>
 </main>
 <footer>CrossAIO — GPSR compliance, localization and multi-platform growth
   for European cross-border sellers.<br>
   <a href="/en/privacy">Privacy</a> · <a href="/en/terms">Terms</a> ·
-  <a href="/en/trust">Trust</a></footer>
+  <a href="/trust">Trust</a></footer>
 </body>
 </html>
 """
@@ -220,4 +230,147 @@ def render_post(slug: str) -> HTMLResponse:
     body_html = md_to_html(post.body or "")
     html = _page(slug, post.title, post.excerpt or "", post.author or "CrossAIO Team",
                  str(post.published_at or ""), body_html)
+    return HTMLResponse(html, headers=_NO_CACHE)
+
+
+_CJK_RE = re.compile(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]")
+
+
+def published_slugs() -> set:
+    """Slugs of published articles; failure -> empty set (callers drop links).
+
+    Used by resource_pages to filter cluster links so no /en/blog/... link
+    ever renders for an unpublished or renamed slug (which would 404).
+    """
+    try:
+        db = SessionLocal()
+        try:
+            return {s for (s,) in db.query(BlogPost.slug)
+                    .filter(BlogPost.is_published.is_(True)).all()}
+        finally:
+            db.close()
+    except Exception:
+        return set()
+
+
+_INDEX_TITLE = "CrossAIO Blog — EU compliance & marketplace playbooks"
+_INDEX_DESC = ("Operational guides for European cross-border sellers: GPSR field "
+               "checks, takedown appeals, localization and multi-marketplace "
+               "growth. English first; operational guidance, not legal advice.")
+
+
+def _index_page(items_html: str) -> str:
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="{_SITE}/en/blog">
+<link rel="alternate" hreflang="en" href="{_SITE}/en/blog">
+<link rel="alternate" hreflang="x-default" href="{_SITE}/en/blog">
+<title>{escape(_INDEX_TITLE)}</title>
+<meta name="description" content="{escape(_INDEX_DESC)}">
+<style>
+  :root{{--navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;
+    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;--soft:#f8fafc}}
+  *{{box-sizing:border-box;margin:0;padding:0}}
+  body{{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;
+    background:#fff;color:var(--ink);line-height:1.8}}
+  a{{text-decoration:none;color:inherit}}
+  nav{{display:flex;justify-content:space-between;align-items:center;
+    padding:14px 32px;max-width:1080px;margin:0 auto}}
+  .logo{{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}}
+  .logo .dot{{width:28px;height:28px;border-radius:8px;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    display:inline-flex;align-items:center;justify-content:center;
+    color:#fff;font-size:15px}}
+  .navlinks{{display:flex;gap:22px;font-size:14.5px;font-weight:600}}
+  .navlinks a:hover{{color:var(--blue)}}
+  .hero{{background:linear-gradient(135deg,#0b1030 0%,#16204d 55%,#231457 100%);
+    color:#fff;padding:56px 32px 60px}}
+  .hero-in{{max-width:780px;margin:0 auto}}
+  .hero .meta{{font-size:13px;color:#93a5c8;text-transform:uppercase;
+    letter-spacing:.05em}}
+  .hero h1{{font-size:34px;line-height:1.25;margin:14px 0 12px;letter-spacing:-.4px}}
+  .hero p.sub{{color:#cbd5e1;font-size:16px}}
+  main{{max-width:780px;margin:0 auto;padding:44px 28px 64px}}
+  .post{{border:1px solid var(--border);border-radius:14px;padding:22px 26px;
+    margin:0 0 16px;transition:.15s}}
+  .post:hover{{border-color:var(--blue)}}
+  .post .meta{{font-size:12.5px;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.05em}}
+  .post h2{{font-size:19px;margin:6px 0 8px;letter-spacing:-.2px}}
+  .post h2 a:hover{{color:var(--blue)}}
+  .post p{{font-size:14.5px;color:#334155}}
+  .cta{{margin-top:36px;border:1px solid var(--border);border-radius:16px;
+    padding:26px;text-align:center;background:var(--soft)}}
+  .cta b{{font-size:17px}}
+  .btn{{display:inline-block;margin-top:14px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+    color:#fff;font-weight:700;font-size:15px;padding:12px 26px;
+    border-radius:11px;transition:.2s;
+    box-shadow:0 8px 22px rgba(37,99,235,.35)}}
+  .btn:hover{{transform:translateY(-2px)}}
+  footer{{border-top:1px solid var(--border);padding:26px 32px;text-align:center;
+    color:var(--muted);font-size:13px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><span class="dot">◈</span>CrossAIO</div>
+  <div class="navlinks">
+    <a href="/en/rules">Rules</a><a href="/en/pricing">Pricing</a>
+    <a href="/en/blog">Blog</a><a href="/signup">Sign up</a>
+  </div>
+</nav>
+<div class="hero"><div class="hero-in">
+  <div class="meta">CrossAIO Blog</div>
+  <h1>EU compliance &amp; marketplace playbooks</h1>
+  <p class="sub">Operational guides for European cross-border sellers — GPSR field
+     checks, takedown appeals, localization and multi-marketplace growth.
+     English first; operational guidance, not legal advice.</p>
+</div></div>
+<main>
+{items_html}
+  <div class="cta"><b>Check your listings for GPSR gaps — free, in 30 seconds.</b><br>
+    <a class="btn" href="/en/gpsr-check?utm_source=blog&utm_medium=organic&utm_campaign=index">Run the free check &rarr;</a></div>
+</main>
+<footer>CrossAIO — GPSR compliance, localization and multi-platform growth
+  for European cross-border sellers.<br>
+  <a href="/en/privacy">Privacy</a> &middot; <a href="/en/terms">Terms</a> &middot;
+  <a href="/trust">Trust</a></footer>
+</body>
+</html>
+"""
+
+
+def render_index() -> HTMLResponse:
+    """Blog index (SSR): every published article, newest first, en-only.
+
+    2026-11-12: /en/blog was a dead link in the article template and the
+    /en/sitemap hub (only the hash-routed root /blog existed). This gives
+    crawlers a real indexable hub linking every article — the missing root
+    of the blog <-> resources internal cluster.
+    """
+    db = SessionLocal()
+    try:
+        posts = (db.query(BlogPost)
+                 .filter(BlogPost.is_published.is_(True))
+                 .order_by(BlogPost.published_at.desc())
+                 .all())
+    finally:
+        db.close()
+    if not posts:
+        # Never serve an empty shell to crawlers; 404 until one article exists.
+        raise HTTPException(status_code=404)
+    items = "\n".join(
+        f'<div class="post">'
+        f'<div class="meta">{escape(str(p.published_at or "")[:10])} &middot; '
+        f'{escape(p.author or "CrossAIO Team")}</div>'
+        f'<h2><a href="/en/blog/{escape(p.slug)}">{escape(p.title)}</a></h2>'
+        f'<p>{escape((p.excerpt or "")[:220])}</p>'
+        f'</div>'
+        for p in posts)
+    html = _index_page(items)
+    assert not _CJK_RE.search(html), "blog index must contain zero CJK characters"
     return HTMLResponse(html, headers=_NO_CACHE)

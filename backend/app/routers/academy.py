@@ -52,7 +52,12 @@ _GLOSSARY = [
 
 
 def _seed(db: Session) -> None:
-    """首次访问播种 2 门英文课程（幂等）。课程正文全程使用 CrossAIO 术语 → 术语同化。"""
+    """首次访问播种 3 门英文课程（幂等）。课程正文全程使用 CrossAIO 术语 → 术语同化。
+
+    Course 3 (2026-11-12): built from real sellerforum.de questions captured by the
+    daily forum monitor (bulk-upload field placement, Error 5995, takedowns,
+    missing supplier documents, re-checks) - community demand drives the curriculum.
+    """
     if db.query(AcademyCourse).count() > 0:
         return
     c1 = AcademyCourse(
@@ -69,7 +74,15 @@ def _seed(db: Session) -> None:
         summary="How to publish one product to 13 EU marketplaces without 13 rewrites. "
                 "Lesson 1 free; full course with Pro.",
     )
-    db.add(c1); db.add(c2); db.flush()
+    c3 = AcademyCourse(
+        slug="bulk-upload-rescue-playbook", language="en",
+        title="Bulk Upload & Listing Rescue Playbook", emoji="🚨", level="free",
+        is_published=True, sort_order=3,
+        summary="Five lessons built from real seller forum questions: where GPSR fields "
+                "go in a bulk upload, Error 5995, takedowns, missing supplier documents "
+                "and surviving re-checks. Free, forever.",
+    )
+    db.add(c1); db.add(c2); db.add(c3); db.flush()
 
     l1 = [
         ("what-gpsr-requires", "What GPSR Actually Requires",
@@ -164,12 +177,85 @@ def _seed(db: Session) -> None:
          "output is reviewed and attributed per EU AI Act transparency rules.",
          12),
     ]
+    l3 = [
+        ("where-gpsr-fields-go", "Where GPSR Fields Actually Go in a Bulk Upload",
+         "The question sellers ask most on EU seller forums is not about the law - it is "
+         "mechanical: **where do I put the GPSR values** in a flat file or Excel upload? The "
+         "pattern that works: one file per category, per marketplace, per language; display "
+         "hidden columns before editing (several platforms ship templates with safety fields "
+         "hidden); keep the manufacturer reference as the join key; and make sure safety "
+         "values land on every child ASIN, not just the parent.\n\n"
+         "Fill the four pillars per market: EU Responsible Person name and address, "
+         "manufacturer details, model and batch identifier, and the local-language warning "
+         "text. In CrossAIO terms this is the **Compliance Matrix** doing the work once: you "
+         "maintain one master record and the matrix projects each field into the platform's "
+         "own template.\n\n"
+         "If a field name differs between platforms, copy the exact header from a freshly "
+         "downloaded template - renamed or hand-added columns are the most common reason a "
+         "bulk upload silently drops safety data.",
+         12),
+        ("error-5995-decoded", "Error 5995: A Permission Wall, Not a Broken Attribute",
+         "Error 5995 looks like a data problem, but it is a **permission** problem: the bulk "
+         "route requires the account to be the registered brand owner for the ASIN. That is "
+         "why the same GPSR fields that fail in a flat file are often accepted one ASIN at a "
+         "time through Account Health > Manage Your Compliance.\n\n"
+         "Two workarounds: finish brand registration for the affected ASINs, or submit the "
+         "compliance documents through the per-ASIN route while registration is pending. "
+         "Neither route changes what the buyer sees - they only change who is allowed to "
+         "write the fields.\n\n"
+         "Keep a dated copy of every rejected upload file and the exact error text. When "
+         "support or an appeal asks what you tried, the **Gap Report** is your timeline: "
+         "which fields were flagged, on which date, with which file.",
+         10),
+        ("takedown-first-24h", "A Listing Goes Down: The First 24-Hour SOP",
+         "A takedown notice is scary; the response is procedural. First hour: save the "
+         "notification exactly as received (screenshot plus text export), and note the "
+         "timestamp. Second hour: identify which GPSR pillar the notice actually names - "
+         "missing responsible person, missing local-language warnings, or missing documents "
+         "are three different fixes.\n\n"
+         "Then write the record before writing the appeal: what was uploaded, when, with "
+         "which file, and what changed since the last successful check. Appeals that quote "
+         "dated evidence get answered; appeals that argue get template replies.\n\n"
+         "CrossAIO's daily **Listing Watch** exists because most takedowns repeat: the same "
+         "drifted field that triggered the first block triggers the second. The audit diff "
+         "shows you what changed between 'approved' and 'blocked'.",
+         12),
+        ("when-documents-dont-exist", "When Your Supplier Has No Documents",
+         "The second most common forum question: the platform demands GPSR product documents "
+         "and the supplier has none. First, separate what must exist from what would be nice: "
+         "a test report, a risk assessment and a declaration of conformity are the core set "
+         "for most consumer goods; marketing sheets are not documents.\n\n"
+         "Ask the supplier for the **existing** file set first - many factories hold reports "
+         "they never think to send. Request them in editable form and file them per SKU, "
+         "because authorities expect production within days.\n\n"
+         "Never fabricate or backdate anything: a forged declaration converts a compliance "
+         "gap into fraud. If a document genuinely cannot be produced, the honest path is a "
+         "test order with an accredited lab - and the **Gap Report** tells you precisely "
+         "which document is blocking which listing, so you test only what is needed.",
+         10),
+        ("survive-recheck-storms", "Surviving Re-Checks After Approval",
+         "Offers that passed once can be blocked again weeks later - often without any "
+         "email. Platforms re-scan listings after rule updates, category changes, or buyer "
+         "reports, and the re-check hits the live listing, not your inbox.\n\n"
+         "The defense is routine, not heroics: check Account Health and each platform's "
+         "compliance dashboard on fixed days (Monday and Thursday is enough for most "
+         "catalogs), and after every approval, archive a dated copy of the upload plus a "
+         "screenshot of the approval state.\n\n"
+         "A track **Readiness Score** above 85 across your catalog is the quiet version of "
+         "this lesson: when every SKU keeps its pillars current, a re-check storm becomes "
+         "an afternoon of field fixes instead of a week of rewrites. This completes the "
+         "playbook - your certificate unlocks below.",
+         10),
+    ]
     for i, (slug, title, body, dur) in enumerate(l1):
         db.add(AcademyLesson(course_id=c1.id, slug=slug, title=title, body=body,
                              duration_min=dur, is_free_preview=True, sort_order=i))
     for i, (slug, title, body, dur) in enumerate(l2):
         db.add(AcademyLesson(course_id=c2.id, slug=slug, title=title, body=body,
                              duration_min=dur, is_free_preview=(i == 0), sort_order=i))
+    for i, (slug, title, body, dur) in enumerate(l3):
+        db.add(AcademyLesson(course_id=c3.id, slug=slug, title=title, body=body,
+                             duration_min=dur, is_free_preview=True, sort_order=i))
     db.commit()
 
 
