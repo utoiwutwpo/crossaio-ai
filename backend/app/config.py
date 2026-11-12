@@ -108,6 +108,16 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+# 托管 Postgres（Neon/Supabase/Render）URL 归一：postgres:// → postgresql+psycopg2://，并强制 SSL
+_db_url = settings.database_url or ""
+if _db_url.startswith("postgres://"):
+    _db_url = "postgresql+psycopg2://" + _db_url[len("postgres://"):]
+elif _db_url.startswith("postgresql://"):
+    _db_url = "postgresql+psycopg2://" + _db_url[len("postgresql://"):]
+if _db_url.startswith("postgresql+psycopg2://") and "sslmode=" not in _db_url:
+    _db_url += ("&" if "?" in _db_url else "?") + "sslmode=require"
+settings.database_url = _db_url
+
 # 兼容 SQLite 的 check_same_thread
 if settings.database_url.startswith("sqlite"):
     os.environ.setdefault("SQLALCHEMY_WARN_20", "0")
