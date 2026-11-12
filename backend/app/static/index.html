@@ -1662,8 +1662,10 @@ function activateTab(name){
   // 接入页：每次进入都确保中栏「平台凭证接入中心」已渲染（失败也要显性报错，绝不静默留空）
   if(name==="connect" && typeof loadCredStatus==="function"){ try{ loadCredStatus(); }catch(e){} }
   if(name==="home" && !window._homeRecentLoaded){ window._homeRecentLoaded = true; loadRecentOps(); }
-  // URL 同步：刷新/分享链接直达对应面板
-  history.pushState(null, "", "/app?tab="+name);
+  // URL 同步：刷新/分享链接直达对应面板（保留语种，避免刷新后掉语种）
+  var _lgNow="zh"; try{ _lgNow=document.documentElement.lang||localStorage.getItem("wbpro_lang")||"zh"; }catch(e){}
+  if(["zh","en","de","fr"].indexOf(_lgNow)<0) _lgNow="zh";
+  history.pushState(null, "", "/app?lang="+_lgNow+"&tab="+name);
   // 自动滚动到面板顶部，让用户看到切换结果
   const panel = document.getElementById("tab-"+name);
   if(panel) panel.scrollIntoView({behavior:"smooth", block:"start"});

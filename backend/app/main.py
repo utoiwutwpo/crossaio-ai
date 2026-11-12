@@ -11,7 +11,7 @@ from urllib.parse import parse_qsl as _parse_qsl, urlencode as _urlencode
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -765,11 +765,21 @@ def lang_home(lang: str):
 
 
 @app.get("/{lang}/app", include_in_schema=False)
-def lang_app(lang: str):
-    """语言工作台入口：301 到 /app?lang=<lang>，由前端按语种渲染（en/de/fr/zh）。"""
+def lang_app(lang: str, request: Request):
+    """语言工作台入口：301 到 /app?lang=<lang>，由前端按语种渲染（en/de/fr/zh）。
+
+    保留原查询参数（tab=connect 等），否则 redirect 会把 tab/token 参数丢掉，
+    四语种从 /xx/app?tab=connect 进入时会掉回首页，接入页中栏看起来"消失"。
+    """
     if lang not in ("en", "de", "fr", "zh"):
         raise HTTPException(status_code=404)
-    return RedirectResponse("/app?lang=" + lang, status_code=301)
+    extra = ""
+    qs = request.url.query or ""
+    if qs:
+        keep = [(k, v) for k, v in _parse_qsl(qs, keep_blank_values=True) if k != "lang"]
+        if keep:
+            extra = "&" + _urlencode(keep)
+    return RedirectResponse("/app?lang=" + lang + extra, status_code=301)
 
 
 @app.get("/{lang}/{page}", include_in_schema=False)
