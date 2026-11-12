@@ -11,7 +11,10 @@ from fastapi.responses import FileResponse
 router = APIRouter()
 
 _DIR = Path(__file__).resolve().parent.parent / "static" / "site-preview" / "home-assets"
-_HEADERS = {"Cache-Control": "no-cache, no-store, must-revalidate"}
+# 图片体积大、改动少：允许浏览器与 CDN 缓存 7 天，避免每次进首页都重下 1.9MB 实拍图。
+# CSS 仍禁缓存，保证改版后样式立即生效。
+_IMG_HEADERS = {"Cache-Control": "public, max-age=604800"}
+_CSS_HEADERS = {"Cache-Control": "no-cache, no-store, must-revalidate"}
 _FILES = {
     "site.css": "text/css",
     "nav.css": "text/css",
@@ -28,4 +31,5 @@ def home_asset(name: str):
     media = _FILES.get(name)
     if not media:
         raise HTTPException(status_code=404)
-    return FileResponse(_DIR / name, media_type=media, headers=_HEADERS)
+    return FileResponse(_DIR / name, media_type=media,
+                        headers=_IMG_HEADERS if media.startswith("image/") else _CSS_HEADERS)

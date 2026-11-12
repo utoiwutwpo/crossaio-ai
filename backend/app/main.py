@@ -428,6 +428,24 @@ app.mount("/podcast-audio", StaticFiles(directory=Path(__file__).parent / "stati
 # 营销页/落地页 HTML 统一禁缓存：改版后浏览器立即拿到新 HTML，避免旧导航/旧文案滞留
 _NO_CACHE_HEADERS = {"Cache-Control": "no-cache, no-store, must-revalidate"}
 
+# 图片类静态资源给长缓存：首页/落地页图片每次访问都重下是打开慢的主因之一。
+# 只对图片生效，HTML 与 CSS 保持上面的 no-store。
+_STATIC_IMG_EXT = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".ico", ".avif")
+_STATIC_IMG_PREFIX = ("/img/", "/zh/home-assets/", "/static/")
+
+
+@app.middleware("http")
+async def static_image_cache_middleware(request, call_next):
+    response = await call_next(request)
+    try:
+        path = request.url.path.lower()
+        if (path.endswith(_STATIC_IMG_EXT) and path.startswith(_STATIC_IMG_PREFIX)
+                and "cache-control" not in response.headers):
+            response.headers["Cache-Control"] = "public, max-age=604800"
+    except Exception:
+        pass
+    return response
+
 
 @app.post("/api/v1/admin/self-restart", include_in_schema=True,
           summary="远程自重启：触发 watcher 重启 / 兜底调起 restart-remote.bat")
