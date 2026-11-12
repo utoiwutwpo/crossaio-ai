@@ -205,47 +205,63 @@ def traffic(
     human_ips = set()
     human_pv = bot_pv = probe_pv = 0
     recent = []
+    def _dict(v):
+        return v if isinstance(v, dict) else {}
+
+    def _str(v, n=None):
+        t = v if isinstance(v, str) else ("" if v is None else str(v))
+        return t[:n] if n else t
+
     for r in rows:
-        meta = r.meta or {}
-        kind = meta.get("ua_kind")
-        if kind not in ("human", "bot", "probe"):
-            # 兼容部署前的旧事件：只有 is_bot 字段
-            kind = "bot" if meta.get("is_bot") else "human"
-        day = r.created_at.strftime("%Y-%m-%d") if r.created_at else "?"
-        path = meta.get("path") or "?"
-        by_day[day][kind] += 1
-        by_path[path][kind] += 1
-        if kind == "human":
-            human_pv += 1
-            # 匿名访客 cookie 优先于 IP：同一出口 IP 下的多个真实用户能分开计数
-            vid = meta.get("vid") or r.ip_hash or ""
-            if vid:
-                human_ips.add(vid)
-            channel = ((r.utm_source or "").strip()
-                       or (meta.get("utm") or {}).get("utm_source", "")
-                       or "direct")
-            by_channel[channel]["pv"] += 1
-            by_channel[channel]["vid"].add(vid)
-            ref = (meta.get("ref") or "").strip()
-            if ref:
-                by_ref[ref] += 1
-            if len(recent) < 30:
-                recent.append({
-                    "at": r.created_at.strftime("%Y-%m-%d %H:%M:%S") if r.created_at else "",
-                    "path": path,
-                    "channel": channel,
-                    "ip": vid[:8],
-                    "ua": (meta.get("ua") or "")[:120],
-                })
-        elif kind == "bot":
-            bot_pv += 1
-        else:
-            probe_pv += 1
+        # 2026-11-12 hardening: a single malformed/legacy row (meta stored as a
+        # JSON string, non-string ua/ref, missing created_at) must never 500 the
+        # whole dashboard. summary reads no meta so it never hit this; traffic
+        # does. Coerce every field and skip only the offending row.
+        try:
+            meta = _dict(r.meta)
+            kind = meta.get("ua_kind")
+            if kind not in ("human", "bot", "probe"):
+                kind = "bot" if meta.get("is_bot") else "human"
+            day = r.created_at.strftime("%Y-%m-%d") if r.created_at else "?"
+            path = _str(meta.get("path")) or "?"
+            by_day[day][kind] += 1
+            by_path[path][kind] += 1
+            if kind == "human":
+                human_pv += 1
+                vid = _str(meta.get("vid")) or _str(r.ip_hash)
+                if vid:
+                    human_ips.add(vid)
+                channel = (_str(r.utm_source).strip()
+                           or _str(_dict(meta.get("utm")).get("utm_source")).strip()
+                           or "direct")
+                by_channel[channel]["pv"] += 1
+                by_channel[channel]["vid"].add(vid)
+                ref = _str(meta.get("ref")).strip()
+                if ref:
+                    by_ref[ref] += 1
+                if len(recent) < 30:
+                    recent.append({
+                        "at": r.created_at.strftime("%Y-%m-%d %H:%M:%S") if r.created_at else "",
+                        "path": path,
+                        "channel": channel,
+                        "ip": vid[:8],
+                        "ua": _str(meta.get("ua"), 120),
+                    })
+            elif kind == "bot":
+                bot_pv += 1
+            else:
+                probe_pv += 1
+        except Exception:
+            # Skip one unparseable row; keep the rest of the dashboard accurate.
+            continue
 
     for e in events:
-        channel = (e.utm_source or "").strip() or "direct"
-        ev_by_channel[channel][e.event_type] += 1
-        ev_total[e.event_type] += 1
+        try:
+            channel = _str(e.utm_source).strip() or "direct"
+            ev_by_channel[channel][e.event_type] += 1
+            ev_total[e.event_type] += 1
+        except Exception:
+            continue
 
     channels = []
     for channel in sorted(set(by_channel) | set(ev_by_channel)):
