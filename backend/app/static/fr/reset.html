@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Réinitialiser le mot de passe · CrossAIO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤖</text></svg>">
+<style>
+  :root{--blue:#2563eb;--blue-light:#3b82f6;--violet:#7c3aed;--blue-dark:#1d4ed8;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--err:#dc2626;--ok:#059669}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#fff;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+  a{text-decoration:none;color:var(--blue)}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;max-width:1240px;width:100%;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--ink)}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(99,102,241,.4)}
+  main{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;max-width:1240px;width:100%;margin:0 auto}
+  @media(max-width:900px){main{grid-template-columns:1fr}.brand-panel{display:none}}
+  .brand-panel{position:relative;overflow:hidden;color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:center;
+    background:radial-gradient(900px 500px at 80% 20%,rgba(124,58,237,.5),transparent 60%),radial-gradient(700px 400px at 10% 100%,rgba(29,78,216,.4),transparent 55%),linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%)}
+  .brand-panel::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+  .brand-panel .bp{position:relative;z-index:2}
+  .brand-panel h2{font-size:30px;font-weight:800;line-height:1.25;margin-bottom:16px}
+  .brand-panel h2 span{background:linear-gradient(90deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .brand-panel p{color:#c7d0e8;font-size:15px;margin-bottom:24px}
+  .brand-panel ul{list-style:none}
+  .brand-panel li{font-size:14px;color:#dbe3f2;padding:6px 0 6px 26px;position:relative}
+  .brand-panel li::before{content:"✓";position:absolute;left:0;color:#86efac;font-weight:800}
+  .auth-side{display:flex;align-items:center;justify-content:center;padding:40px 32px}
+  .card{width:100%;max-width:420px}
+  .card h1{font-size:26px;font-weight:800;margin-bottom:6px}
+  .card .sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+  label{display:block;font-size:14px;color:#3c4a63;margin:16px 0 6px}
+  input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:9px;font-size:14px;color:var(--ink);background:#fff;transition:.15s}
+  input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+  .btn-primary{width:100%;background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border:none;border-radius:999px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-top:24px;box-shadow:0 12px 30px rgba(124,58,237,.4);transition:.2s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(124,58,237,.5)}
+  .btn-primary:disabled{background:#9dbef0;cursor:not-allowed;transform:none;box-shadow:none}
+  .msg{padding:11px 14px;border-radius:9px;font-size:13px;margin-top:14px;display:none}
+  .msg.err{display:block;background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.info{display:block;background:#eff6ff;color:var(--blue-dark);border:1px solid #bfdbfe}
+  .msg.ok{display:block;background:#ecfdf5;color:var(--ok);border:1px solid #bbf7d0}
+  .back{margin-top:22px;font-size:14px;text-align:center}
+  footer{border-top:1px solid #eef1f5;padding:18px 28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted);max-width:1240px;width:100%;margin:0 auto}
+  footer a{color:var(--muted);margin:0 6px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
+  <div style="font-size:13px;color:#64748b">Retour à la connexion</div>
+</div>
+<main>
+  <div class="brand-panel">
+    <div class="bp">
+      <h2>La conformité d'abord,<br><span>l'efficacité ensuite.</span></h2>
+      <p>Un seul poste de travail pour tout le flux transfrontalier — fiches produits, blocs GPSR, service client IA et surveillance 7×24.</p>
+      <ul><li>Règlement UE 2023/988 (GPSR) — blocs de conformité intégrés</li><li>Divulgation AI Act Art.50 automatique (16 langues)</li><li>12 packs de règles marketplace · une saisie, toutes les places de marché</li><li>Offre gratuite : 5 générations par jour, sans carte bancaire</li></ul>
+    </div>
+  </div>
+  <div class="auth-side">
+    <div class="card">
+      <div id="ask">
+        <h1>Mot de passe oublié ?</h1>
+        <p class="sub">Saisissez l'adresse e-mail de votre compte, nous vous envoyons un lien de réinitialisation.</p>
+        <form id="askForm">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" autocomplete="email" required placeholder="you@company.com">
+          <button class="btn-primary" id="btnAsk" type="submit">Envoyer le lien</button>
+        </form>
+      </div>
+      <div id="set" style="display:none">
+        <h1>Définir un nouveau mot de passe</h1>
+        <p class="sub">Choisissez un mot de passe d'au moins 8 caractères.</p>
+        <form id="setForm">
+          <label for="np">Nouveau mot de passe</label>
+          <input type="password" id="np" autocomplete="new-password" minlength="8" required>
+          <label for="np2">Confirmer le mot de passe</label>
+          <input type="password" id="np2" autocomplete="new-password" minlength="8" required>
+          <button class="btn-primary" id="btnSave" type="submit">Enregistrer</button>
+        </form>
+      </div>
+      <div class="msg" id="msg"></div>
+      <p class="back"><a href="/fr/signin">Retour à la connexion</a></p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div><a href="/fr/privacy">Privacy</a>|<a href="/fr/terms">Terms</a></div>
+  <span>CrossAIO © 2026</span>
+</footer>
+<script>
+(function(){
+  var API="/api/v1", LANG="fr";
+  var msg=document.getElementById("msg");
+  function show(t,c){ msg.className="msg "+c; msg.textContent=t; }
+  var token=new URLSearchParams(location.search).get("token")||"";
+  var mEmail=new URLSearchParams(location.search).get("email")||"";
+  if(token){
+    document.getElementById("ask").style.display="none";
+    document.getElementById("set").style.display="block";
+    if(mEmail) document.getElementById("np").focus();
+  } else {
+    if(mEmail) document.getElementById("email").value=mEmail;
+  }
+
+  document.getElementById("askForm").onsubmit=async function(e){
+    e.preventDefault();
+    var b=document.getElementById("btnAsk"); b.disabled=true; b.textContent="Envoi…";
+    try{
+      var r=await fetch(API+"/users/password/forgot",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({email:document.getElementById("email").value.trim(),lang:LANG})});
+      var d=await r.json();
+      if(!r.ok) throw new Error(d.detail||"failed");
+      show(d.mail_configured?"Vérifiez votre boîte de réception — le lien est valable 30 minutes.":"L'envoi d'e-mails n'est pas encore configuré. Écrivez à support@crossaio.ai, nous réinitialiserons pour vous.", d.mail_configured?"ok":"info");
+    }catch(err){ show(err.message,"err"); }
+    b.disabled=false; b.textContent="Envoyer le lien";
+  };
+
+  document.getElementById("setForm").onsubmit=async function(e){
+    e.preventDefault();
+    var pw=document.getElementById("np").value, pw2=document.getElementById("np2").value;
+    if(pw!==pw2) return show("Les deux mots de passe ne correspondent pas.","err");
+    if(pw.length<8) return show("Le mot de passe doit contenir au moins 8 caractères.","err");
+    var b=document.getElementById("btnSave"); b.disabled=true; b.textContent="Enregistrement…";
+    try{
+      var r=await fetch(API+"/users/password/reset",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({token:token,password:pw})});
+      var d=await r.json();
+      if(!r.ok) throw new Error(d.detail||"failed");
+      show("Mot de passe mis à jour. Redirection vers la connexion…","ok");
+      setTimeout(function(){location.href="/fr/signin";},1800);
+    }catch(err){ show(err.message,"err"); }
+    b.disabled=false; b.textContent="Enregistrer";
+  };
+
+})();
+</script>
+<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+</body>
+</html>
