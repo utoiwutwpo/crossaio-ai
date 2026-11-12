@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-"""社区示例讨论种子 — 按跨境平台分子类别播种 22 帖 + 回复。
+"""社区示例讨论种子 — 按跨境平台分子类别播种 27 帖 + 回复。
 
 与 content_seed._ensure_content 同一套幂等策略：用户按邮箱去重，帖子按标题去重，
 回复按 (thread_id, body) 去重。可重复执行。
+2026-11-12：追加 5 帖，取材 2026 EU 执法新闻周期（DE/FR 联合标记 2000+ ASIN、
+ProdSG 罚则、页面即证据、Safety Gate 公开通报、变体重上架风险）。
 """
 from datetime import datetime, timedelta
 
@@ -235,6 +237,86 @@ THREADS = [
      "Our VAT ID was rejected twice for a formatting issue. Small question, but it cost us two days of listings.",
      "ebay,vat,listing", 0,
      [(AGNIESZKA, "It validates against VIES. Remove spaces, use the country prefix without dots, and it works.")]),
+
+    # ---- 2026-11-12: five threads from the current EU enforcement news cycle ----
+    # Sources: joint DE/FR market-surveillance sweep flagged 2,000+ ASINs for missing
+    # Responsible Person data (June 2026), Amazon final-notice emails with 14-day
+    # deadlines; German ProdSG revision in force 2026-02-19 with 32 administrative
+    # offences (up to EUR 100k each) and GPSR Art. 45 up to 4% of global turnover;
+    # authorities now audit the live listing page itself ("page as evidence");
+    # EU Safety Gate notifications are public and permanent; relisting a suspended
+    # ASIN via a variant risks account-level enforcement.
+
+    (THOMAS, "compliance", 1,
+     "2026 enforcement wave: DE and FR authorities flagged 2,000+ ASINs in June — did anyone get the final-notice email?",
+     "Reports are everywhere now: a joint German-French sweep flagged over two thousand ASINs for missing "
+     "Responsible Person data, and Amazon is sending final-notice compliance emails with 14-day deadlines "
+     "before permanent removal. The transition period is clearly over. "
+     "Who here actually received one of these notices, and what did the resolution path look like?",
+     "gpsr,2026-enforcement,amazon-de", 1,
+     [(LENA, "We got one for a SKU in June. What worked: submit the missing RP details straight through the "
+             "Regulatory Compliance Portal with the declaration attached. Do not open a dispute first — "
+             "sellers who argued spent weeks longer than sellers who just filed the documents."),
+      (JAVIER, "Also important: do not relist the flagged ASIN under a variant while the case is open. "
+               "That pattern reportedly moves the enforcement from the listing to the account level. "
+               "Fourteen days is enough time to fix the file if the RP appointment already exists.")]),
+
+    (AGNIESZKA, "compliance", 2,
+     "ProdSG update in force since 19 February: fines up to €100k per violation — has anyone been fined in practice?",
+     "The revised German ProdSG took effect in February: 32 administrative offences, each carrying up to "
+     "€100,000, and GPSR Article 45 allows up to 4% of global annual turnover for serious cases. "
+     "These numbers used to be theoretical — with authorities now doing proactive sweeps, has anyone here "
+     "actually received a fine or an official request from a Marktüberwachungsbehörde?",
+     "gpsr,prodsg,germany,2026-enforcement", 0,
+     [(THOMAS, "No fine yet in our circle, but we have seen a Safety Gate notification for a competitor in "
+               "kitchen electronics. The notification is public and permanent — the reputational hit was "
+               "worse than any fine would have been."),
+      (LENA, "The part people underestimate: enforcement no longer waits for a sample shipment. The live "
+             "listing page itself is the evidence now — manufacturer details, product identifier, batch "
+             "traceability, warnings in the destination language. Each missing item counts as its own "
+             "violation, and they can check all of it from a desk.")]),
+
+    (LENA, "amazon", 1,
+     "Amazon now audits the listing page itself — 'page as evidence' enforcement, who else noticed?",
+     "Market surveillance in DE and FR now pulls listing pages directly and checks them as compliance "
+     "evidence: is the manufacturer named, is there a traceable product identifier, are the safety "
+     "warnings in the language of the market, is the responsible person data there? No physical sampling "
+     "needed. We cleaned up our warnings text and a months-old suppression lifted within days. "
+     "Has anyone else seen a page-level fix resolve a listing-level block?",
+     "gpsr,listings,2026-enforcement", 0,
+     [(JAVIER, "Yes — same experience. Our FR listing had English-only warnings for months without issue, "
+               "then got suppressed within a week of the June sweep. Rewriting the warnings in French was "
+               "the only change we made, and it came back."),
+      (AGNIESZKA, "This is why the warning texts need to be maintained per market, not stored once in a "
+                  "document somewhere. If the text is not on the page, it does not exist for the auditor.")]),
+
+    (JAVIER, "general", 2,
+     "EU Safety Gate notifications are public and permanent — does anyone monitor their category?",
+     "Learned this the hard way via a competitor: every withdrawal and recall under the Safety Gate rapid "
+     "alert system is publicly searchable and stays up. For a small brand that notification can rank on "
+     "your own brand name. Do you monitor the Safety Gate for your category, and what do you do when a "
+     "competitor gets flagged?",
+     "safety-gate,compliance,strategy", 0,
+     [(THOMAS, "We check it monthly with a calendar reminder, filtered to our product categories. "
+               "It doubles as free market intelligence — the flagged products tell you exactly which "
+               "documentation gaps the authorities are hunting for right now."),
+      (LENA, "Honestly, a competitor's notification is an opportunity. If they got flagged for missing "
+             "responsible person data and you have yours in order, that is the moment to be visibly "
+             "compliant on the same keywords.")]),
+
+    (THOMAS, "amazon", 3,
+     "Relisting a suspended ASIN via a variant — has anyone tried it and lived to tell?",
+     "Our agency suggested dodging a GPSR suspension by creating a new child ASIN under the same parent. "
+     "Everything I read says Amazon's compliance system links variants and that repeated evasion moves "
+     "enforcement from the listing to the seller account. Before I argue with them: does anyone have a "
+     "first-hand account of how that played out?",
+     "gpsr,suspension,amazon,2026-enforcement", 0,
+     [(AGNIESZKA, "Do not. We watched a neighbouring seller do exactly that twice; first suspension was "
+                  "listing-level, the account review that followed was not. The appeal became ten times "
+                  "harder than the original fix would have been."),
+      (JAVIER, "The system is built to receive documents, not negotiate. Filing the missing compliance "
+               "data through the portal took us two days; the account-level aftermath of an evasion "
+               "attempt took someone we know most of a quarter.")]),
 ]
 
 
