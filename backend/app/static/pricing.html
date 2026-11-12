@@ -7,8 +7,8 @@
 <meta name="description" content="CrossAIO 四档定价，按年销售额对号入座：Free（€50K 以下）免费体检；Starter €29/月解锁 GPSR 合规块（年付 €23/月省 20%）；Pro €49/月含 AI 客服（原生内嵌 EU AI Act Art.50 披露）；Business €149/月无限平台矩阵。合规不违规 = 保住店铺。无需信用卡。（价格以欧元 EUR 结算）">
 <style>
   :root{
-    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --navy:#0b1030;--ink:#0f172a;--muted:#475569;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#047857;--err:#dc2626;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -32,7 +32,7 @@
   .page-head{background:radial-gradient(900px 400px at 70% 20%,rgba(124,58,237,.35),transparent 60%),
       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#3b1a86 100%);
     padding:64px 24px 150px;text-align:center;color:#fff;position:relative;overflow:hidden}
-  .page-head .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c4b5fd;margin-bottom:14px}
+  .page-head .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#EDE9FE;margin-bottom:14px}
   .page-head h1{font-size:40px;font-weight:800;letter-spacing:-.01em;margin-bottom:12px}
   .page-head p{color:#c7d0e8;font-size:15.5px;max-width:680px;margin:0 auto}
 
@@ -41,7 +41,7 @@
   .cycle-toggle button{background:transparent;border:none;color:#c7d0e8;font-size:14px;font-weight:700;padding:9px 26px;border-radius:999px;cursor:pointer}
   .cycle-toggle button.active{background:#fff;color:var(--navy)}
   .cycle-toggle .save-tip{color:#86efac;font-size:11.5px;font-weight:800;vertical-align:middle;margin-left:4px}
-  .cycle-note{font-size:12.5px;color:#a5b4d4;margin-top:10px}
+  .cycle-note{font-size:12.5px;color:#F5F3FF;margin-top:10px}
 
   .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
   .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:-100px;position:relative;z-index:5}
@@ -55,16 +55,16 @@
   .plan .price-row{display:flex;align-items:baseline;gap:8px;margin:4px 0 2px}
   .plan .price{font-size:38px;font-weight:800}
   .plan .price small{font-size:13.5px;color:var(--muted);font-weight:400}
-  .plan .was{font-size:15px;color:#94a3b8;text-decoration:line-through;font-weight:600}
+  .plan .was{font-size:15px;color:#5B6478;text-decoration:line-through;font-weight:600}
   .plan .limit{font-size:12.5px;color:var(--blue);font-weight:700;margin-bottom:4px}
   .plan .save-line{font-size:12px;color:var(--ok);font-weight:700;margin-bottom:12px;min-height:18px}
   .plan .group{margin:6px 0 0}
-  .plan .group b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#94a3b8;margin:12px 0 4px}
+  .plan .group b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5B6478;margin:12px 0 4px}
   .plan ul{list-style:none;margin:0 0 20px;flex:1;border-top:1px solid var(--border);padding-top:6px}
   .plan li{font-size:13.5px;color:#334155;padding:4px 0 4px 24px;position:relative}
   .plan li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
-  .plan li.na{color:#cbd5e1}
-  .plan li.na::before{content:"—";color:#cbd5e1}
+  .plan li.na{color:#6B7280}
+  .plan li.na::before{content:"—";color:#6B7280}
   .plan .go{display:block;text-align:center;border-radius:999px;padding:11px 0;font-size:14px;font-weight:700;border:1.5px solid var(--border);color:var(--ink)}
   .plan .go:hover{border-color:var(--blue);color:var(--blue)}
   .plan.hot .go{background:var(--blue);border-color:var(--blue);color:#fff}
@@ -75,10 +75,10 @@
   td:first-child,th:first-child{text-align:left;font-weight:600;color:var(--ink)}
   th{background:var(--soft);color:var(--muted);font-size:12.5px;font-weight:700}
   td .y{color:var(--ok);font-weight:800}
-  td .n{color:#cbd5e1}
+  td .n{color:#6B7280}
   tr.hot-col{background:#eff6ff}
   tr.cat td{background:linear-gradient(115deg,#0a0f2e,#3b1a86);color:#fff;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-align:left}
-  tr.cat td small{color:#c4b5fd;font-weight:600;margin-left:8px;letter-spacing:0;text-transform:none}
+  tr.cat td small{color:#EDE9FE;font-weight:600;margin-left:8px;letter-spacing:0;text-transform:none}
 
   section{max-width:1240px;margin:0 auto;padding:56px 24px}
   .sec-head{text-align:center;margin-bottom:32px}
@@ -131,7 +131,7 @@
   .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
   .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
   .dropdown a:hover{background:#eff6ff;color:var(--blue)}
-  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a::after{content:"›";color:#6B7280;font-size:16px}
   .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
   nav .right{display:flex;gap:14px;align-items:center}
   .login-link{font-size:14px;color:var(--muted)}
@@ -199,7 +199,7 @@
     <div class="navitem"><a class="solo" href="/pricing">定价</a></div>
   </div>
   <div class="right">
-    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;font-size:13px">
+    <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:5px 12px;border:1px solid #6B7280;border-radius:999px;background:#fff;color:#0f172a;font-size:13px">
       🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:13px;color:#0f172a;outline:none;cursor:pointer;font-weight:700">
         <option value="/en/" data-lang="en">English</option>
         <option value="/de/" data-lang="de">Deutsch</option>
@@ -348,7 +348,7 @@
     <tr><td>单平台生成（不限语言选择）</td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
     <tr><td>多平台矩阵批量生成</td><td><span class="n">—</span></td><td><span class="n">—</span></td><td>3 平台</td><td>无限</td></tr>
   </table>
-  <p style="font-size:12px;color:#94a3b8">* 平台数量指矩阵批量生成时可并发的目标平台数；单平台生成各档均不限平台选择。年付价格已含 20% 折扣，一次性扣款，随时取消并按未启用月份比例退款。</p>
+  <p style="font-size:12px;color:#5B6478">* 平台数量指矩阵批量生成时可并发的目标平台数；单平台生成各档均不限平台选择。年付价格已含 20% 折扣，一次性扣款，随时取消并按未启用月份比例退款。</p>
 </section>
 
 <!-- ⑨ 信任区 -->

@@ -1,6 +1,6 @@
 /* /zh 导航：逐条取自原站首页 CSS，作用域限定 #site-nav，不改动其它版块 */
 #site-nav{
-  --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+  --navy:#0b1030;--ink:#0f172a;--muted:#475569;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
   --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
   --bar:#1a5cf0;
   font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;

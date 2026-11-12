@@ -61,3 +61,10 @@ nav .logo .dot{margin-right:2px}
   nav .right .pill-nav{padding:6px 10px !important;font-size:11.5px !important}
   .lang-switch{padding:2px 7px !important}
 }
+
+/* contrast-floor: accent text on light surfaces (large numerals & eyebrows) */
+.s-band b,.b-met .v,.s-band .v{filter:brightness(.68)}
+.s-eyebrow{filter:brightness(.7)}
+.s-card .go{filter:brightness(.72)}
+.kicker{filter:brightness(.78)}
+.b-pill,.b-no{color:#F5F3FF !important}

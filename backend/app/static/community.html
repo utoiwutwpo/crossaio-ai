@@ -7,8 +7,8 @@
 <meta name="description" content="The forum for European cross-border sellers, organised by the marketplaces they actually sell on: Amazon, eBay, Kaufland, Allegro, Cdiscount, Temu and more. Certificate-holders get verified badges next to every post.">
 <style>
   :root{
-    --bg:#f6f8fc; --card:#fff; --ink:#0f172a; --muted:#64748b; --border:#e5e9f2;
-    --blue:#2563eb; --purple:#7c3aed; --green:#059669; --err:#dc2626; --ok:#059669;
+    --bg:#f6f8fc; --card:#fff; --ink:#0f172a; --muted:#475569; --border:#e5e9f2;
+    --blue:#2563eb; --purple:#7c3aed; --green:#047857; --err:#dc2626; --ok:#047857;
     --shadow:0 12px 34px rgba(15,23,42,.08);
   }
   *{box-sizing:border-box}
@@ -31,7 +31,7 @@
   .hero .b2{width:380px;height:380px;background:#a855f7;bottom:-170px;right:16%}
   .pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:6px 13px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.6px}
   .hero h1{font-size:44px;line-height:1.14;margin:18px 0 14px;font-weight:800;letter-spacing:-1px}
-  .hero h1 em{font-style:normal;background:linear-gradient(90deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,#93c5fd,#EDE9FE);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p.sub{font-size:16px;line-height:1.65;color:#c7d2fe;max-width:560px;margin:0 0 26px}
   .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
   .btn{display:inline-flex;align-items:center;gap:8px;border-radius:11px;padding:11px 20px;font-weight:700;font-size:14px;border:none;cursor:pointer;font-family:inherit;transition:.18s}
@@ -69,7 +69,7 @@
   .plat .plogo{width:16px;height:16px;border-radius:4px;font-size:9px;background:rgba(255,255,255,.24);box-shadow:none;margin-right:2px}
   .plat .pimg{width:16px;height:16px;border-radius:4px;margin-right:2px}
   .sitem .lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .sitem .ct{font-size:11.5px;font-weight:700;background:#f1f5f9;color:#64748b;padding:2px 7px;border-radius:999px}
+  .sitem .ct{font-size:11.5px;font-weight:700;background:#f1f5f9;color:#475569;padding:2px 7px;border-radius:999px}
   .sitem.on .ct{background:rgba(255,255,255,.22);color:#fff}
   .side .searchbox{margin:4px 4px 10px;display:flex;gap:6px}
   .side .searchbox input{flex:1;border:1px solid var(--border);border-radius:9px;padding:8px 11px;font:inherit;font-size:13px}
@@ -141,7 +141,7 @@
   .feat h4{margin:0 0 6px;font-size:14.5px;font-weight:800}
   .feat p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
 
-  footer{background:#0f172a;color:#94a3b8;padding:30px 0;text-align:center;font-size:13px;line-height:1.8}
+  footer{background:#0f172a;color:#5B6478;padding:30px 0;text-align:center;font-size:13px;line-height:1.8}
   footer a{color:#c7d2fe}
 </style>
 <style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style><style id="cx-nav-unify">/* 社区导航统一尺寸 + 白底整条铺满*/body>nav{height:61px!important;box-sizing:border-box;max-width:none!important;width:100%!important;margin:0!important;padding:0 max(32px,calc((100% - 1240px)/2 + 32px))!important;line-height:1.2}body>nav .logo{font-size:19px!important;gap:8px!important}body>nav .navlinks{gap:22px!important;font-size:14.5px!important;font-weight:600}</style>
@@ -306,7 +306,7 @@ const PLAT_COLOR = {
   cdiscount:"#e1000f", fnac:"#ffd500", allegro:"#ff5a00", "bol-com":"#0000a4",
   wallapop:"#16b364", aliexpress:"#e62e04", etsy:"#f1641e", temu:"#fb7701", shein:"#111111",
   shopify:"#95bf47", "own-store":"#6366f1", compliance:"#7c3aed", pricing:"#0891b2",
-  logistics:"#ea580c", localization:"#0ea5e9", general:"#64748b"
+  logistics:"#ea580c", localization:"#0ea5e9", general:"#475569"
 };
 // 平台单字 LOGO（monogram）— 侧边栏 / 徽章用
 const PLAT_MONO = {
@@ -330,7 +330,7 @@ function platLogo(cat, inPill){
   return `<span class="plogo" style="background:${c};color:${fg}">${m}</span>`;
 }
 function platStyle(cat){
-  const c = PLAT_COLOR[cat] || "#64748b";
+  const c = PLAT_COLOR[cat] || "#475569";
   return `background:${c};`;
 }
 function catLabel(cat){
