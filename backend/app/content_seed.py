@@ -48,7 +48,10 @@ _POSTS = [
             "5. No technical file behind the ERP when authorities ask (they have 10 years "
             "to ask).\n\n"
             "The free CrossAIO health check flags a missing or malformed ERP field in "
-            "seconds - run it before the marketplace does."
+            "seconds - run it before the marketplace does.\n\n"
+            "## Further reading\n\n"
+            "- Reselling second-hand goods? The EU Responsible Person still applies - see [GPSR and DSA for second-hand sellers](https://www.crossaio.com/en/blog/vinted-secondhand-gpsr-dsa).\n"
+            "- The China-based marketplaces are now under EU DSA fines - read [Temu, AliExpress and SHEIN DSA fines](https://www.crossaio.com/en/blog/temu-aliexpress-shein-dsa-fines).\n"
         ),
     },
     {
@@ -83,7 +86,10 @@ _POSTS = [
             "badly are treated as missing warnings.\n\n"
             "CrossAIO's compliance engine generates the local-language warning blocks and "
             "keeps the checklist state per SKU, so you always know which of the 12 are "
-            "missing before an authority does."
+            "missing before an authority does.\n\n"
+            "## Further reading\n\n"
+            "- Packaging rules changed too - see the [2026 PPWR packaging rules](https://www.crossaio.com/en/blog/ppwr-2026-packaging-rules).\n"
+            "- Resale platforms are in scope as well - read [GPSR and DSA for second-hand sellers](https://www.crossaio.com/en/blog/vinted-secondhand-gpsr-dsa).\n"
         ),
     },
     {
@@ -113,7 +119,10 @@ _POSTS = [
             "Do not guess - check. CrossAIO's free health check reports your readiness "
             "score and names the exact missing items per listing. The paid tier then "
             "fixes them in bulk, including generating the matching compliance block text "
-            "so pattern 7 cannot happen."
+            "so pattern 7 cannot happen.\n\n"
+            "## Further reading\n\n"
+            "- The China-based marketplaces are now under heavy EU DSA fines - read [Temu, AliExpress and SHEIN DSA fines](https://www.crossaio.com/en/blog/temu-aliexpress-shein-dsa-fines).\n"
+            "- New EU import and processing costs change your landed price - see [the 2026 EU import processing fee](https://www.crossaio.com/en/blog/eu-import-processing-fee-2026).\n"
         ),
     },
     {
@@ -345,7 +354,10 @@ _POSTS = [
             "Fix the EU data and the US rows usually clear.\n\n"
             "**Is a generic EU warning enough?** Not reliably: Amazon validates warnings "
             "per marketplace language, and German authorities actively check "
-            "German-language warnings (ProdSG enforcement)."
+            "German-language warnings (ProdSG enforcement).\n\n"
+            "## Further reading\n\n"
+            "- The year-round view of every GPSR deadline is in the [Amazon EU compliance calendar for 2026](https://www.crossaio.com/en/blog/amazon-eu-compliance-calendar-2026).\n"
+            "- Selling second-hand or via resale platforms? The same rules apply - see [GPSR and DSA for second-hand sellers](https://www.crossaio.com/en/blog/vinted-secondhand-gpsr-dsa).\n"
         ),
     },
     {
@@ -422,7 +434,10 @@ _POSTS = [
             "shown in the row.\n\n"
             "**Is this legal advice?** No - an operational checklist to reduce rejection "
             "loops. Final compliance decisions rest on the official EU texts and "
-            "accredited bodies."
+            "accredited bodies.\n\n"
+            "## Further reading\n\n"
+            "- Plan the whole year with the [Amazon EU compliance calendar for 2026](https://www.crossaio.com/en/blog/amazon-eu-compliance-calendar-2026).\n"
+            "- New EU import and processing costs change your landed price - read [the 2026 EU import processing fee](https://www.crossaio.com/en/blog/eu-import-processing-fee-2026).\n"
         ),
     },
     {
@@ -476,7 +491,10 @@ _POSTS = [
             "marketplace launch.\n\n"
             "**Does this replace the per-platform official help pages?** No - official "
             "pages are linked from every rules page. The map saves you the "
-            "cross-referencing work; compliance decisions rest on official texts."
+            "cross-referencing work; compliance decisions rest on official texts.\n\n"
+            "## Further reading\n\n"
+            "- eBay changed its 2026 seller rules and fees - see [eBay 2026 seller changes](https://www.crossaio.com/en/blog/ebay-2026-seller-changes).\n"
+            "- The big China-based marketplaces are now under EU DSA fines - read [Temu, AliExpress and SHEIN DSA fines](https://www.crossaio.com/en/blog/temu-aliexpress-shein-dsa-fines).\n"
         ),
     },
     {
