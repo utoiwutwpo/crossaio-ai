@@ -1659,6 +1659,8 @@ function activateTab(name){
   });
   TABS.forEach(t=>{ var el=document.getElementById("tab-"+t); if(el) el.classList.toggle("hidden", t!==name); });
   if(name==="inbox") loadInbox();
+  // 接入页：每次进入都确保中栏「平台凭证接入中心」已渲染（失败也要显性报错，绝不静默留空）
+  if(name==="connect" && typeof loadCredStatus==="function"){ try{ loadCredStatus(); }catch(e){} }
   if(name==="home" && !window._homeRecentLoaded){ window._homeRecentLoaded = true; loadRecentOps(); }
   // URL 同步：刷新/分享链接直达对应面板
   history.pushState(null, "", "/app?tab="+name);
@@ -2717,7 +2719,7 @@ async function loadCredStatus(force){
     </div></div>`;
     box.innerHTML=html; box.classList.remove("hidden"); _credLoaded=true;
   }catch(e){
-    box.innerHTML=`<p class="hint">平台凭证状态获取失败：${esc(e.message)}（<a href="javascript:loadCredStatus(true)">重试</a>）</p>`;
+    box.innerHTML=`<p class="hint">平台凭证状态获取失败：${esc(e.message)}（<a href="javascript:loadCredStatus(true)">重试</a>）<br>若提示“用户不存在”，说明当前登录令牌已失效，请退出后重新登录再回到本页。</p>`;
     box.classList.remove("hidden");
   }
 }
