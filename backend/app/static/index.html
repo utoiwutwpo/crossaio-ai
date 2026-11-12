@@ -2697,6 +2697,13 @@ let _capMap = null;  // slug -> {tier, mode, verified}
 async function loadCredStatus(force){
   const box=document.getElementById("credBanner");
   if(_credLoaded && !force) return;
+  // 立即渲染占位：接口往返慢时中栏不留空白（否则看起来像"接入中心消失"）
+  try{
+    if(box && box.classList.contains("hidden")){
+      box.classList.remove("hidden");
+      box.innerHTML='<div style="padding:10px 0;font-size:13px;color:#555">🔗 平台凭证接入中心：正在读取接入状态…</div>';
+    }
+  }catch(e){}
   try{
     const d=await api("/compliance/credentials");
     _credMap=d.platforms||{};
