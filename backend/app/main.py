@@ -401,6 +401,11 @@ def signin_page():
     return FileResponse(Path(__file__).parent / "static" / "signin.html")
 
 
+@app.get("/reset", include_in_schema=False)
+def reset_page():
+    return FileResponse(Path(__file__).parent / "static" / "reset.html")
+
+
 @app.get("/signup", include_in_schema=False)
 def signup_page():
     """注册页（H10 风格：Google 注册 + 邮箱密码）"""
@@ -466,7 +471,7 @@ def health():
 # ---------------------------------------------------------------------------
 I18N_LANGS = ("en", "de", "fr")
 I18N_PAGES = ("pricing", "privacy", "terms", "skills", "rules",
-              "signin", "signup", "compliance-check")
+              "signin", "signup", "reset", "compliance-check")
 
 
 def _static_lang_file(lang: str, name: str) -> FileResponse:

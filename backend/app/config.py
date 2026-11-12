@@ -73,6 +73,9 @@ class Settings(BaseSettings):
     smtp_user: str = ""
     smtp_password: str = ""
     smtp_from: str = ""
+    # Resend HTTP API（比 SMTP 好配：只需 API Key + 域名验证；两者都配时优先 Resend）
+    resend_api_key: str = ""
+    resend_from: str = "CrossAIO <no-reply@crossaio.com>"
 
     # ===== 应用 =====
     app_name: str = "CrossAIO"

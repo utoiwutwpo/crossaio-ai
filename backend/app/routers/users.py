@@ -1,7 +1,9 @@
-"""用户注册 / 登录 / 信息（含 Google OAuth 登录）"""
+"""用户注册 / 登录 / 信息（含 Google OAuth 登录、忘记密码）"""
+import base64
 import hashlib
 import hmac
 import secrets
+import time
 import uuid
 from typing import Optional
 from urllib.parse import urlencode
@@ -234,3 +236,152 @@ async def google_oauth_flow(request: Request, response: Response,
     redirect = RedirectResponse(target)
     redirect.delete_cookie("cb_oauth_state", path="/")
     return redirect
+
+
+# ---------- 忘记密码 / 重置密码 ----------
+# 令牌用 HMAC 签名，不落库：
+#   payload = user_id|exp|密码指纹(sha256(password_hash)[:16])
+#   密码一改，指纹变 → 旧链接立即失效（天然一次性）
+_RESET_TTL_SECONDS = 1800
+
+
+def _pw_fingerprint(user: User) -> str:
+    return hashlib.sha256(user.password_hash.encode()).hexdigest()[:16]
+
+
+def _reset_token(user: User) -> str:
+    payload = f"{user.id}|{int(time.time()) + _RESET_TTL_SECONDS}|{_pw_fingerprint(user)}"
+    sig = hmac.new(settings.jwt_secret.encode(), ("pwreset|" + payload).encode(),
+                   hashlib.sha256).hexdigest()[:32]
+    return base64.urlsafe_b64encode(payload.encode()).decode().rstrip("=") + "." + sig
+
+
+def _read_reset_token(token: str) -> tuple:
+    """校验签名与过期，返回 (user_id, 密码指纹)。失败抛 400。"""
+    try:
+        raw, sig = token.split(".", 1)
+        payload = base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)).decode()
+    except Exception:
+        raise HTTPException(status_code=400, detail="重置链接无效")
+    expect = hmac.new(settings.jwt_secret.encode(), ("pwreset|" + payload).encode(),
+                      hashlib.sha256).hexdigest()[:32]
+    if not hmac.compare_digest(expect, sig):
+        raise HTTPException(status_code=400, detail="重置链接无效")
+    parts = payload.split("|")
+    if len(parts) != 3:
+        raise HTTPException(status_code=400, detail="重置链接无效")
+    uid, exp, fp = parts
+    try:
+        if int(exp) < int(time.time()):
+            raise HTTPException(status_code=400, detail="重置链接已过期，请重新申请")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="重置链接无效")
+    return uid, fp
+
+
+RESET_TEXT = {
+    "zh": {
+        "subject": "重置你的 CrossAIO 密码",
+        "hello": "你正在重置 CrossAIO 账号的登录密码。",
+        "btn": "设置新密码",
+        "note": "链接 30 分钟内有效，且只能使用一次。若不是你本人操作，忽略这封邮件即可。",
+        "foot": "CrossAIO · 跨境电商合规工作台",
+    },
+    "en": {
+        "subject": "Reset your CrossAIO password",
+        "hello": "You asked to reset the password for your CrossAIO account.",
+        "btn": "Set a new password",
+        "note": "This link expires in 30 minutes and works once. If you didn't ask for it, ignore this email.",
+        "foot": "CrossAIO · cross-border compliance workbench",
+    },
+    "de": {
+        "subject": "Setze dein CrossAIO-Passwort zurück",
+        "hello": "Du hast angefordert, das Passwort für dein CrossAIO-Konto zurückzusetzen.",
+        "btn": "Neues Passwort setzen",
+        "note": "Der Link ist 30 Minuten gültig und nur einmal verwendbar. Falls du das nicht warst, ignoriere diese E-Mail.",
+        "foot": "CrossAIO · Compliance-Workbench für den EU-Handel",
+    },
+    "fr": {
+        "subject": "Réinitialisez votre mot de passe CrossAIO",
+        "hello": "Vous avez demandé à réinitialiser le mot de passe de votre compte CrossAIO.",
+        "btn": "Définir un nouveau mot de passe",
+        "note": "Ce lien expire dans 30 minutes et ne fonctionne qu'une fois. Si vous n'êtes pas à l'origine de la demande, ignorez cet e-mail.",
+        "foot": "CrossAIO · poste de travail conformité UE",
+    },
+}
+
+
+async def _send_reset_email(to: str, link: str, lang: str) -> bool:
+    """优先 Resend HTTP API，其次 SMTP；都未配置则返回 False（不报错）。"""
+    t = RESET_TEXT.get(lang) or RESET_TEXT["en"]
+    html = f"""<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#0f172a">
+  <div style="font-weight:800;font-size:18px;margin-bottom:18px">CrossAIO</div>
+  <p style="font-size:15px;line-height:1.7">{t['hello']}</p>
+  <p style="margin:26px 0">
+    <a href="{link}" style="background:linear-gradient(90deg,#3b82f6,#8b5cf6);color:#fff;text-decoration:none;padding:13px 26px;border-radius:999px;font-weight:700;display:inline-block">{t['btn']}</a>
+  </p>
+  <p style="font-size:13px;color:#64748b;line-height:1.7">{t['note']}</p>
+  <p style="font-size:12px;color:#94a3b8;margin-top:26px;border-top:1px solid #e2e8f0;padding-top:14px">{t['foot']}</p>
+</div>"""
+    if settings.resend_api_key:
+        try:
+            async with httpx.AsyncClient(timeout=15, proxy=settings.proxy_url or None) as client:
+                r = await client.post("https://api.resend.com/emails",
+                                      headers={"Authorization": f"Bearer {settings.resend_api_key}",
+                                               "Content-Type": "application/json"},
+                                      json={"from": settings.resend_from, "to": [to],
+                                            "subject": t["subject"], "html": html})
+            return r.status_code in (200, 201)
+        except Exception:
+            return False
+    if settings.smtp_host:
+        from ..mailer import send_email
+        try:
+            return bool(send_email(to, t["subject"], html))
+        except Exception:
+            return False
+    return False
+
+
+@router.get("/mail-status", summary="邮件发送通道是否已配置（不含任何密钥）")
+def mail_status():
+    if settings.resend_api_key:
+        return {"configured": True, "channel": "resend", "from": settings.resend_from}
+    if settings.smtp_host:
+        return {"configured": True, "channel": "smtp", "from": settings.smtp_from or settings.smtp_user}
+    return {"configured": False, "channel": "", "from": ""}
+
+
+@router.post("/password/forgot", summary="发送重置密码邮件")
+async def password_forgot(body: dict, db: Session = Depends(get_db)):
+    email = (body.get("email") or "").strip().lower()
+    lang = (body.get("lang") or "en")[:2]
+    if lang not in ("zh", "en", "de", "fr"):
+        lang = "en"
+    generic = {"ok": True, "mail_configured": bool(settings.resend_api_key or settings.smtp_host)}
+    if not email or "@" not in email:
+        return generic                      # 不泄露账号是否存在
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        return generic
+    token = _reset_token(user)
+    link = f"{settings.public_url}/{'' if lang == 'zh' else lang + '/'}reset?token={token}"
+    sent = await _send_reset_email(user.email, link, lang)
+    return {"ok": True, "mail_configured": bool(settings.resend_api_key or settings.smtp_host), "sent": sent}
+
+
+@router.post("/password/reset", summary="用令牌设置新密码")
+def password_reset(body: dict, db: Session = Depends(get_db)):
+    token = (body.get("token") or "").strip()
+    pw = body.get("password") or ""
+    if len(pw) < 8:
+        raise HTTPException(status_code=400, detail="密码至少 8 位")
+    uid, fp = _read_reset_token(token)
+    user = db.query(User).filter(User.id == uid).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="重置链接无效")
+    if not hmac.compare_digest(fp, _pw_fingerprint(user)):
+        raise HTTPException(status_code=400, detail="重置链接已使用，请重新申请")
+    user.password_hash = hash_password(pw)
+    db.commit()
+    return {"ok": True}
