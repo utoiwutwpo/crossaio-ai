@@ -131,9 +131,11 @@
   details.cred-details{border:1px solid var(--border);border-radius:8px;padding:10px 14px;background:#fafbfc}
   details.cred-details summary::-webkit-details-marker{display:none}
   details.cred-details[open] summary{margin-bottom:6px}
-  #credBanner details summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
-  #credBanner details summary::before{content:"▶";display:inline-block;transition:transform .2s;font-size:11px;color:var(--muted)}
+  #credBanner details summary{cursor:pointer;list-style:none;display:block;font-size:13.5px;line-height:1.55;font-weight:700}
+  #credBanner details summary::before{content:"▶";display:inline-block;margin-right:6px;transition:transform .2s;font-size:11px;color:var(--muted)}
   #credBanner details[open] summary::before{transform:rotate(90deg)}
+  #credBanner,#autoCard,#cnOut,#connShell,#connFull{scroll-margin-top:78px}
+  .card[id^="tab-"]{scroll-margin-top:104px}
 
   /* === Upgrade: automation meta row, notifications, onboarding, panel hints, report panel === */
   .auto-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0 4px;font-size:13px}
@@ -2481,6 +2483,7 @@ function _dismissOnboard(){
 }
 function _maybeShowOnboard(){
   try{
+    if(/onboard=0/.test(location.search)) return;
     if(localStorage.getItem("crossaio_onboard_seen")==="1") return;
     // 兼容历史按语种存的键：任一语种看过就不再弹（否则切语言会重复遮罩、吞掉点击）
     if(["zh","en","de","fr"].some(function(l){ return localStorage.getItem("crossaio_onboard_seen_"+l)==="1"; })){
@@ -2682,7 +2685,7 @@ async function loadCredStatus(force){
     }
     // 【P0-1】Amazon 三态连接状态（unconnected / pending / connected，纯本地推导）
     let amazonStatus="unconnected";
-    try{ amazonStatus=(await api("/connectors/amazon/status")).status||"unconnected"; }catch(e){}
+    try{ amazonStatus=(await api("/inbox/connectors/amazon/status")).status||"unconnected"; }catch(e){}
     const readyN=Object.values(_credMap).filter(p=>p.ready).length;
     const totalN=Object.keys(_credMap).length;
     // 上半部分（标题+说明+chips）一直展开；各平台表单默认收起，点击才展开
@@ -7457,12 +7460,13 @@ window.__early=[];window.addEventListener('error',function(e){window.__early.pus
     cdiscount: "Cdiscount", otto: "OTTO", allegro: "Allegro", emag: "eMAG", kaufland: "Kaufland",
     bol: "bol.com", zalando: "Zalando", tiktok: "TikTok Shop" };
   var CSS = '<style id="shellCss">' +
-    '.shGrid{display:grid;grid-template-columns:minmax(210px,252px) minmax(0,1fr) minmax(210px,252px);gap:14px;align-items:start}' +
+    '.shGrid{display:grid;grid-template-columns:minmax(230px,258px) minmax(0,1fr) minmax(220px,252px);gap:14px;align-items:start}' +
     '.shCard{border:.5px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;padding:12px;min-width:0}' +
     '.shStat{padding:12px 14px;border:.5px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;min-width:0}' +
     '.shLane{border:.5px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;padding:10px;min-height:120px;min-width:0}' +
     '.shCardRow{background:#fff;border:.5px solid rgba(0,0,0,.08);border-left:3px solid #ccc;border-radius:10px;padding:8px 10px;margin-bottom:8px;min-width:0}' +
-    '@media(max-width:1080px){.shGrid{grid-template-columns:1fr}}' +
+    '@media(max-width:1380px){.shGrid{grid-template-columns:minmax(220px,254px) minmax(0,1fr)}.shGrid>:nth-child(3){grid-column:1/-1;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;display:grid}}' +
+    '@media(max-width:1080px){.shGrid{grid-template-columns:1fr}.shGrid>:nth-child(1){order:2}.shGrid>:nth-child(2){order:1}.shGrid>:nth-child(3){order:3;grid-column:auto}}' +
     '</style>';
   document.head.insertAdjacentHTML("beforeend", CSS);
 
