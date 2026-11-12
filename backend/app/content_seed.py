@@ -210,7 +210,7 @@ _POSTS = [
     {
         "slug": "multi-marketplace-listing-seo-localization",
         "title": "Localization Is Not Translation: Multi-Marketplace Listing SEO",
-        "excerpt": "The same product needs different keywords, structures and compliance blocks per market. The workflow that scales from 1 to 12 platforms.",
+        "excerpt": "The same product needs different keywords, structures and compliance blocks per market. The workflow that scales from 1 to 13 platforms.",
         "tags": "localization,seo,matrix",
         "body": (
             "## Translation answers the wrong question\n\n"
@@ -266,6 +266,463 @@ _POSTS = [
             "tools compute VAT-inclusive prices per market from your cost base and target "
             "margin, and the compliance checklist tracks which registrations each marketplace "
             "expects to see. *Tax information, not tax advice.*"
+        ),
+    },
+    # ---- 2026-11-06 救援型内容簇（SEO 高意图词，对应 topics_forum T09A/T09B/T10A/T11A + 申诉模板）----
+    {
+        "slug": "error-5995-fix",
+        "title": "Amazon GPSR Error 5995: Why Bulk Uploads Fail - and How to Fix It",
+        "excerpt": "Error 5995 blocks your Amazon EU bulk upload because GPSR compliance data is missing. What triggers it, the Brand Registry catch, and the fix order that works.",
+        "tags": "gpsr,error-5995,amazon,bulk-upload",
+        "body": (
+            "You uploaded a flat file for 200 SKUs. Two came back. The error code is "
+            "**5995**, and the message says something like *We could not create or update "
+            "this listing because required compliance information is missing.*\n\n"
+            "Since the General Product Safety Regulation (EU 2023/988) became enforceable "
+            "on **13 December 2024**, this is the most common way Amazon EU blocks new and "
+            "existing listings. Here is what actually triggers Error 5995, why the usual "
+            "fix fails for bulk uploads, and the order of steps that works.\n\n"
+            "*Verify screen wording against the current Seller Central interface before "
+            "acting - Amazon renames things regularly.*\n\n"
+            "## What Error 5995 actually means\n\n"
+            "Error 5995 is Amazon's compliance gate, not a data-format error. It fires when "
+            "a listing is missing one or more GPSR-mandatory attributes, typically:\n\n"
+            "- **EU Responsible Person** (name, address, email or URL) - someone established "
+            "in the EU who takes responsibility for product safety.\n"
+            "- **Manufacturer information** (name and postal address).\n"
+            "- **Safety information and warnings in the marketplace's local language** - "
+            "German for amazon.de, French for amazon.fr, and so on.\n"
+            "- Product-specific compliance attributes for regulated categories (toys, "
+            "electrical goods, PPE).\n\n"
+            "The catch: Amazon validates these **per marketplace and per language**. A "
+            "listing that passes on amazon.com can still fail on amazon.de because the "
+            "warning text is not in German.\n\n"
+            "## Why the obvious fix fails for bulk uploads\n\n"
+            "Most sellers first try to patch the flat file. That often fails because:\n\n"
+            "1. **The compliance attributes are restricted fields.** For many categories, "
+            "editing them through a flat file requires the listing to belong to a brand "
+            "enrolled in **Brand Registry** (or an authorised contributor). Without it, "
+            "your update is silently ignored and 5995 returns.\n"
+            "2. **One missing language blocks the whole row.** Amazon EU wants warnings for "
+            "*each* sales site's language; a German-only warning string fails on amazon.fr.\n"
+            "3. **The error message does not say which field is missing.** You get a generic "
+            "code, then have to hunt.\n\n"
+            "## The fix, in the right order\n\n"
+            "1. **Check one ASIN manually first.** Open Manage Your Compliance (or the "
+            "listing's Compliance requirements tab) in Seller Central and see exactly which "
+            "attributes Amazon wants for that ASIN and marketplace. Fix one SKU end-to-end "
+            "before touching the file.\n"
+            "2. **Confirm your brand relationship.** If the ASIN is under a Brand Registry "
+            "brand, make your upload account an authorised contributor; otherwise "
+            "restricted fields will keep failing.\n"
+            "3. **Build a language matrix, not a string.** For each SKU you need warnings "
+            "per marketplace language (DE/FR/IT/ES/NL/PL). Keep them in a reference sheet "
+            "so every future upload pulls the right one.\n"
+            "4. **Re-upload in small batches.** 20-50 rows at a time, so one bad language "
+            "pair does not cost you a full-day turnaround on 200 rows.\n"
+            "5. **Keep evidence.** Store the DoC, EU Rep appointment and final warning "
+            "texts per SKU. When listings are suppressed later, appeal speed depends on "
+            "having this at hand.\n\n"
+            "## A faster path\n\n"
+            "Building the per-marketplace language matrix by hand is the slow part. The "
+            "[CrossAIO GPSR compliance engine](https://www.crossaio.com/en/features/gpsr) "
+            "generates the EU-Rep line and local-language safety warnings per marketplace, "
+            "and the [13-platform rule packs](https://www.crossaio.com/en/rules) cover the "
+            "attribute expectations per site. If you want to see what is missing before "
+            "your next upload, run the "
+            "[free 30-second check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=error-5995-fix) "
+            "- no sign-up needed.\n\n"
+            "## FAQ\n\n"
+            "**Is Error 5995 the same as Error 90220 or 8000?** No - those are different "
+            "listing errors. 5995 is specifically the GPSR-era compliance gate. Verify the "
+            "current error-code mapping against Seller Central docs before relying on it.\n\n"
+            "**Can I fix 5995 without Brand Registry?** For your own unbranded listings, "
+            "you usually fix it via the compliance tabs in Seller Central. For branded or "
+            "restricted categories, Brand Registry (or authorisation from the brand owner) "
+            "is required to edit those fields at scale.\n\n"
+            "**Does this affect amazon.com too?** The GPSR attributes are EU-specific, but "
+            "the same upload row fails everywhere if the EU marketplace rows are invalid. "
+            "Fix the EU data and the US rows usually clear.\n\n"
+            "**Is a generic EU warning enough?** Not reliably: Amazon validates warnings "
+            "per marketplace language, and German authorities actively check "
+            "German-language warnings (ProdSG enforcement)."
+        ),
+    },
+    {
+        "slug": "manage-your-compliance-sop",
+        "title": "Manage Your Compliance: The GPSR SOP for Amazon EU Sellers",
+        "excerpt": "Screen-by-screen SOP for Amazon's Manage Your Compliance dashboard: which GPSR fields to enter, common rejections, and a checklist to stay live.",
+        "tags": "gpsr,amazon,manage-your-compliance,sop",
+        "body": (
+            "Amazon moved most GPSR enforcement into Seller Central. Instead of reading "
+            "policy pages, sellers now meet EU 2023/988 in a dashboard called **Manage "
+            "Your Compliance**, where each ASIN gets a row of required compliance actions "
+            "and a deadline. Ignore it and listings get suppressed - sometimes "
+            "retroactively across marketplaces.\n\n"
+            "This SOP walks the dashboard the way an operations person would: what each "
+            "field wants, where people get rejected, and the order to work in. *Verify "
+            "screen names against the current Seller Central UI - Amazon renames tabs "
+            "regularly.*\n\n"
+            "## Step 1 - Find your real backlog\n\n"
+            "Seller Central - Performance - Account Health - Manage Your Compliance (some "
+            "accounts expose it under Inventory - Compliance Requirements). Filter by:\n\n"
+            "- **Marketplace**: amazon.de first. Germany has the most active "
+            "market-surveillance practice (ProdSG), so German gaps get enforced hardest.\n"
+            "- **Status**: Action required beats Under review for urgency.\n\n"
+            "Sort by deadline and work oldest first: Amazon's clock, not yours, decides "
+            "when suppression starts. Export the list once per week - the dashboard is "
+            "per-ASIN and per-marketplace, so your true backlog is *rows*, not *ASINs*. "
+            "One SKU can appear three times for de/fr/it.\n\n"
+            "## Step 2 - Fill the GPSR fields the way reviewers read them\n\n"
+            "For each row, Amazon typically asks for:\n\n"
+            "1. **EU Responsible Person** - name, full postal address in the EU/EEA, and a "
+            "contact (email or URL). A UK-only address fails. A freight forwarder's "
+            "address fails. This must be someone who actually accepts the RP role.\n"
+            "2. **Manufacturer** - legal name and postal address. If you import and "
+            "rebrand, get this relationship documented before filling anything.\n"
+            "3. **Safety information and warnings** - per marketplace language. German for "
+            "amazon.de, French for amazon.fr. Copy-pasting an English warning is the most "
+            "common rejection we see.\n"
+            "4. **Compliance documents** - CE marking evidence and the EU Declaration of "
+            "Conformity for CE categories, attached as files, not links.\n\n"
+            "Language note: the DoC itself can stay in the required official language(s), "
+            "but *safety warnings shown on the detail page* must be in the marketplace "
+            "language. These are two different requirements and sellers often merge them.\n\n"
+            "## Step 3 - Bulk, but carefully\n\n"
+            "Manage Your Compliance supports CSV-style bulk actions for many categories, "
+            "but the same Brand Registry restriction from "
+            "[Error 5995](/en/blog/error-5995-fix) applies: restricted attributes only "
+            "update from accounts authorised by the brand. Bulk-fill your own fields, "
+            "verify 2-3 rows in the UI, then submit the rest in batches of 20-50.\n\n"
+            "## Step 4 - The rejections that cost weeks\n\n"
+            "- **RP address does not look EU-real** (missing postal code, PO box) - "
+            "resubmit with the full registered address.\n"
+            "- **Warnings not sufficient** - the reviewer wants category-specific hazards, "
+            "not a generic keep-away-from-children line. Check the "
+            "[rule packs](https://www.crossaio.com/en/rules) for your platform and "
+            "category wording.\n"
+            "- **DoC not for the exact model** - certificate says Model X-100, listing "
+            "says X100 Pro. Reissue the DoC or align the listing model name.\n\n"
+            "## Step 5 - Keep it from coming back\n\n"
+            "New SKUs inherit the same gaps. Before launch, run each product through the "
+            "[free 30-second GPSR check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=manage-your-compliance-sop) "
+            "- it shows the missing EU-Rep / warning / DoC gaps per marketplace before "
+            "Amazon's dashboard does, and after sign-up CrossAIO generates the "
+            "paste-ready compliance block in the right languages.\n\n"
+            "## FAQ\n\n"
+            "**Where exactly is Manage Your Compliance?** Seller Central - Account Health "
+            "- Manage Your Compliance. If you do not see it, some newer accounts find "
+            "compliance actions under the listing's Compliance requirements tab.\n\n"
+            "**Does filling the dashboard stop Error 5995 on uploads?** Yes for affected "
+            "ASINs - once the compliance attributes are accepted, flat-file uploads for "
+            "those rows usually clear. Brand-authorisation restrictions still apply to "
+            "who may edit the fields.\n\n"
+            "**How long do submissions take to review?** Typically hours to a few days "
+            "depending on category and document checks. Submit early, before the deadline "
+            "shown in the row.\n\n"
+            "**Is this legal advice?** No - an operational checklist to reduce rejection "
+            "loops. Final compliance decisions rest on the official EU texts and "
+            "accredited bodies."
+        ),
+    },
+    {
+        "slug": "thirteen-marketplace-field-map",
+        "title": "One SKU, 13 Marketplaces: The GPSR Compliance Field Map",
+        "excerpt": "Which GPSR fields each of 13 European marketplaces requires - EU Rep, warning languages, DoC upload location - mapped for cross-border sellers.",
+        "tags": "gpsr,marketplaces,field-map,compliance",
+        "body": (
+            "The same product, listed on Amazon.de and Allegro and Kaufland, faces **three "
+            "different GPSR paperwork flows**. Sellers who treat GPSR as one checklist get "
+            "flagged on the platforms whose quirks they skipped. This is the field-by-field "
+            "view across 13 marketplaces - the per-platform detail lives in the "
+            "[rules section](https://www.crossaio.com/en/rules).\n\n"
+            "## The three fields every marketplace wants\n\n"
+            "- **EU Responsible Person** - an EU-established entity taking product-safety "
+            "responsibility. Where sellers trip: UK or China addresses, freight forwarders, "
+            "missing postal-address format.\n"
+            "- **Safety warnings, local language** - category-specific hazard text per "
+            "marketplace language. One German string reused on amazon.fr fails; generic "
+            "warnings get rejected as not sufficient.\n"
+            "- **Compliance documents** - CE evidence plus the EU Declaration of "
+            "Conformity where applicable. Watch for DoC model-number mismatch and wrong "
+            "upload location (some sites want a file, not a link).\n\n"
+            "## Where the 13 differ\n\n"
+            "- **Kaufland (DE/AT/CZ/SK)**: one listing serves four countries, so warnings "
+            "must cover four languages; the DoC must be uploaded into the Seller Portal, "
+            "not linked.\n"
+            "- **bol.com (NL)**: Dutch-mandatory content plus a mandatory EAN; the safety "
+            "warning integrates into the listing structure rather than a free-text field.\n"
+            "- **Allegro (PL)**: Polish-language safety information with a defined "
+            "after-sales and warranty note format.\n"
+            "- **Otto (DE)**: German attribute tree requirements; title length limits "
+            "interact with where compliance info lands.\n\n"
+            "Per-platform verified detail with update dates: "
+            "[/en/rules](https://www.crossaio.com/en/rules) - Amazon EU, Amazon US, eBay, "
+            "Allegro, Otto, Cdiscount, eMAG, Kaufland, bol.com, Zalando, Fruugo, TikTok "
+            "Shop, Walmart.\n\n"
+            "## Get the field map\n\n"
+            "Run the [free 30-second check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=thirteen-marketplace-field-map) "
+            "with one real product: the report shows which of these fields your SKU is "
+            "missing **per marketplace**, and sign-up unlocks the full 13-platform field "
+            "table plus paste-ready compliance blocks "
+            "([Starter, EUR 29/mo](https://www.crossaio.com/en/pricing)).\n\n"
+            "## FAQ\n\n"
+            "**Is Amazon US included if I only sell in Europe?** The map includes Amazon "
+            "US because one catalogue row usually serves both; the GPSR fields are "
+            "EU-specific but they still validate per row.\n\n"
+            "**How current is the map?** Platform rules change; each "
+            "[rules page](https://www.crossaio.com/en/rules) carries its update date, and "
+            "the engine's rule packs are maintained continuously. Re-check before each new "
+            "marketplace launch.\n\n"
+            "**Does this replace the per-platform official help pages?** No - official "
+            "pages are linked from every rules page. The map saves you the "
+            "cross-referencing work; compliance decisions rest on official texts."
+        ),
+    },
+    {
+        "slug": "webinterpret-alternative",
+        "title": "Webinterpret Alternative: Compare the Total Cost of GPSR Compliance",
+        "excerpt": "Managed GPSR services vs. a compliance-engine workbench: the three cost layers nobody quotes upfront, with verifiable math and no hype.",
+        "tags": "gpsr,webinterpret,alternatives,pricing",
+        "body": (
+            "Webinterpret is a managed service: they localise and relist your products "
+            "across marketplaces, and they have added GPSR compliance handling on top. It "
+            "works - sellers who do not want to touch anything internally pay for the "
+            "done-for-you pipeline.\n\n"
+            "CrossAIO is a different shape of product: a workbench with a **compliance "
+            "engine and 13 platform rule packs**, where the seller (or their VA) runs "
+            "generation and checks. This page is the honest math of when each shape wins. "
+            "*Verify current competitor pricing on their official pricing page - this "
+            "analysis compares cost structures, not quoted numbers.*\n\n"
+            "## The three cost layers nobody quotes upfront\n\n"
+            "Managed localisation and compliance services typically price by **volume** "
+            "(per listing or per SKU tier). When you compare, stack all three layers:\n\n"
+            "1. **Per-listing service fee** - the headline number, usually monthly and "
+            "scaled to catalogue size.\n"
+            "2. **Rework fee** - when a platform changes a rule (new required language, "
+            "new warning format), who pays for the re-localisation pass? Managed "
+            "contracts often treat rule changes as new work.\n"
+            "3. **Your own review time** - even managed, someone on your side answers *is "
+            "this German warning right for my product?* For technical products, that "
+            "review loop is real hours.\n\n"
+            "## What a compliance-engine workbench changes\n\n"
+            "CrossAIO does not take over your catalogue. It generates the **GPSR "
+            "compliance block** (EU Responsible Person line, local-language safety "
+            "warnings, EC declaration template) and platform-native listing copy from "
+            "your product input, then monitors listings for risk. You keep control and "
+            "pay a flat tool price:\n\n"
+            "- [Starter at EUR 29/mo](https://www.crossaio.com/en/pricing) unlocks full "
+            "compliance blocks across the covered platforms.\n"
+            "- Generation is per-day credited, not per-listing priced - a 500-SKU "
+            "catalogue does not change the invoice.\n"
+            "- You review the output in your own language, edit once, and the same block "
+            "backfills 13 platforms instead of paying per-marketplace passes.\n\n"
+            "## Rule of thumb\n\n"
+            "- **Catalogue under ~200 SKUs, content changes often, one ops person**: a "
+            "workbench is usually cheaper and keeps you independent of a service "
+            "contract.\n"
+            "- **Huge stable catalogue, no internal capacity, end-to-end translation "
+            "volume needed**: a managed service earns its fee.\n"
+            "- **Mixed**: many sellers use a workbench for compliance blocks and warnings "
+            "(the regulated, high-stakes part) and keep translation volume elsewhere.\n\n"
+            "## Try before deciding\n\n"
+            "Run the [free 30-second check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=webinterpret-alternative) "
+            "on one of your real products, see the actual gap report and the compliance "
+            "block you would get, then compare that against any quote you hold. The "
+            "detailed feature comparison lives on the "
+            "[compare page](https://www.crossaio.com/en/gpsr-check/compare).\n\n"
+            "## FAQ\n\n"
+            "**Is this an official comparison?** No - our own analysis from a competing "
+            "product. Every claim about competitors should be verified on their official "
+            "pages; we link ours so you can check the math.\n\n"
+            "**Does CrossAIO translate full listings into 13 languages?** It generates "
+            "platform-native listing copy in the required language per marketplace (see "
+            "[listing generation](https://www.crossaio.com/en/features/listing-generator)), "
+            "plus the GPSR compliance block in local languages. Very long catalogues with "
+            "frequent changes are where the flat pricing pays off.\n\n"
+            "**Do I need to move my whole catalogue?** No. Most users start with the "
+            "compliance blocks for the marketplaces that actually flagged them, then "
+            "expand."
+        ),
+    },
+    {
+        "slug": "listing-appeal-template",
+        "title": "GPSR Listing Suppression: The Appeal Checklist and Template",
+        "excerpt": "Your Amazon EU listing was suppressed over GPSR. What evidence to gather, how to structure the appeal, and the rejections that cost weeks.",
+        "tags": "gpsr,amazon,appeal,suppression",
+        "body": (
+            "A GPSR-related suppression is different from a policy-strike appeal: Amazon "
+            "is not asking you to promise better behaviour - it is asking you to **prove "
+            "the compliance data now exists**. Appeals that read like apology letters get "
+            "denied; appeals built as evidence packages clear fastest.\n\n"
+            "*Verify the current submission channel (Appeal button on the suppressed "
+            "listing vs. Account Health) against the live Seller Central UI before "
+            "acting.*\n\n"
+            "## Step 1 - Diagnose the exact reason before writing anything\n\n"
+            "Open the suppressed listing and the "
+            "[Manage Your Compliance](/en/blog/manage-your-compliance-sop) dashboard. "
+            "Note precisely which requirement triggered it: missing EU Responsible "
+            "Person, non-local-language warnings, missing DoC, or an "
+            "[Error 5995](/en/blog/error-5995-fix) row. An appeal addressed to the wrong "
+            "requirement is an automatic denial round-trip.\n\n"
+            "## Step 2 - Assemble the evidence pack\n\n"
+            "Have ready, as files:\n\n"
+            "1. EU Declaration of Conformity for the **exact model listed** (model number "
+            "must match character-for-character).\n"
+            "2. EU Responsible Person appointment: name, full EU/EEA postal address, "
+            "contact.\n"
+            "3. Safety warnings **in each marketplace language** the listing serves.\n"
+            "4. Product images showing CE marking where applicable.\n"
+            "5. The corrected listing fields (before and after).\n\n"
+            "## Step 3 - The template structure\n\n"
+            "Structure beats prose. Use this five-part shape:\n\n"
+            "1. **Subject**: GPSR compliance remediation - ASIN (ID), Marketplace (site).\n"
+            "2. **Root cause**: one sentence, factual. *The listing lacked the EU "
+            "Responsible Person record and German-language safety warnings.*\n"
+            "3. **What was fixed**: field-by-field list with the exact data now present.\n"
+            "4. **Evidence**: numbered attachments (DoC, RP appointment, DE/FR warnings, "
+            "images).\n"
+            "5. **Prevention**: where this data now lives so future SKUs do not repeat "
+            "the gap.\n"
+            "6. **Request**: reinstate the listing / clear the compliance row.\n\n"
+            "**Do not** include: emotional framing, blame of Amazon, unrelated sales "
+            "performance arguments, or links to external sites - Amazon review channels "
+            "reject external URLs in appeals.\n\n"
+            "## Step 4 - After submission\n\n"
+            "Track in Account Health, not in your inbox. If denied once, the second "
+            "appeal should add *new* evidence (corrected document, per-language "
+            "warnings), not re-argue. Two denials usually mean the root cause is still "
+            "unfixed - go back to Step 1.\n\n"
+            "## Preventing the next suppression\n\n"
+            "Suppression is a symptom; the gap is data management across marketplaces. "
+            "The [GPSR compliance engine](https://www.crossaio.com/en/features/gpsr) "
+            "generates the EU-Rep line and local-language warning block per platform so "
+            "new listings launch with the fields present - check one product free in "
+            "[30 seconds](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=listing-appeal-template).\n\n"
+            "## FAQ\n\n"
+            "**How long do GPSR appeals take?** Typically days, depending on category "
+            "and document review. Resubmitting the same appeal without new evidence "
+            "resets the queue, not the outcome.\n\n"
+            "**Can I appeal without Brand Registry?** Yes - appeals go through Seller "
+            "Central regardless. Brand authorisation only matters for editing the "
+            "restricted listing fields themselves.\n\n"
+            "**Should I delete and relist instead?** No: deleting loses listing history "
+            "and reviews, and the relisted version hits the same compliance gate.\n\n"
+            "**Is this legal advice?** No - an operational template. Final compliance "
+            "decisions rest on official EU texts and accredited bodies."
+        ),
+    },
+    # ---- 2026-11-13 内容簇 2.0：新闻驱动高意图文章（X.com 真实信号 + WebSearch 核实）----
+    # 每篇内链到既有支柱文章 + /en/rules + 工具，织成主题簇（拉升自然排名）。
+    {
+        "slug": "temu-aliexpress-shein-dsa-fines",
+        "title": "Temu, AliExpress and SHEIN: What the 2026 EU DSA Fines Mean for Every Seller",
+        "excerpt": "Record EU DSA fines hit the largest China-based marketplaces in 2026. Why the crackdown reaches your account too, and the compliance moves that protect it.",
+        "tags": "dsa,temu,aliexpress,shein,enforcement",
+        "body": (
+            "## The fines that reset the baseline\n\n"
+            "In 2026 EU regulators issued the largest Digital Services Act (DSA) penalties to date against the big China-based consumer platforms. Reported figures include a **EUR 200 million** decision against Temu, a **EUR 550 million** decision against AliExpress, and a **EUR 22.5 million** French consumer-authority penalty against SHEIN. Each was tied to how the platforms handle illegal-product listings, seller verification and consumer safety at scale.\n\n"
+            "## Why this reaches beyond the named platforms\n\n"
+            "The DSA does not only police the giants. It sets the **standard of diligence** every EU-facing marketplace is now measured against - and national market-surveillance authorities apply the same bar to the sellers on their platforms. When a regulator proves a platform allowed unsafe products through weak checks, the next step is tighter marketplace-side verification of every seller's **GPSR** data. That is the mechanism that reaches your account: stricter listing gates, more document requests, faster takedowns.\n\n"
+            "## What cross-border sellers should do now\n\n"
+            "- **Verify your EU Responsible Person field** on every listing - it is the single most-requested data point after an enforcement sweep. See the [EU Responsible Person guide](https://www.crossaio.com/en/blog/eu-responsible-person-complete-guide).\n"
+            "- **Keep the technical file ready**, not just filed - authorities expect it within days, not weeks. The [GPSR technical file checklist](https://www.crossaio.com/en/blog/gpsr-technical-file-checklist) covers the 12 documents.\n"
+            "- **Match your safety warnings to each marketplace language** - a generic English warning is treated as missing. The [seven block patterns](https://www.crossaio.com/en/blog/why-listings-get-blocked-gpsr) explain why.\n\n"
+            "## Turn the signal into a routine\n\n"
+            "The platforms that got fined are now auditing harder, and that audit flows downhill to sellers. The [13-marketplace field map](https://www.crossaio.com/en/rules) shows exactly which GPSR fields each site verifies, and the [free 30-second check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=temu-aliexpress-shein-dsa-fines) reports your missing items per marketplace before a regulator-inspired sweep does."
+        ),
+    },
+    {
+        "slug": "ebay-2026-seller-changes",
+        "title": "eBay 2026 Seller Changes: New EU Tariffs, Processing Fees and the Postage Rule",
+        "excerpt": "eBay's 2026 changes hit cross-border sellers on three fronts: an import tariff pass-through, a new per-parcel processing fee, and a mandatory postage policy. What to change before the next fee cycle.",
+        "tags": "ebay,fees,2026,seller-changes",
+        "body": (
+            "## Three changes at once\n\n"
+            "eBay rolled out three seller-affecting changes through 2026 that compound for cross-border merchants:\n\n"
+            "1. **Import tariff handling** - from 1 July 2026, a pass-through of the new EU import charge appears on relevant cross-border orders, changing your effective landed cost.\n"
+            "2. **Per-parcel processing fee** - from 1 November 2026, a flat **EUR 2** processing fee applies to import parcels, layered on top of the tariff.\n"
+            "3. **Mandatory postage policy** - listings can no longer go live without a defined postage and shipping policy set in the seller account.\n\n"
+            "## Why the postage rule breaks bulk listers\n\n"
+            "The mandatory postage policy is the quiet killer. Sellers who bulk-upload via file exchange or API find listings rejected at publish when the shipping policy field is empty. This is the same class of gate that hits Amazon EU under [Error 5995](https://www.crossaio.com/en/blog/error-5995-fix) - a missing required field, enforced at publish. Fix the policy template once, then make sure every upload references it.\n\n"
+            "## What to do before the next cycle\n\n"
+            "- **Recompute landed price** including the tariff and the EUR 2 fee, or your margin silently shrinks. The [pricing math](https://www.crossaio.com/en/pricing) keeps VAT and fees in the equation.\n"
+            "- **Set one default postage policy** and apply it across the catalogue before bulk-uploading.\n"
+            "- **Check the per-marketplace field map** - eBay's GPSR expectations sit alongside the fee changes in the [13-marketplace rules](https://www.crossaio.com/en/rules).\n\n"
+            "Run the [free GPSR check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=ebay-2026-seller-changes) to confirm your eBay listings carry the responsible-person and warning fields the platform now verifies alongside the new fee logic."
+        ),
+    },
+    {
+        "slug": "eu-import-processing-fee-2026",
+        "title": "The EUR 2 EU Processing Fee: Why Your Import Parcels Now Cost More",
+        "excerpt": "Since 1 November 2026 a flat EUR 2 processing fee applies to each import parcel into the EU. What changed, who pays, and how to protect your margin on low-value goods.",
+        "tags": "fees,logistics,2026,import",
+        "body": (
+            "## What the fee actually is\n\n"
+            "From **1 November 2026**, a flat **EUR 2** processing fee applies to each parcel imported into the EU from outside the bloc. It sits on top of any import tariff and is collected as part of the cross-border delivery chain. For a single low-value item, EUR 2 can be a large share of the order - which is exactly the segment (small accessories, gadgets, fashion add-ons) that cross-border sellers depend on.\n\n"
+            "## Why it hits cross-border harder than local\n\n"
+            "Sellers shipping from inside the EU (a local warehouse or fulfilment) do not trigger the per-parcel import fee the same way. The fee therefore widens the gap between EU-stocked and externally-shipped listings - and pushes more sellers to consider local fulfilment or to consolidate shipments. It also interacts with marketplace fee logic, as covered in the [eBay 2026 changes](https://www.crossaio.com/en/blog/ebay-2026-seller-changes).\n\n"
+            "## Margin moves to make\n\n"
+            "- **Reprice low-value SKUs** so the EUR 2 does not eat the margin - the [pricing formula](https://www.crossaio.com/en/pricing) solves the exact price that keeps your target margin after the fee.\n"
+            "- **Consolidate where allowed** - fewer, fuller parcels reduce the per-unit fee impact, within marketplace packaging rules.\n"
+            "- **Watch the VAT and IOSS interaction** - the fee is separate from VAT; keep HS codes and IOSS numbers correct so buyers are not charged twice at the door (see the [VAT and OSS guide](https://www.crossaio.com/en/blog/eu-vat-oss-guide-marketplace-sellers)).\n\n"
+            "The fee is logistics, not compliance - but it changes which listings are worth shipping. Confirm your [GPSR listing fields](https://www.crossaio.com/en/rules) are intact so a reprice does not also trip a compliance block, and run the [free check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=eu-import-processing-fee-2026) if you are unsure."
+        ),
+    },
+    {
+        "slug": "ppwr-2026-packaging-rules",
+        "title": "PPWR 2026: EU Packaging Waste Rules and the Listing Changes They Force",
+        "excerpt": "The Packaging and Packaging Waste Regulation (PPWR) starts biting in 2026. Which listing and fulfilment changes it forces, and how to stay ahead of the packaging requirements.",
+        "tags": "ppwr,packaging,compliance,2026",
+        "body": (
+            "## What PPWR changes\n\n"
+            "The EU **Packaging and Packaging Waste Regulation (PPWR)** shifts packaging rules from a directive (member states implement differently) to a single regulation with common EU thresholds. From its 2026 milestone dates, requirements tighten on recyclability, reused-content minimums and labelling of packaging - including the parcels and mailers sellers use to ship.\n\n"
+            "## Why it touches your listing\n\n"
+            "Packaging claims on a product page are now a compliance surface. A listing that says **100 percent recyclable** or **plastic-free** must be able to back it with the right packaging spec, or it becomes a misleading-claims risk under the same enforcement climate that produced the [DSA fines](https://www.crossaio.com/en/blog/temu-aliexpress-shein-dsa-fines). Marketplaces are beginning to capture packaging attributes alongside the GPSR fields in the [13-marketplace map](https://www.crossaio.com/en/rules).\n\n"
+            "## What to prepare\n\n"
+            "- **Audit packaging claims** on your top SKUs - only state what the physical packaging supports.\n"
+            "- **Capture packaging attributes** in your master listing so platform variants inherit correct data (the [localization matrix](https://www.crossaio.com/en/blog/multi-marketplace-listing-seo-localization) keeps one source of truth).\n"
+            "- **Keep evidence** - packaging specifications and supplier declarations belong in the same file set as your [GPSR technical documentation](https://www.crossaio.com/en/blog/gpsr-technical-file-checklist).\n\n"
+            "PPWR is a slower burn than a takedown, but it is a documentation discipline - and documentation is exactly where the [free check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=ppwr-2026-packaging-rules) and the compliance engine keep you consistent across marketplaces."
+        ),
+    },
+    {
+        "slug": "amazon-eu-compliance-calendar-2026",
+        "title": "The 2026 EU Compliance Calendar for Amazon Sellers",
+        "excerpt": "GPSR, PPWR, DSA, VAT and AI Act deadlines land across 2026. A month-by-month calendar of the compliance actions that actually affect your Amazon EU listings.",
+        "tags": "amazon,calendar,compliance,2026",
+        "body": (
+            "## Why a calendar, not a checklist\n\n"
+            "EU compliance for Amazon sellers is not one task - it is a sequence of deadlines across the year, each attached to a different regulation. Treat them as a calendar and you stop getting surprised by takedowns. The big four in 2026:\n\n"
+            "1. **GPSR (enforced since 13 Dec 2024)** - the always-on gate behind [Error 5995](https://www.crossaio.com/en/blog/error-5995-fix) and the [Manage Your Compliance](https://www.crossaio.com/en/blog/manage-your-compliance-sop) dashboard.\n"
+            "2. **PPWR (2026 milestones)** - packaging attributes and claims, covered in the [PPWR guide](https://www.crossaio.com/en/blog/ppwr-2026-packaging-rules).\n"
+            "3. **DSA enforcement climate** - platform-level diligence that raises the bar on every seller's safety data, as the [DSA fines](https://www.crossaio.com/en/blog/temu-aliexpress-shein-dsa-fines) showed.\n"
+            "4. **EU AI Act Article 50** - disclosure rules for any AI customer service you run (see the [Article 50 guide](https://www.crossaio.com/en/blog/eu-ai-act-article-50-disclosure)).\n\n"
+            "## The monthly rhythm that works\n\n"
+            "- **Quarterly**: re-run the [EU Responsible Person](https://www.crossaio.com/en/blog/eu-responsible-person-complete-guide) mandate check - contracts lapse while listings stay live.\n"
+            "- **Monthly**: export your Manage Your Compliance backlog and clear the oldest rows first.\n"
+            "- **Before every new SKU**: run the [free 30-second check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=amazon-eu-compliance-calendar-2026) so new listings launch with fields present, not after a suppression.\n\n"
+            "The [13-marketplace field map](https://www.crossaio.com/en/rules) keeps the per-site detail current as these deadlines move."
+        ),
+    },
+    {
+        "slug": "vinted-secondhand-gpsr-dsa",
+        "title": "Vinted and Secondhand: Where GPSR and DSA Apply to Resellers",
+        "excerpt": "Secondhand is not a compliance loophole. Where GPSR safety duties and DSA diligence reach resellers on Vinted and similar platforms - and what a high-volume seller must document.",
+        "tags": "vinted,secondhand,gpsr,dsa,reseller",
+        "body": (
+            "## The secondhand exception is narrower than it looks\n\n"
+            "Selling used goods privately is treated differently from professional selling - but the line moves the moment you sell in volume, list as a shop, or source stock to resell. Above that line, the same **GPSR** safety duties and **DSA** diligence expectations that govern the big marketplaces start to apply to you too.\n\n"
+            "## Where the duties land for a reseller\n\n"
+            "- **Safety information**: if you resell consumer products (electronics, toys, cosmetics, textiles with specific hazard claims), the buyer still needs the right safety warnings - in their language.\n"
+            "- **Illegal-product handling**: platforms must act on unsafe listings, and that obligation flows to seller verification and takedown speed.\n"
+            "- **Claims accuracy**: 'authentic', 'like new', 'safe' are all statements you may need to back.\n\n"
+            "This is the same spirit behind the [DSA fines on the large platforms](https://www.crossaio.com/en/blog/temu-aliexpress-shein-dsa-fines) - diligence scales down to resellers as volume rises.\n\n"
+            "## What a high-volume reseller should document\n\n"
+            "- **Source and condition records** per batch, the resale equivalent of [traceability](https://www.crossaio.com/en/blog/gpsr-technical-file-checklist).\n"
+            "- **Safety warnings** carried into the listing copy where the category demands them.\n"
+            "- **A consistent identity** - the [EU Responsible Person concept](https://www.crossaio.com/en/blog/eu-responsible-person-complete-guide) is about accountability, which matters even when you are the accountable party.\n\n"
+            "Cross-border reselling adds the same [per-marketplace field expectations](https://www.crossaio.com/en/rules) as any seller. Run the [free check](https://www.crossaio.com/en/gpsr-check?utm_source=google&utm_medium=organic&utm_campaign=vinted-secondhand-gpsr-dsa) on any new-to-you category before you list it at volume."
         ),
     },
 ]
