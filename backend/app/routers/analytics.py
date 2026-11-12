@@ -296,7 +296,9 @@ def traffic(
         "channels": channels,
         "conversion_events": dict(ev_total),
         "recent_human": recent,
-        "ga4_enabled": bool((settings.ga4_measurement_id or "").strip()),
+        # 2026-11-12: live config.py has no ga4_measurement_id attribute
+        # (GA4 module was reverted); direct access raises AttributeError -> 500.
+        "ga4_enabled": bool(str(getattr(settings, "ga4_measurement_id", "") or "").strip()),
         "note": "2026-11-07 口径：UA 三态分类（human/bot/probe），probe=健康检查、自建验证、"
                 "无浏览器指纹请求，不计入真人；utm_* 由 URL 参数或 caio_attr cookie 归因，"
                 "无 UTM 时按 Referer 推断渠道；独立访客用匿名 caio_vid cookie；"
