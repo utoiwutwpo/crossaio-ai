@@ -590,6 +590,30 @@ def blog_post_root_redirect(slug: str):
     return RedirectResponse(f"/en/blog/{slug}", status_code=301)
 
 
+@app.get("/en/sitemap", include_in_schema=False)
+def en_sitemap_hub():
+    """HTML hub: crawlable links to every indexable English page.
+
+    MUST be registered before the /{lang}/{page} catch-all (below), otherwise
+    Starlette matches /en/sitemap as lang='en', page='sitemap' and returns 404.
+    """
+    from xml.sax.saxutils import escape
+    base = settings.site_url
+    paths = list(SITEMAP_PATHS) + [f"/blog/{x}" for x in _blog_slugs()]
+    items = "".join(
+        f'<li><a href="{escape(base + ("/en" + p if p != "/" else "/"))}">'
+        f'{escape(p)}</a></li>' for p in paths)
+    return HTMLResponse(
+        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+        '<title>CrossAIO sitemap</title>'
+        f'<link rel="canonical" href="{escape(base)}/en/sitemap">'
+        '<link rel="alternate" hreflang="en" '
+        f'href="{escape(base)}/en/sitemap">'
+        f'<link rel="alternate" hreflang="x-default" href="{escape(base)}/en/sitemap">'
+        '<meta name="robots" content="index, follow"></head><body>'
+        '<h1>CrossAIO English pages</h1><ul>' + items + '</ul></body></html>')
+
+
 @app.get("/academy", include_in_schema=False)
 def academy_page():
     """Academy 页（教育护城河：课程/进度/结业证书，术语同化载体）"""
@@ -787,24 +811,9 @@ def _blog_slugs() -> list[str]:
         return []
 
 
-@app.get("/en/sitemap", include_in_schema=False)
-def en_sitemap_hub():
-    """HTML hub: crawlable links to every indexable English page."""
-    from xml.sax.saxutils import escape
-    base = settings.site_url
-    paths = list(SITEMAP_PATHS) + [f"/blog/{x}" for x in _blog_slugs()]
-    items = "".join(
-        f'<li><a href="{escape(base + ("/en" + p if p != "/" else "/"))}">'
-        f'{escape(p)}</a></li>' for p in paths)
-    return HTMLResponse(
-        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
-        '<title>CrossAIO sitemap</title>'
-        f'<link rel="canonical" href="{escape(base)}/en/sitemap">'
-        '<link rel="alternate" hreflang="en" '
-        f'href="{escape(base)}/en/sitemap">'
-        f'<link rel="alternate" hreflang="x-default" href="{escape(base)}/en/sitemap">'
-        '<meta name="robots" content="index, follow"></head><body>'
-        '<h1>CrossAIO English pages</h1><ul>' + items + '</ul></body></html>')
+# NOTE: the /en/sitemap hub is registered earlier, right after the blog routes
+# and before the /{lang}/{page} catch-all (see step 5). Defining it here would
+# lose to that catch-all and return 404.
 
 
 @app.get("/sitemap.xml", include_in_schema=False)
