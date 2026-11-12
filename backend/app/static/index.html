@@ -2749,7 +2749,10 @@ async function loadCredStatus(force){
     </div></div>`;
     box.innerHTML=html; box.classList.remove("hidden"); _credLoaded=true;
   }catch(e){
-    box.innerHTML=`<p class="hint">平台凭证状态获取失败：${esc(e.message)}（<a href="javascript:loadCredStatus(true)">重试</a>）<br>若提示“用户不存在”，说明当前登录令牌已失效，请退出后重新登录再回到本页。</p>`;
+    var _lgx="zh"; try{ _lgx=document.documentElement.lang||"zh"; }catch(_e){}
+    var _mt={zh:"平台凭证状态获取失败：",en:"Failed to load platform credential status: ",de:"Plattform-Zugangsdaten konnten nicht geladen werden: ",fr:"Échec du chargement des identifiants de plateforme : "}[_lgx]||"Failed to load platform credential status: ";
+    var _mh={zh:"若提示“用户不存在”，说明当前登录令牌已失效，请退出后重新登录再回到本页。",en:"If it reports user not found, your session token is stale — sign out and sign in again, then return here.",de:"Meldet das System „Benutzer nicht gefunden“, ist die Sitzung abgelaufen — bitte abmelden, neu anmelden und hierher zurückkehren.",fr:"Si le message indique un utilisateur introuvable, votre session est expirée — déconnectez-vous, reconnectez-vous puis revenez ici."}[_lgx]||"";
+    box.innerHTML=`<p class="hint">${esc(_mt)}${esc(e.message)}（<a href="javascript:loadCredStatus(true)">${_lgx==="zh"?"重试":(_lgx==="de"?"Erneut":"Retry")}</a>）<br>${esc(_mh)}</p>`;
     box.classList.remove("hidden");
   }
 }
