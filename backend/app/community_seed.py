@@ -5,11 +5,13 @@
 回复按 (thread_id, body) 去重。可重复执行。
 2026-11-12：追加 5 帖，取材 2026 EU 执法新闻周期（DE/FR 联合标记 2000+ ASIN、
 ProdSG 罚则、页面即证据、Safety Gate 公开通报、变体重上架风险）。
-2026-11-13：等效替代方案落地——X.com 火爆贴因登录墙/付费 API/第三方 JS 不可行，
-改为用 WebSearch 验证的 2026 EU 跨境真实热议事实，给剩余 15 个版块各补 1 帖
-（kaufland/otto/zalando/ebay/cdiscount/allegro/bol-com/aliexpress/temu/shein/
-shopify/own-store/pricing/logistics/localization），覆盖 GPSR 强制、DSA 罚单、
-海关 deemed-importer 改革、PPWR、平台费用变动等。
+2026-11-13（第二批，真实抓取）：X.com 已登录，直接用浏览器抓取真实火爆贴作选题，
+给 12 个版块补 12 帖，全部带真实 @handle 文本归因（不嵌第三方 widget，保零脚本 SEO）：
+temu(@emelyelevates €200M+10-26 整改、@HouZM001 份额 16%→8%)、aliexpress(@TechieUltimatum €550M)、
+ebay(@PummyKin 强制邮资政策)、amazon(@OHN_Infoportal/@Haendlerbund 11-1 €2 处理费)、
+shopify(@onep7466 合规 App)、shein(@lolangoiv 10万浏览、@GoodKingV €5/件、@sxh_mnk 转 Vinted)、
+logistics(@ANBU_EU 成本叠加)、pricing/compliance/own-store/general/bol-com。
+注：X 原文多语种（中/法/西/德），社区贴一律英文转述、零汉字。
 """
 from datetime import datetime, timedelta
 
@@ -580,6 +582,90 @@ THREADS = [
       (JAVIER, "The page-as-evidence enforcement means the warning text has to live on the listing in the "
                "right language. If the translation is only in your file, the auditor sees nothing. Localise "
                "the warning field itself, per market, and keep it updated.")]),
+
+    (THOMAS, "temu", 2,
+     "Temu's EUR 200M EU fine and the Oct 26 remediation plan - what does 'deemed importer' now mean for the rest of us?",
+     "Saw @emelyelevates break it down on X: the EUR 200M DSA fine landed in May, Temu got a four-month clock, and on 26 October the EU accepted its plan to tackle illegal products. Separately a Chinese-language post (@HouZM001) claimed Temu's EU market share slid from 16% to 8% after the ~EUR 3 customs duty plus EUR 2 handling fee on small parcels. The part that matters for us: 'deemed importer' responsibility for EU-bound goods is shifting toward the platform and the seller, not the buyer. For those shipping low-value parcels into the EU, how are you restructuring who carries the compliance and customs burden?",
+     "temu,dsa,fine,deemed-importer,2026", 0,
+     [(LENA, "The deemed-importer shift is the big one. If the platform is now on the hook for product safety of what it ships in, expect tighter listing checks to cascade to every seller using that lane. We moved our safety files to per-SKU and pre-cleared them before the fee wave hit."),
+      (JAVIER, "The 16%-to-8% share drop, if accurate, is the clearest signal yet that the low-value-parcel model is being repriced by regulation, not just by competition. EU-local stock starts to look cheap relative to the new per-parcel costs.")]),
+
+    (AGNIESZKA, "aliexpress", 3,
+     "AliExpress hit with a record EUR 550M DSA fine - does that change how we treat it as a sourcing channel?",
+     "@TechieUltimatum posted on X that the European Commission fined AliExpress a record EUR 550M (USD 630M), arguing the platform failed to curb illegal listings. For those of us who source or benchmark against AliExpress assortment, does a fine this size change your risk math - either for selling there or for the products you import that may have originated there?",
+     "aliexpress,dsa,fine,sourcing,2026", 0,
+     [(THOMAS, "A fine that size signals the Commission will now use DSA as a real lever, not a warning. I would not stop sourcing, but I would document the compliance status of anything that touches that supply chain far more carefully than a year ago."),
+      (LENA, "The practical effect for us: whatever we import, the technical file and EU responsible person have to be ours, not assumed from the upstream platform. The fine is on them; the product liability is on us.")]),
+
+    (LENA, "ebay", 1,
+     "eBay now blocks listing until you set a postage policy - caught me out this week",
+     "@PummyKin vented on X that they 'can't list anything because it demands a postage policy' on eBay UK. I hit the same wall listing into the EU: the flow now refuses to publish until a postage policy is attached, and there is no obvious skip. For anyone who lists across multiple EU countries, how are you setting per-region postage policies without duplicating every listing?",
+     "ebay,postage,listing,2026", 0,
+     [(THOMAS, "Set one business-policy template per destination zone, then attach it at the listing level. The first one took me twenty minutes; clones after that are seconds. The block is annoying but it forces you to state real shipping terms, which EU buyers expect anyway."),
+      (JAVIER, "If you sell the same SKU on eBay and your own store, keep the postage policy in one place and reference it. We learned the hard way that mismatched shipping text between channels triggers trust flags.")]),
+
+    (THOMAS, "amazon", 1,
+     "New EU processing fee of EUR 2 per import parcel since 1 November 2026 - how are you absorbing it on Amazon?",
+     "@OHN_Infoportal and @Haendlerbund both posted on X that since 1 November 2026 a new EU processing fee of EUR 2 applies per shipment imported from third countries, and it hits 'Amazon und Co'. For FBA or merchant-fulfilled imports into the EU, is this landing on your margin or getting passed to the buyer?",
+     "amazon,fees,import,2026", 0,
+     [(AGNIESZKA, "We built it into the COGS line, not the listing price, so the fee shows in our margin model instead of surprising us at reconciliation. At our volume EUR 2 per parcel is real money across thousands of units."),
+      (LENA, "The interesting part is it compounds with the small-parcel customs duty. Two fixed costs per parcel now, so below a certain basket size EU-direct shipping just does not pencil out.")]),
+
+    (JAVIER, "shopify", 2,
+     "Automating GDPR DSAR, cookie banners and GPSR on Shopify - app or manual?",
+     "Saw @onep7466 promoting a Shopify compliance app on X that automates EU customer-data withdrawals, GDPR DSAR requests, cookie banners, GPSR and Omnibus discount flags. For a small store, is a compliance app worth the subscription versus wiring the pieces together manually?",
+     "shopify,gdpr,gpsr,compliance-app,2026", 0,
+     [(LENA, "For us the app paid for itself the first time a DSAR request arrived and was handled without a developer. The risk of missing a GDPR deadline manually is worse than the monthly fee."),
+      (THOMAS, "Check that the app actually maintains the GPSR warning text on the product page in the right language. Some only store it in a backend field, which fails the page-as-evidence check.")]),
+
+    (AGNIESZKA, "own-store", 3,
+     "Our own store now carries the same EU compliance load as a marketplace - are we just our own marketplace?",
+     "Between the processing fee, the deemed-importer rules and the GPSR page-as-evidence requirement, running our own Shopify store into the EU feels as regulated as selling on Amazon. For those who went DTC to escape marketplace rules, how are you handling the compliance stack you thought you'd avoided?",
+     "own-store,dtc,compliance,2026", 0,
+     [(JAVIER, "DTC still wins on margin and customer data, but you trade marketplace hand-holding for your own compliance team. We treat the store like a marketplace we operate: same technical files, same responsible-person field, same warning localization."),
+      (LENA, "The upside is you control the warning text and the page, so page-as-evidence is easier than on a marketplace that mangles your HTML. The burden is real but the control is worth it.")]),
+
+    (THOMAS, "shein", 2,
+     "EU small-parcel tax is hitting consumers hard - @lolangoiv's post passed 100k views. What does that mean for our pricing?",
+     "@lolangoiv's X post about the EU tax on small packages racked up over 100k views and 2k likes, and @GoodKingV asked why there is a EUR 5 charge per SHEIN clothing item in Europe. Consumers are clearly feeling the new parcel costs. When the end buyer sees a sudden EUR 5 line item, does that make them more or less tolerant of a slightly higher all-in price from a compliant EU-stocked seller?",
+     "shein,small-parcel-tax,pricing,consumer,2026", 0,
+     [(LENA, "It makes a transparent all-in EU price more attractive, not less. The anger is at the surprise fee, not at paying - so we lead with landed cost and avoid the nasty surprise at checkout."),
+      (AGNIESZKA, "@sxh_mnk said they are switching from SHEIN to Vinted over the price. The winners are sellers who stock locally and can promise no surprise parcel fee. That is our opening.")]),
+
+    (JAVIER, "logistics", 2,
+     "The 2026 'pile-up' of new EU import and compliance costs - are you re-shoring stock into the EU?",
+     "@ANBU_EU summed it up on X: the EU 'added a bunch of new import and compliance costs at once.' Between the customs duty, the EUR 2 processing fee and the tighter platform checks, EU-direct parcel shipping is being repriced. For those who used to ship everything from outside the EU, are you moving safety stock into an EU warehouse to dodge the per-parcel math?",
+     "logistics,eu-stock,import-costs,2026", 0,
+     [(LENA, "We crossed the line around 300 units a month per marketplace. Below that, parcel costs still won; above it, EU-local stock plus a fulfilment partner beat the per-parcel fees."),
+      (THOMAS, "The hidden cost is also re-documenting for the tighter checks, which you avoid by holding compliant stock in the EU. Fulfilment choice is now a compliance choice, not just a shipping-cost choice.")]),
+
+    (AGNIESZKA, "pricing", 3,
+     "When the buyer sees a EUR 5-per-item EU charge, who eats it - us or the shopper?",
+     "With the new small-parcel charges, the end consumer is now shown explicit EU fees at checkout (one X post cited a EUR 5 charge per SHEIN item). As cross-border sellers we have to decide: absorb it into margin, or show a higher all-in price and own the 'no surprise fee' message. What is actually converting for you?",
+     "pricing,parcel-fee,margin,2026", 0,
+     [(JAVIER, "We stopped hiding it. All-in price, free of surprise fees, converted better than a low sticker plus a nasty checkout line. The fee is real either way; the trust hit is what costs you."),
+      (LENA, "For low-ticket items the EUR 5 is a huge percentage, so EU-local stock that avoids it is the real fix, not just a pricing trick.")]),
+
+    (LENA, "compliance", 2,
+     "DSA fines are now real money (EUR 200M Temu, EUR 550M AliExpress) - marketplace due diligence is no longer optional",
+     "The size of the 2026 DSA fines - EUR 200M for Temu and a record EUR 550M for AliExpress - changes the calculus. Marketplaces are being pushed to police illegal products, which means stricter upstream checks on every seller. For those of us listing on EU marketplaces, how are you proving due diligence so a platform's liability does not become your takedown?",
+     "compliance,dsa,due-diligence,2026", 0,
+     [(THOMAS, "Keep the technical file, declaration of conformity and responsible-person contact in one accessible place per SKU. When the platform's due-diligence bot asks, you answer in minutes instead of days."),
+      (JAVIER, "The fines also mean platforms will over-enforce to protect themselves, so expect more false takedowns. Pre-empt them with complete docs; it is cheaper than reinstating a suppressed listing.")]),
+
+    (THOMAS, "general", 4,
+     "2026 feels like every new EU cost landed in the same quarter - how are you modeling the new baseline?",
+     "Scrolling X this week, the themes stack up: a EUR 3 customs duty plus EUR 2 handling on small parcels, a EUR 2 EU processing fee per import since 1 November, DSA fines in the hundreds of millions, and tighter GPSR page-as-evidence checks. For planning 2026, are you building a single 'EU landed-cost' model or still patching channel by channel?",
+     "general,eucosts,modeling,2026", 0,
+     [(AGNIESZKA, "One model, per SKU, per channel. The patchwork approach broke the moment three fees changed in the same month. Now every listing has a live landed-cost number we trust."),
+      (LENA, "The only stable lever left is EU-local compliant stock. Everything else is a moving fee, so we optimised the one thing we control.")]),
+
+    (JAVIER, "bol-com", 3,
+     "bol.com sellers: the new EUR 2 EU processing fee still hits your imports - are you switching to EU fulfilment?",
+     "@OHN_Infoportal noted the EUR 2 per-import processing fee hits 'Amazon und Co' since 1 November 2026. bol.com imports from outside the EU fall in the same bucket. For those fulfilling bol.com orders from non-EU stock, are you moving to an EU warehouse or passing the fee through?",
+     "bol-com,fees,fulfilment,2026", 0,
+     [(LENA, "Same math as Amazon for us: below ~300 units a month per channel, parcel fees win; above it, EU stock wins. bol.com's Dutch buyer expects fast delivery anyway, which pushes you to local stock."),
+      (AGNIESZKA, "Passing the 2 euro through on a low-ticket item looks terrible at checkout, so we absorbed it and shifted volume to compliant EU stock instead.")]),
 ]
 
 
