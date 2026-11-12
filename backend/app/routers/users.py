@@ -353,7 +353,7 @@ def mail_status():
 
 
 @router.post("/password/forgot", summary="发送重置密码邮件")
-async def password_forgot(body: dict, db: Session = Depends(get_db)):
+async def password_forgot(body: dict, request: Request, db: Session = Depends(get_db)):
     email = (body.get("email") or "").strip().lower()
     lang = (body.get("lang") or "en")[:2]
     if lang not in ("zh", "en", "de", "fr"):
@@ -367,7 +367,11 @@ async def password_forgot(body: dict, db: Session = Depends(get_db)):
     token = _reset_token(user)
     link = f"{settings.public_url}/{'' if lang == 'zh' else lang + '/'}reset?token={token}"
     sent = await _send_reset_email(user.email, link, lang)
-    return {"ok": True, "mail_configured": bool(settings.resend_api_key or settings.smtp_host), "sent": sent}
+    out = {"ok": True, "mail_configured": bool(settings.resend_api_key or settings.smtp_host), "sent": sent}
+    # 自测/兜底：仅管理员令牌可见链接（用于邮件通道未配置时人工发链接）
+    if settings.admin_token and request.headers.get("x-admin-token") == settings.admin_token:
+        out["link"] = link
+    return out
 
 
 @router.post("/password/reset", summary="用令牌设置新密码")
