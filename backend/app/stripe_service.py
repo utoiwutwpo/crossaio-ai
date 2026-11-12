@@ -110,15 +110,14 @@ def create_checkout_session(user: User, plan: str, origin: str, billing: str = "
     elif billing == "yearly":
         # 年付兜底：未在 env 配 STRIPE_PRICE_*_YEAR 时，用月价 12 期 × 8 折现算年总价。
         # Stripe Checkout 订阅模式支持 price_data.recurring，无需预建 Price。
-        from .billing_plans import PLAN_PRICES_USD
-        usd = PLAN_PRICES_USD.get(plan)
-        if not usd:
+        from .billing_plans import ANNUAL_EUR_CENTS
+        yearly_amount = ANNUAL_EUR_CENTS.get(plan)
+        if not yearly_amount:
             raise ValueError(f"stripe price for '{plan}' not configured")
-        yearly_amount = int(round(usd * 100 * 12 * 0.8))
         line_items = [{
             "quantity": 1,
             "price_data": {
-                "currency": "usd",
+                "currency": "eur",
                 "unit_amount": yearly_amount,
                 "recurring": {"interval": "year"},
                 "product_data": {"name": "CrossAIO %s (annual)" % plan.capitalize()},
