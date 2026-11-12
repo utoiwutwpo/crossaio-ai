@@ -520,6 +520,15 @@ header h1 a{font-size:15px}
 }
 </style>
 <style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+<style id="cx-app-nav-contrast">/* 2026-11-12：工作台顶部导航对比度 + 最小字号 + 项间距（只调样式，不动导航项） */
+header #sitelinks{ gap:14px !important; }
+header #sitelinks a, header #sitelinks a.hint{ color:#e6ecf5 !important; font-size:11.5px !important; line-height:1.6 !important; opacity:1 !important; padding:2px 0 !important; }
+header #sitelinks a:hover, header #sitelinks a:focus-visible{ color:#ffffff !important; }
+header #sitelinks a:focus-visible{ outline:2px solid #22d3ee; outline-offset:3px; border-radius:6px; }
+@media (max-width:1560px){ header #sitelinks a, header #sitelinks a.hint{ font-size:11px !important; } header #sitelinks{ gap:11px !important; } }
+@media (max-width:1300px){ header #sitelinks a, header #sitelinks a.hint{ font-size:10.5px !important; } header #sitelinks{ gap:9px !important; } }
+@media (max-width:1180px){ header #sitelinks a, header #sitelinks a.hint{ font-size:10px !important; } header #sitelinks{ gap:7px !important; } }
+</style>
 </head>
 <body>
 <header>
@@ -3921,8 +3930,43 @@ s1:["Identifier votre statut : non-marque (sans Brand Registry) → 5995 = mur d
 s2:["Seller Central → Manage Your Compliance (pas la page Account Health)","Filtrer la catégorie « Action requise », exporter la liste","Compléter les champs selon les 13 pages de règles : RP UE, avertissements, dossier technique","Générer les blocs par catégorie+langue et téléverser fichier par fichier","Corriger une seule classe d'erreur à la fois","Capturer chaque validation — cela devient la chaîne de preuve du recours"],
 s3:["Associer chaque code de retrait à une action concrète","Utiliser le modèle d'appel en anglais (voir /en/blog/listing-appeal-template) : cause + preuve + prévention","Joindre les ID d'archive DoC / dossier technique (via « Coffre de preuves »)","Un seul sujet par appel, 3 captures maximum","En cas de refus, attendre 72 h ; ajouter des preuves sans changer les faits","Après deux refus → escalade vers Seller Performance + Case pour l'équipe responsable"]}};
 var LANG="zh";
-try{ var _wl=localStorage.getItem("wbpro_lang"); if(_wl&&["zh","en","de","fr"].indexOf(_wl)>=0) LANG=_wl; }catch(e){}
+/* 2026-11-12：语种优先级 = URL ?lang= > 路径 /en|/de|/fr|/zh > 本地存储 > zh */
+try{
+  var _qs=new URLSearchParams(location.search);
+  var _ql=(_qs.get("lang")||"").toLowerCase();
+  var _pm=String(location.pathname||"").match(/^\/(en|de|fr|zh)(\/|$)/);
+  var _pl=_pm?_pm[1]:null;
+  var _pick=(_ql&&["zh","en","de","fr"].indexOf(_ql)>=0)?_ql:(_pl||null);
+  if(_pick){
+    LANG=_pick;
+    try{ localStorage.setItem("wbpro_lang",_pick) }catch(e){}
+  }else{
+    var _wl=localStorage.getItem("wbpro_lang");
+    if(_wl&&["zh","en","de","fr"].indexOf(_wl)>=0) LANG=_wl;
+  }
+  if(LANG) document.documentElement.lang=LANG;
+}catch(e){}
 window.WBLANG_CUR=LANG;
+(function(){
+  function localizeNav(){
+    try{
+      if(LANG==="zh") return;
+      var map={"/zh/":"/"+LANG+"/","/rules":"/"+LANG+"/rules","/pricing":"/"+LANG+"/pricing",
+               "/skills":"/"+LANG+"/skills","/compliance-check":"/"+LANG+"/compliance-check"};
+      var nodes=document.querySelectorAll("#sitelinks a, header a[data-i18n]");
+      for(var i=0;i<nodes.length;i++){
+        var a=nodes[i], href=a.getAttribute("href");
+        if(href&&map[href]) a.setAttribute("href",map[href]);
+      }
+      var bl=document.getElementById("brandLink");
+      if(bl) bl.setAttribute("href",({en:"/",de:"/de/",fr:"/fr/",zh:"/zh/"})[LANG]||"/");
+    }catch(e){}
+  }
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",localizeNav);
+  }else{ localizeNav(); }
+})();
+
 function T(k){return (I18N[LANG]&&I18N[LANG][k])||null}
 window.WBLANG_T=T;window.WBT=function(k,zh){var v=null;try{v=T(k)}catch(e){}return v||zh||""};
 function tr(k){return (SOP[LANG]&&SOP[LANG][k])||SOP.zh[k]}

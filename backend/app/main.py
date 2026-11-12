@@ -738,12 +738,10 @@ def lang_home(lang: str):
 
 @app.get("/{lang}/app", include_in_schema=False)
 def lang_app(lang: str):
-    """旧版语言工作台已下线：301 到新版统一工作台 /app。"""
-    if lang not in I18N_LANGS:
+    """语言工作台入口：301 到 /app?lang=<lang>，由前端按语种渲染（en/de/fr/zh）。"""
+    if lang not in ("en", "de", "fr", "zh"):
         raise HTTPException(status_code=404)
-    # 旧版语言工作台已下线（static/{lang}/index.html 已移除）：
-    # 统一 301 到新版工作台 /app（内置 EN/DE/FR/中文 胶囊切换）
-    return RedirectResponse("/app", status_code=301)
+    return RedirectResponse("/app?lang=" + lang, status_code=301)
 
 
 @app.get("/{lang}/{page}", include_in_schema=False)
