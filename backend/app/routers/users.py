@@ -328,11 +328,15 @@ async def _send_reset_email(to: str, link: str, lang: str) -> bool:
             async with httpx.AsyncClient(timeout=15, proxy=settings.proxy_url or None) as client:
                 r = await client.post("https://api.resend.com/emails",
                                       headers={"Authorization": f"Bearer {settings.resend_api_key}",
-                                               "Content-Type": "application/json"},
+                                               "Content-Type": "application/json",
+                                               "User-Agent": "CrossAIO/1.0 (+https://www.crossaio.com)"},
                                       json={"from": settings.resend_from, "to": [to],
                                             "subject": t["subject"], "html": html})
+            if r.status_code not in (200, 201):
+                print(f"[reset-mail] resend failed {r.status_code}: {r.text[:200]}", flush=True)
             return r.status_code in (200, 201)
-        except Exception:
+        except Exception as exc:
+            print(f"[reset-mail] resend exception: {exc}", flush=True)
             return False
     if settings.smtp_host:
         from ..mailer import send_email
