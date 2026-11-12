@@ -2,9 +2,12 @@
 CrossAIO — FastAPI 主应用
 本地运行：uvicorn app.main:app --reload --port 8000
 """
+import base64 as _base64
 import logging
 import re as _re
+import secrets as _secrets
 import time as _time
+from urllib.parse import parse_qsl as _parse_qsl, urlencode as _urlencode
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -12,9 +15,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 
 from .config import settings
 from .database import init_db
+from . import blog_post_pages  # restored 2026-11-12: /en/blog/{slug} SSR + Article JSON-LD
+from . import resource_pages  # stage-3 2026-11-12: /en/resources/{slug} + /downloads/{file}
 from . import community_models  # 注册社区/播客/峰会 ORM 模型（随 create_all 自动建表）
 from .routers import (ads, analytics, billing, customer_service, ebay,
                       listings, products, users, eu_rep, inbox, rule_pages,
@@ -23,7 +29,6 @@ from .routers import (ads, analytics, billing, customer_service, ebay,
                       notifications, connectors, platform_auth,
                       entitlements, platform_tasks, incidents, provenance)
 from . import newsletter_models  # 注册政策周报订阅表（随 create_all 建表）
-from .routers import site_preview  # 能力地图新版（纯新增）
 from .routers import site_preview  # 能力地图新版（纯新增）
 from .routers.site_nav import FEATURE_ITEMS, FEATURE_I18N, NAV_I18N
 from .routers import home_page  # /zh 首页资产（纯新增）
@@ -91,7 +96,15 @@ SEO_PAGE_DESC = {
         "fr": "Contrôle GPSR gratuit : téléversez vos données produit et obtenez un rapport détaillé au règlement européen sur la sécurité générale des produits, avec plan d'action.",
     },
 }
-_SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup")
+_SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup", "traffic")
+# English-only indexable URLs: resources and articles have no de/fr/zh
+# counterpart, so emitting alternates for them would advertise 404s.
+SITEMAP_EN_ONLY_PATHS = (
+    "/resources/field-map",
+    "/resources/appeal-pack",
+    "/resources/weekly-checklist",
+    "/resources/dpp-readiness",
+)
 
 
 def _split_lang_path(path: str):
@@ -134,10 +147,13 @@ def _seo_head_tags(path: str, html: str) -> str:
     desc = (SEO_PAGE_DESC.get(sub) or SEO_GENERIC_DESC).get(lang) or SEO_GENERIC_DESC["en"]
     has_desc = 'name="description"' in html
     has_og = 'property="og:title"' in html
-    # 顺序：英文优先，中文最后（en → de → fr → zh）
+    # 顺序：英文优先，中文最后（en → de → fr → zh）；
+    # English-only URLs advertise only en + x-default (stage-3 2026-11-12).
+    en_only = sub in SITEMAP_EN_ONLY_PATHS or sub.startswith("/blog/")
+    alt_langs = ("en",) if en_only else SEO_LANGS
     alternates = "".join(
         f'<link rel="alternate" hreflang="{lg}" href="{_e(_u(lg))}">'
-        for lg in ("en", "de", "fr", "zh"))
+        for lg in alt_langs)
     alternates += f'<link rel="alternate" hreflang="x-default" href="{_e(_u("en"))}">'
     desc_tags = "" if has_desc else f'<meta name="description" content="{_e(desc)}">'
     og_tags = "" if has_og else (
@@ -158,28 +174,203 @@ def _seo_head_tags(path: str, html: str) -> str:
     )
 
 
+
+# --- Restored 2026-11-12: UA three-state classification + UTM attribution ---
+# c9cfd4cc dropped all of this, so /api/v1/analytics/traffic returned 404 and
+# even after restoring the endpoint no page_view rows would ever be produced.
+_BOT_UA_RE = _re.compile(
+    r"bot|spider|crawl|slurp|bingpreview|facebookexternalhit|curl|python|"
+    r"wget|httpie|headless|ahrefs|semrush|mj12|dotbot|go-http-client|"
+    r"scrapy|mechanize|libwww|lwp::|java/|node-fetch|axios|okhttp|"
+    r"yandex|baiduspider|duckduckbot|petalbot", _re.I)
+_PROBE_UA_RE = _re.compile(
+    r"uptimerobot|pingdom|statuscake|site24x7|monitor|healthcheck|health-check|"
+    r"kube-probe|elb-healthcheck|googlehc|render/|nagios|zabbix|datadog|"
+    r"newrelic|lighthouse|playwright|puppeteer|selenium|phantomjs|postman|"
+    r"insomnia|crossaio-|check_http", _re.I)
+_BROWSER_UA_RE = _re.compile(
+    r"Mozilla/5\.0.*(?:Chrome/\d|Safari/\d|Firefox/\d|Edg/\d|"
+    r"OPR/\d|Version/\d|SamsungBrowser/\d)", _re.I | _re.S)
+
+_UTM_KEYS = ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term")
+_VID_COOKIE = "caio_vid"
+_ATTR_COOKIE = "caio_attr"
+_REF_CHANNELS = (
+    ("reddit", "reddit"), ("sellerforum", "sellerforum"),
+    ("facebook", "facebook"), ("instagram", "instagram"),
+    ("google.", "google"), ("bing.", "bing"),
+    ("linkedin.", "linkedin"), ("youtube.", "youtube"),
+    ("allegro", "allegro"), ("bol.com", "bol"), ("emag", "emag"),
+)
+
+
+def _classify_ua(ua: str, accept: str, sec_fetch_dest: str) -> str:
+    """human / bot / probe. Probes never pollute the human PV count."""
+    u = (ua or "").strip()
+    low = u.lower()
+    if _BOT_UA_RE.search(low):
+        return "bot"
+    if not u or len(u) < 25 or _PROBE_UA_RE.search(low):
+        return "probe"
+    if not _BROWSER_UA_RE.search(u):
+        return "probe"
+    if sec_fetch_dest and sec_fetch_dest.lower() not in ("document", "iframe"):
+        return "probe"
+    if "text/html" not in (accept or "").lower():
+        return "probe"
+    return "human"
+
+
+def _utm_from_query(request) -> dict:
+    out = {}
+    for k in _UTM_KEYS:
+        v = (request.query_params.get(k) or "").strip()[:60]
+        if v:
+            out[k] = v
+    return out
+
+
+def _encode_attr(utm: dict) -> str:
+    return _base64.urlsafe_b64encode(_urlencode(utm).encode()).decode().rstrip("=")
+
+
+def _decode_attr(raw: str) -> dict:
+    try:
+        t = _base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)).decode()
+        return {k: v[:60] for k, v in _parse_qsl(t, keep_blank_values=False)
+                if k in _UTM_KEYS}
+    except Exception:
+        return {}
+
+
+def _ref_channel(ref: str) -> str:
+    low = (ref or "").lower()
+    for needle, name in _REF_CHANNELS:
+        if needle in low:
+            return name
+    return ""
+
+
+def _record_pageview(request, vid: str, utm: dict, ua_kind: str, ref: str) -> None:
+    """Write one page_view row. Tracking must never break a page response."""
+    try:
+        from .database import SessionLocal, AnalyticsEvent
+        from .routers.analytics import ip_hash
+        db = SessionLocal()
+        try:
+            db.add(AnalyticsEvent(
+                event_type="page_view",
+                platform=ua_kind,
+                utm_source=utm.get("utm_source", "")[:100],
+                utm_medium=utm.get("utm_medium", "")[:100],
+                utm_campaign=utm.get("utm_campaign", "")[:100],
+                ip_hash=ip_hash(request),
+                user_id="",
+                meta={
+                    "path": request.url.path[:200],
+                    "ua": (request.headers.get("user-agent") or "")[:300],
+                    "ua_kind": ua_kind,
+                    "is_bot": ua_kind != "human",
+                    "ref": ref[:200],
+                    "vid": vid,
+                    "utm": dict(utm),
+                },
+            ))
+            db.commit()
+        except Exception:
+            db.rollback()
+        finally:
+            db.close()
+    except Exception:
+        pass
+
+
 @app.middleware("http")
 async def seo_head_inject_middleware(request, call_next):
+    """Single source of truth for canonical/hreflang.
+
+    body_iterator is consumed here, so EVERY branch must return a rebuilt
+    HTMLResponse - otherwise the client gets 200 with an empty body.
+    Page-supplied alternate tags are stripped first so features/rules pages
+    never end up with two conflicting hreflang sets (one of them still zh).
+    """
     resp = await call_next(request)
     ctype = resp.headers.get("content-type", "")
     if resp.status_code != 200 or not ctype.startswith("text/html"):
         return resp
     body = b"".join([chunk async for chunk in resp.body_iterator])
     html = body.decode("utf-8", errors="replace")
-    head_i = html.find("<head")
-    if head_i < 0 or 'rel="canonical"' in html:
-        return resp  # 非 HTML 结构或已有 SEO 标签：原样返回
-    close_i = html.find(">", head_i)
-    if close_i < 0:
-        return resp
-    try:
-        tags = _seo_head_tags(request.url.path, html)
-    except Exception:
-        return resp
-    new_html = html[:close_i + 1] + "\n" + tags + html[close_i + 1:]
     headers = dict(resp.headers)
     headers.pop("content-length", None)
-    return HTMLResponse(new_html, status_code=resp.status_code, headers=headers)
+
+    def _rebuild(text: str):
+        return HTMLResponse(text, status_code=resp.status_code, headers=headers)
+
+    head_i = html.find("<head")
+    if head_i < 0:
+        return _rebuild(html)
+    cleaned = _re.sub(
+        r'<link[^>]+rel=["\']alternate["\'][^>]*hreflang=["\'][^"\']+["\'][^>]*>',
+        "", html, flags=_re.I)
+    had_canonical = 'rel="canonical"' in cleaned
+    close_i = cleaned.find(">", head_i)
+    if close_i < 0:
+        return _rebuild(cleaned)
+    try:
+        tags = _seo_head_tags(request.url.path, cleaned)
+    except Exception:
+        return _rebuild(cleaned)
+    if had_canonical:
+        # keep the page canonical, inject only the cleaned alternate set
+        tags = "".join(
+            t for t in _re.findall(r"<link[^>]*>", tags)
+            if "hreflang=" in t)
+    new_html = cleaned[:close_i + 1] + "\n" + tags + cleaned[close_i + 1:]
+    return _rebuild(new_html)
+
+@app.middleware("http")
+async def pageview_tracking_middleware(request, call_next):
+    """Outer middleware: anonymous vid + last non-direct UTM cookies + page_view.
+
+    Registered after the SEO middleware, so it wraps it. It only sets cookies
+    on the already-built Response and returns that same object - body_iterator
+    is never consumed here (avoids the 200/empty-body regression).
+    """
+    resp = await call_next(request)
+    ctype = resp.headers.get("content-type", "")
+    if resp.status_code != 200 or not ctype.startswith("text/html"):
+        return resp
+    if request.url.path.rstrip("/") == "/traffic":
+        return resp  # dashboard refresh must not inflate the numbers
+
+    vid = request.cookies.get(_VID_COOKIE) or _secrets.token_hex(8)
+    if not request.cookies.get(_VID_COOKIE):
+        resp.set_cookie(_VID_COOKIE, vid, max_age=31536000, path="/",
+                        samesite="lax", httponly=True)
+    ref = (request.headers.get("referer") or "")[:200]
+    utm = _utm_from_query(request)
+    if utm.get("utm_source"):
+        resp.set_cookie(_ATTR_COOKIE, _encode_attr(utm), max_age=2592000,
+                        path="/", samesite="lax")
+    else:
+        utm = _decode_attr(request.cookies.get(_ATTR_COOKIE) or "")
+        if not utm:
+            channel = _ref_channel(ref)
+            if channel:
+                utm = {"utm_source": channel, "utm_medium": "referral"}
+                resp.set_cookie(_ATTR_COOKIE, _encode_attr(utm),
+                                max_age=2592000, path="/", samesite="lax")
+
+    ua_kind = _classify_ua(
+        request.headers.get("user-agent") or "",
+        request.headers.get("accept") or "",
+        request.headers.get("sec-fetch-dest") or "",
+    )
+    await run_in_threadpool(
+        _record_pageview, request, vid=vid, utm=utm,
+        ua_kind=ua_kind, ref=ref)
+    return resp
+
 
 API_PREFIX = "/api/v1"
 from .routers import workbench_pro  # Workbench Pro
@@ -329,6 +520,15 @@ def app_workbench():
     )
 
 
+@app.get("/traffic", include_in_schema=False)
+def traffic_dashboard():
+    """Internal traffic dashboard (noindex; data API needs X-Admin-Token)."""
+    return FileResponse(
+        Path(__file__).parent / "static" / "traffic.html",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"},
+    )
+
+
 @app.get("/pricing", include_in_schema=False)
 def pricing_page():
     """定价页（四档套餐 + 功能对比表 + 计费 FAQ）"""
@@ -365,6 +565,31 @@ def blog_page():
     return FileResponse(Path(__file__).parent / "static" / "blog.html")
 
 
+@app.get("/en/blog/{slug}", include_in_schema=False)
+def en_blog_post(slug: str):
+    """Canonical article URL: server-rendered, Article JSON-LD, indexable."""
+    return blog_post_pages.render_post(slug)
+
+@app.get("/en/resources/{slug}", include_in_schema=False)
+def en_resource_page(slug: str):
+    """English-only downloadable asset page (FAQPage + BreadcrumbList JSON-LD)."""
+    return resource_pages.render_resource(slug)
+
+
+@app.get("/downloads/{filename}", include_in_schema=False)
+def resource_download(filename: str):
+    """Whitelisted static asset. Must precede /{lang}/{page} to resolve."""
+    return resource_pages.serve_download(filename)
+
+
+
+
+@app.get("/blog/{slug}", include_in_schema=False)
+def blog_post_root_redirect(slug: str):
+    """Legacy root article URL -> canonical /en/blog/{slug}."""
+    return RedirectResponse(f"/en/blog/{slug}", status_code=301)
+
+
 @app.get("/academy", include_in_schema=False)
 def academy_page():
     """Academy 页（教育护城河：课程/进度/结业证书，术语同化载体）"""
@@ -399,11 +624,6 @@ def rules_page():
 def signin_page():
     """登录页（H10 风格：Google 登录 + 邮箱密码）"""
     return FileResponse(Path(__file__).parent / "static" / "signin.html")
-
-
-@app.get("/reset", include_in_schema=False)
-def reset_page():
-    return FileResponse(Path(__file__).parent / "static" / "reset.html")
 
 
 @app.get("/signup", include_in_schema=False)
@@ -471,7 +691,7 @@ def health():
 # ---------------------------------------------------------------------------
 I18N_LANGS = ("en", "de", "fr")
 I18N_PAGES = ("pricing", "privacy", "terms", "skills", "rules",
-              "signin", "signup", "reset", "compliance-check")
+              "signin", "signup", "compliance-check")
 
 
 def _static_lang_file(lang: str, name: str) -> FileResponse:
@@ -529,9 +749,14 @@ SITEMAP_PATHS = (
     "/rules/kaufland", "/rules/bol",
     # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）
     "/academy", "/community", "/blog", "/podcast", "/summit", "/trust",
+    # Free downloadable assets (English-only, stage-3 2026-11-12)
+    "/resources/field-map",
+    "/resources/appeal-pack",
+    "/resources/weekly-checklist",
+    "/resources/dpp-readiness",
 )
-SITEMAP_LANGS = ("en", "de", "fr", "zh")  # 英文优先，中文最后
-SITEMAP_LASTMOD = "2026-11-05"
+SITEMAP_LANGS = ("en", "de", "fr")  # zh is not an SEO locale (2026-11-06 decision)
+SITEMAP_LASTMOD = "2026-11-12"
 
 
 def _sitemap_loc(lang: str, path: str) -> str:
@@ -546,22 +771,61 @@ def _sitemap_loc(lang: str, path: str) -> str:
                                 else f"/{lang}/" + path.lstrip("/"))
 
 
+def _blog_slugs() -> list[str]:
+    """Published article slugs; failure returns [] so sitemap never breaks."""
+    try:
+        from .database import SessionLocal
+        from .community_models import BlogPost
+        db = SessionLocal()
+        try:
+            return [x for (x,) in db.query(BlogPost.slug)
+                    .filter(BlogPost.is_published.is_(True))
+                    .order_by(BlogPost.published_at.desc()).all()]
+        finally:
+            db.close()
+    except Exception:
+        return []
+
+
+@app.get("/en/sitemap", include_in_schema=False)
+def en_sitemap_hub():
+    """HTML hub: crawlable links to every indexable English page."""
+    from xml.sax.saxutils import escape
+    base = settings.site_url
+    paths = list(SITEMAP_PATHS) + [f"/blog/{x}" for x in _blog_slugs()]
+    items = "".join(
+        f'<li><a href="{escape(base + ("/en" + p if p != "/" else "/"))}">'
+        f'{escape(p)}</a></li>' for p in paths)
+    return HTMLResponse(
+        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+        '<title>CrossAIO sitemap</title>'
+        f'<link rel="canonical" href="{escape(base)}/en/sitemap">'
+        '<link rel="alternate" hreflang="en" '
+        f'href="{escape(base)}/en/sitemap">'
+        f'<link rel="alternate" hreflang="x-default" href="{escape(base)}/en/sitemap">'
+        '<meta name="robots" content="index, follow"></head><body>'
+        '<h1>CrossAIO English pages</h1><ul>' + items + '</ul></body></html>')
+
+
 @app.get("/sitemap.xml", include_in_schema=False)
 def sitemap_xml():
-    """动态站点地图：基址取 settings.site_url（SEO 身份域名）；
-    每条 URL 携带 4 语言 hreflang 互链；登录/注册/工作台不入图。"""
+    """Dynamic sitemap: 3 locales + English-only article URLs."""
     from xml.sax.saxutils import escape
 
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
-    for path in SITEMAP_PATHS:
-        for lang in SITEMAP_LANGS:
+    paths = list(SITEMAP_PATHS) + [f"/blog/{x}" for x in _blog_slugs()]
+    for path in paths:
+        # Articles are English-first only; de/fr/zh article URLs are 404.
+        langs = ("en",) if (path in SITEMAP_EN_ONLY_PATHS
+                           or path.startswith("/blog/")) else SITEMAP_LANGS
+        for lang in langs:
             loc = _sitemap_loc(lang, path)
             alts = "".join(
                 f'<xhtml:link rel="alternate" hreflang="{lg}" '
                 f'href="{escape(_sitemap_loc(lg, path))}"/>'
-                for lg in SITEMAP_LANGS)
+                for lg in langs)
             alts += (f'<xhtml:link rel="alternate" hreflang="x-default" '
                      f'href="{escape(_sitemap_loc("en", path))}"/>')
             out.append(

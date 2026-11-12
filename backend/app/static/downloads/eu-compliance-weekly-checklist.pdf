@@ -1,0 +1,174 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 4886 >>
+stream
+BT /F2 17.0 Tf 1 0 0 1 54.0 800.0 Tm (EU Compliance Weekly Checklist) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 769.0 Tm (GPSR \(EU\) 2023/988 - marketplace listing self-audit | Last verified: 2026-11-12) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 755.4 Tm (CrossAIO free download. No email required. Operational guidance, not legal advice. Verify against) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 744.4 Tm (current marketplace documentation and the official EU text before acting.) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 724.4 Tm (HOW TO USE) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 699.4 Tm (Print one copy per SKU family, or filter the CSV field map by marketplace and work) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 685.8 Tm (down this list. Mark each box, record the date and the name of the person who checked) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 672.2 Tm (it. If any item fails, fix the SOURCE row once and then re-export, rather than editing) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 658.6 Tm (each marketplace listing by hand.) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 636.0 Tm (A. BEFORE EVERY BULK UPLOAD) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 611.0 Tm ([ ] Manufacturer name and postal address are present in the source row and match the) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 597.4 Tm (    supplier contract.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 583.8 Tm ([ ] EU Responsible Person \(Art. 16\) name, postal address and responsive email are) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 570.2 Tm (    present for non-EU manufacturers.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 556.6 Tm ([ ] Product identifier \(model / batch / serial\) matches the physical item and its) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 543.0 Tm (    packaging.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 529.4 Tm ([ ] Safety warnings exist in every language listed for that marketplace; English only is) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 515.8 Tm (    not enough on DE/FR/IT/ES.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 502.2 Tm ([ ] EU RP details appear as readable text on the offer, not only inside a product image.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 488.6 Tm ([ ] One file per marketplace; for Amazon Manage Your Compliance split further by) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 475.0 Tm (    category x site x language.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 461.4 Tm ([ ] Encoding is UTF-8 with BOM, TAB separated, hidden columns expanded, keyed on) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 447.8 Tm (    manufacturer reference \(not ASIN\).) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 425.2 Tm (B. WEEKLY) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 400.2 Tm ([ ] Pull the Manage Your Compliance / Product Compliance Requests queue and clear the) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 386.6 Tm (    highest-revenue ASINs first.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 373.0 Tm ([ ] Export the field-level error text for every rejected ASIN; keep it with the dated) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 359.4 Tm (    flat file.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 345.8 Tm ([ ] Reconcile manufacturer, EU RP and product identifier in ONE source table before the) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 332.2 Tm (    next upload.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 318.6 Tm ([ ] Spot-check 10 live offers per marketplace for the three most-missed fields: EU RP,) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 305.0 Tm (    local-language warnings, traceability.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 291.4 Tm ([ ] Check whether any marketplace added a country or product type; required fields are) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 277.8 Tm (    not identical across them.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 264.2 Tm ([ ] Verify that warning text is still visible on video / live-shopping listings where) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 250.6 Tm (    the platform requires it.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 237.0 Tm ([ ] Check the invoice and packaging copy of EU RP details for marketplaces that require) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 223.4 Tm (    them there too \(e.g. bol\).) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 209.8 Tm ([ ] Confirm the DoC file is still the current signed version and that test reports have) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 196.2 Tm (    not expired.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 182.6 Tm ([ ] Record the submitted version and timestamp per ASIN; a rejected field usually fails) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 169.0 Tm (    again if you cannot show what changed.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 155.4 Tm ([ ] Save the weekly snapshot with the checker's name so an appeal can show a dated audit) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 141.8 Tm (    trail.) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 119.2 Tm (C. BEFORE PEAK SEASON / QUARTERLY) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 94.2 Tm ([ ] Re-run the 13-marketplace field map against current official policy pages and) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 80.6 Tm (    refresh the last-verified date.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 67.0 Tm ([ ] Re-confirm the EU RP appointment letter still covers every SKU and every) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 5405 >>
+stream
+BT /F1 9.5 Tf 1 0 0 1 68.0 800.0 Tm (    marketplace.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 786.4 Tm ([ ] Translate new warnings and manuals before new country launches, not after.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 772.8 Tm ([ ] Verify LUCID / VerpackG, WEEE and battery take-back identifiers where those regimes) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 759.2 Tm (    apply.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 745.6 Tm ([ ] Confirm the legacy-stock exemption evidence \(date of placing on the market\) is) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 732.0 Tm (    archived and retrievable.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 718.4 Tm ([ ] Review high-risk categories \(children's products, electrical, battery, cosmetics,) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 704.8 Tm (    food contact\) for extra documents.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 691.2 Tm ([ ] Test one SKU end-to-end in two new marketplaces before scaling the catalogue.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 677.6 Tm ([ ] Review the ESPR / DPP readiness sheet and note which delegated acts actually apply) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 664.0 Tm (    to your categories.) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 641.4 Tm (D. EVIDENCE RETENTION) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 616.4 Tm ([ ] Keep the DoC and technical documentation for 10 years \(GPSR Art. 9\).) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 602.8 Tm ([ ] Keep a dated copy of every submitted flat file, the exact error text and the ASIN) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 589.2 Tm (    list.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 575.6 Tm ([ ] Keep the EU RP designation, test reports and the versioned translation sheet in the) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 562.0 Tm (    same folder.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 548.4 Tm ([ ] Keep the marketplace takedown notice and the exact listing version that was flagged.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 534.8 Tm ([ ] Never overwrite a submitted file: write a new dated version so an appeal can show) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 521.2 Tm (    what changed.) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 498.6 Tm (E. 13-MARKETPLACE QUICK CHECK) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 473.6 Tm (Tool = language set in the offline TSV generator; Policy = marketplace rule. Where they differ,) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 462.6 Tm (trust the marketplace.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 451.6 Tm ([ ] Amazon EU | languages \(tool\): en de fr it es nl sv pl | One language per site; 8) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 438.0 Tm (    languages in the TSV default | EU - GPSR applies \(deepest 2026 blocker\)) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 424.4 Tm ([ ] Amazon US | languages \(tool\): en | EN only on US site; EU rules apply only if goods) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 410.8 Tm (    enter the EU | US - GPSR NOT directly applicable) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 397.2 Tm ([ ] eBay | languages \(tool\): en de fr it es | DE mandatory on ebay.de; other sites) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 383.6 Tm (    follow their own language | EU - GPSR applies to business sellers) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 370.0 Tm ([ ] Fruugo | languages \(tool\): en de fr nl | Per Fruugo translation matrix; 4 languages) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 356.4 Tm (    in the TSV default | EU - GPSR applies to EU sales) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 342.8 Tm ([ ] Walmart | languages \(tool\): en | EN only on US site; EU rules apply only if goods) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 329.2 Tm (    enter the EU | US - GPSR NOT directly applicable) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 315.6 Tm ([ ] Cdiscount | languages \(tool\): fr | FR mandatory \(Loi Toubon\) | EU - GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 302.0 Tm ([ ] Otto | languages \(tool\): de | DE mandatory | EU - GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 288.4 Tm ([ ] Allegro | languages \(tool\): pl cs sk | PL mandatory; CZ/SK per Allegro translation) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 274.8 Tm (    policy | EU - GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 261.2 Tm ([ ] eMAG | languages \(tool\): ro | RO mandatory; HU optional on a separate site | EU -) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 247.6 Tm (    GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 234.0 Tm ([ ] Kaufland | languages \(tool\): de | POLICY says DE/AT/CZ/SK \(4 languages\); the offline) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 220.4 Tm (    TSV default lists DE only - verify before upload | EU - GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 206.8 Tm ([ ] bol.com | languages \(tool\): nl | NL mandatory; FR for BE buyers | EU - GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 193.2 Tm ([ ] Zalando | languages \(tool\): de fr nl pl | Per country of sale; 4 languages in the) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 179.6 Tm (    TSV default | EU - GPSR applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 166.0 Tm ([ ] TikTok Shop | languages \(tool\): en de fr it es | DE/FR/IT/ES per site; also applies) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 152.4 Tm (    to video and live shopping | EU - GPSR applies) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 129.8 Tm (F. WHEN A LISTING IS SUPPRESSED) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 104.8 Tm ([ ] Hour 1 is about evidence, not rewriting copy: save the notice and the exact listing) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 91.2 Tm (    version.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 77.6 Tm ([ ] Pull the exact field-level error before opening a case; do not re-upload an) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 64.0 Tm (    unchanged flat file.) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 2126 >>
+stream
+BT /F1 9.5 Tf 1 0 0 1 68.0 800.0 Tm ([ ] For Error 5995 on Amazon, first check whether the account holds the Brand Registry) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 786.4 Tm (    role for the ASIN - it is usually a bulk-permission wall, not broken data.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 772.8 Tm ([ ] Attach the DoC, the EU RP authorisation letter and the test reports; incomplete) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 759.2 Tm (    evidence is commonly rejected.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 745.6 Tm ([ ] For small catalogues, submit through the Account Health / Manage Your Compliance) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 732.0 Tm (    dashboard one ASIN at a time.) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 68.0 718.4 Tm ([ ] Run the same check across the rest of the catalogue so the failure does not repeat.) Tj ET
+BT /F2 12.0 Tf 1 0 0 1 54.0 695.8 Tm (RESOURCES) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 670.8 Tm (Field map: https://www.crossaio.com/en/features/listing-) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 657.2 Tm (generator?utm_source=asset&utm_medium=download&utm_campaign=launch) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 643.6 Tm (Appeal pack and red-line checks: https://www.crossaio.com/en/features/safety-) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 630.0 Tm (redline?utm_source=asset&utm_medium=download&utm_campaign=rescue) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 616.4 Tm (Listing watch: https://www.crossaio.com/en/features/listing-) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 602.8 Tm (watch?utm_source=asset&utm_medium=download&utm_campaign=ops) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 589.2 Tm (13-platform rules: https://www.crossaio.com/en/rules?utm_source=asset&utm_medium=downl) Tj ET
+BT /F1 9.5 Tf 1 0 0 1 54.0 575.6 Tm (oad&utm_campaign=ops) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 553.0 Tm (Operational guidance, not legal advice. Verify against current marketplace documentation and the) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 542.0 Tm (official EU text before acting. Marketplace policies and EU acts change; re-verify on the official) Tj ET
+BT /F1 8.0 Tf 1 0 0 1 54.0 531.0 Tm (pages. This checklist does not create a legal obligation and does not constitute legal advice.) Tj ET
+endstream
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000230 00000 n 
+0000000332 00000 n 
+0000000468 00000 n 
+0000005405 00000 n 
+0000005541 00000 n 
+0000010997 00000 n 
+0000011134 00000 n 
+trailer
+<< /Size 11 /Root 1 0 R >>
+startxref
+13312
+%%EOF

@@ -1,0 +1,29 @@
+CROSSAIO FREE DOWNLOADS - INDEX
+Last verified: 2026-11-12
+
+marketplace-gpsr-field-map.csv
+  13 EU/global marketplaces, exact native field labels, where to enter them,
+  required warning languages and official policy URLs.
+  Branch: launch | https://www.crossaio.com/en/features/listing-generator?utm_source=asset&utm_medium=download&utm_campaign=launch
+
+error-5995-appeal-pack.zip
+  Appeal letter (TXT + editable DOCX), evidence checklist, Error 5995 diagnosis,
+  upload workflow and official sources.
+  Branch: rescue | https://www.crossaio.com/en/features/safety-redline?utm_source=asset&utm_medium=download&utm_campaign=rescue
+
+eu-compliance-weekly-checklist.pdf
+  Printable GPSR self-audit: per-upload, weekly, quarterly, evidence retention
+  and a 13-marketplace quick check.
+  Branch: ops | https://www.crossaio.com/en/features/listing-watch?utm_source=asset&utm_medium=download&utm_campaign=ops
+
+dpp-data-readiness.csv
+  25 data fields to collect now for a future Digital Product Passport,
+  with a clear regulatory note on what is and is not mandatory yet.
+  Branch: govern | https://www.crossaio.com/en/features/matrix?utm_source=asset&utm_medium=download&utm_campaign=govern
+
+ESPR / DPP TIMELINE - INDICATIVE
+Timeline is INDICATIVE, not a current obligation: the ESPR first working plan lists steel (2026), textiles / tyres / aluminium (2027), furniture (2028), mattresses and ICT (2029); each delegated act is followed by at least 18 months of transition. The EU DPP central registry went live on 2026-07-20. The battery passport deadline of 2027-02-18 (EU 2023/1542 Art.77) is a separate hard date. As of 2026-11-12, do NOT market DPP as already mandatory for general merchandise.
+
+No email is required for any download. CrossAIO does not send automated email.
+Operational guidance, not legal advice. Verify against current marketplace documentation and the official EU text before acting.
+All links point only to English-language pages on www.crossaio.com/en/.
