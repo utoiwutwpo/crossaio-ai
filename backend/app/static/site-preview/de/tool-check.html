@@ -1,0 +1,424 @@
+<! DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>30-sekündige körperliche Compliance-Untersuchung | CrossAIO</title>
+<style>:root{--ac:#22C55E}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#0B1022;font-family:'Inter','PingFang SC','Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#site-nav,#site-nav *{box-sizing:border-box}
+.s-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.s-hero{position:relative;overflow:hidden;background:linear-gradient(116deg,#070A1C 0%,#120F35 46%,#2A1670 100%);color:#fff;padding:56px 0 0}
+.s-grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:72px 72px}
+.s-orb{position:absolute;width:520px;height:520px;border-radius:50%;right:-120px;top:-160px;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 65%);filter:blur(6px)}
+.s-in{position:relative;display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;padding-bottom:44px}
+.s-l{flex:1 1 520px;min-width:0}
+.s-kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;color:#B7C4FF;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px}
+.s-h1{font-size:44px;line-height:1.16;letter-spacing:-.02em;margin:18px 0 14px;font-weight:800}
+.s-sub{font-size:15px;line-height:1.8;color:#C6CBE0;max-width:640px}
+.s-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.s-bp{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(47,107,255,.35)}
+.s-bg2{border:1px solid rgba(255,255,255,.28);color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none}
+.s-chips{display:flex;gap:18px;margin-top:18px;font-size:12.5px;color:#9AA3BD;flex-wrap:wrap}
+.s-chips span::before{content:"✓";color:#5EEAD4;margin-right:6px}
+.s-r{flex:0 0 460px;min-width:0}
+.s-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.s-shot img{display:block;width:100%;height:268px;object-fit:cover}
+.s-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#5EEAD4,transparent);animation:scan 3.4s linear infinite;opacity:.8}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.s-hud{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(8,11,26,.86);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px;backdrop-filter:blur(8px)}
+.s-hud .h{display:flex;justify-content:space-between;font-size:10.5px;color:#8FA0C8;font-family:Consolas,monospace;margin-bottom:8px}
+.s-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);margin-bottom:7px;overflow:hidden}
+.s-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2F6BFF,var(--ac,#5EEAD4))}
+.s-bar b{display:flex;justify-content:space-between;font-size:10.5px;color:#C6CBE0;font-weight:400;margin-bottom:3px}
+.s-band{background:#FAFAFD;border-bottom:1px solid #EEF1F7;padding:22px 0}
+.s-band .row{display:flex;gap:28px;flex-wrap:wrap}
+.s-band .it{flex:1 1 200px}
+.s-band b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--ac,#2F6BFF)}
+.s-band span{display:block;font-size:12px;color:#7A8499;margin-top:4px}
+.s-sec{padding:60px 0}
+.s-sec.soft{background:#FAFAFD;border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7}
+.s-eyebrow{font-size:11px;letter-spacing:.2em;color:var(--ac,#2F6BFF);font-weight:800}
+.s-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.s-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.s-steps{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.s-step{flex:1 1 200px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;position:relative;transition:.18s}
+.s-step:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08);border-color:#CBD5F5}
+.s-step .n{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.s-step .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center;margin:8px 0 10px}
+.s-step h4{font-size:14px;margin:0 0 6px;color:#0B1022}
+.s-step p{font-size:12px;color:#5B6478;line-height:1.7;margin:0}
+.s-table{margin-top:24px;border:1px solid #E3E7F0;border-radius:14px;overflow:hidden;background:#fff}
+.s-table table{width:100%;border-collapse:collapse;font-size:12.5px}
+.s-table th{text-align:left;font-weight:700;color:#0B1022;background:#F7F9FF;padding:11px 14px;font-size:12px}
+.s-table td{padding:11px 14px;border-top:1px solid #EEF1F7;color:#5B6478}
+.s-table td b{color:#0B1022;font-weight:600}
+.s-tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px}
+.s-ok{background:#ECFDF5;color:#065F46}.s-mid{background:#FFF7ED;color:#9A3412}.s-no{background:#FFF1F2;color:#9F1239}
+.s-files{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-file{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:12px;padding:14px}
+.s-file .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#8A93A6}
+.s-file .nm{margin-top:8px;font-family:Consolas,monospace;font-size:12.5px;color:#0B1022;word-break:break-all}
+.s-file p{font-size:12px;color:#5B6478;line-height:1.7;margin:8px 0 0}
+.s-sib{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-card{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;text-decoration:none;color:inherit;display:block;transition:.18s}
+.s-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08)}
+.s-card .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center}
+.s-card h4{font-size:14px;margin:10px 0 5px}
+.s-card p{font-size:12px;color:#5B6478;line-height:1.7;margin:0 0 8px}
+.s-card .go{font-size:11.5px;font-weight:700;color:var(--ac,#2F6BFF)}
+.s-end{margin-top:44px;border-radius:18px;background:linear-gradient(120deg,#141033,#2A1670 60%,#4C1D95);padding:34px 38px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;color:#fff}
+.s-end h3{margin:0;font-size:22px;letter-spacing:-.01em}
+.s-end p{margin:8px 0 0;font-size:13px;color:#C6CBE0}
+.s-foot{background:#fff;border-top:1px solid #EEF1F7;padding:20px 0;font-size:12px;color:#8A93A6}
+.s-foot .row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.s-foot a{color:#2F6BFF;text-decoration:none;margin-left:14px}
+@media(max-width:1080px){
+ .s-in{flex-direction:column}.s-r{flex:1 1 auto;width:100%}
+ .s-h1{font-size:34px}.s-steps .s-step{flex:1 1 100%}
+}
+</style>
+
+
+
+
+<style id="hx-css">
+.hx{padding:0}
+.hx-sec{padding:64px 0;background:#fff;border-top:1px solid #EEF1F7}
+.hx-sec.alt{background:#FBFBFE}
+.hx-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.hx-eyebrow{font-size:11px;letter-spacing:.2em;color:#7C3AED;font-weight:800}
+.hx-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.hx-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.hx-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.hx-tab{border:1px solid #E3E7F0;background:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;color:#3D465C;cursor:pointer}
+.hx-tab.on{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(47,107,255,.28)}
+.hx-panel{display:none;margin-top:18px;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:22px;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.hx-panel.on{display:flex}
+.hx-pl{flex:1 1 420px;min-width:0}
+.hx-pl h4{font-size:16px;margin:0 0 10px;color:#0B1022}
+.hx-pl li{font-size:13px;color:#5B6478;line-height:1.9;margin-bottom:6px}
+.hx-pr{flex:0 1 300px;min-width:0;background:#0A0F24;border-radius:14px;padding:16px;color:#fff}
+.hx-pr .k{font-size:10.5px;letter-spacing:.16em;color:#8FA0C8}
+.hx-pr .v{font-size:26px;font-weight:800;margin:6px 0 2px;color:#fff}
+.hx-pr .u{font-size:12px;color:#A9B4D0}
+.hx-pr .b{height:5px;border-radius:99px;background:rgba(255,255,255,.12);margin-top:12px;overflow:hidden}
+.hx-pr .b i{display:block;height:100%;background:linear-gradient(90deg,#2F6BFF,#7C3AED)}
+.hx-viz{margin-top:22px;border-radius:16px;background:#0A0F24;padding:14px 16px;overflow:hidden}
+.hx-viz svg{display:block;width:100%;height:auto}
+.hx-nums{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.hx-num{flex:1 1 200px;min-width:0;border:1px solid #E3E7F0;border-radius:14px;padding:16px 18px;background:#fff}
+.hx-num b{display:block;font-size:30px;letter-spacing:-.02em;color:#0B1022}
+.hx-num span{display:block;font-size:12px;color:#7A8499;margin-top:2px}
+.hx-num em{display:block;font-size:11px;color:#0E9F6E;font-style:normal;margin-top:8px}
+.hx-marq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7;padding:12px 0}
+.hx-marq .row{display:flex;gap:26px;white-space:nowrap;animation:hxscroll 26s linear infinite;font-size:12px;color:#7A8499;letter-spacing:.06em}
+@keyframes hxscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hx-gh{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;align-items:flex-start}
+.hx-heat{flex:1 1 560px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px}
+.hx-heat .hd{display:flex;justify-content:space-between;font-size:12px;color:#3D465C;margin-bottom:12px}
+.hx-svg{display:block;width:100%;height:auto}
+.hx-lg{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8A93A6}
+.hx-lg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.hx-rt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.hx-ci{border:1px solid #E3E7F0;border-radius:12px;background:#fff;padding:12px 14px;font-size:12.5px;color:#3D465C}
+.hx-ci .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hx-ci b{font-weight:600}
+.hx-ok{color:#0E9F6E}.hx-warn{color:#B45309}.hx-bad{color:#DC2626}
+.hx-diff{border:1px solid #E3E7F0;border-radius:12px;overflow:hidden;background:#0A0F24;font-family:Consolas,monospace;font-size:12px}
+.hx-diff .h{display:flex;justify-content:space-between;padding:8px 12px;background:#111834;color:#8FA0C8;font-size:11px}
+.hx-diff pre{margin:0;padding:12px;color:#C6CBE0;line-height:1.7;max-height:190px;overflow:auto}
+.hx-diff .a{color:#7EE2A8}.hx-diff .d{color:#FF9AA2}
+.hx-tl{margin-top:24px;border-left:2px solid #E3E7F0;padding-left:18px}
+.hx-tl .it{position:relative;margin-bottom:16px}
+.hx-tl .it::before{content:"";position:absolute;left:-25px;top:4px;width:8px;height:8px;border-radius:50%;background:#7C3AED}
+.hx-tl .d{font-size:11px;color:#8A93A6;letter-spacing:.08em}
+.hx-tl .t{font-size:13.5px;color:#0B1022;margin-top:2px}
+.hx-cases{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.hx-case{flex:1 1 300px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px;transition:.18s}
+.hx-case:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(23,20,64,.09)}
+.hx-case b{display:block;font-size:28px;letter-spacing:-.02em;color:#0B1022}
+.hx-case span{display:block;font-size:11.5px;color:#7A8499;margin-top:2px}
+.hx-case p{font-size:12.5px;color:#5B6478;line-height:1.8;margin:10px 0 12px}
+.hx-case a{font-size:12px;font-weight:700;color:#2F6BFF;text-decoration:none}
+.hx-faq{margin-top:24px;border-top:1px solid #EEF1F7}
+.hx-faq details{border-bottom:1px solid #EEF1F7;padding:14px 0}
+.hx-faq summary{cursor:pointer;font-size:14px;font-weight:600;color:#0B1022;list-style:none}
+.hx-faq summary::after{content:"+";float:right;color:#8A93A6}
+.hx-faq details[open] summary::after{content:"−"}
+.hx-faq p{font-size:13px;color:#5B6478;line-height:1.85;margin:10px 0 0}
+@media(max-width:1080px){.hx-pl,.hx-pr,.hx-heat,.hx-rt{flex:1 1 100%}}
+/* 17 个页面各自的动效，keyframe 名不重复 */
+@keyframes ax1{0%{transform:translateX(0);opacity:.35}45%{opacity:1}100%{transform:translateX(700px);opacity:.35}}
+@keyframes ax2{0%{stroke-dashoffset:520}100%{stroke-dashoffset:0}}
+@keyframes ax2p{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ax3{0%{transform:scaleY(.05)}60%{transform:scaleY(1)}100%{transform:scaleY(.85)}}
+@keyframes ax4{0%{stroke-dashoffset:300}100%{stroke-dashoffset:60}}
+@keyframes ax5{0%{transform:translateY(-6px);opacity:.2}30%{opacity:1}100%{transform:translateY(150px);opacity:.2}}
+@keyframes ax6{0%{width:0}70%{width:100%}100%{width:72%}}
+@keyframes ax7{0%,15%{opacity:.18;r:7}40%,55%{opacity:1;r:11}85%,100%{opacity:.18;r:7}}
+@keyframes ax8{0%{width:0}100%{width:var(--w)}}
+@keyframes ax9{0%{transform:translateY(14px);opacity:0}30%{opacity:1;transform:translateY(0)}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ax10{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes ax10b{0%,100%{opacity:.22}50%{opacity:1}}
+@keyframes ax11{0%{transform:scaleX(.1);transform-origin:left}70%{transform:scaleX(1)}100%{transform:scaleX(.9)}}
+@keyframes ax12{0%{transform:translateY(-30px);opacity:.15}55%{opacity:1}100%{transform:translateY(40px);opacity:.15}}
+@keyframes ax13{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes ax14{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+@keyframes ax15{0%{stroke-dashoffset:440}100%{stroke-dashoffset:150}}
+@keyframes ax16{0%{width:0}100%{width:var(--w)}}
+@keyframes ax17{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+
+</style><style id="cx-viz">
+.cx-viz{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.cx-viz .cv-chrome{position:absolute;left:0;right:0;top:0;height:24px;display:flex;align-items:center;gap:7px;
+padding:0 9px;background:linear-gradient(180deg,rgba(6,9,22,.86),rgba(6,9,22,.5));
+border-bottom:1px solid rgba(255,255,255,.09);font:700 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+color:#9FB0D6;letter-spacing:.02em}
+.cx-viz .cv-chrome b{color:#E6ECFF;font-weight:800}
+.cx-viz .cv-chrome .cv-d{display:inline-flex;gap:4px;margin-right:2px}
+.cx-viz .cv-chrome .cv-d i{width:6px;height:6px;border-radius:99px;background:#FF6B6B}
+.cx-viz .cv-chrome .cv-d i:nth-child(2){background:#F5C451}
+.cx-viz .cv-chrome .cv-d i:nth-child(3){background:#37D67A}
+
+.cx-viz .cv-code{position:absolute;left:12px;top:42px;display:flex;align-items:flex-end;gap:2px;height:44px;
+padding:6px;border-radius:9px;background:rgba(6,14,20,.72);border:1px solid rgba(34,211,238,.3);overflow:hidden}
+.cx-viz .cv-code i{display:block;width:2px;background:#67E8F9;border-radius:1px;
+animation:cvCheckCode 3.4s ease-in-out infinite}
+.cx-viz .cv-code i:nth-child(odd){animation-delay:.2s;opacity:.7}
+.cx-viz .cv-code i:nth-child(3n){animation-delay:.6s;opacity:1}
+.cx-viz .cv-code::after{content:"";position:absolute;top:0;bottom:0;width:26px;
+background:linear-gradient(90deg,transparent,rgba(34,211,238,.5),transparent);animation:cvCheckSweep 2.4s linear infinite}
+@keyframes cvCheckCode{0%,100%{height:60%}50%{height:100%}}
+@keyframes cvCheckSweep{0%{left:-26px}100%{left:100%}}
+</style><style id="cx-hudfix">
+.s-shot img{height:330px}
+.s-hud{left:10px;right:10px;bottom:10px;padding:9px 11px}
+.s-hud .s-bar{height:auto;background:none;border-radius:0;overflow:visible;margin-bottom:4px}
+.s-hud .s-bar b{display:flex;justify-content:space-between;gap:8px;
+font:600 9.5px/1.4 -apple-system,"Segoe UI",Arial,sans-serif;color:#A9B6D2;letter-spacing:0;margin:0}
+.s-hud .s-bar b span:last-child{color:#F2F6FF;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-hud .s-bar i{display:block;height:3px;margin-top:3px;border-radius:99px;
+background:linear-gradient(90deg,rgba(47,107,255,.95),rgba(124,58,237,.9));box-shadow:0 0 8px rgba(47,107,255,.32)}
+</style>
+<style id="i18n-fit">
+.cv-checks{max-width:150px}
+.cv-checks p{white-space:normal;line-height:1.25;font-size:8px;overflow-wrap:anywhere}
+.s-hud .s-bar b{font-size:8.6px}
+.s-hud .s-bar b span{min-width:0}
+.s-hud .s-bar b span:first-child{flex:0 1 auto;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-hud .s-bar b span:last-child{flex:0 1 auto;max-width:54%;overflow:hidden;text-overflow:ellipsis}
+.b-met .v,.b-tag,.s-tag{max-width:100%;overflow-wrap:break-word}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+</head>
+<body>
+
+<div class="s-hero"><div class="s-grid"></div><div class="s-orb"></div>
+ <div class="s-wrap"><div class="s-in">
+  <div class="s-l">
+   <div class="s-kick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.4" r="6.6"/><path d="M12 6.8V4.4M9.6 3.4h4.8"/><path d="M12 13.4l3-2.4"/><path d="M9.4 13.6l1.4 1.5 3.2-3.4"/></svg> Kostenloses Tool 01 · Körperliche Untersuchung</div>
+   <h1 class="s-h1">30 Sekunden – <br>wissen, ob Delisting droht</h1>
+   <p class="s-sub">Keine Registrierung, keine Autorisierung, keine Zählung. Fügen Sie den Eintrag ein und Sie erfahren direkt, welche Artikel fehlen und welcher Artikel entfernt werden soll.</p>
+   <div class="s-cta"><a class="s-bp" href="/de/v2/tool/check">Jetzt kostenlos prüfen</a><a class="s-bg2" href="/de/v2/platform/rules">Was geprüft wird</a></div>
+   <div class="s-chips"><span>Keine Anmeldung erforderlich</span><span>Zählt nicht</span><span>Melden Sie nur Probleme und machen Sie keine Werbung</span></div>
+  </div>
+  <div class="s-r"><div class="s-shot"><img src="/img/crossaio/sub-tool-check.jpg" alt=""><div class="s-scan"></div><div class="cx-viz"><div class="cv-chrome"><span class="cv-d"><i></i><i></i><i></i></span>crossaio · <b>/de/v2/tool/check</b></div><div class="cv-code">
+<i style="height:60%"></i><i style="height:92%"></i><i style="height:48%"></i><i style="height:78%"></i><i style="height:100%"></i><i style="height:54%"></i><i style="height:86%"></i><i style="height:66%"></i><i style="height:38%"></i><i style="height:74%"></i>
+</div></div>
+<div class="s-hud"><div class="h"><span>Check · 30s</span><span>4 Treffer</span></div><div class="s-bar"><b><span>Verantwortliche Person der EU</span><span>Fehlt</span></b><i style="width:25%"></i></div><div class="s-bar"><b><span>Warnung</span><span>Fehlt</span></b><i style="width:25%"></i></div><div class="s-bar"><b><span>EAN</span><span>Die Überprüfung ist fehlgeschlagen</span></b><i style="width:50%"></i></div><div class="s-bar"><b><span>Kategorie</span><span>konsistent</span></b><i style="width:100%"></i></div></div></div></div></div></div></div>
+<div class="s-band"><div class="s-wrap"><div class="row">
+  <div class="it"><b>30 Sekunden</b><span>Einmalige körperliche Untersuchung</span></div><div class="it"><b>6</b><span>Artikel prüfen</span></div><div class="it"><b>0</b><span>Registrierungsvoraussetzungen</span></div><div class="it"><b>€0</b><span>Für immer kostenlos</span></div>
+</div></div></div>
+
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">02 / Fünf-Schritte-Flow</div>
+ <h2 class="s-h2">Fünf Schritte, um eine Liste mit Fragen zu erhalten</h2>
+ <div class="s-lead">Bei der körperlichen Untersuchung geht es nur darum, Ihnen das Problem zu erklären, nicht um es für Sie zu beheben.</div>
+ <div class="s-steps"><div class="s-step"><div class="n">STEP 01</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.4" r="6.6"/><path d="M12 6.8V4.4M9.6 3.4h4.8"/><path d="M12 13.4l3-2.4"/><path d="M9.4 13.6l1.4 1.5 3.2-3.4"/></svg></div><h4>Daten einfügen</h4><p>Titel, Kategorie, EAN, Angaben zur verantwortlichen Person.</p></div><div class="s-step"><div class="n">STEP 02</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.8h7l4 4V20H7z"/><path d="M14 3.8V8h4"/><path d="M9.6 13.4l1.9 1.9 3.6-3.9"/></svg></div><h4>sechs Inspektionen</h4><p>Die sechs GPSR-Elemente werden einzeln bewertet und die fehlenden werden rot markiert.</p></div><div class="s-step"><div class="n">STEP 03</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="4.4" width="15.2" height="15.2" rx="2"/><path d="M4.4 9.2h15.2"/><path d="M4.4 14h15.2"/><path d="M9.6 4.4v15.2"/></svg></div><h4>Plattformanpassung</h4><p>Stellen Sie entsprechend der Zielplattform entsprechende Formatvorschläge bereit.</p></div><div class="s-step"><div class="n">STEP 04</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5.4h5.6v13.2H6z"/><path d="M12.4 5.4H18v13.2h-5.6z"/><path d="M7.6 9.4h2.4M7.6 12h2.4M14 10.6l2.4 2.6M16.4 10.6l-2.4 2.6"/></svg></div><h4>Fragenliste</h4><p>Sortiert nach Schweregrad ist klar, welches Problem zuerst behoben werden muss.</p></div><div class="s-step"><div class="n">STEP 05</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div><h4>Bericht exportieren</h4><p>Kann gespeichert und übertragen werden.</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">03 / Grenze und Kaliber</div>
+ <h2 class="s-h2">Was ist die körperliche Untersuchung?</h2>
+ <div class="s-lead">Sechs Dinge, nicht mehr und nicht weniger; Jedes Element kann bestimmten Begriffen entsprechen.</div>
+ <div class="s-table"><table>
+  <thead><tr><th>Artikel prüfen</th><th>Urteil</th><th>fehlende Konsequenzen</th><th>Status</th></tr></thead>
+  <tbody><tr><td><b>Verantwortliche Person der EU</b></td><td>Format + Existenz</td><td>Nehmen Sie es direkt aus dem Regal</td><td><span class="s-tag s-no">hohes Risiko</span></td></tr><tr><td><b>Warnungen in Landessprache</b></td><td>Sprache + Phrasierung</td><td>Entlassen</td><td><span class="s-tag s-no">hohes Risiko</span></td></tr><tr><td><b>Kennzeichnung der CE-Klasse</b></td><td>Kategoriekonsistenz</td><td>Entlassen</td><td><span class="s-tag s-mid">in</span></td></tr><tr><td><b>EAN-Prüfziffer</b></td><td>Algorithmusüberprüfung</td><td>Kann nicht in Regale gestellt werden</td><td><span class="s-tag s-mid">in</span></td></tr><tr><td><b>Technische Dokumente</b></td><td>Existenz</td><td>Unbefriedigende Stichprobenkontrolle</td><td><span class="s-tag s-mid">in</span></td></tr><tr><td><b>Chargenrückverfolgbarkeit</b></td><td>Feldintegrität</td><td>Unbefriedigende Stichprobenkontrolle</td><td><span class="s-tag s-mid">niedrig</span></td></tr></tbody>
+ </table></div>
+</div></div>
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">04 / Gebrauchsfertige Produkte</div>
+ <h2 class="s-h2">Klicken Sie hier, um die Datei zu öffnen, nicht den Screenshot</h2>
+ <div class="s-lead">Jedes Produkt kann direkt eingereicht, direkt reklamiert und direkt abgerechnet werden.</div>
+ <div class="s-files"><div class="s-file"><div class="top"><span>MD</span><span style="color:#22C55E">lesbar</span></div><div class="nm">gpsr_check_report.md</div><p>Sechs Schlussfolgerungen + Lösungsvorschläge</p></div><div class="s-file"><div class="top"><span>JSON</span><span style="color:#22C55E">übertragbar</span></div><div class="nm">gpsr_check.json</div><p>Strukturierte Ergebnisse werden den Agenten zur Bedienung übergeben</p></div><div class="s-file"><div class="top"><span>PDF</span><span style="color:#22C55E">Archivierbar</span></div><div class="nm">compliance_check.pdf</div><p>Fazit auf einer Seite</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">05 / Möglicherweise gehören Sie einem anderen Segment an</div>
+ <h2 class="s-h2">Gehen Sie dann nach unten, Sie müssen nicht zur Startseite zurückkehren und von vorne beginnen.</h2>
+ <div class="s-sib"><a class="s-card" href="/de/v2/feature/gpsr"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.8h7l4 4V20H7z"/><path d="M14 3.8V8h4"/><path d="M9.6 13.4l1.9 1.9 3.6-3.9"/></svg></div><h4>GPSR-Compliance-Engine</h4><p>Nach der körperlichen Untersuchung wird direkt der Compliance-Block generiert.</p><div class="go">Schauen Sie sich den Motor an →</div></a><a class="s-card" href="/de/v2/launch"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div><h4>Einmalige Kontrolle vor dem Einlegen in die Regale</h4><p>Vollständiger Prozess für Massen-SKUs.</p><div class="go">Siehe vor der Veröffentlichung →</div></a><a class="s-card" href="/de/v2/tool/trust"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="6.4" width="16.4" height="11.2" rx="2" stroke-dasharray="3 2.6"/><path d="M9.4 12h5.2"/><path d="M12 9.4v5.2"/></svg></div><h4>Grenzen und Haftungsausschlüsse</h4><p>Eine körperliche Untersuchung ist nicht gleichbedeutend mit einer Rechtsberatung.</p><div class="go">Schauen Sie sich die Grenzen an →</div></a></div>
+ <div class="s-end">
+   <div><h3>Lassen Sie sich zuerst körperlich untersuchen und entscheiden Sie dann, ob Sie bezahlen möchten</h3><p>Es ist für immer kostenlos, zählt nicht und muss nicht an einen Shop gebunden sein.</p></div>
+   <div class="s-cta"><a class="s-bp" href="/de/v2/tool/check">Jetzt kostenlos prüfen</a></div>
+ </div>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="hx">
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">06 / Werkbank-Perspektive · Sechs Urteile</div>
+  <h2 class="hx-h2">30 Sekunden – Sie wissen, ob Delisting droht</h2>
+  <div class="hx-lead">Keine Registrierung, keine Autorisierung, keine Zählung; Die sechs Elemente werden einzeln bewertet und alle fehlenden Elemente werden direkt rot markiert.</div>
+  <div class="hx-tabs"><button class="hx-tab on" data-i="0">sechs Urteile</button><button class="hx-tab" data-i="1">Punktzahl</button><button class="hx-tab" data-i="2">Exportieren</button><button class="hx-tab" data-i="3">übertragen</button></div>
+  <div class="hx-panel on"><div class="hx-pl"><h4>sechs Urteile</h4><ul style="margin:0;padding-left:18px"><li>CE-Kategorie, Warnhinweis, Verantwortlicher, EAN, Recyclingzeichen, Erklärung</li><li>Für jedes Item gibt es nur ein „Bestanden“ oder „Nicht bestanden“.</li><li>Was fehlt, wenn Sie es nicht bestehen?</li></ul></div><div class="hx-pr"><div class="k">Urteil</div><div class="v">6 Artikel</div><div class="u">2 hohes Risiko</div><div class="b"><i style="width:62%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Punktzahl</h4><ul style="margin:0;padding-left:18px"><li>0–100 Punkte, berechnet nach Gewicht</li><li>Eine niedrige Punktzahl bedeutet nicht unbedingt, dass Sie aus dem Regal genommen werden.</li><li>Punkte geben Vorrang</li></ul></div><div class="hx-pr"><div class="k">punkten</div><div class="v">62 / 100</div><div class="u">2 Hochrisiko-Pulldowns</div><div class="b"><i style="width:62%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Exportieren</h4><ul style="margin:0;padding-left:18px"><li>PDF an Kollegen, JSON an Ihre eigenen Skripte</li><li>Der Bericht enthält die Grundlage für die Beurteilung</li><li>Schreiben Sie keine Kontoinformationen</li></ul></div><div class="hx-pr"><div class="k">Exportieren</div><div class="v">2-Format</div><div class="u">PDF / JSON</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>übertragen</h4><ul style="margin:0;padding-left:18px"><li>Übertragung mit einem Klick an den Agentenbetrieb</li><li>Liste mit fehlenden Artikeln</li><li>Es müssen keine Screenshots gemacht werden</li></ul></div><div class="hx-pr"><div class="k">übertragen</div><div class="v">1 Mal</div><div class="u">Mit Liste</div><div class="b"><i style="width:100%"></i></div></div></div>
+  <div class="hx-viz"><svg viewBox="0 0 740 130"><circle cx="86" cy="64" r="46" fill="none" stroke="#25304D" stroke-width="7"/><circle cx="86" cy="64" r="46" fill="none" stroke="#22C55E" stroke-width="7" stroke-dasharray="440" stroke-linecap="round" style="animation:ax15 4.6s linear infinite"/><text x="86" y="70" fill="#fff" font-size="16" font-weight="700" text-anchor="middle">62</text><g><circle cx="180" cy="28" r="7" fill="#22C55E" opacity=".85"/><path d="M176 28 l3 4 l6 -8" stroke="#0A0F24" stroke-width="2" fill="none"/><text x="200" y="32" fill="#8FA0C8" font-size="10">Feld Verantwortlicher</text></g><g><circle cx="180" cy="52" r="7" fill="#22C55E" opacity=".85"/><path d="M176 52 l3 4 l6 -8" stroke="#0A0F24" stroke-width="2" fill="none"/><text x="200" y="56" fill="#8FA0C8" font-size="10">Warnsprache</text></g><g><circle cx="180" cy="76" r="7" fill="#22C55E" opacity=".85"/><path d="M176 76 l3 4 l6 -8" stroke="#0A0F24" stroke-width="2" fill="none"/><text x="200" y="80" fill="#8FA0C8" font-size="10">EAN-Prüfziffer</text></g><g><circle cx="180" cy="100" r="7" fill="#22C55E" opacity=".85"/><path d="M176 100 l3 4 l6 -8" stroke="#0A0F24" stroke-width="2" fill="none"/><text x="200" y="104" fill="#8FA0C8" font-size="10">CE-Kategorie</text></g><g><circle cx="180" cy="124" r="7" fill="#22C55E" opacity=".85"/><path d="M176 124 l3 4 l6 -8" stroke="#0A0F24" stroke-width="2" fill="none"/><text x="200" y="128" fill="#8FA0C8" font-size="10">Verpackungsrecycling-Logo</text></g><g><circle cx="180" cy="148" r="7" fill="#22C55E" opacity=".85"/><path d="M176 148 l3 4 l6 -8" stroke="#0A0F24" stroke-width="2" fill="none"/><text x="200" y="152" fill="#8FA0C8" font-size="10">Erklärung des verantwortlichen Subjekts</text></g></svg></div>
+  <div class="hx-nums"><div class="hx-num"><b>30 Sekunden</b><span>Einmaliger Verbrauch</span><em>Einfügen und Ergebnisse erhalten</em></div><div class="hx-num"><b>6</b><span>Urteilsgegenstand</span><em>Geben Sie nacheinander Schlussfolgerungen</em></div><div class="hx-num"><b>62</b><span>durchschnittliche Punktzahl</span><em>2 häufige Hochrisikofälle</em></div><div class="hx-num"><b>0</b><span>Registrierungsvoraussetzungen</span><em>Keine Registrierung oder Autorisierung erforderlich</em></div></div>
+  
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">07 / Rückverfolgbarkeit · Bericht über die körperliche Untersuchung</div>
+  <h2 class="hx-h2">Jede Zeile im Untersuchungsbericht kann auf die Grundlage hinweisen.</h2>
+  <div class="hx-lead">Die Entscheidungsregeln, fehlenden Felder und vorgeschlagenen Ergänzungen werden nebeneinander angeordnet und es werden keine vagen Schlussfolgerungen geschrieben.</div>
+  <div class="hx-gh">
+    <div class="hx-heat"><div class="hd"><span>Körperliche Untersuchung in den letzten 52 Wochen</span><span>Insgesamt 42.600 Mal</span></div><svg class="hx-svg" viewBox="0 0 624 84" role="img" aria-label="Ausführungs-Heatmap der letzten 52 Wochen"><rect x="0" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="0" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="12" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="36" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="36" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="60" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="72" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="72" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="72" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="72" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="84" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="96" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="144" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="144" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="156" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="168" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="180" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="192" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="228" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="228" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="240" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="264" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="264" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="264" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="324" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="324" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="324" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="336" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="348" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="384" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="396" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="408" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="420" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="456" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="456" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="492" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="504" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="504" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="516" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="528" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="528" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="540" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="540" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="540" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="576" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="576" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="588" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="612" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="612" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/></svg>
+      <div class="hx-lg">weniger<i style="background:#EBEDF0"></i><i style="background:#9BE9A8"></i><i style="background:#26A641"></i><i style="background:#006D32"></i><i style="background:#0E4429"></i>Viel</div>
+    </div>
+    <div class="hx-rt"><div class="hx-ci"><div class="row"><b>sechs Urteile</b><span class="hx-ok">Pass</span></div><div style="color:#8A93A6;margin-top:4px">Fehlende Elemente werden rot hervorgehoben</div></div><div class="hx-ci"><div class="row"><b>Artikel mit hohem Risiko</b><span class="hx-warn">2</span></div><div style="color:#8A93A6;margin-top:4px">Verantwortliche Person / Warnmeldung</div></div><div class="hx-ci"><div class="row"><b>Registrierungsvoraussetzungen</b><span class="hx-ok">0</span></div><div style="color:#8A93A6;margin-top:4px">Keine Anmeldung erforderlich</div></div>
+      <div class="hx-diff"><div class="h"><span>check.report.diff</span><span>d91c7b4</span></div><pre><span class="a">+ hit: eu_rep missing</span>
+<span class="a">+ hit: warning missing</span>
+<span class="d">- score: 100</span>
+<span class="a">+ score: 62 / 100</span></pre></div>
+    </div>
+  </div>
+  <div class="hx-tl"><div class="it"><div class="d">2026-11-10 08:00</div><div class="t">Paste Listing, sechs Urteile</div></div><div class="it"><div class="d">2026-11-10 08:00</div><div class="t">Bericht in 30 Sekunden: 4 Treffer</div></div><div class="it"><div class="d">2026-11-10 08:01</div><div class="t">Als PDF exportieren und zum Betrieb an die Agentur übertragen</div></div></div>
+</div></div>
+
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">08 / Echte Ergebnisse · Tatsächlicher körperlicher Untersuchungstest</div>
+  <h2 class="hx-h2">Was stoppt die kostenlose körperliche Untersuchung eigentlich?</h2>
+  <div class="hx-cases"><div class="hx-case"><b>30s</b><span>Raus aus den Ergebnissen</span><p>Sechs Veranstaltungen können Sie ohne Anmeldung absolvieren.</p><a href="/de/v2/tool/check">Shop kostenlos prüfen →</a></div><div class="hx-case"><b>2</b><span>Artikel mit hohem Risiko</span><p>Verantwortliche Person und warnende Worte, die beiden häufigsten.</p><a href="/de/v2/feature/gpsr">Zum nächsten Schritt →</a></div><div class="hx-case"><b>0</b><span>Versteckte Gebühren</span><p>Die körperliche Untersuchung selbst zählt nicht und ist nicht kostenpflichtig.</p><a href="/de/signup">Kostenlos starten · 5 Checks pro Tag →</a></div></div>
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">09 / FAQ</div>
+  <h2 class="hx-h2">Vier Fragen zur kostenlosen körperlichen Untersuchung</h2>
+  <div class="hx-faq"><details><summary>Wirklich keine Registrierung nötig?</summary><p>Kein Bedarf, Einfügen und Ausführen, die Ergebnisse sind nur in dieser Sitzung verfügbar.</p></details><details><summary>Kann es nicht ins Regal gestellt werden, wenn die Punktzahl niedrig ist?</summary><p>Nein, Punkte werden nur für Priorität vergeben. Ob es in die Regale gestellt werden kann, hängt von der Entscheidung der Plattform ab.</p></details><details><summary>Werden die Daten gespeichert?</summary><p>Die Standardeinstellung ist, nicht beizubehalten. Um es zu behalten, müssen Sie es explizit überprüfen und können es jederzeit löschen.</p></details><details><summary>Kann ich Konkurrenzprodukte prüfen?</summary><p>Öffentliche Einträge können überprüft werden, Hintergrunddaten werden jedoch nicht erfasst.</p></details></div>
+</div></div>
+<script>(function(){try{var t=document.querySelectorAll('.hx-tab'),p=document.querySelectorAll('.hx-panel');for(var i=0;i<t.length;i++){(function(k){t[k].addEventListener('click',function(){for(var j=0;j<t.length;j++){t[j].className='hx-tab'+(j===k?' on':'');p[j].className='hx-panel'+(j===k?' on':'');}});})(i);}}catch(e){}})();</script>
+</div>
+
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">Die Listing-Qualitäts- und Compliance-Engine für europäische Cross-Border-Händler. Ein Workspace – vom ersten Check bis zum Rettungseinsatz nach dem Delisting.</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR ist in Kraft</span>
+    <a class="cx-cta" href="/de/v2/tool/check">Shop kostenlos prüfen · 30 Sek. <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>Capability-Map</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/launch">01 Vor dem Start<small>Inspektion in einem Durchgang · Etwa 10 Minuten</small></a></li>
+        <li><a class="cx-l" href="/de/v2/rescue">02 Unfall<small>5 Minuten qualitativ · Dreisprachige Ansprache</small></a></li>
+        <li><a class="cx-l" href="/de/v2/ops">03 Täglicher Betrieb<small>12 Plattformen × 6 automatische Inspektionen</small></a></li>
+        <li><a class="cx-l" href="/de/v2/govern">04 Governance<small>A/B/C-Klassifizierung · Handhabungsmarkierungen</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Produktfunktionen</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/feature/gpsr">GPSR-Konformitätsblock<small>Verantwortliche Person · Warnhinweise · Technische Dokumente</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/listing">Auflistungsqualität<small>Feldvalidierung · Anzahl der Titelwörter</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/matrix">12 Plattformüberprüfung<small>Klassifizierung A2 / B5 / C5</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/review">Mundpropaganda und Bewertungen<small>Negative Bewertung · Antwortvorlage</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/ai-service">KI-Kundenservice<small>Fragen und Antworten vor dem Verkauf · Komfort nach dem Verkauf</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/safety">Risiko und Sicherheit<small>Warnung zur Kontosperrung · Beschwerde hinterlässt Spuren</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Plattformen</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/platform/rules">Unterschiede in den Plattformregeln<small>12 Plattformvergleich</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/app">Klassifizierung des Zugriffsstatus<small>A vollautomatisch · B halbautomatisch · C manuell</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/localize">Lokalisierung und Sprache<small>Muttersprachliche Richtlinien · Maßeinheiten</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/limits">Wortanzahl und Feldgrenzen<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kostenlose Tools</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/tool/check">Compliance-Check<small>30 Sekunden · Keine Bindung an den Shop oder Autorisierung</small></a></li>
+        <li><a class="cx-l" href="/de/v2/tool/skills">Kompetenz-Workflow<small>Stellen Sie eine Verbindung zu Ihrem ERP/Formular her</small></a></li>
+        <li><a class="cx-l" href="/de/v2/tool/trust">Vertrauenszentrum<small>Datengrenzen · Nur-Lese-Berechtigung</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Community & Ressourcen</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">Hochschule<small>Compliance- und Beschwerdekurs</small></a></li>
+        <li><a class="cx-l" href="/community">Gemeinschaft<small>Gegenseitige Unterstützung europäischer Verkäufer</small></a></li>
+        <li><a class="cx-l" href="/blog">Blog<small>Interpretation der Änderungen der Plattformregeln</small></a></li>
+        <li><a class="cx-l" href="/podcast">Podcast<small>Wöchentliches Update zur grenzüberschreitenden Compliance</small></a></li>
+        <li><a class="cx-l" href="/summit">Gipfel<small>Jahrestagung der europäischen Verkäufer</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · Europäische Vollplattform-Listing-Qualitäts- und Compliance-Engine</span>
+  <span class="cx-legal">
+    <a href="/de/privacy">Datenschutzrichtlinie</a>
+    <a href="/de/terms">Nutzungsbedingungen</a>
+    <a href="/de/v2/tool/trust">Compliance-Erklärung</a>
+    <a href="/de/v2/tool/trust">Datenverarbeitung</a>
+  </span>
+  <span class="cx-ok"><i></i>Alle Systeme normal · Chinesisch (vereinfacht)</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
+</body></html>

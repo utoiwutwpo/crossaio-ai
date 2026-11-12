@@ -3,7 +3,7 @@
 多页式导航结构（H10 架构）：
   /gpsr-check              体检主页（Hero 轨道动画 + AI 对话卡 + 免注册体检表单）
   /gpsr-check/features     功能拆解（五大能力板块 + 动画流程图 + 扫描光效 mockup）
-  /gpsr-check/platforms    13 平台覆盖（无缝滚动旗帜墙 + 平台字标卡）
+  /gpsr-check/platforms    12 平台覆盖（无缝滚动旗帜墙 + 平台字标卡）
   /gpsr-check/compare      竞品对比（绑店型工具 vs CrossAIO）
   /gpsr-check/pricing      定价（免费体检 vs Starter 解锁合规块）
   /gpsr-check/faq          FAQ
@@ -51,7 +51,7 @@ def _lp(path: str, lang: str) -> str:
 PAGES = [
     ("home", "/gpsr-check", "🛡️", "体检主页", "30 秒免注册 GPSR 合规体检"),
     ("features", "/gpsr-check/features", "⚙️", "功能拆解", "五大能力逐个看透"),
-    ("platforms", "/gpsr-check/platforms", "🌍", "13 平台覆盖", "字数/语言/合规规则内置"),
+    ("platforms", "/gpsr-check/platforms", "🌍", "12 平台覆盖", "字数/语言/合规规则内置"),
     ("compare", "/gpsr-check/compare", "⚖️", "竞品对比", "不绑店，不烧钱，直击合规"),
     ("pricing", "/gpsr-check/pricing", "💰", "定价", "体检免费 · 修复 €29/月起"),
     ("faq", "/gpsr-check/faq", "❓", "FAQ", "常见问题一次讲清"),
@@ -61,7 +61,7 @@ _PAGES_I18N = {
     "en": [
         ("home", "/en/gpsr-check", "🛡️", "Check Center", "30-second no-signup GPSR check"),
         ("features", "/en/gpsr-check/features", "⚙️", "Features explained", "five core capabilities, one by one"),
-        ("platforms", "/en/gpsr-check/platforms", "🌍", "13 platforms", "limits / languages / rules built in"),
+        ("platforms", "/en/gpsr-check/platforms", "🌍", "12 platforms", "limits / languages / rules built in"),
         ("compare", "/en/gpsr-check/compare", "⚖️", "Comparison", "no store, no waste, straight to compliance"),
         ("pricing", "/en/gpsr-check/pricing", "💰", "Pricing", "check free · fixes from €29/month"),
         ("faq", "/en/gpsr-check/faq", "❓", "FAQ", "all FAQs answered in one place"),
@@ -69,7 +69,7 @@ _PAGES_I18N = {
     "de": [
         ("home", "/de/gpsr-check", "🛡️", "Check-Center", "30-Sekunden-GPSR-Check ohne Registrierung"),
         ("features", "/de/gpsr-check/features", "⚙️", "Funktionen im Detail", "fünf Kernfunktionen im Überblick"),
-        ("platforms", "/de/gpsr-check/platforms", "🌍", "13 Plattformen", "Limits / Sprachen / Regeln integriert"),
+        ("platforms", "/de/gpsr-check/platforms", "🌍", "12 Plattformen", "Limits / Sprachen / Regeln integriert"),
         ("compare", "/de/gpsr-check/compare", "⚖️", "Vergleich", "kein Shop, keine Kosten, direkt zur Konformität"),
         ("pricing", "/de/gpsr-check/pricing", "💰", "Preise", "Check kostenlos · Fixes ab €29/Monat"),
         ("faq", "/de/gpsr-check/faq", "❓", "FAQ", "alle FAQs auf einen Blick"),
@@ -77,7 +77,7 @@ _PAGES_I18N = {
     "fr": [
         ("home", "/fr/gpsr-check", "🛡️", "Centre de vérification", "vérification GPSR en 30 s sans inscription"),
         ("features", "/fr/gpsr-check/features", "⚙️", "Fonctionnalités", "cinq fonctionnalités clés détaillées"),
-        ("platforms", "/fr/gpsr-check/platforms", "🌍", "13 plateformes", "limites / langues / règles intégrées"),
+        ("platforms", "/fr/gpsr-check/platforms", "🌍", "12 plateformes", "limites / langues / règles intégrées"),
         ("compare", "/fr/gpsr-check/compare", "⚖️", "Comparaison", "sans boutique, sans dépense, droit à la conformité"),
         ("pricing", "/fr/gpsr-check/pricing", "💰", "Tarifs", "vérif gratuite · correctifs dès €29/mois"),
         ("faq", "/fr/gpsr-check/faq", "❓", "FAQ", "toutes les FAQ expliquées clairement"),
@@ -901,7 +901,7 @@ _FBLOCKS = [
          ("平台合规", '<span class="v up">✅ 通过</span>', "0 违规"),
          ("优化评分", '<span class="v up">92 / 100</span>', "语义覆盖 8/8")),
     ]),
-    ("p3", "🌍", "欧洲多平台矩阵：<br>一次输入，13 平台批量本地化", [
+    ("p3", "🌍", "欧洲多平台矩阵：<br>一次输入，12 平台批量本地化", [
         "Amazon EU + US / eBay / Allegro / Otto / Cdiscount / eMAG / TikTok Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com",
         "语言按平台自动匹配 <span>— Allegro→波兰语、Otto→德语、Cdiscount→法语</span>",
         "单平台失败不影响其余平台，逐平台计数",
@@ -959,7 +959,7 @@ _FBLOCKS_EN = [
          ("Platform check", '<span class="v up">✅ passed</span>', "0 violations"),
          ("Optimization", '<span class="v up">92 / 100</span>', "semantic coverage 8/8")),
     ]),
-    ("p3", "🌍", "Multi-platform matrix:<br>one input, 13 platforms batch-localized", [
+    ("p3", "🌍", "Multi-platform matrix:<br>one input, 12 platforms batch-localized", [
         "Amazon EU + US / eBay / Allegro / Otto / Cdiscount / eMAG / TikTok Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com",
         "language auto-matched per platform <span>— Allegro→Polish, Otto→German, Cdiscount→French</span>",
         "one platform failing doesn't block the others, counted platform by platform",
@@ -1017,7 +1017,7 @@ _FBLOCKS_DE = [
          ("Plattform-Check", '<span class="v up">✅ bestanden</span>', "0 Verstöße"),
          ("Optimierung", '<span class="v up">92 / 100</span>', "semantische Abdeckung 8/8")),
     ]),
-    ("p3", "🌍", "Multi-Plattform-Matrix:<br>eine Eingabe, 13 Plattformen Stapel-Lokalisierung", [
+    ("p3", "🌍", "Multi-Plattform-Matrix:<br>eine Eingabe, 12 Plattformen Stapel-Lokalisierung", [
         "Amazon EU + US / eBay / Allegro / Otto / Cdiscount / eMAG / TikTok Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com",
         "Sprache je Plattform automatisch zugeordnet <span>— Allegro→Polnisch, Otto→Deutsch, Cdiscount→Französisch</span>",
         "ein Plattformfehler blockiert die anderen nicht, zählt je Plattform",
@@ -1075,7 +1075,7 @@ _FBLOCKS_FR = [
          ("Conformité plateforme", '<span class="v up">✅ ok</span>', "0 infraction"),
          ("Optimisation", '<span class="v up">92 / 100</span>', "couverture sémantique 8/8")),
     ]),
-    ("p3", "🌍", "Matrice multi-plateformes :<br>une saisie, 13 plateformes localisées en masse", [
+    ("p3", "🌍", "Matrice multi-plateformes :<br>une saisie, 12 plateformes localisées en masse", [
         "Amazon EU + US / eBay / Allegro / Otto / Cdiscount / eMAG / TikTok Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com",
         "langue adaptée automatiquement par plateforme <span>— Allegro→polonais, Otto→allemand, Cdiscount→français</span>",
         "l'échec d'une plateforme ne bloque pas les autres, compté plateforme par plateforme",
@@ -1202,7 +1202,7 @@ def _home(lang: str = "zh") -> str:
   </div>
   <div class="gcard">
     <div class="thumb" style="background:linear-gradient(150deg,#f5f3ff,#ede9fe)">🌍</div>
-    <div class="gbody"><h3>13 平台入驻与本地化指南</h3><p>Allegro 要波兰语、Otto 要德语——每平台的标题字数、语言与规则速查。</p><a href="/gpsr-check/platforms">查看平台覆盖 →</a></div>
+    <div class="gbody"><h3>12 平台入驻与本地化指南</h3><p>Allegro 要波兰语、Otto 要德语——每平台的标题字数、语言与规则速查。</p><a href="/gpsr-check/platforms">查看平台覆盖 →</a></div>
   </div>
   <div class="gcard">
     <div class="thumb" style="background:linear-gradient(150deg,#f0fdf4,#dcfce7)">🤖</div>
@@ -1238,11 +1238,11 @@ def _home(lang: str = "zh") -> str:
         <div class="chips">
           <div class="chip" onclick="location.href='#check'">🛡️ 体检我的玩具 listing</div>
           <div class="chip" onclick="location.href='#check'">🔍 找出缺德语警示语的产品</div>
-          <div class="chip" onclick="location.href='/gpsr-check/features'">📈 一次生成 13 个平台的 listing</div>
+          <div class="chip" onclick="location.href='/gpsr-check/features'">📈 一次生成 12 个平台的 listing</div>
         </div>
         <div id="chatMsgs"></div>
       </div>
-      <div class="foot"><span>🛡️ 合规</span><span>📦 Listing</span><span>🌍 13 平台</span></div>
+      <div class="foot"><span>🛡️ 合规</span><span>📦 Listing</span><span>🌍 12 平台</span></div>
     </div>
   </div>
 </div>
@@ -1261,7 +1261,7 @@ def _home(lang: str = "zh") -> str:
     <label>核心关键词（逗号分隔）*</label><input id="g_kw" placeholder="例如：toy, puzzle, kids">
     <label>主要平台</label>
     <select id="g_platform">
-      <option value="amazon">Amazon 欧洲站</option><option value="amazon_us">Amazon 美国站</option><option value="ebay">eBay</option>
+      <option value="amazon">Amazon 欧洲站 + 美国站</option><option value="ebay">eBay</option>
       <option value="cdiscount">Cdiscount（法国）</option><option value="otto">Otto（德国）</option>
       <option value="allegro">Allegro（波兰）</option><option value="emag">eMAG（罗马尼亚）</option>
       <option value="tiktok">TikTok Shop（欧美）</option><option value="walmart">Walmart（美国）</option>
@@ -1317,14 +1317,14 @@ _HOME_T = {
         h1='One AI assistant to grow your<br>European business <em>compliantly.</em>',
         sub="Works like a dedicated operations specialist watching your listing: auto GPSR compliance checks, flags delisting risks, generates fix copy — around the clock, 7×24.",
         cta1="Sign up free", cta2="Learn more",
-        tiny='✓ check <b>no sign-up</b> · ✓ <b>No Shopify required</b> · ✓ covers 13 platforms (12 European + US)',
+        tiny='✓ check <b>no sign-up</b> · ✓ <b>No Shopify required</b> · ✓ covers 12 platforms (12 European + US)',
         greet="👋 Hi!", hintq="You can ask me to:",
-        chip1="🛡️ check my toy listing", chip2="🔍 find products missing German warnings", chip3="📈 generate listings for 13 platforms at once",
-        foot1="🛡️ Compliance", foot2="📦 Listing", foot3="🌍 13 platforms",
+        chip1="🛡️ check my toy listing", chip2="🔍 find products missing German warnings", chip3="📈 generate listings for 12 platforms at once",
+        foot1="🛡️ Compliance", foot2="📦 Listing", foot3="🌍 12 platforms",
         c1h="GPSR self-check guide",
         c1p="EU 2023/988 is in force. Which products need CE, which languages need warnings — explained in one guide.",
         c1a="free check · 30-second self-check →",
-        c2h="13-platform marketplace entry & localization guide",
+        c2h="12-platform marketplace entry & localization guide",
         c2p="Allegro needs Polish, Otto needs German — per-platform title limits, languages and rules reference.",
         c2a="see platform coverage →",
         c3h="AI copy & service handbook",
@@ -1337,7 +1337,7 @@ _HOME_T = {
         l_name="Product title *", ph_name="e.g. Kids Building Blocks Toy",
         l_kw="Key keywords (comma-separated) *", ph_kw="e.g. toy, puzzle, kids",
         l_plat="Main platform",
-        opt_amazon="Amazon EU marketplace", opt_amazon_us="Amazon US marketplace", opt_ebay="eBay",
+        opt_amazon="Amazon EU + US marketplace", opt_ebay="eBay",
         opt_cdiscount="Cdiscount (France)", opt_otto="Otto (Germany)",
         opt_allegro="Allegro (Poland)", opt_emag="eMAG (Romania)",
         opt_tiktok="TikTok Shop (UK/US/EU)", opt_walmart="Walmart (US)",
@@ -1363,10 +1363,10 @@ _HOME_T = {
         h1="Ein KI-Assistent für dein<br>europäisches Geschäft — <em>konformes Wachstum.</em>",
         sub="Arbeitet wie ein eigener Operations-Experte, der dein Listing überwacht: automatischer GPSR-Compliance-Check, Hinweis auf De-Listing-Risiken, Generierung von Fix-Texten — rund um die Uhr, 7×24.",
         cta1="Kostenlos registrieren", cta2="Mehr erfahren",
-        tiny='✓ Check <b>ohne Registrierung</b> · ✓ <b>No Shopify required</b> · ✓ deckt 13 Plattformen ab (12 europäische + US)',
+        tiny='✓ Check <b>ohne Registrierung</b> · ✓ <b>No Shopify required</b> · ✓ deckt 12 Plattformen ab (12 europäische + US)',
         greet="👋 Hi!", hintq="Du kannst mich Folgendes fragen:",
-        chip1="🛡️ mein Spielzeug-Listing prüfen", chip2="🔍 Produkte ohne deutsche Hinweise finden", chip3="📈 Listings für 13 Plattformen auf einmal generieren",
-        foot1="🛡️ Compliance", foot2="📦 Listing", foot3="🌍 13 Plattformen",
+        chip1="🛡️ mein Spielzeug-Listing prüfen", chip2="🔍 Produkte ohne deutsche Hinweise finden", chip3="📈 Listings für 12 Plattformen auf einmal generieren",
+        foot1="🛡️ Compliance", foot2="📦 Listing", foot3="🌍 12 Plattformen",
         c1h="GPSR-Selbstcheck-Anleitung",
         c1p="EU 2023/988 ist in Kraft. Welche Produkte CE brauchen, welche Sprachen Hinweise benötigen — alles in einer Anleitung erklärt.",
         c1a="kostenloser Check · 30-Sekunden-Selbstcheck →",
@@ -1383,7 +1383,7 @@ _HOME_T = {
         l_name="Produkttitel *", ph_name="z. B. Kids Building Blocks Toy",
         l_kw="Schlüssel-Keywords (durch Komma getrennt) *", ph_kw="z. B. toy, puzzle, kids",
         l_plat="Hauptplattform",
-        opt_amazon="Amazon-Marktplatz Europa", opt_amazon_us="Amazon-Marktplatz USA", opt_ebay="eBay",
+        opt_amazon="Amazon-Marktplatz Europa + USA", opt_ebay="eBay",
         opt_cdiscount="Cdiscount (Frankreich)", opt_otto="Otto (Deutschland)",
         opt_allegro="Allegro (Polen)", opt_emag="eMAG (Rumänien)",
         opt_tiktok="TikTok Shop (UK/US/EU)", opt_walmart="Walmart (USA)",
@@ -1409,14 +1409,14 @@ _HOME_T = {
         h1="Un assistant IA pour votre<br>activité européenne — <em>croître en restant conforme.</em>",
         sub="Il agit comme un spécialiste des opérations dédié qui surveille votre listing : vérification GPSR automatique, signalement des risques de déréférencement, génération de textes correctifs — 24h/24 et 7j/7.",
         cta1="Inscription gratuite", cta2="En savoir plus",
-        tiny='✓ vérif <b>sans inscription</b> · ✓ <b>No Shopify required</b> · ✓ couvre 13 plateformes (12 européennes + US)',
+        tiny='✓ vérif <b>sans inscription</b> · ✓ <b>No Shopify required</b> · ✓ couvre 12 plateformes (12 européennes + US)',
         greet="👋 Bonjour !", hintq="Vous pouvez me demander :",
-        chip1="🛡️ vérifier mon listing de jouets", chip2="🔍 trouver les produits sans avertissements allemands", chip3="📈 générer des listings pour 13 plateformes d'un coup",
-        foot1="🛡️ Conformité", foot2="📦 Listing", foot3="🌍 13 plateformes",
+        chip1="🛡️ vérifier mon listing de jouets", chip2="🔍 trouver les produits sans avertissements allemands", chip3="📈 générer des listings pour 12 plateformes d'un coup",
+        foot1="🛡️ Conformité", foot2="📦 Listing", foot3="🌍 12 plateformes",
         c1h="Guide d'auto-vérification GPSR",
         c1p="L'EU 2023/988 est en vigueur. Quels produits doivent porter le CE, quelles langues nécessitent des avertissements — tout expliqué en un guide.",
         c1a="vérif gratuite · auto-vérification en 30 secondes →",
-        c2h="Guide d'entrée sur 13 plateformes et de localisation",
+        c2h="Guide d'entrée sur 12 plateformes et de localisation",
         c2p="Allegro exige le polonais, Otto exige l'allemand — limites de titre, langues et règles par plateforme.",
         c2a="voir la couverture des plateformes →",
         c3h="Manuel d'utilisation IA (textes et service client)",
@@ -1429,7 +1429,7 @@ _HOME_T = {
         l_name="Titre du produit *", ph_name="p. ex. Kids Building Blocks Toy",
         l_kw="Mots-clés clés (séparés par des virgules) *", ph_kw="p. ex. toy, puzzle, kids",
         l_plat="Plateforme principale",
-        opt_amazon="marketplace Amazon Europe", opt_amazon_us="marketplace Amazon US", opt_ebay="eBay",
+        opt_amazon="marketplace Amazon Europe + États-Unis", opt_ebay="eBay",
         opt_cdiscount="Cdiscount (France)", opt_otto="Otto (Allemagne)",
         opt_allegro="Allegro (Pologne)", opt_emag="eMAG (Roumanie)",
         opt_tiktok="TikTok Shop (RU/US/UE)", opt_walmart="Walmart (US)",
@@ -1525,7 +1525,7 @@ def _home_t(lang: str) -> str:
     <label>{t["l_kw"]}</label><input id="g_kw" placeholder="{t["ph_kw"]}">
     <label>{t["l_plat"]}</label>
     <select id="g_platform">
-      <option value="amazon">{t["opt_amazon"]}</option><option value="amazon_us">{t["opt_amazon_us"]}</option><option value="ebay">{t["opt_ebay"]}</option>
+      <option value="amazon">{t["opt_amazon"]}</option><option value="ebay">{t["opt_ebay"]}</option>
       <option value="cdiscount">{t["opt_cdiscount"]}</option><option value="otto">{t["opt_otto"]}</option>
       <option value="allegro">{t["opt_allegro"]}</option><option value="emag">{t["opt_emag"]}</option>
       <option value="tiktok">{t["opt_tiktok"]}</option><option value="walmart">{t["opt_walmart"]}</option>
@@ -1581,7 +1581,7 @@ _FEAT_T = {
         block_label="板块", cta_block="免费体验 →",
         flow=[("免费体检", "输入产品 30 秒出风险报告，免注册"),
               ("AI 修复", "生成可粘贴合规块 + 当地语言警示语"),
-              ("13 平台同步", "多平台矩阵批量落地，字数自动校验")],
+              ("12 平台同步", "多平台矩阵批量落地，字数自动校验")],
         stats=[("5", "能力板块"), ("7", "CE 类目规则库"), ("146", "多语言安全词库"), ("16", "生成语言")],
         cta_title="⚙️ 现在就体验完整体检中心", cta_label="回到体检主页",
         title="功能拆解 — 五大能力逐个看透 | GPSR 体检中心 | CrossAIO",
@@ -1594,7 +1594,7 @@ _FEAT_T = {
         block_label="Block", cta_block="Try for free →",
         flow=[("Free check", "enter your product, get a risk report in 30 s, no sign-up"),
               ("AI fix", "generates paste-ready compliance blocks + local-language warnings"),
-              ("13-platform sync", "multi-platform matrix at scale, auto character validation")],
+              ("12-platform sync", "multi-platform matrix at scale, auto character validation")],
         stats=[("5", "capability blocks"), ("7", "CE category rule sets"), ("146", "multilingual safety lexicon"), ("16", "languages generated")],
         cta_title="⚙️ Try the full Check Center now", cta_label="Back to the check home",
         title="Features explained — five core capabilities | GPSR Check Center | CrossAIO",
@@ -1620,7 +1620,7 @@ _FEAT_T = {
         block_label="Bloc", cta_block="Essayer gratuitement →",
         flow=[("Vérification gratuite", "saisissez le produit, rapport de risque en 30 s, sans inscription"),
               ("Correctif IA", "génère des blocs de conformité prêts à coller + avertissements locaux"),
-              ("Synchro 13 plateformes", "matrice multi-plateformes en masse, validation auto des caractères")],
+              ("Synchro 12 plateformes", "matrice multi-plateformes en masse, validation auto des caractères")],
         stats=[("5", "blocs de fonctionnalités"), ("7", "ensembles de règles CE"), ("146", "lexique multilingue de sécurité"), ("16", "langues de génération")],
         cta_title="⚙️ Essayez tout le centre de vérification maintenant", cta_label="Retour à l'accueil de la vérification",
         title="Les fonctionnalités en détail — cinq fonctionnalités clés | Centre de vérification GPSR | CrossAIO",
@@ -1687,31 +1687,31 @@ _PLAT_T = {
         tier="📋 每个平台的字数 / 语言 / GPSR 要点，免费速查表随时翻", tier_a="打开规则速查表 →",
         cta_title="🌍 你的平台也在里面", cta_label="体检我的平台",
         title="13 大平台覆盖 — 规则全部内置 | GPSR 体检中心 | CrossAIO",
-        meta="Amazon 欧洲站+美国站、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com —— 13 平台字数/语言/GPSR 规则全部内置。"),
+        meta="Amazon 欧洲站+美国站、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com —— 12 平台字数/语言/GPSR 规则全部内置。"),
     "en": dict(
-        eyebrow="✦ GPSR Check Center · platforms covered", h1="13 platforms, rules all built in",
+        eyebrow="✦ GPSR Check Center · platforms covered", h1="12 platforms, rules all built in",
         sub="Each platform's title limits, languages and compliance rules are continuously maintained per the seller central documentation — hovering pauses the scrolling wall.",
         note="* Platform marks are stylized brand-color wordmarks (illustrative); trademarks belong to their respective owners; replace with officially licensed assets at launch.",
         tier="📋 Per-platform character limits / languages / GPSR essentials, free rules reference on demand", tier_a="open the rules reference →",
         cta_title="🌍 Your platform is in there too", cta_label="Check my platform",
-        title="13-platform coverage — rules all built in | GPSR Check Center | CrossAIO",
-        meta="Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — 13 platforms, character limits / languages / GPSR rules all built in."),
+        title="12-platform coverage — rules all built in | GPSR Check Center | CrossAIO",
+        meta="Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — 12 platforms, character limits / languages / GPSR rules all built in."),
     "de": dict(
-        eyebrow="✦ GPSR-Check-Center · abgedeckte Plattformen", h1="13 Plattformen, Regeln alle integriert",
+        eyebrow="✦ GPSR-Check-Center · abgedeckte Plattformen", h1="12 Plattformen, Regeln alle integriert",
         sub="Titel-Limits, Sprachen und Compliance-Regeln jeder Plattform werden laut Seller-Center-Dokumentation laufend gepflegt — beim Überfahren pausiert die Laufleiste.",
         note="* Plattform-Zeichen sind stilisierte Wortmarken in Markenfarben (Illustrationszweck); Markenrechte liegen bei den jeweiligen Inhabern; bei Launch durch offiziell lizenzierte Assets ersetzen.",
         tier="📋 Zeichenlimits / Sprachen / GPSR-Punkte je Plattform, kostenlose Regelübersicht zum Nachschlagen", tier_a="Regelübersicht öffnen →",
         cta_title="🌍 Deine Plattform ist auch dabei", cta_label="Meine Plattform prüfen",
         title="13-Plattformen-Abdeckung — Regeln alle integriert | GPSR-Check-Center | CrossAIO",
-        meta="Amazon Europa+USA, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — 13 Plattformen, Zeichenlimits / Sprachen / GPSR-Regeln alle integriert."),
+        meta="Amazon Europa+USA, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — 12 Plattformen, Zeichenlimits / Sprachen / GPSR-Regeln alle integriert."),
     "fr": dict(
-        eyebrow="✦ Centre de vérification GPSR · plateformes couvertes", h1="13 plateformes, règles toutes intégrées",
+        eyebrow="✦ Centre de vérification GPSR · plateformes couvertes", h1="12 plateformes, règles toutes intégrées",
         sub="Les limites de titres, langues et règles de conformité de chaque plateforme sont mises à jour en continu selon la documentation Seller Central — la bande défilante se met en pause au survol.",
         note="* Les marques de plateformes sont des wordmarks stylisés aux couleurs de marque (illustratifs) ; les marques appartiennent à leurs propriétaires respectifs ; à remplacer par des contenus sous licence officielle au lancement.",
         tier="📋 Limites de caractères / langues / points GPSR par plateforme, référentiel de règles gratuit à consulter", tier_a="ouvrir le référentiel de règles →",
         cta_title="🌍 Votre plateforme y est aussi", cta_label="Vérifier ma plateforme",
-        title="Couverture 13 plateformes — règles toutes intégrées | Centre de vérification GPSR | CrossAIO",
-        meta="Amazon Europe+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — 13 plateformes, limites de caractères / langues / règles GPSR toutes intégrées."),
+        title="Couverture 12 plateformes — règles toutes intégrées | Centre de vérification GPSR | CrossAIO",
+        meta="Amazon Europe+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — 12 plateformes, limites de caractères / langues / règles GPSR toutes intégrées."),
 }
 
 
@@ -1765,13 +1765,13 @@ _COMP_T = {
             ("先体验后付费", "注册绑店才能看功能", "免注册先体检，满意再注册"),
             ("起订成本", "€159+/月", "免费体检 + €29/月起"),
             ("GPSR 合规", "不管合规", "合规块内嵌每份 listing"),
-            ("平台覆盖", "欧洲平台 12+", "13 平台（欧洲 12 + Amazon US，含 Kaufland/Zalando/bol）"),
+            ("平台覆盖", "欧洲平台 12+", "12 平台（欧洲 12 + Amazon US，含 Kaufland/Zalando/bol）"),
             ("语义搜索适配", "无", "Rufus/iZi 问答覆盖度评分"),
         ],
         stats=[("€0", "体检成本（免注册）"), ("€29", "月起解锁合规块"), ("€159+", "绑店型工具月费"), ("€500+", "一次合规咨询报价")],
         cta_title="⚖️ 先免注册体检，满意再注册", cta_label="免费体检",
         title="竞品对比 — 不绑店，不烧钱，直击合规 | GPSR 体检中心 | CrossAIO",
-        meta="CrossAIO 与绑店型工具逐项对比：无需绑定店铺、免注册先体检、€29/月起、GPSR 合规块内嵌、13 平台覆盖、语义搜索适配评分。"),
+        meta="CrossAIO 与绑店型工具逐项对比：无需绑定店铺、免注册先体检、€29/月起、GPSR 合规块内嵌、12 平台覆盖、语义搜索适配评分。"),
     "en": dict(
         eyebrow="✦ GPSR Check Center · comparison", h1="No store, no waste, straight to compliance",
         sub="Head-to-head with store-connected tools (e.g. Marqetir) — onboarding, cost, compliance, platform coverage.",
@@ -1781,13 +1781,13 @@ _COMP_T = {
             ("Try before you pay", "sign up and connect a store to see features", "check first with no sign-up, register if happy"),
             ("Starting price", "€159+/month", "free check + from €29/month"),
             ("GPSR compliance", "ignores compliance", "compliance blocks embedded in every listing"),
-            ("Platform coverage", "12+ European platforms", "13 platforms (12 European + Amazon US, incl. Kaufland/Zalando/bol)"),
+            ("Platform coverage", "12+ European platforms", "12 platforms (12 European + Amazon US, incl. Kaufland/Zalando/bol)"),
             ("Semantic search readiness", "none", "Rufus/iZi Q&A coverage score"),
         ],
         stats=[("€0", "check cost (no sign-up)"), ("€29", "/month to unlock compliance blocks"), ("€159+", "store-connected tool monthly fee"), ("€500+", "one compliance consulting quote")],
         cta_title="⚖️ Check first with no sign-up, register if happy", cta_label="Free check",
         title="Comparison — no store, no waste, straight to compliance | GPSR Check Center | CrossAIO",
-        meta="CrossAIO vs store-connected tools: no store connection, check first with no sign-up, from €29/month, GPSR compliance blocks embedded, 13 platforms, semantic search readiness score."),
+        meta="CrossAIO vs store-connected tools: no store connection, check first with no sign-up, from €29/month, GPSR compliance blocks embedded, 12 platforms, semantic search readiness score."),
     "de": dict(
         eyebrow="✦ GPSR-Check-Center · Vergleich", h1="Kein Shop, keine Kosten, direkt zur Konformität",
         sub="Direktvergleich mit Shop-bindenden Tools (z. B. Marqetir) — Einstieg, Kosten, Konformität, Plattform-Abdeckung.",
@@ -1797,13 +1797,13 @@ _COMP_T = {
             ("Erst testen, dann zahlen", "Registrierung + Shop-Anbindung nötig, um Funktionen zu sehen", "zuerst ohne Registrierung prüfen, bei Gefallen registrieren"),
             ("Einstiegspreis", "€159+/Monat", "kostenloser Check + ab €29/Monat"),
             ("GPSR-Konformität", "kümmert sich nicht um Konformität", "Compliance-Blöcke in jedem Listing eingebettet"),
-            ("Plattform-Abdeckung", "12+ europäische Plattformen", "13 Plattformen (12 europäische + Amazon US, inkl. Kaufland/Zalando/bol)"),
+            ("Plattform-Abdeckung", "12+ europäische Plattformen", "12 Plattformen (12 europäische + Amazon US, inkl. Kaufland/Zalando/bol)"),
             ("Semantische Suchanpassung", "keine", "Rufus/iZi-Q&A-Abdeckungs-Score"),
         ],
         stats=[("€0", "Check-Kosten (ohne Registrierung)"), ("€29", "/Monat für Compliance-Blöcke"), ("€159+", "Monatstarif shop-bindender Tools"), ("€500+", "ein Compliance-Beratungsangebot")],
         cta_title="⚖️ Zuerst ohne Registrierung prüfen, bei Gefallen registrieren", cta_label="Kostenloser Check",
         title="Vergleich — kein Shop, keine Kosten, direkt zur Konformität | GPSR-Check-Center | CrossAIO",
-        meta="CrossAIO im Vergleich mit shop-bindenden Tools: keine Shop-Anbindung, erst ohne Registrierung prüfen, ab €29/Monat, GPSR-Compliance-Blöcke integriert, 13 Plattformen, semantische Suchanpassung."),
+        meta="CrossAIO im Vergleich mit shop-bindenden Tools: keine Shop-Anbindung, erst ohne Registrierung prüfen, ab €29/Monat, GPSR-Compliance-Blöcke integriert, 12 Plattformen, semantische Suchanpassung."),
     "fr": dict(
         eyebrow="✦ Centre de vérification GPSR · comparaison", h1="Sans boutique, sans dépense, droit à la conformité",
         sub="Comparaison directe avec les outils liés à la boutique (ex. Marqetir) — parcours, coût, conformité, couverture des plateformes.",
@@ -1813,13 +1813,13 @@ _COMP_T = {
             ("Essayer avant de payer", "inscription + connexion boutique pour voir les fonctionnalités", "vérifiez d'abord sans inscription, inscrivez-vous si satisfait"),
             ("Prix de départ", "€159+/mois", "vérification gratuite + dès €29/mois"),
             ("Conformité GPSR", "ignore la conformité", "blocs de conformité intégrés à chaque listing"),
-            ("Couverture plateformes", "12+ plateformes européennes", "13 plateformes (12 européennes + Amazon US, dont Kaufland/Zalando/bol)"),
+            ("Couverture plateformes", "12+ plateformes européennes", "12 plateformes (12 européennes + Amazon US, dont Kaufland/Zalando/bol)"),
             ("Compatibilité recherche sémantique", "aucune", "score de couverture Q&R Rufus/iZi"),
         ],
         stats=[("€0", "coût de la vérification (sans inscription)"), ("€29", "/mois pour débloquer les blocs"), ("€159+", "tarif mensuel des outils liés à la boutique"), ("€500+", "un tarif d'un conseil en conformité")],
         cta_title="⚖️ Vérifiez d'abord sans inscription, inscrivez-vous si satisfait", cta_label="Vérification gratuite",
         title="Comparaison — sans boutique, sans dépense, droit à la conformité | Centre de vérification GPSR | CrossAIO",
-        meta="CrossAIO comparé aux outils liés à la boutique : sans connexion de boutique, vérif d'abord sans inscription, dès €29/mois, blocs de conformité GPSR intégrés, 13 plateformes, compatibilité recherche sémantique."),
+        meta="CrossAIO comparé aux outils liés à la boutique : sans connexion de boutique, vérif d'abord sans inscription, dès €29/mois, blocs de conformité GPSR intégrés, 12 plateformes, compatibilité recherche sémantique."),
 }
 
 
@@ -1859,7 +1859,7 @@ _PRIC_T = {
         card_btn="免费注册开始 →",
         free_h="🆓 免费体检", free_pp="€0",
         free_li=["免注册，每 IP 每天 3 次", "风险等级 + 适用指令 + 法定检查清单",
-                 "13 平台规则判定（CE 类目识别）", "不消耗任何生成额度"],
+                 "12 平台规则判定（CE 类目识别）", "不消耗任何生成额度"],
         free_no=["可粘贴合规块（欧代 / 警示语 / 标识）", "体检历史保存"],
         hot_h="⭐ Starter 及以上", hot_pp="€29/月起",
         hot_li=["免费档全部能力", "GPSR 合规块：当地语言警示语 + 欧代 + 产品标识",
@@ -1878,7 +1878,7 @@ _PRIC_T = {
         card_btn="Sign up free and start →",
         free_h="🆓 Free check", free_pp="€0",
         free_li=["no sign-up, 3 checks per IP per day", "risk level + applicable directives + legal checklist",
-                 "13-platform rule validation (CE category detection)", "consumes no generation credits"],
+                 "12-platform rule validation (CE category detection)", "consumes no generation credits"],
         free_no=["paste-ready compliance blocks (EU Rep / warnings / marking)", "save check history"],
         hot_h="⭐ Starter and above", hot_pp="from €29/month",
         hot_li=["everything in the free tier", "GPSR compliance blocks: local-language warnings + EU Rep + product marking",
@@ -1916,7 +1916,7 @@ _PRIC_T = {
         card_btn="Inscription gratuite, démarrage →",
         free_h="🆓 Vérification gratuite", free_pp="€0",
         free_li=["sans inscription, 3 vérifications par IP et par jour", "niveau de risque + directives applicables + liste de contrôle légale",
-                 "validation des règles sur 13 plateformes (détection catégories CE)", "ne consomme aucun crédit de génération"],
+                 "validation des règles sur 12 plateformes (détection catégories CE)", "ne consomme aucun crédit de génération"],
         free_no=["blocs de conformité prêts à coller (représentant UE / avertissements / marquage)", "enregistrer l'historique des vérifications"],
         hot_h="⭐ Starter et supérieur", hot_pp="dès €29/mois",
         hot_li=["toutes les fonctionnalités de l'offre gratuite", "blocs de conformité GPSR : avertissements locaux + représentant UE + marquage du produit",

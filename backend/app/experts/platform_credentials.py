@@ -1,4 +1,4 @@
-"""13 平台商家自助接入注册表 — 每个平台的凭证字段、官方申请入口与门槛说明。
+"""12 平台商家自助接入注册表 — 每个平台的凭证字段、官方申请入口与门槛说明。
 
 设计原则（诚实营销）：
 - 只列该平台真实存在的凭证字段与官方申请 URL，不编造"一键接入"。
@@ -12,26 +12,17 @@ _C = List[tuple]
 
 PLATFORM_CRED_REGISTRY: Dict[str, dict] = {
     "amazon": {
-        "label": "Amazon 欧洲站",
+        "label": "Amazon 欧洲站 + 美国站",
         "apply_url": "https://sellercentral.amazon.de/sw/user/central-developer",
         "apply_note": "Seller Central → 集成 → 开发者，注册 LWA 应用；专业卖家账户可申请，部分权限需 Amazon 审核（1~3 天）。",
         "fields": [
             ("client_id", "LWA Client ID", False, "开发者档案页 Client ID"),
             ("client_secret", "LWA Client Secret", True, "与 Client ID 同页"),
             ("refresh_token", "卖家 Refresh Token", True, "授权卖家档案后换取，长期有效"),
+            ("aws_access_key_id", "AWS Access Key ID（SigV4）", False, "SP-API 的 AWS IAM 用户 Access Key；SP-API 要求每次请求 SigV4 签名"),
+            ("aws_secret_access_key", "AWS Secret Access Key（SigV4）", True, "与 Access Key 同页生成，只显示一次"),
         ],
         "unlocks": "合规块真实写回 Amazon Listing（回填 dry_run=False）",
-    },
-    "amazon_us": {
-        "label": "Amazon 美国站",
-        "apply_url": "https://sellercentral.amazon.com/sw/user/central-developer",
-        "apply_note": "同欧洲站流程；美国站需在 developer profile 选择北美市场。",
-        "fields": [
-            ("client_id", "LWA Client ID", False, "开发者档案页 Client ID"),
-            ("client_secret", "LWA Client Secret", True, "与 Client ID 同页"),
-            ("refresh_token", "卖家 Refresh Token", True, "授权后长期有效"),
-        ],
-        "unlocks": "美国站合规块写回 + Listing 回填",
     },
     "ebay": {
         "label": "eBay",
@@ -48,6 +39,7 @@ PLATFORM_CRED_REGISTRY: Dict[str, dict] = {
         "fields": [
             ("client_id", "Client ID", False, "Allegro 应用列表页"),
             ("client_secret", "Client Secret", True, "与 Client ID 同页"),
+            ("refresh_token", "卖家 Refresh Token", True, "Allegro OAuth 授权后换取；缺它无法刷新 access_token"),
         ],
         "unlocks": "波兰语买家消息自动导入 + 合规回复",
     },
@@ -86,7 +78,8 @@ PLATFORM_CRED_REGISTRY: Dict[str, dict] = {
         "apply_url": "https://marketplace.emag.eu/",
         "apply_note": "eMAG Marketplace 卖家后台 → 设置 → API 访问，生成后即时可用。",
         "fields": [
-            ("api_key", "API Token", True, "eMAG 卖家后台 API 页"),
+            ("username", "账号用户名", False, "eMAG 卖家后台登录用户名（Basic 认证）"),
+            ("password", "账号密码 / API 密码", True, "eMAG 卖家后台 API 密码"),
         ],
         "unlocks": "罗马尼亚语买家消息自动导入 + 合规回复",
     },
@@ -97,6 +90,7 @@ PLATFORM_CRED_REGISTRY: Dict[str, dict] = {
         "fields": [
             ("client_id", "Client ID", False, "zDirect 后台"),
             ("client_secret", "Client Secret", True, "zDirect 后台"),
+            ("merchant_id", "Merchant ID", False, "Zalando 商家 ID，订单/库存路径必带"),
         ],
         "unlocks": "多语言买家消息自动导入 + 合规回复",
     },
@@ -137,6 +131,8 @@ PLATFORM_CRED_REGISTRY: Dict[str, dict] = {
         "fields": [
             ("app_key", "App Key", False, "Partner Center"),
             ("app_secret", "App Secret", True, "Partner Center"),
+            ("access_token", "卖家 Access Token", True, "店铺授权后换取，订单/消息调用需带"),
+            ("shop_cipher", "Shop Cipher", True, "授权返回的店铺标识"),
         ],
         "unlocks": "英语买家消息自动导入 + 合规回复",
     },
@@ -162,15 +158,7 @@ PLATFORM_CRED_I18N: Dict[str, Dict[str, dict]] = {
                        ("Seller Refresh Token", "Obtained after authorising the seller profile; long-lived")],
             "unlocks": "Write GPSR compliance blocks back to real Amazon Listings (backfill dry_run=False)",
         },
-        "amazon_us": {
-            "label": "Amazon US",
-            "apply_note": "Same process as Europe; for the US marketplace select North America in your developer profile.",
-            "fields": [("LWA Client ID", "Client ID on the developer profile page"),
-                       ("LWA Client Secret", "Same page as the Client ID"),
-                       ("Seller Refresh Token", "Long-lived once authorised")],
-            "unlocks": "Compliance block write-back for the US marketplace + Listing backfill",
-        },
-        "ebay": {
+            "ebay": {
             "label": "eBay",
             "apply_note": "No seller-side developer account needed: once the platform operator configures the app, the seller just clicks \"Authorise\" to complete OAuth (token stored encrypted).",
             "fields": [],
@@ -255,15 +243,7 @@ PLATFORM_CRED_I18N: Dict[str, Dict[str, dict]] = {
                        ("Refresh Token des Verkäufers", "Nach Freigabe des Verkäuferprofils eingetauscht, langfristig gültig")],
             "unlocks": "Compliance-Blöcke in echte Amazon-Listings zurückschreiben (Backfill dry_run=False)",
         },
-        "amazon_us": {
-            "label": "Amazon USA",
-            "apply_note": "Wie beim europäischen Prozess; für den US-Marktplatz im Entwicklerprofil Nordamerika wählen.",
-            "fields": [("LWA Client ID", "Client ID auf der Entwickler-Profilseite"),
-                       ("LWA Client Secret", "Gleiche Seite wie die Client ID"),
-                       ("Refresh Token des Verkäufers", "Nach Autorisierung langfristig gültig")],
-            "unlocks": "Compliance-Block-Rückschreiben für den US-Marktplatz + Listing-Backfill",
-        },
-        "ebay": {
+            "ebay": {
             "label": "eBay",
             "apply_note": "Kein eigenes Entwicklerkonto nötig: Nachdem der Betreiber die App konfiguriert hat, klickt der Verkäufer nur auf „Autorisieren“, um die OAuth-Freigabe abzuschließen (Token verschlüsselt gespeichert).",
             "fields": [],
@@ -348,15 +328,7 @@ PLATFORM_CRED_I18N: Dict[str, Dict[str, dict]] = {
                        ("Refresh Token vendeur", "Obtenu après autorisation du profil vendeur ; valide longtemps")],
             "unlocks": "Écriture réelle des blocs de conformité sur les listings Amazon (backfill dry_run=False)",
         },
-        "amazon_us": {
-            "label": "Amazon États-Unis",
-            "apply_note": "Même procédure que l'Europe ; pour la place de marché US, sélectionnez l'Amérique du Nord dans le profil développeur.",
-            "fields": [("LWA Client ID", "Client ID sur la page du profil développeur"),
-                       ("LWA Client Secret", "Même page que le Client ID"),
-                       ("Refresh Token vendeur", "Valide longtemps après autorisation")],
-            "unlocks": "Écriture des blocs de conformité sur la place de marché US + backfill des listings",
-        },
-        "ebay": {
+            "ebay": {
             "label": "eBay",
             "apply_note": "Aucun compte développeur côté vendeur : une fois l'application configurée par l'opérateur de la plateforme, le vendeur clique simplement sur « Autoriser » pour finaliser l'OAuth (jeton stocké chiffré).",
             "fields": [],
@@ -453,8 +425,10 @@ def cred_guide(platform: str, lang: str = "zh") -> dict | None:
     unlocks = tr["unlocks"] if tr else cfg["unlocks"]
     fields = cfg["fields"]
     if tr:
-        fields = [(k, tr["fields"][i][0], s, tr["fields"][i][1])
-                  for i, (k, _l, s, _h) in enumerate(fields)]
+        trf = tr.get("fields") or []
+        if len(trf) >= len(fields):
+            fields = [(k, trf[i][0], s, trf[i][1])
+                      for i, (k, _l, s, _h) in enumerate(fields)]
     return {
         "label": label,
         "oauth": cfg.get("oauth", False),

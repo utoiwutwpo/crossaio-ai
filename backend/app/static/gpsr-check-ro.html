@@ -95,6 +95,7 @@
   @media (max-width:900px){.hero{grid-template-columns:1fr;padding:48px 32px}.hero h1{font-size:30px}.solutions{grid-template-columns:1fr}nav .links{display:none}}
 </style>
   <link rel="stylesheet" href="/effects.css">
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
 </head>
 <body>
 
@@ -245,5 +246,6 @@ document.getElementById("btnGo").onclick = async () => {
 };
 </script>
   <script src="/effects.js"></script>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
 </body>
 </html>

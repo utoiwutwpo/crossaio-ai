@@ -19,42 +19,79 @@ from .compliance_workflow import (
 
 INTENT_KEYWORDS = {
     "tracking": ["where is my order", "track", "tracking", "shipping",
+                 "wo ist meine bestellung", "sendung", "lieferung", "paket",
+                 "versand", "nachverfolgung",
+                 "où est ma commande", "colis", "livraison", "suivi",
+                 "gdzie jest moje zamówienie", "przesyłka", "dostawa",
+                 "paczka", "śledzenie",
                  "物流", "发货", "快递", "追踪", "包裹", "订单"],
-    "return": ["return", "refund", "exchange", "退货", "退款", "换货"],
+    "return": ["return", "refund", "exchange",
+               "rücksendung", "rückgabe", "erstattung", "umtausch",
+               "retour", "remboursement", "échange",
+               "zwrot", "zwrot pieniędzy", "wymiana",
+               "退货", "退款", "换货"],
     "complaint": ["complaint", "broken", "damaged", "scam", "never again",
+                  "beschwerde", "kaputt", "defekt", "beschädigt", "betrug",
+                  "réclamation", "cassé", "endommagé", "arnaque",
+                  "reklamacja", "zepsuty", "uszkodzony", "oszustwo",
                   "投诉", "损坏", "质量差", "不满", "骗子"],
     "product_info": ["size", "material", "spec", "compatib", "how to use",
+                     "größe", "material", "spezifikation", "kompatibel",
+                     "anleitung",
+                     "taille", "matière", "spécification", "compatible",
+                     "utilisation",
+                     "rozmiar", "materiał", "specyfikacja", "zgodny",
+                     "instrukcja",
                      "尺寸", "材质", "规格", "兼容", "怎么用"],
 }
 
 SENTIMENT_NEGATIVE_WORDS = [
     "angry", "terrible", "worst", "scam", "fraud", "disgusted", "furious",
+    "wütend", "schlecht", "schlimm", "betrug", "verärgert", "unverschämt",
+    "en colère", "arnaque", "furieux", "inadmissible", "horrible",
+    "wściekły", "oszustwo", "okropny", "beznadziejny", "chyba",
     "愤怒", "气人", "骗子", "垃圾", "退货", "投诉",
 ]
 
 # ---------- 政策安全红线层 ----------
 # 命中任意一条 → AI 回复切换为「只安抚不承诺」模板 + 强制转人工 + 留证提示
+# 语种覆盖 en / de / fr / pl / zh —— 跨境买家不会用英文说"我要找律师"
 REDLINE_PATTERNS = [
     ("negative_review_threat", [
         r"(remove|delete).{0,20}(review|feedback)", r"(1|one)[- ]star",
         r"unless you (refund|give)", r"or i('| wi)?ll (leave|post|write).{0,20}review",
+        r"(schlechte|negative).{0,15}bewertung", r"sonst.{0,20}bewertung",
+        r"avis.{0,15}(négatif|negatif|mauvais)", r"sinon.{0,20}avis",
+        r"negatywn.{0,10}opini", r"inaczej.{0,20}opini",
         r"差评", r"(不|否).{0,6}退款.{0,10}(差评|投诉)",
     ]),
     ("refund_extortion", [
         r"chargeback", r"dispute.{0,10}(the )?(charge|payment|transaction)",
         r"report you to", r"(paypal|bank|credit card).{0,20}(claim|complaint)",
+        r"rückerstattung.{0,20}(sonst|andernfalls)", r"anzeige.{0,15}(erstatten|stellen)",
+        r"remboursement.{0,20}sinon", r"porter plainte",
+        r"zwrot.{0,25}inaczej", r"zgłosz",
         r"全额退款.{0,15}(否则|不然)", r"(拒付|退一赔)", r"报警",
     ]),
     ("harm_claim", [
         r"injur(y|ed)", r"hurt", r"hospital", r"burn", r"caught (fire|on fire)",
+        r"verletz", r"verbrüh", r"verbrennung", r"brand", r"krankenhaus", r"notarzt",
+        r"blessé", r"brûlure", r"incendie", r"hôpital",
+        r"poparzen", r"oparzen", r"pożar", r"szpital", r"zranion",
         r"受伤", r"烫伤", r"起火", r"着火", r"进了医院",
     ]),
     ("legal_action", [
         r"lawyer", r"attorney", r"sue you", r"lawsuit", r"court",
+        r"anwalt", r"rechtsanwalt", r"klage", r"gericht", r"verklag",
+        r"avocat", r"tribunal", r"poursuite", r"plainte",
+        r"adwokat", r"pozwo", r"pozew", r"sąd", r"sądzie", r"prokurator",
         r"律师", r"起诉", r"法院", r"告你",
     ]),
     ("counterfeit_accusation", [
         r"counterfeit", r"fake product", r"not (the )?(original|genuine|authentic)",
+        r"gefälscht", r"fälschung", r"plagiat", r"nachahmung",
+        r"contrefa", r"faux produit",
+        r"podróbk", r"fałszyw", r"nieoryginal",
         r"假货", r"仿品", r"不是正品",
     ]),
 ]
@@ -83,6 +120,54 @@ class CustomerServiceExpert:
     def __init__(self, llm: LLMClient | None = None):
         self.llm = llm or LLMClient()
 
+    # ---------- LLM 降级 ----------
+    _FALLBACK_TEXT = {
+        "en": "Thanks for your message. I have logged it and a specialist will reply shortly with the exact details.",
+        "de": "Danke für Ihre Nachricht. Ich habe sie erfasst; ein Kollege antwortet in Kürze mit den genauen Angaben.",
+        "fr": "Merci pour votre message. Il est enregistré; un conseiller vous répondra rapidement avec les détails exacts.",
+        "pl": "Dziękujemy za wiadomość. Została zapisana; specjalista odpowie wkrótce ze szczegółami.",
+        "ro": "Vă mulțumim pentru mesaj. A fost înregistrat; un specialist vă va răspunde în curând cu detaliile exacte.",
+        "nl": "Bedankt voor uw bericht. Het is geregistreerd; een specialist antwoordt binnenkort met de exacte gegevens.",
+        "it": "Grazie per il messaggio. È stato registrato; un operatore risponderà a breve con i dettagli esatti.",
+        "es": "Gracias por su mensaje. Lo hemos registrado; un especialista responderá en breve con los detalles exactos.",
+        "zh": "感谢您的留言，已记录，专员会尽快回复具体信息。",
+    }
+
+    _LANG_NAME = {"en": "English", "de": "German", "fr": "French", "pl": "Polish",
+                  "ro": "Romanian", "nl": "Dutch", "it": "Italian", "es": "Spanish",
+                  "zh": "Chinese"}
+
+    def _safe_chat(self, prompt: str, **kw) -> str:
+        """LLM 不可用（429 / 超时 / 断网）时降级返回空串，绝不让接口 500。"""
+        try:
+            return (self.llm.chat(prompt, **kw) or "").strip()
+        except Exception as exc:
+            import logging
+            logging.getLogger("crossaio.cs").warning("LLM degraded: %s", exc)
+            return ""
+
+    def _fallback_text(self, lang: str = "en") -> str:
+        return self._FALLBACK_TEXT.get((lang or "en").lower()[:2],
+                                       self._FALLBACK_TEXT["en"])
+
+    def _localize(self, text: str, lang: str) -> str:
+        """把英文/中英双语回复落到买家语种；GLM 不可用时保留原文，绝不 500。"""
+        lang = (lang or "en").lower()[:2]
+        if not text or lang in ("en",):
+            return text
+        if getattr(self.llm, "mock", False):
+            return text
+        name = self._LANG_NAME.get(lang, "English")
+        prompt = (
+            f"Translate the following customer-service reply into {name} only. "
+            "If the source contains both English and Chinese, translate the English meaning "
+            "and omit the Chinese part. Keep order numbers, dates, names, policy numbers and "
+            "tracking codes unchanged. Do not add refund, compensation or liability promises. "
+            "Return only the translated reply, no explanation.\n\n" + text
+        )
+        out = self._safe_chat(prompt, temperature=0.1, max_tokens=600).strip()
+        return out or text
+
     # ---------- 意图 ----------
     def classify_intent(self, message: str) -> str:
         low = message.lower()
@@ -95,7 +180,7 @@ class CustomerServiceExpert:
             "可选意图：tracking, return, complaint, product_info, other\n"
             "只输出意图名称，不要解释。"
         )
-        out = self.llm.chat(prompt, temperature=0.1, max_tokens=10).strip().lower()
+        out = self._safe_chat(prompt, temperature=0.1, max_tokens=10).lower()
         return out if out in ("tracking", "return", "complaint", "product_info", "other") else "other"
 
     # ---------- 情感 ----------
@@ -143,7 +228,8 @@ class CustomerServiceExpert:
         redline_flags = self.check_redlines(req.customer_message)
         if redline_flags:
             return CustomerServiceResponse(
-                reply=augment_customer_reply(REDLINE_REPLY, _platform, _lang,
+                reply=augment_customer_reply(self._localize(REDLINE_REPLY, _lang),
+                                             _platform, _lang,
                                              req.customer_message, _enabled),
                 intent=intent,
                 sentiment="very_negative" if sentiment != "very_negative" else sentiment,
@@ -160,29 +246,36 @@ class CustomerServiceExpert:
             )
 
         if intent == "tracking":
-            reply = self._tracking_reply(req)
+            reply, fact_escalate = self._tracking_reply(req)
         elif intent == "return":
-            reply = self._return_reply()
+            reply, fact_escalate = self._return_reply(req)
         elif intent == "product_info":
-            reply = self._product_info_reply(req, cc_block)
+            reply, fact_escalate = self._product_info_reply(req, cc_block), False
         else:
-            reply = self._general_reply(req, cc_block)
+            reply, fact_escalate = self._general_reply(req, cc_block), False
 
-        needs_escalation = sentiment == "very_negative" or (
+        reply = self._localize(reply, _lang)
+        needs_escalation = fact_escalate or sentiment == "very_negative" or (
             intent == "complaint" and sentiment in ("negative", "very_negative")
         )
         confidence = 0.9 if intent != "other" else 0.6
 
         return CustomerServiceResponse(
-            reply=augment_customer_reply(reply, _platform, _lang,
-                                        req.customer_message, _enabled),
+            reply=augment_customer_reply(reply, _platform,
+                                        _lang, req.customer_message, _enabled),
             intent=intent,
             sentiment=sentiment,
             confidence=confidence,
             needs_escalation=needs_escalation,
-            escalation_reason="买家情绪负面，建议人工介入跟进" if needs_escalation else None,
-            policy_flags=[],
-            guardrail=None,
+            escalation_reason=(
+                "缺少订单/物流或退货政策事实数据，已转人工核实后再答复"
+                if fact_escalate else
+                ("买家情绪负面，建议人工介入跟进" if needs_escalation else None)
+            ),
+            policy_flags=["missing_order_facts"] if fact_escalate else [],
+            guardrail=(
+                "🚨 事实缺失保护：AI 未对物流时效或退货期限做任何承诺，已转人工。"
+                if fact_escalate else None),
             ai_act_disclosure=identity_text(_lang) if _enabled else None,
             gpsr_incident=False,
         )
@@ -215,30 +308,64 @@ class CustomerServiceExpert:
         )
 
     # ---------- 各意图回复 ----------
-    def _tracking_reply(self, req: CustomerServiceRequest) -> str:
+    def _tracking_reply(self, req: CustomerServiceRequest) -> tuple[str, bool]:
+        """返回 (回复, 是否因缺事实转人工)。
+
+        不做任何"已发货 / 3-7 天送达"的猜测：真实轨迹必须来自平台 API 或
+        卖家填写的 delivery_status / delivery_estimate；两者都没有就转人工。
+        """
         order_id = req.order_id or self._extract_order_id(req.customer_message)
         if not order_id:
-            return ("Sure! Could you share your order number (e.g. #123-4567890)? "
-                    "I'll check the delivery status for you right away. / "
-                    "请提供订单号，我马上帮您查询物流状态。")
-        # TODO 生产环境：接入 17track / AfterShip API 查询实时轨迹
-        return (f"Thanks! I found order {order_id}. It has been shipped and is on the way. "
-                f"Estimated delivery: 3-7 business days. You can track it any time — "
-                f"anything else I can help with? / 订单 {order_id} 已发货，"
-                f"预计 3-7 个工作日送达，可随时找我查询进度。")
+            return ("Sure! Could you share your order number (e.g. #123-4567890)? / "
+                    "请提供订单号，我马上帮您查询物流状态。", False)
 
-    def _return_reply(self) -> str:
-        return ("We're sorry it didn't work out. You're covered by our 30-day no-questions-asked "
-                "return policy. Please reply with: 1) your order number, 2) the reason, "
-                "3) a photo if the item is damaged — we'll process it within 24 hours. / "
-                "支持 30 天无理由退货：请提供订单号、退货原因（如有质量问题附照片），"
-                "我们会在 24 小时内处理。")
+        status = (getattr(req, "delivery_status", None) or "").strip()
+        estimate = (getattr(req, "delivery_estimate", None) or "").strip()
+        if status or estimate:
+            parts = [f"Order {order_id}."]
+            if status:
+                parts.append(f"Current status: {status}.")
+            if estimate:
+                parts.append(f"Estimated delivery: {estimate}.")
+            parts.append("Anything else I can help with? / "
+                         f"订单 {order_id}：{status or '状态已记录'}"
+                         f"{('，预计 ' + estimate) if estimate else ''}。")
+            return " ".join(parts), False
+
+        return ("Thanks for the order number. To avoid giving you wrong information, "
+                "I won't guess the delivery status — I've flagged this to a human agent "
+                "who will confirm the exact tracking update with you shortly. / "
+                f"已收到订单号 {order_id}。为避免给您错误信息，我不猜测物流状态，"
+                "已转人工核实具体节点后回复您。", True)
+
+    def _return_reply(self, req: CustomerServiceRequest) -> tuple[str, bool]:
+        """返回 (回复, 是否因缺事实转人工)。
+
+        退货期限必须来自卖家配置（return_window_days）；没配置就不承诺，
+        否则等于 AI 替卖家向买家做了合同性承诺。
+        """
+        days = getattr(req, "return_window_days", None)
+        if isinstance(days, int) and days > 0:
+            return (f"You're covered by the seller's {days}-day return window "
+                    "(subject to the marketplace's return rules). Please reply with "
+                    "1) your order number, 2) the reason, 3) a photo if damaged — "
+                    "we'll confirm the next step within 24 hours. / "
+                    f"按卖家退货政策，可在 {days} 天内申请退货（以平台规则为准）。"
+                    "请提供订单号、退货原因（质量问题附照片），我们 24 小时内确认下一步。",
+                    False)
+
+        return ("I'm sorry it didn't work out. The return window depends on the seller's "
+                "policy and the marketplace's rules, so I won't quote a deadline here — "
+                "I've flagged this to a human agent who will confirm your options. / "
+                "很抱歉这次不合适。退货期限取决于卖家政策与平台规则，我不在此给出期限承诺，"
+                "已转人工确认可选项后回复您。", True)
 
     def _product_info_reply(self, req: CustomerServiceRequest,
                             cc_block: str = "") -> str:
         prompt = (
             "You are a professional cross-border e-commerce customer service agent (customer_service). "
             "Answer the buyer's product question concisely (under 150 words), friendly and factual. "
+            f"Answer in {self._LANG_NAME.get((getattr(req, 'language', 'en') or 'en')[:2], 'English')}. "
             "If unsure, politely offer to escalate to a human agent.\n\n"
             f"Buyer: {req.customer_message}"
         )
@@ -247,13 +374,15 @@ class CustomerServiceExpert:
                 "\n\n[Compliance context for this seller's product — DO NOT fabricate compliance status: "
                 + cc_block + "]"
             )
-        return self.llm.chat(prompt, temperature=0.3, max_tokens=400).strip()
+        return self._safe_chat(prompt, temperature=0.3, max_tokens=400) \
+            or self._fallback_text(getattr(req, "language", "en"))
 
     def _general_reply(self, req: CustomerServiceRequest,
                        cc_block: str = "") -> str:
         prompt = (
             "You are a professional cross-border e-commerce customer service agent (customer_service). "
             "Reply helpfully in under 150 words. Be professional and warm. "
+            f"Reply in {self._LANG_NAME.get((getattr(req, 'language', 'en') or 'en')[:2], 'English')}. "
             "If the question needs account or payment access, offer to escalate.\n\n"
             f"Buyer: {req.customer_message}"
         )
@@ -262,7 +391,8 @@ class CustomerServiceExpert:
                 "\n\n[Compliance context for this seller's product — DO NOT fabricate compliance status: "
                 + cc_block + "]"
             )
-        return self.llm.chat(prompt, temperature=0.4, max_tokens=400).strip()
+        return self._safe_chat(prompt, temperature=0.4, max_tokens=400) \
+            or self._fallback_text(getattr(req, "language", "en"))
 
     @staticmethod
     def _extract_order_id(message: str) -> str | None:

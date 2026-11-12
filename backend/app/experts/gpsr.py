@@ -35,6 +35,11 @@ CE_RULES: List[Dict] = [
             "it": "AVVERTENZA: Non adatto a bambini di età inferiore a 36 mesi. Parti piccole. Rischio di soffocamento.",
             "pl": "OSTRZEŻENIE: Nieodpowiednie dla dzieci poniżej 36 miesięcy. Małe części. Ryzyko zadławienia.",
             "ro": "AVERTIZARE: Nu este potrivit pentru copiii sub 36 de luni. Piese mici. Pericol de sufocare.",
+            "nl": "WAARSCHUWING: Niet geschikt voor kinderen onder 36 maanden. Kleine onderdelen. Verstikkingsgevaar.",
+            "cs": "UPOZORNĚNÍ: Nevhodné pro děti do 36 měsíců. Malé části. Nebezpečí udušení.",
+            "sk": "UPOZORNENIE: Nevhodné pre deti do 36 mesiacov. Malé časti. Nebezpečenstvo udusenia.",
+            "hu": "FIGYELMEZTETÉS: 36 hónaposnál fiatalabb gyermekek számára nem alkalmas. Kis alkatrészek. Fulladásveszély.",
+            "bg": "ВНИМАНИЕ: Не е подходящо за деца под 36 месеца. Малки части. Опасност от задавяне.",
         },
     },
     {
@@ -53,6 +58,11 @@ CE_RULES: List[Dict] = [
             "it": "Questo dispositivo è conforme alla normativa radio UE (2014/53/EU). Banda di frequenza e potenza massima indicate nel manuale.",
             "pl": "Urządzenie jest zgodne z przepisami radiowymi UE (2014/53/EU). Pasmo częstotliwości i maksymalna moc podano w instrukcji.",
             "ro": "Acest dispozitiv respectă reglementările radio UE (2014/53/EU). Banda de frecvență și puterea maximă sunt indicate în manual.",
+            "nl": "Dit toestel voldoet aan de EU-radiobepalingen (2014/53/EU). Frequentieband en maximaal zendvermogen staan in de handleiding.",
+            "cs": "Toto zařízení splňuje požadavky EU na rádiová zařízení (2014/53/EU). Frekvenční pásmo a maximální vysílací výkon jsou uvedeny v návodu.",
+            "sk": "Toto zariadenie je v súlade s predpismi EÚ pre rádiové zariadenia (2014/53/EU). Frekvenčné pásmo a maximálny vysielací výkon sú uvedené v návode.",
+            "hu": "Ez a berendezés megfelel az EU rádiós berendezésekre vonatkozó előírásainak (2014/53/EU). A frekvenciasáv és a maximális adóteljesítmény a használati útmutatóban található.",
+            "bg": "Това устройство отговаря на изискванията на ЕС за радиооборудване (2014/53/ЕС). Честотната лента и максималната мощност на предаване са посочени в ръководството.",
         },
     },
     {
@@ -75,6 +85,11 @@ CE_RULES: List[Dict] = [
             "it": "Sicurezza elettrica: non immergere in acqua; solo uso interno salvo indicazione. RAEE: conferire presso i punti di raccolta, non nei rifiuti domestici.",
             "pl": "Bezpieczeństwo elektryczne: nie zanurzać w wodzie; tylko do użytku wewnętrznego, chyba że wskazano inaczej. Zużyty sprzęt usuwać do punktów zbiórki, nie do odpadów domowych.",
             "ro": "Siguranță electrică: nu se scufundă în apă; doar uz interior, dacă nu se indică altfel. EEE uzat: predat la punctele de colectare, nu la deșeurile menajere.",
+            "nl": "Elektrische veiligheid: niet onderdompelen in water; alleen binnenshuis gebruiken tenzij anders vermeld. WEEE: afgeven bij een inzamelpunt, niet bij het huisvuil.",
+            "cs": "Elektrická bezpečnost: neponořujte do vody; používejte pouze ve vnitřních prostorách, pokud není uvedeno jinak. WEEE: odevzdejte ve sběrném místě, ne do domovního odpadu.",
+            "sk": "Elektrická bezpečnosť: neponárajte do vody; používajte len v interiéri, ak nie je uvedené inak. WEEE: odovzdajte v zbernom mieste, nie do domového odpadu.",
+            "hu": "Elektromos biztonság: ne merítse vízbe; csak beltéren használja, hacsak nem jelez mást. WEEE: leadási ponton adja le, nem háztartási hulladékba.",
+            "bg": "Електрическа безопасност: не потапяйте във вода; използвайте само на закрито, освен ако не е указано друго. WEEE: предайте в пункт за събиране, не в битовите отпадъци.",
         },
     },
     {
@@ -93,6 +108,11 @@ CE_RULES: List[Dict] = [
             "it": "DPI: leggere le istruzioni prima dell'uso. Livello di protezione e norma (es. EN 166) indicati sul prodotto.",
             "pl": "ŚOI: Przed użyciem przeczytać instrukcję. Poziom ochrony i norma (np. EN 166) podane na produkcie.",
             "ro": "EIP: Citiți instrucțiunile înainte de utilizare. Nivelul de protecție și standardul (ex. EN 166) sunt marcate pe produs.",
+            "nl": "PBM: lees de gebruiksaanwijzing voor gebruik. Beschermingsniveau en norm (bijv. EN 166) staan op het product.",
+            "cs": "OOP: před použitím si přečtěte návod. Úroveň ochrany a norma (např. EN 166) jsou uvedeny na výrobku.",
+            "sk": "OOP: pred použitím si prečítajte návod. Úroveň ochrany a norma (napr. EN 166) sú uvedené na výrobku.",
+            "hu": "KPE: használat előtt olvassa el a használati utasítást. A védelmi szint és a vonatkozó norma (pl. EN 166) a terméken található.",
+            "bg": "ЛПС: прочетете инструкциите преди употреба. Нивото на защита и стандартът (напр. EN 166) са отбелязани на продукта.",
         },
     },
     {
@@ -111,6 +131,11 @@ CE_RULES: List[Dict] = [
             "it": "AVVERTENZA: Non lasciare mai il bambino incustodito. Usare sempre sotto la supervisione di un adulto.",
             "pl": "OSTRZEŻENIE: Nigdy nie zostawiać dziecka bez nadzoru. Zawsze używać pod nadzorem osoby dorosłej.",
             "ro": "AVERTIZARE: Nu lăsați niciodată copilul nesupravegheat. Utilizați întotdeauna sub supravegherea unui adult.",
+            "nl": "WAARSCHUWING: Laat uw kind nooit zonder toezicht. Gebruik altijd onder toezicht van een volwassene.",
+            "cs": "UPOZORNĚNÍ: Nikdy nenechávejte dítě bez dohledu. Vždy používejte pod dohledem dospělé osoby.",
+            "sk": "UPOZORNENIE: Nikdy nenechávajte dieťa bez dohľadu. Vždy používajte pod dohľadom dospelej osoby.",
+            "hu": "FIGYELMEZTETÉS: A gyermeket soha ne hagyja felügyelet nélkül. Mindig felnőtt felügyelete alatt használja.",
+            "bg": "ВНИМАНИЕ: Никога не оставяйте детето без надзор. Винаги използвайте под надзора на възрастен.",
         },
     },
     {
@@ -129,6 +154,11 @@ CE_RULES: List[Dict] = [
             "it": "A contatto con alimenti secondo il regolamento 1935/2004/CE. Verificare la temperatura massima prima di lavastoviglie/microonde.",
             "pl": "Kontakt z żywnością zgodny z 1935/2004/WE. Sprawdzić maksymalną temperaturę przed użyciem w zmywarce/mikrofalówce.",
             "ro": "Contact alimentar conform 1935/2004/CE. Verificați temperatura maximă înainte de utilizarea mașinii de spălat/cuptorului cu microunde.",
+            "nl": "Voedselveilig volgens 1935/2004/EG. Controleer de maximale temperatuur voor gebruik in vaatwasser/magnetron.",
+            "cs": "Vhodné pro styk s potravinami dle 1935/2004/ES. Před použitím v myčce nebo mikrovlnné troubě zkontrolujte maximální teplotu.",
+            "sk": "Vhodné na styk s potravinami podľa 1935/2004/ES. Pred použitím v umývačke alebo mikrovlnnej rúre skontrolujte maximálnu teplotu.",
+            "hu": "Élelmiszerrel érintkezhet a 1935/2004/EK szerint. Mosogatógép vagy mikrohullámú sütő használata előtt ellenőrizze a maximális hőmérsékletet.",
+            "bg": "Безопасно при контакт с храна съгласно 1935/2004/ЕО. Проверете максималната температура преди употреба в съдомиялна или микровълнова фурна.",
         },
     },
     {
@@ -146,6 +176,11 @@ CE_RULES: List[Dict] = [
             "it": "Solo per uso esterno. Evitare il contatto con gli occhi. Sospendere l'uso in caso di irritazione. Elenco INCI completo sulla confezione.",
             "pl": "Wyłącznie do użytku zewnętrznego. Unikać kontaktu z oczami. W przypadku podrażnienia zaprzestać użycia. Pełny skład INCI na opakowaniu.",
             "ro": "Doar pentru uz extern. Evitați contactul cu ochii. Întrerupeți utilizarea în caz de iritație. Lista INCI completă pe ambalaj.",
+            "nl": "Alleen voor uitwendig gebruik. Contact met de ogen vermijden. Stop het gebruik bij irritatie. Volledige INCI-lijst op de verpakking.",
+            "cs": "Pouze pro vnější použití. Zamezte kontaktu s očima. Při podráždění přerušte používání. Úplný seznam INCI na obalu.",
+            "sk": "Len na vonkajšie použitie. Zabráňte kontaktu s očami. Pri podráždení prestaňte používať. Úplný zoznam INCI na obale.",
+            "hu": "Kizárólag külső használatra. Kerülje a szemmel való érintkezést. Irritáció esetén hagyja abba a használatot. A teljes INCI lista a csomagoláson található.",
+            "bg": "Само за външно приложение. Избягвайте контакт с очите. При раздразнение прекратете употребата. Пълният списък INCI е на опаковката.",
         },
     },
 ]
@@ -238,7 +273,7 @@ def gpsr_block_text(platform: str, categories: List[Dict],
         header = LANG_HEADER.get(lang, LANG_HEADER["en"])
         lines.append(f"[{lang.upper()}] {header}")
         lines.append(f"  Responsible Economic Operator (EU): {rep_line}")
-        lines.append(f"  Product: {product_name} | Model/Batch: [型号/批次]")
+        lines.append(f"  Product: {product_name} | Model/Batch: [MODEL/BATCH REQUIRED]")
         for rule in categories:
             w = rule["warnings"].get(lang) or rule["warnings"]["en"] + " (EN)"
             lines.append(f"  • {w}")

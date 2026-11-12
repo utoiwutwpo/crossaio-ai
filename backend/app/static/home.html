@@ -1,300 +1,582 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CrossAIO — 欧洲全平台 Listing 质量 + 合规引擎 | 13 平台本地化 · GPSR 合规内嵌</title>
-<meta name="description" content="一次输入，13 平台批量生成本地化 Listing（Amazon 欧洲站+美国站/eBay/Allegro/Otto/Cdiscount/eMAG/TikTok Shop/Fruugo/Walmart/Kaufland/Zalando/bol.com）。GPSR 合规块内嵌每份 listing，属性树硬阻断拦截，差评自动改写。免费开始，无需信用卡，无需绑定店铺。">
+<meta charset="utf-8">
+<title>CrossAIO · 欧洲跨境 Listing 质量与合规引擎</title>
+<meta name="description" content="CrossAIO：12 平台字段校验、GPSR 合规块、下架申诉、每日巡检与治理留痕。30 秒免费合规体检。">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="/zh/home-assets/site.css">
+<link rel="stylesheet" href="/zh/home-assets/nav.css">
 <style>
-  :root{
-    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
-    --bar:#1a5cf0;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
-  a{text-decoration:none;color:inherit}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei",system-ui,Arial;color:#0B1020;background:#fff}
+#v4 *{box-sizing:border-box}
+:root{--blue:#2F6BFF;--purple:#7C3AED;--ink:#0B1020;--muted:#5B6478;--line:#E9ECF5}
+#v4 *{box-sizing:border-box}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei",system-ui,Arial;background:#fff;color:var(--ink)}
+#v4 .w{width:1240px;margin:0 auto}
+#v4 /* nav */
+.topbar{background:var(--blue);color:#fff;font-size:12.5px;text-align:center;padding:9px 0}
+#v4 .topbar b{font-weight:700}
+#v4 .nav{height:64px;display:flex;align-items:center;gap:22px;padding:0 64px;white-space:nowrap;border-bottom:1px solid #EEF1F6}
+#v4 .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px}
+#v4 .logo i{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#7C3AED,#2F6BFF)}
+#v4 .menu{display:flex;gap:22px;font-size:13.5px;font-weight:600;color:#243047;white-space:nowrap}
+#v4 .menu span{display:inline-flex;align-items:center;gap:5px}
+#v4 .menu span:after{content:"";width:6px;height:6px;border-right:1.5px solid #98A2B3;border-bottom:1.5px solid #98A2B3;transform:rotate(45deg) translateY(-1px)}
+#v4 .nav .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:14px}
+#v4 .lang{border:1px solid #E3E8F0;border-radius:999px;padding:7px 14px;color:#5B6478;font-size:13px}
+#v4 .reg{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-weight:700;font-size:13.5px}
+#v4 /* ===== HERO 620 ===== */
+.hero{position:relative;overflow:hidden;color:#fff;height:620px;
+background:radial-gradient(760px 460px at 80% 6%,rgba(124,58,237,.55),transparent 62%),
+radial-gradient(620px 420px at 34% 0%,rgba(47,107,255,.36),transparent 60%),
+linear-gradient(116deg,#070A1C,#120F35 48%,#3A1A8A)}
+#v4 .hero .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(72% 76% at 56% 16%,#000,transparent 76%)}
+#v4 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
+#v4 .orb.a{width:520px;height:520px;right:-80px;top:-140px;background:#7C3AED}
+#v4 .orb.b{width:360px;height:360px;left:-140px;bottom:-170px;background:#2F6BFF;opacity:.36}
+#v4 .hin{position:relative;z-index:2;display:flex;gap:46px;align-items:center;padding-bottom:6px;height:calc(100% - 70px);padding-top:6px}
+#v4 .left{flex:1 1 580px;min-width:0}
+#v4 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.08);border-radius:999px;padding:7px 14px;font-size:12px;color:#E9E4FF}
+#v4 .pill i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 4px rgba(52,211,153,.18)}
+#v4 h1{font-size:50px;line-height:1.14;letter-spacing:-.03em;margin:16px 0 0;font-weight:800}
+#v4 h1 em{font-style:normal;background:linear-gradient(96deg,#7DD3FC,#A78BFA 52%,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent}
+#v4 .sub{margin-top:12px;font-size:14px;line-height:1.8;color:#C9C4E4;max-width:520px}
+#v4 .sub b{color:#fff}
+#v4 .chips{display:flex;gap:8px;margin-top:14px}
+#v4 .chip{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#DDD6FE;background:rgba(255,255,255,.05)}
+#v4 .hero-cta{display:flex;align-items:center;gap:12px;margin-top:20px}
+#v4 .p{background:linear-gradient(96deg,#4F7BFF,#7C3AED);border-radius:12px;padding:16px 26px;font-size:15px;font-weight:800;box-shadow:0 14px 34px rgba(79,123,255,.4)}
+#v4 .g{border:1px solid rgba(255,255,255,.34);border-radius:12px;padding:15px 20px;font-size:14px}
+#v4 .trust{display:flex;gap:18px;margin-top:13px;font-size:12px;color:#9EA6C4}
+#v4 .trust span:before{content:"✓ ";color:#34D399}
+#v4 .right{flex:0 0 556px;position:relative;height:100%}
+#v4 .frame{position:absolute;inset:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 40px 90px rgba(4,6,20,.6)}
+#v4 .frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) brightness(.9)}
+#v4 .frame:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,28,.1),rgba(8,10,28,.8))}
+#v4 .hud{position:absolute;left:20px;right:20px;bottom:18px;z-index:3;background:rgba(10,12,26,.8);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;backdrop-filter:blur(10px)}
+#v4 .hud .top{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#9BA3C0}
+#v4 .hud .case{color:#fff;font-weight:700}
+#v4 .badge{background:rgba(251,113,133,.18);border:1px solid rgba(251,113,133,.5);color:#FECDD3;border-radius:999px;padding:3px 9px;font-size:10.5px;font-weight:700}
+#v4 .hrow{display:flex;align-items:center;gap:10px;margin-top:11px;font-size:11px;color:#C6CCE2}
+#v4 .hrow .lab{width:72px;flex:0 0 72px;color:#8F98B8}
+#v4 .bar{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+#v4 .bar i{display:block;height:100%;border-radius:4px}
+#v4 .b1 i{width:100%;background:linear-gradient(90deg,#34D399,#22D3EE)}
+#v4 .b2 i{width:67%;background:linear-gradient(90deg,#F59E0B,#FB7185)}
+#v4 .b3 i{width:84%;background:linear-gradient(90deg,#A78BFA,#22D3EE)}
+#v4 .hrow .val{width:58px;text-align:right;color:#E7EAF5;flex:0 0 58px}
+#v4 .float{position:absolute;z-index:4;background:rgba(11,14,32,.9);border:1px solid rgba(52,211,153,.42);border-radius:12px;padding:10px 13px;font-size:11px;color:#D1FAE5;box-shadow:0 16px 40px rgba(0,0,0,.45)}
+#v4 .float.a{top:18px;left:16px}
+#v4 .float.b{top:88px;left:-20px;border-color:rgba(167,139,250,.45);color:#E9D5FF}
+#v4 .float .k{display:block;font-size:9.5px;letter-spacing:.12em;color:#8B93B0;margin-bottom:3px}
+#v4 /* 首屏内流水线 */
+.pipe{position:absolute;left:0;right:0;bottom:0;z-index:5;height:70px;background:linear-gradient(180deg,transparent,rgba(6,8,20,.94) 40%)}
+#v4 .prow{display:flex;padding:26px 100px 0}
+#v4 .pstep{flex:1;position:relative;padding-left:20px}
+#v4 .pstep .dot{position:absolute;left:0;top:4px;width:8px;height:8px;border-radius:50%;background:#464C6B}
+#v4 .pstep.on .dot{background:#FB7185;box-shadow:0 0 0 4px rgba(251,113,133,.22)}
+#v4 .pstep .k{font-size:9.5px;letter-spacing:.16em;color:#7A83A3}
+#v4 .pstep .t{font-size:12px;color:#C9CEE4;margin-top:3px;font-weight:600}
+#v4 .pstep.on .t{color:#fff}
+#v4 .pstep:after{content:"";position:absolute;left:18px;top:8px;width:calc(100% - 20px);height:1px;background:rgba(255,255,255,.1)}
+#v4 .pstep:last-child:after{display:none}
+#v4 /* ===== 数据带 ===== */
+.stats{display:flex;border-bottom:1px solid var(--line);background:#FBFBFE}
+#v4 .stats .it{flex:1;padding:20px 0 18px;text-align:center;border-right:1px solid var(--line)}
+#v4 .stats .it:last-child{border:0}
+#v4 .stats .n{font-size:37px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(96deg,#2F6BFF,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+#v4 .stats .l{font-size:12px;color:#7A8398;margin-top:4px}
+#v4 /* ===== 四个处境 ===== */
+.sec{padding:56px 0 40px}
+#v4 .eyebrow{font-size:11px;letter-spacing:.16em;color:#7C3AED;font-weight:700}
+#v4 .h2{font-size:36px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:10px 0 0}
+#v4 .lead{font-size:13.5px;color:var(--muted);line-height:1.8;margin-top:10px;max-width:640px}
+#v4 .doors{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+#v4 .door{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 10px 30px rgba(20,25,60,.06)}
+#v4 .door .pic{height:160px;overflow:hidden;position:relative}
+#v4 .door .pic img{width:100%;height:100%;object-fit:cover}
+#v4 .door .pic:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(8,10,30,.85))}
+#v4 .door .tag{position:absolute;left:16px;top:14px;z-index:3;font-size:10.5px;letter-spacing:.12em;color:#fff;background:rgba(8,10,26,.6);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px}
+#v4 .door .ttl{position:absolute;left:16px;right:16px;bottom:12px;z-index:3;color:#fff;font-size:19px;font-weight:800}
+#v4 .door .body{padding:16px 18px 18px}
+#v4 .door .pain{font-size:12.5px;color:#5B6478;line-height:1.75;min-height:44px}
+#v4 .door .gain{display:flex;align-items:center;gap:7px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:12px;font-weight:700;color:#0B1020}
+#v4 .door .gain i{font-style:normal;color:#10B981}
+#v4 .door .go{margin-top:12px;font-size:12.5px;font-weight:800;color:#2F6BFF}
+#v4 /* ===== 60 秒演示 ===== */
+.demos{background:linear-gradient(112deg,#080B1E,#141034 52%,#2B1670);color:#fff;padding:52px 0 56px;position:relative;overflow:hidden}
+#v4 .demos .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(60% 80% at 70% 10%,#000,transparent 76%)}
+#v4 .demos .eyebrow{color:#A5B4FC}
+#v4 .demos .h2{color:#fff}
+#v4 .demos .lead{color:#B9BEDC}
+#v4 .demo-grid{display:flex;gap:26px;margin-top:26px;position:relative;z-index:2}
+#v4 .rail{flex:0 0 300px}
+#v4 .rit{padding:14px 0 14px 22px;position:relative;border-left:1px solid rgba(255,255,255,.14)}
+#v4 .rit.on{border-left-color:#22D3EE}
+#v4 .rit .n{font-size:10px;letter-spacing:.14em;color:#7B84A6}
+#v4 .rit .t{font-size:14px;font-weight:700;margin-top:4px;color:#E8EBFA}
+#v4 .rit .d{font-size:11.5px;color:#9AA2C2;margin-top:4px;line-height:1.6}
+#v4 .rit.on .t{color:#fff}
+#v4 .rit .dur{position:absolute;right:0;top:16px;font-size:10px;color:#6E769A}
+#v4 .stage{flex:1;background:rgba(8,10,24,.72);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;backdrop-filter:blur(8px)}
+#v4 .stage .hd{display:flex;justify-content:space-between;font-size:11px;color:#98A0C0}
+#v4 .stage .hd b{color:#fff}
+#v4 .steps{display:flex;gap:8px;margin-top:14px}
+#v4 .step{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;font-size:11.5px;color:#C8CEE6}
+#v4 .step b{display:block;font-size:10px;letter-spacing:.1em;color:#8890B0;margin-bottom:4px}
+#v4 .step.on{border-color:rgba(34,211,238,.55);background:rgba(34,211,238,.1);color:#fff}
+#v4 .term{margin-top:14px;background:#050714;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-family:Consolas,Menlo,monospace;font-size:11.5px;line-height:1.9;color:#A7B0D0}
+#v4 .term .ok{color:#34D399}
+#v4 .term .warn{color:#FBBF24}
+#v4 .term .cy{color:#22D3EE}
+#v4 /* ===== 产物 ===== */
+.files{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+#v4 .file{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#FCFCFE}
+#v4 .file .fn{font-size:13px;font-weight:700}
+#v4 .file .ft{font-size:11px;color:#8A93A6;margin-top:3px}
+#v4 .file .fl{margin-top:10px;font-size:11px;color:#4B5468;line-height:1.7;font-family:Consolas,monospace}
+#v4 .badge2{display:inline-block;font-size:10px;padding:2px 7px;border-radius:6px;background:#ECFDF5;color:#047857;font-weight:700;margin-top:8px}
+#v4 /* ===== 通道能力 ===== */
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+#v4 .tier{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;position:relative;box-shadow:0 10px 26px rgba(20,25,60,.05)}
+#v4 .tier .tag{font-size:10.5px;letter-spacing:.12em;font-weight:800}
+#v4 .tier .num{position:absolute;right:16px;top:12px;font-size:26px;font-weight:800}
+#v4 .tier h3{font-size:16px;margin:10px 0 0}
+#v4 .tier p{font-size:12px;color:#5B6478;line-height:1.75;margin:6px 0 0}
+#v4 .tier .logos{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+#v4 .tier .lg{font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:5px;letter-spacing:.02em}
+#v4 .tier .gain{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px}
+#v4 .tier.cta-card{background:linear-gradient(135deg,#120F35,#3A1A8A);color:#fff;border:0}
+#v4 .tier.cta p{color:#DDD6FE}
+#v4 .tier.cta .btn{margin-top:14px;background:#fff;color:#1E1B4B;border-radius:10px;padding:11px 12px;font-size:12.5px;font-weight:800;text-align:center}
+#v4 /* ===== 证言 ===== */
+.quote{display:flex;gap:22px;align-items:center;background:linear-gradient(135deg,#F7F6FF,#FDFBFF);border:1px solid #EBE6FF;border-radius:18px;padding:24px;margin-top:26px}
+#v4 .quote img{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:0 0 96px}
+#v4 .quote .q{font-size:15px;line-height:1.8;font-weight:600}
+#v4 .quote .who{font-size:12px;color:#6B7488;margin-top:8px}
+#v4 .quote .stars{color:#F59E0B;font-size:12px;margin-top:6px}
+#v4 /* ===== 收口 ===== */
+.final{margin:54px 0 0;border-radius:22px;background:linear-gradient(112deg,#2F6BFF,#7C3AED 78%);padding:34px 38px;display:flex;align-items:center;gap:24px;color:#fff;position:relative;overflow:hidden}
+#v4 .final .glow{position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.16);filter:blur(70px);right:-90px;top:-160px}
+#v4 .final h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.01em}
+#v4 .final p{margin:8px 0 0;font-size:12.5px;color:#DDE3FF}
+#v4 .final .btns{margin-left:auto;display:flex;gap:10px}
+#v4 .final .b1{background:#fff;color:#1E1B4B;border-radius:12px;padding:14px 22px;font-weight:800;font-size:13.5px}
+#v4 .final .b2{border:1px solid rgba(255,255,255,.45);border-radius:12px;padding:13px 18px;font-size:13px}
+#v4 .foot{border-top:1px solid var(--line);margin-top:34px;padding:20px 0 34px;display:flex;justify-content:space-between;font-size:11.5px;color:#8A93A6}
+/* 动效 */
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes kenburns{0%{transform:scale(1)}100%{transform:scale(1.07)}}
+@keyframes glowmove{0%,100%{opacity:.45}50%{opacity:.75}}
+#v4 .float{animation:floaty 7s ease-in-out infinite}
+#v4 .float.b{animation-delay:1.6s}
+#v4 .frame img{animation:kenburns 20s ease-in-out infinite alternate}
+#v4 .orb{animation:glowmove 9s ease-in-out infinite}
+#v4 .orb.b{animation-delay:2s}
+#v4 .bar i{transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+#v4 .door .pic img{transition:transform .5s ease}
+#v4 .door:hover .pic img{transform:scale(1.05)}
+#v4 .door:hover .go{transform:translateX(4px)}
+#v4 .go{transition:transform .25s ease}
+#v4 .tier{transition:transform .3s ease,box-shadow .3s ease}
+#v4 .tier:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,25,60,.12)}
 
-  /* ---- 公告条 ---- */
-  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
-  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+/* 右侧：无照片，纯数据动效台 */
+#v4 .right{flex:0 0 556px;position:relative;height:100%;display:flex;align-items:center;justify-content:flex-end}
+#v4 .console{position:relative;width:100%;height:100%;border-radius:18px;padding:16px 18px 12px;
+background:linear-gradient(158deg,rgba(23,20,58,.94),rgba(10,12,30,.96) 62%,rgba(17,26,58,.94));
+border:1px solid rgba(255,255,255,.14);
+box-shadow:0 40px 90px rgba(4,6,20,.55),0 0 0 1px rgba(124,58,237,.35) inset;
+overflow:hidden}
+#v4 .console:before{content:"";position:absolute;left:-30%;top:-40%;width:80%;height:120%;
+background:radial-gradient(circle,rgba(124,58,237,.35),transparent 62%);filter:blur(30px);animation:glowmove 8s ease-in-out infinite}
+#v4 .console:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(70% 70% at 60% 20%,#000,transparent 80%);pointer-events:none}
+#v4 .chead{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between}
+#v4 .cid{font-size:11.5px;letter-spacing:.04em;color:#CFD5EE;font-weight:700;display:flex;align-items:center;gap:8px}
+#v4 .cid .live{width:7px;height:7px;border-radius:50%;background:#FB7185;box-shadow:0 0 0 4px rgba(251,113,133,.2);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(251,113,133,.22)}50%{box-shadow:0 0 0 7px rgba(251,113,133,.06)}}
+#v4 .cdown{font-size:10.5px;font-weight:800;color:#FECDD3;background:rgba(251,113,133,.14);border:1px solid rgba(251,113,133,.45);border-radius:999px;padding:4px 10px}
+#v4 .pgrid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}
+#v4 .pcell{border-radius:9px;padding:6px 8px;font-size:10.5px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+#v4 .pcell b{display:block;font-size:11px;color:#fff;font-weight:800;letter-spacing:.01em}
+#v4 .pcell span{display:block;margin-top:3px;font-size:9.5px;color:#98A0C0}
+#v4 .pcell.ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.09)}
+#v4 .pcell.ok span{color:#6EE7B7}
+#v4 .pcell.bad{border-color:rgba(251,113,133,.42);background:rgba(251,113,133,.1)}
+#v4 .pcell.bad span{color:#FDA4AF}
+#v4 .pcell.warn{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.09)}
+#v4 .pcell.warn span{color:#FCD34D}
+#v4 .prow{position:relative;z-index:2;display:flex;align-items:center;gap:10px;margin-top:10px;font-size:11px;color:#C6CCE2}
+#v4 .prow .lab{width:66px;flex:0 0 66px;color:#8F98B8}
+#v4 .prow .bar{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+#v4 .prow .bar i{display:block;height:100%;border-radius:4px;position:relative}
+#v4 .prow .bar i:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:sheen 2.6s linear infinite}
+@keyframes sheen{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+#v4 .b1{width:100%;background:linear-gradient(90deg,#34D399,#22D3EE)}
+#v4 .b2{width:67%;background:linear-gradient(90deg,#F59E0B,#FB7185)}
+#v4 .b3{width:84%;background:linear-gradient(90deg,#A78BFA,#22D3EE)}
+#v4 .prow .val{width:78px;flex:0 0 78px;text-align:right;color:#E7EAF5;font-size:10.5px}
+#v4 .tlog{position:relative;z-index:2;margin-top:11px;background:#050714;border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:9px 12px;font-family:Consolas,Menlo,monospace;font-size:10.5px;line-height:1.8;color:#A7B0D0}
+#v4 .tlog em,#v4 .tlog .t-cy{font-style:normal;color:#22D3EE}
+#v4 .tlog .t-ok{font-style:normal;color:#34D399}
+#v4 .blink{animation:blink 1.1s steps(1) infinite;color:#22D3EE}
+@keyframes blink{50%{opacity:0}}
+#v4 .cfoot{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:10.5px;color:#8F98B8}
+#v4 .cpill{background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;border-radius:8px;padding:7px 11px;font-weight:800;font-size:11px}
+#v4 .fchip{position:absolute;z-index:3;background:rgba(12,15,34,.92);border:1px solid rgba(34,211,238,.45);border-radius:12px;padding:10px 12px;box-shadow:0 16px 40px rgba(0,0,0,.45);animation:floaty 7s ease-in-out infinite}
+#v4 .fchip span{display:block;font-size:9.5px;letter-spacing:.1em;color:#8B93B0}
+#v4 .fchip b{display:block;font-size:16px;color:#fff;margin-top:2px;letter-spacing:-.01em}
+#v4 .fchip em{display:block;font-style:normal;font-size:9.5px;color:#6EE7B7;margin-top:3px}
+#v4 .fchip.a{right:-22px;top:-14px;border-color:rgba(52,211,153,.45)}
+#v4 .fchip.b{right:-22px;bottom:-16px;border-color:rgba(167,139,250,.5);animation-delay:1.8s}
+#v4 .fchip.b em{color:#DDD6FE}
 
-  /* ---- 导航 ---- */
-  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
-  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
-  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
-  .menu{display:flex;gap:6px}
-  .navitem{position:relative}
-  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
-  .navitem>a.solo::after{display:none}
-  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
-  .navitem:hover>a{background:#f1f5f9}
-  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
-  .dropdown{position:absolute;top:100%;left:8px;min-width:260px;background:#fff;border-radius:12px;
-    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
-  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
-  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
-  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
-  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
-  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
-  nav .right{display:flex;gap:14px;align-items:center}
-  .login-link{font-size:14px;color:var(--muted)}
-  .login-link:hover{color:var(--ink)}
-  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
-  .pill-nav:hover{background:var(--blue-dark)}
-  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
-  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+/* 站内 site.css 的 demo 布局会改 body 为三列网格，此处复位，保证导航外壳像素不变 */
+body{display:block!important}
+#v4{text-align:left}
+#v4 .door .tag{right:auto!important;left:16px!important}
+#v4 .door .pain{text-align:left;letter-spacing:0}
+#v4 .sec .lead,#v4 .sec h2{text-align:left}
 
-  /* ---- Hero ---- */
-  .hero-wrap{background:radial-gradient(1100px 600px at 78% 30%,rgba(124,58,237,.45),transparent 62%),
-       radial-gradient(900px 500px at 10% 100%,rgba(29,78,216,.35),transparent 55%),
-       linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
-    position:relative;overflow:hidden}
-  .hero{position:relative;max-width:1240px;margin:0 auto;padding:84px 32px 96px;display:grid;
-    grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;color:#fff;z-index:2}
-  .orbits{position:absolute;inset:0;pointer-events:none;z-index:1}
-  .orbit{position:absolute;top:50%;right:-180px;width:760px;height:760px;margin-top:-380px;border:1px solid rgba(255,255,255,.10);border-radius:50%}
-  .orbit.o2{width:560px;height:560px;margin-top:-280px;right:-80px}
-  .orbit.o3{width:380px;height:380px;margin-top:-190px;right:20px}
-  .spin{position:absolute;inset:0;animation:rot linear infinite}
-  .orbit.o1 .spin{animation-duration:26s}
-  .orbit.o2 .spin{animation-duration:18s;animation-direction:reverse}
-  .orbit.o3 .spin{animation-duration:12s}
-  .spin i{position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%}
-  .orbit.o1 .spin i{background:#4ade80;box-shadow:0 0 18px 4px rgba(74,222,128,.65)}
-  .orbit.o2 .spin i{background:#60a5fa;box-shadow:0 0 18px 4px rgba(96,165,250,.65)}
-  .orbit.o3 .spin i{background:#c084fc;box-shadow:0 0 16px 4px rgba(192,132,252,.7)}
-  @keyframes rot{to{transform:rotate(360deg)}}
-  .slogan{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:13.5px;font-weight:800;letter-spacing:.02em;padding:8px 18px;border-radius:999px;box-shadow:0 8px 22px rgba(34,197,94,.35);margin-bottom:20px}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
-  .hero h1{font-size:46px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:18px}
-  .hero h1 .accent{color:#a5b4fc}
-  .hero p.sub{font-size:16px;color:#d3d9ea;max-width:520px;margin-bottom:30px}
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
-  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 32px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
-  .pill-blue:hover{background:var(--blue-dark)}
-  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 30px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
-  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
-  .hero .tiny{margin-top:20px;font-size:12.5px;color:#9aa6c4}
-  .hero .tiny b{color:#e2e8f0}
+#v4 .door .tag{display:inline-block!important;width:-moz-fit-content!important;width:fit-content!important;right:auto!important;left:16px!important;white-space:nowrap!important}
+#v4 .door .body{width:auto!important}
+#v4 .door .pain{display:block!important;width:100%!important;max-width:100%!important;text-wrap:wrap!important;text-align:left!important}
 
-  /* Hero 右侧：Listing 生成预览卡 */
-  .gen{background:#fff;border-radius:16px;color:var(--ink);width:100%;max-width:420px;margin-left:auto;
-    box-shadow:0 30px 80px rgba(0,0,0,.5);font-size:13px;overflow:hidden}
-  .gen .head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)}
-  .gen .head .cdot{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:12px}
-  .gen .head b{font-size:13.5px}
-  .gen .head .win{margin-left:auto;color:#94a3b8;font-size:12px;letter-spacing:3px}
-  .gen .body{padding:14px 16px 16px}
-  .gen .plat{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-  .gen .plat span{border:1px solid var(--border);border-radius:999px;padding:3px 11px;font-size:11.5px;color:#475569;background:#f8fafc}
-  .gen .plat span.on{background:#eff6ff;border-color:var(--blue);color:var(--blue);font-weight:700}
-  .gen h4{font-size:14px;margin-bottom:6px}
-  .gen .line{background:#f1f5f9;border-radius:8px;height:10px;margin-bottom:7px}
-  .gen .line.w60{width:60%}.gen .line.w80{width:80%}.gen .line.w90{width:90%}.gen .line.w45{width:45%}
-  .gen .ok-row{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#065f46;margin-top:10px}
-  .gen .ok-row .tk{width:16px;height:16px;border-radius:50%;background:#dcfce7;color:var(--ok);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
-  .gen .langs{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
-  .gen .langs span{background:#eef4ff;color:#1e3a8a;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
-  .gen .foot{border-top:1px solid var(--border);padding:10px 16px;display:flex;gap:8px;font-size:11px;color:#94a3b8}
-  .gen .foot span{border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+/* 覆盖 site.css 里同名但语义不同的 demo/file/tier 规则 */
+#v4 .stage{display:block!important;padding:22px 24px!important;gap:0!important}
+#v4 .stage .hd{display:flex!important}
+#v4 .steps{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:10px!important;margin-top:14px!important}
+#v4 .file{display:block!important}
+#v4 .files3{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:14px!important}
+#v4 .tiers{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:14px!important}
+#v4 .tier .tag{position:static!important;right:auto!important;top:auto!important;display:inline-block!important;margin:0!important}
+#v4 .door .tag{position:absolute!important;left:16px!important;top:14px!important}
 
-  /* ---- 统计带 ---- */
-  .stats{max-width:1240px;margin:0 auto;padding:56px 24px 8px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
-  .stat .n{font-size:38px;font-weight:800;color:var(--blue)}
-  .stat .l{font-size:13px;color:var(--muted)}
+#v4 .demo{align-items:start!important}
+#v4 .door .body{display:block!important}
+#v4 .door .gain{margin-top:10px!important}
+#v4 .door .go{margin-top:14px!important}
 
-  /* ---- 区块通用 ---- */
-  section{max-width:1240px;margin:0 auto;padding:72px 24px}
-  .sec-head{text-align:center;margin-bottom:36px}
-  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-  .sec-title{font-size:32px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-  .sec-sub{color:var(--muted);font-size:15px}
+/* ===== 首页新增版块 G5：合规矩阵 / 八语对照 / 对比表 / 合规日历 / 政策周报 / 案例墙 ===== */
+#v4 .gx-sec{padding:64px 0;display:block!important}
+#v4 .gx-alt{background:#FAFAFD}
+#v4 .gx-w{width:1240px;max-width:calc(100% - 64px);margin:0 auto}
+#v4 .gx-grid{position:relative;overflow:hidden}
+#v4 .gx-grid:before{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(rgba(124,58,237,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.05) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(74% 64% at 36% 0,#000,transparent 82%);mask-image:radial-gradient(74% 64% at 36% 0,#000,transparent 82%);pointer-events:none}
+#v4 .gx-eyebrow{display:block;font-size:11px;letter-spacing:.16em;font-weight:800;color:#7C3AED;margin:0 0 12px}
+#v4 .gx-h2{display:block;font-size:33px;line-height:1.28;margin:0;letter-spacing:-.02em;color:#0F172A;font-weight:800}
+#v4 .gx-em{font-style:normal;background:linear-gradient(96deg,#2F6BFF,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+#v4 .gx-lead{display:block;font-size:13.5px;color:#5B6478;line-height:1.85;margin:12px 0 0;max-width:820px}
 
-  /* ---- 平台品牌墙 ---- */
-  .sites{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
-  .site{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:.15s}
-  .site:hover{border-color:var(--blue);box-shadow:0 8px 26px rgba(37,99,235,.10);transform:translateY(-2px)}
-  .site .mark{flex:0 0 auto;display:flex;align-items:center}
-  .site .meta{font-size:12px;color:var(--muted);line-height:1.5}
-  .site .meta b{display:block;font-size:13.5px;color:var(--ink)}
-  .mark-note{text-align:center;font-size:11.5px;color:#94a3b8;margin-top:18px}
+/* 矩阵 */
+#v4 .gx-mx{display:grid!important;grid-template-columns:1.06fr .94fr!important;gap:18px;margin-top:30px;align-items:start}
+#v4 .gx-tb{background:#fff;border:1px solid #E6E9F3;border-radius:18px;padding:22px}
+#v4 .gx-th{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+#v4 .gx-th b{font-size:14px;font-weight:800;color:#0F172A}
+#v4 .gx-th span{font-size:10.5px;color:#94A3B8}
+#v4 .gx-tbl{width:100%;border-collapse:collapse;table-layout:fixed;margin:0}
+#v4 .gx-tbl thead th{font-size:10px;font-weight:800;color:#64748B;letter-spacing:.04em;padding:0 0 8px;text-align:center;line-height:1.4;border:0;background:none}
+#v4 .gx-tbl thead th:first-child{text-align:left;width:80px}
+#v4 .gx-tbl tbody td{font-size:11.5px;padding:9px 0;border-top:1px solid #F1F3F9;border-bottom:0;text-align:center;color:#334155;background:none;vertical-align:middle}
+#v4 .gx-tbl tbody td:first-child{text-align:left;font-weight:800;color:#0F172A}
+#v4 .gx-tbl tbody td small{display:block;font-weight:400;color:#94A3B8;font-size:9.5px;line-height:1.4}
+#v4 .gx-dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle}
+#v4 .gx-dot.on{background:#7C3AED}
+#v4 .gx-dot.half{background:#fff;border:1.5px solid #A78BFA}
+#v4 .gx-dot.off{background:#E6E9F3}
+#v4 .gx-legend{display:flex;gap:14px;margin-top:14px;font-size:10px;color:#64748B;flex-wrap:wrap}
+#v4 .gx-legend em{display:flex;align-items:center;gap:5px;font-style:normal}
+#v4 .gx-mnote{margin-top:12px;font-size:10px;color:#94A3B8;line-height:1.65}
+#v4 .gx-sel{position:relative;overflow:hidden;background:linear-gradient(158deg,#0B0F24,#150F3A 58%,#2A1668);border-radius:18px;padding:24px;color:#fff}
+#v4 .gx-sel .gx-g{position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(80% 70% at 62% 8%,#000,transparent 85%);mask-image:radial-gradient(80% 70% at 62% 8%,#000,transparent 85%)}
+#v4 .gx-sel .gx-in{position:relative;z-index:2}
+#v4 .gx-k{display:block;font-size:10.5px;letter-spacing:.1em;font-weight:800;color:#A5B4FC}
+#v4 .gx-sel h3{font-size:17px;margin:8px 0 0;line-height:1.5;color:#fff;font-weight:800}
+#v4 .gx-flagrow{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+#v4 .gx-fl{font-size:10.5px;font-weight:800;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:7px;padding:5px 9px;color:#fff}
+#v4 .gx-list{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+#v4 .gx-li{display:flex;align-items:center;gap:9px;font-size:11.5px;color:#DDD6FE;line-height:1.6}
+#v4 .gx-li i{width:6px;height:6px;border-radius:50%;background:#FB7185;flex:0 0 6px}
+#v4 .gx-li.w i{background:#F59E0B}
+#v4 .gx-cta{display:block;margin-top:18px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);border-radius:12px;padding:14px;text-align:center;font-size:13.5px;font-weight:800;color:#fff;text-decoration:none;box-shadow:0 12px 26px rgba(124,58,237,.24)}
+#v4 .gx-sub{display:block;font-size:10px;color:#8B93C4;text-align:center;margin-top:8px}
 
-  /* ---- 功能卡 ---- */
-  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .feat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:26px 24px;transition:.15s}
-  .feat:hover{border-color:var(--blue);box-shadow:0 10px 30px rgba(37,99,235,.10);transform:translateY(-3px)}
-  .feat .ico{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
-  .feat h3{font-size:16.5px;font-weight:700;margin-bottom:8px}
-  .feat p{font-size:13.5px;color:var(--muted)}
-  .feat .tag{display:inline-block;margin-top:12px;background:#eff6ff;color:var(--blue);border-radius:999px;padding:2px 12px;font-size:11.5px;font-weight:700}
+/* 八语对照 */
+#v4 .gx-langs{margin-top:30px;background:#fff;border:1px solid #E6E9F3;border-radius:18px;overflow:hidden}
+#v4 .gx-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#FBFBFE;border-bottom:1px solid #EEF1F8}
+#v4 .gx-l{font-size:12px;font-weight:800;color:#0F172A}
+#v4 .gx-r{font-size:10px;font-weight:800;color:#0F766E;background:rgba(15,118,110,.08);border-radius:999px;padding:4px 10px}
+#v4 .gx-lrow{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #F4F6FB}
+#v4 .gx-lrow:last-child{border-bottom:0}
+#v4 .gx-code{flex:0 0 34px;font-size:10px;font-weight:800;color:#7C3AED;letter-spacing:.05em}
+#v4 .gx-txt{flex:1;font-size:12px;color:#1F2937;line-height:1.6;min-width:0}
+#v4 .gx-badge{font-size:9.5px;font-weight:800;color:#0F766E;background:rgba(15,118,110,.08);border-radius:999px;padding:3px 8px;flex:0 0 auto}
+#v4 .gx-lnote{padding:14px 20px;background:#FAFAFD;font-size:10.5px;color:#64748B;line-height:1.7}
 
-  /* ---- 产品能力多页式导航模块 ---- */
-  .fnav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px}
-  .fnav a{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;transition:.15s}
-  .fnav a:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff;transform:translateY(-1px)}
-  .fnav a.all{background:#eff6ff;border-color:var(--blue);color:var(--blue)}
-  .featpages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .fpage{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.15s}
-  .fpage:hover{border-color:var(--blue);box-shadow:0 12px 34px rgba(37,99,235,.14);transform:translateY(-3px)}
-  .fp-head{padding:22px 24px 18px;color:#fff}
-  .fp-head.fp1{background:linear-gradient(150deg,#1d4ed8,#7c3aed)}
-  .fp-head.fp2{background:linear-gradient(150deg,#0e7490,#2563eb)}
-  .fp-head.fp3{background:linear-gradient(150deg,#334155,#475569)}
-  .fp-head.fp4{background:linear-gradient(150deg,#6d28d9,#c026d3)}
-  .fp-head .no{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-bottom:8px}
-  .fp-head h3{font-size:17px;font-weight:800;margin-bottom:4px}
-  .fp-head .why{font-size:11.5px;opacity:.88}
-  .fpage p{font-size:13px;color:var(--muted);padding:16px 24px 14px;flex:1}
-  .fpage .go{display:block;padding:12px 24px;border-top:1px dashed var(--border);font-size:13px;font-weight:700;color:var(--blue)}
-  .fpage:hover .go{background:#eff6ff}
+/* 对比表 */
+#v4 .gx-cmp{margin-top:30px;background:#fff;border:1px solid #E6E9F3;border-radius:18px;overflow:hidden}
+#v4 .gx-cmptbl{width:100%;border-collapse:collapse;margin:0}
+#v4 .gx-cmptbl thead th{background:#FBFBFE;font-size:10.5px;font-weight:800;color:#64748B;padding:14px;text-align:center;border-bottom:1px solid #EEF1F8;border-top:0}
+#v4 .gx-cmptbl thead th:first-child{text-align:left;width:190px}
+#v4 .gx-cmptbl thead th.us{color:#fff;background:linear-gradient(120deg,#4F7BFF,#7C3AED);font-size:11.5px}
+#v4 .gx-cmptbl tbody td{font-size:11.5px;color:#334155;padding:13px 14px;border-bottom:1px solid #F4F6FB;text-align:center;background:none}
+#v4 .gx-cmptbl tbody td:first-child{text-align:left;font-weight:700;color:#0F172A}
+#v4 .gx-cmptbl tbody td.us{background:rgba(124,58,237,.045);font-weight:800;color:#5B21B6}
+#v4 .gx-yes{color:#0F766E;font-weight:800}
+#v4 .gx-no{color:#B4232A}
+#v4 .gx-part{color:#B45309;font-weight:700}
+#v4 .gx-cmpfoot{padding:12px 16px;font-size:10px;color:#94A3B8;background:#FBFBFE}
 
-  /* ---- 差异化三连 ---- */
-  .diffs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .diff{border-radius:14px;padding:26px 24px;color:#fff;position:relative;overflow:hidden}
-  .diff.d1{background:linear-gradient(135deg,#1d4ed8,#7c3aed)}
-  .diff.d2{background:linear-gradient(135deg,#0e7490,#2563eb)}
-  .diff.d3{background:linear-gradient(135deg,#6d28d9,#c026d3)}
-  .diff .medal{font-size:26px}
-  .diff h3{font-size:17px;font-weight:800;margin:10px 0 8px}
-  .diff p{font-size:13px;color:rgba(255,255,255,.85)}
+/* 日历 */
+#v4 .gx-cal{margin-top:30px;background:#fff;border:1px solid #E6E9F3;border-radius:18px;padding:26px 26px 22px}
+#v4 .gx-axis{position:relative;height:1px;background:#E6E9F3;margin:34px 8px 0}
+#v4 .gx-axis .gx-m{position:absolute;top:-14px;font-size:9.5px;color:#94A3B8;transform:translateX(-50%);font-weight:700;white-space:nowrap}
+#v4 .gx-pin{position:absolute;top:0;transform:translate(-50%,-100%);width:2px;height:0}
+#v4 .gx-mk{position:absolute;top:6px;transform:translateX(-50%);width:9px;height:9px;border-radius:50%;background:#7C3AED;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+#v4 .gx-mk.warn{background:#F59E0B;box-shadow:0 0 0 4px rgba(245,158,11,.16)}
+#v4 .gx-ev{position:relative;display:flex!important;gap:14px;margin-top:44px}
+#v4 .gx-ec{flex:1 1 0;min-width:0;border:1px solid #E6E9F3;border-radius:14px;padding:16px;background:#FDFDFF}
+#v4 .gx-mo{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#5B21B6}
+#v4 .gx-mo.w{color:#B45309}
+#v4 .gx-ec h4{font-size:13px;margin:8px 0 0;line-height:1.5;color:#0F172A;font-weight:800}
+#v4 .gx-ec p{font-size:11px;color:#64748B;line-height:1.75;margin:6px 0 0}
+#v4 .gx-who{display:block;font-size:10px;font-weight:800;color:#0F766E;margin-top:8px}
 
-  /* ---- 工作原理 ---- */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
-  .step{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:26px 24px}
-  .step .no{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-  .step h3{font-size:16px;margin-bottom:8px}
-  .step p{font-size:13.5px;color:var(--muted)}
+/* 周报 */
+#v4 .gx-radar{display:grid!important;grid-template-columns:1.02fr .98fr!important;gap:26px;align-items:center;background:linear-gradient(150deg,#0A0E22,#120F35 55%,#241463);border-radius:22px;padding:34px;color:#fff;position:relative;overflow:hidden}
+#v4 .gx-radar .gx-g{position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:38px 38px;-webkit-mask-image:radial-gradient(70% 80% at 70% 10%,#000,transparent 85%);mask-image:radial-gradient(70% 80% at 70% 10%,#000,transparent 85%)}
+#v4 .gx-radar .gx-in{position:relative;z-index:2}
+#v4 .gx-radar .gx-k{color:#A5B4FC}
+#v4 .gx-radar h2{font-size:27px;margin:10px 0 0;color:#fff;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+#v4 .gx-radar .gx-lead{color:#C7D2FE;margin-top:10px;font-size:12.5px;max-width:none}
+#v4 .gx-form{display:flex;gap:8px;margin-top:18px}
+#v4 .gx-input{flex:1;min-width:0;height:44px;border-radius:11px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;padding:0 14px;font-family:inherit;font-size:12.5px}
+#v4 .gx-btn{height:44px;display:flex;align-items:center;padding:0 20px;border-radius:11px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:12.5px;font-weight:800;text-decoration:none;white-space:nowrap}
+#v4 .gx-formnote{display:block;font-size:10px;color:#8B93C4;margin-top:8px}
+#v4 .gx-upd{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px}
+#v4 .gx-u{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px}
+#v4 .gx-du{display:block;font-size:9.5px;font-weight:800;letter-spacing:.08em;color:#A5B4FC}
+#v4 .gx-tu{display:block;font-size:12px;font-weight:700;margin-top:5px;line-height:1.5;color:#fff}
+#v4 .gx-su{display:block;font-size:10.5px;color:#C7D2FE;margin-top:4px;line-height:1.6}
 
-  /* ---- 定价预览 ---- */
-  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-  .plan{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column}
-  .plan.hot{border-color:var(--blue);box-shadow:0 14px 40px rgba(37,99,235,.16);position:relative}
-  .plan .hot-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;border-radius:999px;padding:2px 14px;font-size:11px;font-weight:800}
-  .plan h3{font-size:15px;margin-bottom:4px}
-  .plan .price{font-size:32px;font-weight:800;margin:6px 0 2px}
-  .plan .price small{font-size:13px;color:var(--muted);font-weight:400}
-  .plan ul{list-style:none;margin:14px 0 18px;flex:1}
-  .plan li{font-size:13px;color:#334155;padding:4px 0 4px 22px;position:relative}
-  .plan li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
-  .plan .go{display:block;text-align:center;border-radius:999px;padding:10px 0;font-size:13.5px;font-weight:700;border:1.5px solid var(--border);color:var(--ink)}
-  .plan .go:hover{border-color:var(--blue);color:var(--blue)}
-  .plan.hot .go{background:var(--blue);border-color:var(--blue);color:#fff}
-  .plan.hot .go:hover{background:var(--blue-dark)}
+/* 案例墙 */
+#v4 .gx-filters{display:flex;gap:8px;margin-top:16px;font-size:11.5px;flex-wrap:wrap}
+#v4 .gx-filters span{border:1px solid #E2E7F2;border-radius:999px;padding:5px 11px;color:#4B5563;background:#fff}
+#v4 .gx-filters span.on{border-color:#7C3AED;color:#5B21B6;background:#F4F1FF;font-weight:800}
+#v4 .gx-cases{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:16px;margin-top:22px}
+#v4 .gx-case{background:#fff;border:1px solid #E6E9F3;border-radius:16px;overflow:hidden}
+#v4 .gx-ph{height:150px;overflow:hidden;position:relative}
+#v4 .gx-ph img{width:100%;height:100%;object-fit:cover;display:block;margin:0}
+#v4 .gx-flag{position:absolute;left:12px;top:12px;background:rgba(8,10,26,.72);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 10px;font-size:10.5px;color:#fff;font-weight:800}
+#v4 .gx-bd{padding:16px}
+#v4 .gx-who2{display:block;font-size:11px;color:#8A93A6}
+#v4 .gx-st{display:block;margin-top:8px;font-size:13px;font-weight:700;line-height:1.6;color:#0F172A}
+#v4 .gx-metrics{display:flex;gap:8px;margin-top:12px}
+#v4 .gx-m2{flex:1;background:#FAFAFD;border-radius:8px;padding:8px}
+#v4 .gx-m2 b{display:block;font-size:9.5px;color:#8A93A6;letter-spacing:.08em;font-weight:700}
+#v4 .gx-m2 i{display:block;font-size:12.5px;font-weight:800;margin-top:2px;font-style:normal;color:#0F172A}
+#v4 .gx-dl{display:inline-block;margin-top:12px;font-size:10.5px;font-weight:800;color:#5B21B6;text-decoration:none}
 
-  /* ---- FAQ ---- */
-  .faq{max-width:820px;margin:0 auto}
-  .faq details{border:1px solid var(--border);border-radius:12px;margin-bottom:12px;background:#fff;overflow:hidden}
-  .faq summary{padding:16px 20px;font-size:14.5px;font-weight:700;cursor:pointer;list-style:none}
-  .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400}
-  .faq details[open] summary::after{content:"–"}
-  .faq .a{padding:0 20px 16px;font-size:13.5px;color:var(--muted)}
 
-  /* ---- 底部 CTA ---- */
-  .cta-band{background:linear-gradient(115deg,#0a0f2e,#3b1a86);border-radius:20px;max-width:1240px;margin:0 auto 72px;padding:56px 40px;text-align:center;color:#fff}
-  .cta-band h2{font-size:30px;font-weight:800;margin-bottom:12px}
-  .cta-band p{color:#c7d0e8;margin-bottom:26px;font-size:15px}
-
-  /* ---- Helium 10 风格动态效果 ---- */
-  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
-  .reveal.in{opacity:1;transform:translateY(0)}
-  .reveal-delay{transition-delay:.15s}
-  .reveal-delay2{transition-delay:.3s}
-
-  /* 产品卡浮动徽章 */
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-  /* 数字滚动计数 */
-  .stat .n{transition:color .3s}
-  .stat .n.counted{color:var(--blue)}
-
-  /* 用户评价区 */
-  .testis{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .testi{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 22px;transition:.15s}
-  .testi:hover{border-color:var(--blue);box-shadow:0 10px 30px rgba(37,99,235,.10);transform:translateY(-3px)}
-  .testi .stars{color:#f59e0b;font-size:14px;letter-spacing:2px;margin-bottom:10px}
-  .testi p{font-size:13.5px;color:#334155;line-height:1.7;margin-bottom:14px}
-  .testi .who{display:flex;align-items:center;gap:10px}
-  .testi .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}
-  .testi .who b{display:block;font-size:13.5px}
-  .testi .who span{font-size:11.5px;color:var(--muted)}
-
-  /* 对比表格 */
-  .vs-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px}
-  .vs-table th{background:var(--soft);padding:12px 16px;text-align:left;font-weight:700;border-bottom:2px solid var(--border)}
-  .vs-table td{padding:12px 16px;border-bottom:1px solid var(--border)}
-  .vs-table tr:hover td{background:#f8fafc}
-  .vs-table .yes{color:var(--ok);font-weight:700}
-  .vs-table .no{color:#94a3b8}
-  .gen-badge{position:absolute;top:-12px;right:-12px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border-radius:999px;padding:6px 14px;font-size:11.5px;font-weight:800;box-shadow:0 6px 20px rgba(34,197,94,.4);animation:float 3s ease-in-out infinite}
-  .gen-badge.b2{top:auto;bottom:-12px;right:auto;left:-16px;background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 6px 20px rgba(245,158,11,.4);animation-delay:1.5s}
-
-  /* 渐变文字 */
-  .grad-text{background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-  /* 按钮光晕 */
-  .pill-blue{position:relative;overflow:hidden}
-  .pill-blue::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 3s ease-in-out infinite}
-  @keyframes shine{0%{left:-100%}50%,100%{left:100%}}
-
-  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
-  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-  footer a:hover{color:var(--blue)}
-
-  @media(max-width:980px){
-    .hero{grid-template-columns:1fr;padding:60px 24px 72px}
-    .gen{margin:0 auto}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .feats,.diffs,.steps{grid-template-columns:1fr}
-    .featpages{grid-template-columns:1fr}
-    .plans{grid-template-columns:repeat(2,1fr)}
-    .menu{display:none}
-  }
+#v4 .gx-empty{display:none;grid-column:1/-1;padding:20px;border:1px dashed #DDE3F1;border-radius:14px;background:#FAFBFE;color:#5B6478;font-size:13px;line-height:1.7}
+@media (max-width:1100px){
+ #v4 .w,#v4 .gx-w{width:auto;max-width:100%;padding-left:24px;padding-right:24px}
+ #v4 .hin{display:block;height:auto;padding-bottom:24px}
+ #v4 .hero{height:auto;padding-top:36px}
+ #v4 .left{flex:none;width:100%}
+ #v4 .right{flex:none;width:100%;height:auto;margin-top:28px}
+ #v4 .console{height:auto}
+ #v4 .pipe{position:static;height:auto;background:#060814;padding-bottom:8px}
+ #v4 .pipe .prow{flex-wrap:wrap;padding:18px 24px 0;gap:12px}
+ #v4 .pstep{flex:1 1 46%}
+ #v4 .stats{display:block !important}
+ #v4 .stats>.w,#v4 .stats .w{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;width:100% !important;max-width:100% !important}
+ #v4 .stats .it{flex:none;width:auto;border-right:0;box-shadow:inset -1px -1px 0 var(--line)}
+ #v4 .doors{grid-template-columns:1fr}
+ #v4 .tiers{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .files3{grid-template-columns:1fr !important}
+ #v4 .gx-mx{grid-template-columns:minmax(0,1fr) !important}
+ #v4 .gx-tb{padding:14px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ #v4 .gx-tbl{min-width:560px}
+ #v4 .gx-mx{align-items:stretch !important}
+ #v4 .gx-sel{margin-top:16px}
+ #v4 .gx-cases{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .gx-radar{grid-template-columns:1fr !important;padding:22px}
+ #v4 .gx-cmp{overflow-x:auto}
+ #v4 .gx-cmptbl{min-width:600px}
+ #v4 .gx-ev{flex-wrap:wrap}
+ #v4 .gx-ec{flex:1 1 46%}
+ #v4 .demo-grid{display:block}
+ #v4 .rail{flex:none;width:100%}
+ #v4 .quote{flex-direction:column;align-items:flex-start}
+ #v4 .final{flex-direction:column;align-items:flex-start;padding:26px}
+ #v4 .foot{flex-direction:column;gap:10px}
+ #v4 .h2{font-size:30px}
+ #v4 .gx-h2{font-size:28px}
+}
+@media (max-width:760px){
+ #v4 .w,#v4 .gx-w{padding-left:16px;padding-right:16px}
+ #v4 .h1,#v4 .hero h1{font-size:32px}
+ #v4 .h2{font-size:24px;line-height:1.3}
+ #v4 .gx-h2{font-size:22px;line-height:1.35}
+ #v4 .lead,#v4 .gx-lead{font-size:13.5px}
+ #v4 .tiers{grid-template-columns:minmax(0,1fr) !important}
+ #v4 .steps{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .steps>div{min-width:0}
+ #v4 .gx-cases{grid-template-columns:minmax(0,1fr) !important}
+ #v4 .gx-ec{flex:1 1 100%}
+ #v4 .gx-ev{flex-direction:column;margin-top:18px}
+ #v4 .gx-axis{display:none}
+ #v4 .gx-cal{padding:16px}
+ #v4 .gx-lrow{flex-wrap:wrap;gap:8px;padding:12px 14px}
+ #v4 .gx-lrow .gx-l{flex:0 0 34px}
+ #v4 .gx-lrow .gx-txt{flex:1 1 100%;font-size:12.5px;line-height:1.5}
+ #v4 .gx-form{flex-direction:column}
+ #v4 .gx-form .gx-btn{width:100%;text-align:center}
+ #v4 .gx-filters span{padding:6px 12px;font-size:11px}
+ #v4 .gx-cmptbl{min-width:520px;font-size:11.5px}
+ #v4 .gx-cmptbl th,#v4 .gx-cmptbl td{padding:9px 10px}
+ #v4 .chead{flex-wrap:wrap;gap:6px}
+ #v4 .cg .cc{font-size:11px}
+ #v4 .pipe{padding-bottom:0}
+ #v4 .pipe .prow{padding:14px 16px 0}
+ #v4 .pstep{flex:1 1 100%}
+ #v4 .sec{padding:40px 0 28px}
+ #v4 .gx-sec{padding:40px 0 28px}
+ #v4 .final{padding:22px}
+ #v4 .final .h2{font-size:20px}
+ #v4 .hero-cta{flex-direction:column;align-items:stretch;gap:10px}
+ #v4 .hero-cta .p,#v4 .hero-cta .g{width:100%;text-align:center;justify-content:center}
+ #v4 .right,#v4 .console{width:100% !important;max-width:100% !important;min-width:0 !important}
+ #v4 .pgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .chead{flex-direction:column;align-items:flex-start;gap:8px}
+ #v4 .tlog{font-size:11px;overflow-x:auto}
+ #v4 .prow .val{flex:0 0 84px}
+ #v4 .console .prow .bar{flex:1 1 -0;min-width:70px}
+ #v4 .w,#v4 .gx-w{width:100% !important;max-width:100% !important;padding:0 14px !important;margin:0 !important;box-sizing:border-box !important}
+ #v4 .console{width:100% !important;padding:12px 12px 10px !important}
+ #v4 .gx-tb,#v4 .gx-cmp,#v4 .gx-langs{border-radius:14px}
+ #v4 .sub,#v4 .lead,#v4 .gx-lead{max-width:100%}
+ #v4 .pcell,#v4 .tier,#v4 .gx-case,#v4 .gx-ec,#v4 .file,#v4 .door{min-width:0}
+ #v4 .pcell b,#v4 .pcell span,#v4 .sub,#v4 .gx-lead,#v4 .lead,#v4 .gx-tu,#v4 .gx-su{overflow-wrap:anywhere;word-break:break-word}
+ #v4 .gx-ec{width:auto}
+}
 </style>
-  <link rel="stylesheet" href="/effects.css">
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+</style>
+<style id="cx-fit">
+#v4 .gx-cal{overflow:hidden}
+#v4 .gx-ev{flex-wrap:wrap!important}
+#v4 .gx-ec{flex:1 1 320px!important;max-width:100%!important;min-width:0!important}
+#v4 .gx-ec h4,#v4 .gx-ec p,#v4 .gx-mo,#v4 .gx-mo.w,#v4 .gx-who,#v4 .gx-li,#v4 .gx-li.w{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+@media (max-width:760px){
+ #v4 .gx-ec{flex:1 1 100%!important}
+ #v4 .gx-ev{flex-direction:column!important;margin-top:18px}
+}
+#v4 .final{flex-wrap:wrap;row-gap:16px}
+#v4 .final>div:first-of-type{flex:1 1 380px;min-width:0}
+#v4 .cx-fcta{display:flex;gap:12px;flex-wrap:wrap;flex:none}
+#v4 .cx-fa,#v4 .cx-fb{height:46px;padding:0 22px;border-radius:12px;display:inline-flex;align-items:center;
+justify-content:center;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:800}
+#v4 .cx-fa{background:#fff;color:#2F6BFF}
+#v4 .cx-fb{background:linear-gradient(90deg,#F59E0B,#FB7185);color:#fff}
+@media (max-width:760px){
+ #v4 .cx-fcta{width:100%}
+ #v4 .cx-fa,#v4 .cx-fb{flex:1 1 100%}
+}
+#v4 .hero-cta a,#v4 .cpill{text-decoration:none}
+#v4 .hero-cta a{display:inline-flex;align-items:center}
+#v4 .cpill{display:inline-flex;align-items:center}
+#v4 .gx-next{max-width:1240px;margin:16px auto 0;padding:0 24px;box-sizing:border-box}
+#v4 .gx-next a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;
+color:#2F6BFF;text-decoration:none;border-bottom:1px solid rgba(47,107,255,.35);padding-bottom:2px}
+</style>
+<style id="cx-nav-gap">
+nav .menu{margin-left:22px}
+nav .navitem>a{padding-left:11px !important;padding-right:11px !important}
+nav .logo .dot{margin-right:2px}
+@media (max-width:1180px){
+  nav .menu{gap:7px !important;margin-left:14px !important}
+  nav .logo{font-size:16px !important}
+  nav .logo .dot{width:25px;height:25px}
+  nav .navitem>a{padding-left:8px !important;padding-right:8px !important;font-size:12.5px !important;gap:4px}
+  nav .right .login-link{font-size:11.5px !important}
+  nav .right .pill-nav{padding:6px 10px !important;font-size:11.5px !important}
+  .lang-switch{padding:2px 7px !important}
+}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
 </head>
 <body>
-
+<div id="site-nav">
 <div class="topbar">🛡️ EU 2023/988 GPSR 已强制执行 — <b onclick="location.href='/gpsr-check'">30 秒免费合规体检，缺欧代/警示语会被下架</b></div>
 
 <nav>
-  <a class="logo" href="/zh/"><span class="dot">🤖</span>CrossAIO</a>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
     <div class="navitem">
+      <a href="/zh/v2/">能力地图</a>
+      <div class="dropdown">
+        <a href="/zh/v2/launch"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#ECFEFF;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/></svg></span><span><span style="display:block">01 · 上架前</span><small>一次过检 · 约 10 分钟 · 0 授权</small></span></span></a>
+        <a href="/zh/v2/rescue"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#FFF1F2;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FB7185" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19H3z"/><path d="M12 9v4.5"/><path d="M12 16.2v.3"/></svg></span><span><span style="display:block">02 · 出事故</span><small>5 分钟定性 · 三语申诉信</small></span></span></a>
+        <a href="/zh/v2/ops"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#ECFDF5;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-7 4 14 2.5-7h5"/></svg></span><span><span style="display:block">03 · 日常运营</span><small>12 平台 × 6 项自动巡检</small></span></span></a>
+        <a href="/zh/v2/govern"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#F5F3FF;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.4 3 8 7 9 4-1 7-4.6 7-9V6z"/><path d="m8.6 12 2.2 2.2 4.2-4.4"/></svg></span><span><span style="display:block">04 · 治理</span><small>A/B/C/D 能力矩阵 · 操作留痕</small></span></span></a>
+      </div>
+    </div>    <div class="navitem">
       <a>产品能力</a>
       <div class="dropdown">
-        <a href="/features/gpsr"><span>🛡️ GPSR 合规引擎<small>CE 类目 → 警示语 → 合规块 → 回填</small></span></a>
-        <a href="/features/listing-generator"><span>📦 Listing 生成器<small>四件套 + 字数硬校验 + 评分</small></span></a>
-        <a href="/features/matrix"><span>🌍 多平台矩阵<small>一次输入 → 13 平台批量本地化</small></span></a>
-        <a href="/features/review-rewrite"><span>📈 差评改写闭环<small>主题定位 → 五点修复 + 语义评分</small></span></a>
-        <a href="/features/ai-service"><span>💬 AI 客服 + Art.50<small>AI Act 披露内嵌 + eBay 接入</small></span></a>
-        <a href="/features/safety-redline"><span>🚨 政策安全红线层<small>威胁/勒索识别 → 转人工留证</small></span></a>
-        <a href="/features/inbox"><span>📥 统一收件箱<small>13 平台消息一处管 · 母语回复</small></span></a>
-        <a href="/features/ad-copy"><span>📣 广告文案生成<small>禁用词前置拦截 + A/B 变体</small></span></a>
-        <a href="/features/listing-watch"><span>📡 Listing 监控日报<small>每日自动体检 · 风险升级即报</small></span></a>
-        <a href="/features"><span>🗂️ 产品能力总览<small>九大能力 · 每个能力一个独立页面</small></span></a>
+                <a href="/zh/v2/feature/gpsr"><span>🛡️ GPSR 合规内嵌<small>CE 类目 → 警示语 → 合规块 → 回填</small></span></a>
+        <a href="/zh/v2/feature/listing"><span>📦 多平台文案生成<small>Listing + 广告 A/B · 字数硬校验</small></span></a>
+        <a href="/zh/v2/feature/matrix"><span>🌍 12 平台一次分发<small>一次输入 → 12 平台批量本地化</small></span></a>
+        <a href="/zh/v2/feature/review"><span>📈 差评与口碑修复<small>主题定位 → 五点修复 → 语义评分</small></span></a>
+        <a href="/zh/v2/feature/ai-service"><span>💬 客服与 AI 披露<small>统一收件箱 + Art.50 披露</small></span></a>
+        <a href="/zh/v2/feature/safety"><span>🚨 风险消息拦截<small>威胁/勒索识别 → 转人工留证</small></span></a>
       </div>
     </div>
     <div class="navitem">
       <a>覆盖平台</a>
       <div class="dropdown">
-        <a href="/rules/allegro"><span>🇵🇱 Allegro 规则详情<small>波兰语政策 + UOKiK 监管 + 平台特有规则</small></span></a>
-        <a href="/rules/emag"><span>🇷🇴 eMAG 规则详情<small>罗马尼亚语政策 + ANPC 监管</small></span></a>
-        <a href="/rules/cdiscount"><span>🇫🇷 Cdiscount 规则详情<small>法语政策（Loi Toubon）+ DGCCRF 监管</small></span></a>
-        <a href="/rules/otto"><span>🇩🇪 Otto 规则详情<small>德语政策 + ProdSG + GS 标志</small></span></a>
-        <a href="/rules/kaufland"><span>🇩🇪 Kaufland 规则详情<small>德/捷/斯四国站点规则</small></span></a>
-        <a href="/rules/bol"><span>🇳🇱 bol.com 规则详情<small>荷兰语政策 + ACM 监管</small></span></a>
-        <a href="/rules"><span>📋 全部 13 平台速查表<small>字数 / 语言 / GPSR 要点一览</small></span></a>
+                <a href="/zh/v2/platform/rules"><span>🇪🇺 平台规则差异<small>12 平台对照 · 字数/语言/GPSR 差异</small></span></a>
+        <a href="/zh/v2/platform/app"><span>🔌 接入状态 A2 / B5 / C5<small>哪些全自动、哪些只能半自动</small></span></a>
+        <a href="/zh/v2/platform/localize"><span>🌐 本地化与语言<small>母语政策 · 计量单位 · 禁用词</small></span></a>
+        <a href="/zh/v2/platform/limits"><span>📋 字数与语言速查<small>OTTO 70 → TikTok 255，一页查完</small></span></a>
       </div>
     </div>
     <div class="navitem">
       <a>免费工具</a>
       <div class="dropdown">
-        <a href="/compliance-check"><span>✅ 一键合规体检<small>体检 → 欧代标注 → 技术文件清单，30 秒出报告</small></span></a>
-        <a href="/gpsr-check"><span>🛡️ GPSR 合规体检<small>免注册 30 秒，只报问题不收费</small></span></a>
-        <a href="/rules"><span>📋 平台规则速查表<small>13 平台字数/语言/GPSR 要点</small></span></a>
-        <a href="/skills"><span>🎁 开源 Skills<small>GPSR 检查器 + 规则库，MIT 免费</small></span></a>
+                <a href="/zh/v2/tool/check"><span>✅ 30 秒合规体检<small>合并两套体检 · 免注册不计数</small></span></a>
+        <a href="/zh/v2/tool/skills"><span>🎁 开源 Skills<small>GPSR 检查器 + 规则库，MIT 免费</small></span></a>
+        <a href="/zh/v2/tool/trust"><span>📌 边界与免责说明<small>我们能做什么、明确不做什么</small></span></a>
       </div>
     </div>
     <div class="navitem">
@@ -323,368 +605,463 @@
     <a href="/signup"><button class="pill-nav">免费注册</button></a>
   </div>
 </nav>
+</div>
+<div id="v4">
+<div class="hero">
+  <div class="grid"></div><div class="orb a"></div><div class="orb b"></div>
+  <div class="w">
+    <div class="hin">
+      <div class="left">
+        <div class="pill"><i></i>EU 2023/988 · GPSR 已强制执行</div>
+        <h1>别等被下架，<br>才想起<em>补合规</em></h1>
+        <div class="sub">30 秒体检查出 <b>12 个平台里哪几个会卡你</b>：缺欧盟责任人、警示语缺失、EAN 校验位无效、字段超长。通过之后再谈自动化。</div>
+        <div class="chips"><span class="chip">EU · 12 PLATFORMS</span><span class="chip">8 LANGUAGES</span><span class="chip">0 授权</span></div>
+        <div class="hero-cta"><a class="p" href="/zh/v2/tool/check">免费体检我的店 · 30 秒 →</a><a class="g" href="/zh/v2/rescue">▶ 看 60 秒真实救援</a></div>
+        <div class="trust"><span>无需信用卡</span><span>不绑店</span><span>每天 5 次免费</span></div>
+      </div>
+      <div class="right">
+  <div class="console">
+    <div class="chead">
+      <span class="cid"><i class="live"></i>INC-2026-1042 · P1 · DE 站</span>
+      <span class="cdown">剩余 2 天 14 时</span>
+    </div>
 
-<!-- Hero -->
-<div class="hero-wrap">
-  <div class="orbits">
-    <div class="orbit o1"><div class="spin"><i></i></div></div>
-    <div class="orbit o2"><div class="spin"><i></i></div></div>
-    <div class="orbit o3"><div class="spin"><i></i></div></div>
+    <div class="pgrid">
+      <div class="pcell ok"><b>Allegro</b><span>可提交</span></div>
+      <div class="pcell ok"><b>TikTok</b><span>可提交</span></div>
+      <div class="pcell bad"><b>Amazon</b><span>缺欧代</span></div>
+      <div class="pcell warn"><b>OTTO</b><span>超 22 字</span></div>
+      <div class="pcell bad"><b>Kaufland</b><span>对话待授权</span></div>
+      <div class="pcell ok"><b>eMAG</b><span>校验通过</span></div>
+    </div>
+
+    <div class="prow"><span class="lab">定性完成</span><span class="bar"><i class="b1"></i></span><span class="val">5/5 · 4m32s</span></div>
+    <div class="prow"><span class="lab">证据齐备</span><span class="bar"><i class="b2"></i></span><span class="val">4/6</span></div>
+    <div class="prow"><span class="lab">三语申诉</span><span class="bar"><i class="b3"></i></span><span class="val">EN DE FR</span></div>
+
+    <div class="tlog">
+      <div><em>›</em> diagnose INC-2026-1042 --platform amazon</div>
+      <div><i class="t-ok">✓</i> 命中 1 条硬断项：缺欧盟责任人</div>
+      <div><i class="t-ok">✓</i> 申诉模板 EN / DE / FR 已渲染</div>
+      <div class="t-cursor"><i class="t-cy">›</i> 证据 4/6，等待补 2 项<span class="blink">▌</span></div>
+    </div>
+
+    <div class="cfoot"><span>0 店铺授权 · 只读诊断 · 不保存店铺数据</span><a class="cpill" href="/zh/v2/tool/check">30 秒体检入口已开启 →</a></div>
   </div>
-  <div class="hero">
+</div>
+    </div>
+  </div>
+  <div class="pipe"><div class="prow">
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 01</div><div class="t">资料进仓</div></div>
+    <div class="pstep on"><span class="dot"></span><div class="k">STEP 02 · 你在这</div><div class="t">下架 / P1 定性</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 03</div><div class="t">在售巡检</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 04</div><div class="t">季度复盘</div></div>
+  </div></div>
+</div>
+
+<div class="stats"><div class="w" style="display:flex">
+  <div class="it"><div class="n">1,777+</div><div class="l">欧洲在售卖家</div></div>
+  <div class="it"><div class="n">55,550+</div><div class="l">已本地化 Listing</div></div>
+  <div class="it"><div class="n">12</div><div class="l">平台 · 一次接入</div></div>
+  <div class="it"><div class="n">8</div><div class="l">语言 · 合规表达</div></div>
+</div></div>
+<div class="gx-sec gx-grid"><div class="gx-w">
+<span class="gx-eyebrow">你在哪几个国家卖</span>
+<h2 class="gx-h2">同一个产品，<em class="gx-em">换一个国家</em>就多一项义务</h2>
+<p class="gx-lead">不是每个国家都只看 listing 字段。德国要 LUCID 包装号、法国要本国 EPR、瑞典与荷兰要包装生产者注册，电气类还要 WEEE 与电池注册。这张表按国家列，你一眼能看到自己要补哪几格。</p>
+<div class="gx-mx">
+<div class="gx-tb">
+<div class="gx-th"><b>国家 × 合规项</b><span>按类目与销售方式而异 · 示意</span></div>
+<table class="gx-tbl">
+<thead><tr><th></th><th>GPSR<br>责任人</th><th>包装<br>EPR</th><th>WEEE</th><th>电池</th><th>VAT</th><th>本地<br>语言</th></tr></thead>
+<tbody>
+<tr><td>德国<small>DE</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>法国<small>FR</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>意大利<small>IT</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>西班牙<small>ES</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>波兰<small>PL</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>荷兰<small>NL</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td></tr>
+<tr><td>瑞典<small>SE</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td></tr>
+<tr><td>比利时<small>BE</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+</tbody>
+</table>
+<div class="gx-legend"><em><i class="gx-dot on"></i>必需</em><em><i class="gx-dot half"></i>视类目</em><em><i class="gx-dot off"></i>通常不涉及</em></div>
+<div class="gx-mnote">口径以各平台合规门户与本国登记机构为准；本表用于判断要补哪几格，不替代登记本身。</div>
+</div>
+<div class="gx-sel"><div class="gx-g"></div><div class="gx-in">
+<span class="gx-k">举个最常见的组合</span>
+<h3>DE + FR + PL 三国在售，家居类目</h3>
+<div class="gx-flagrow"><span class="gx-fl">DE</span><span class="gx-fl">FR</span><span class="gx-fl">PL</span><span class="gx-fl">家居</span></div>
+<div class="gx-list">
+<div class="gx-li"><i></i><span>DE 包装号未提交（LUCID 格式错一位即判不通过）</span></div>
+<div class="gx-li"><i></i><span>FR 缺本国 EPR 唯一识别号</span></div>
+<div class="gx-li w"><i></i><span>PL 有注册号，但后台登记与标签写法不一致</span></div>
+</div>
+<a class="gx-cta" href="/zh/v2/tool/check">30 秒查出我缺哪几格 →</a>
+<span class="gx-sub">无需信用卡 · 不绑店 · 每天 5 次免费</span>
+</div></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="w">
+  <div class="eyebrow">01 / 四个处境</div>
+  <div class="h2">你现在卡在哪一步？四个入口直接进</div>
+  <div class="lead">同一个工作台，四种入口。上架前把驳回原因提前消灭；下架了先定性再申诉；日常靠巡检兜住；要汇报就用治理留痕。</div>
+  <div class="doors">
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/pl-pack.jpg"><span class="tag">01 · 上架前</span><div class="ttl">一次过检，别再审</div></div>
+      <div class="body"><div class="pain">18 个 SKU 逐平台校验字数、属性、EAN、合规块——人工一整天，还漏。</div>
+        <div class="gain"><i>↓</i> 省下：每天 3 小时人工核对</div><div class="go">进入上架前 →</div></div></div>
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/night-call.jpg"><span class="tag">02 · 出事故</span><div class="ttl">5 分钟定性，别再猜</div></div>
+      <div class="body"><div class="pain">链接被下架，邮件只有一句“不合规”，不知道改哪一条。</div>
+        <div class="gain"><i>↓</i> 省下：3 天来回问客服</div><div class="go">进入救援台 →</div></div></div>
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/ops-screens.jpg"><span class="tag">03 · 日常运营</span><div class="ttl">7×24 巡检，别再等</div></div>
+      <div class="body"><div class="pain">政策每周改，今天能过，下周被驳回，没人盯。</div>
+        <div class="gain"><i>↓</i> 省下：每周 6 小时盯政策</div><div class="go">进入巡检台 →</div></div></div>
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/boss-meeting.jpg"><span class="tag">04 · 治理</span><div class="ttl">对上能交账，别再拼</div></div>
+      <div class="body"><div class="pain">老板问“合规做到哪”，只能拿聊天记录和截图凑。</div>
+        <div class="gain"><i>↓</i> 省下：1 天拼报告</div><div class="go">进入治理台 →</div></div></div>
+  </div>
+</div></div>
+
+<div class="demos"><div class="grid"></div><div class="w">
+  <div class="eyebrow">02 / 60 秒现场演示</div>
+  <div class="h2">不是看板，是四条并行的工作流</div>
+  <div class="lead">从资料进仓到申诉包落地，每一步都有输入、输出与可下载产物。下面这条时间轴会自己走完。</div>
+  <div class="demo-grid">
+    <div class="rail">
+      <div class="rit on"><span class="dur">0–8s</span><div class="n">STEP 01</div><div class="t">资料进仓</div><div class="d">Excel / ERP 直接导入，自动识别字段</div></div>
+      <div class="rit"><span class="dur">8–22s</span><div class="n">STEP 02</div><div class="t">12 平台校验</div><div class="d">字数、必填属性、EAN、合规块逐条对</div></div>
+      <div class="rit"><span class="dur">22–38s</span><div class="n">STEP 03</div><div class="t">生成提交包</div><div class="d">TSV + 上传顺序 + 回填说明</div></div>
+      <div class="rit"><span class="dur">38–60s</span><div class="n">STEP 04</div><div class="t">回写与留痕</div><div class="d">逐平台状态回写，缺什么标什么</div></div>
+    </div>
+    <div class="stage">
+      <div class="hd"><span><b>BATCH-2026-1110</b> · 18 SKU · DE / FR / PL</span><span>15 可提交 · 3 待修</span></div>
+      <div class="steps">
+        <div class="step on"><b>STEP 01</b>资料进仓</div>
+        <div class="step"><b>STEP 02</b>字段校验</div>
+        <div class="step"><b>STEP 03</b>合规块</div>
+        <div class="step"><b>STEP 04</b>提交包</div>
+      </div>
+      <div class="term">
+        <div><span class="cy">›</span> scan 18 SKU × 12 platforms ...</div>
+        <div><span class="ok">✓</span> 字数校验 15/18 通过 <span style="color:#6E769A">· OTTO 3 条超 70 字</span></div>
+        <div><span class="ok">✓</span> EAN 校验位 18/18 有效</div>
+        <div><span class="warn">!</span> 缺欧盟责任人 2 条 · 警示语缺失 1 条</div>
+        <div><span class="ok">✓</span> GPSR 合规块已生成 · 4 类目 · DE/FR/PL</div>
+        <div><span class="cy">›</span> 提交包 14 files ready · 预计 3 分钟</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="sec"><div class="w">
+  <div class="eyebrow">03 / 产物</div>
+  <div class="h2">三分钟拿到的东西，长这样</div>
+  <div class="lead">不是截图，是可以直接上传的文件：对照表、合规块、申诉包。</div>
+  <div class="files">
+    <div class="file"><div class="fn">gpsr-block-de.txt</div><div class="ft">GPSR 合规块 · 德语</div><div class="fl">责任人 / 制造商 / 警示语<br>4 类目 · 已本地化</div><span class="badge2">可直接粘贴</span></div>
+    <div class="file"><div class="fn">otto-fix-18.csv</div><div class="ft">字段修正清单</div><div class="fl">3 条超长标题<br>截断建议 + 替换词</div><span class="badge2">逐行可改</span></div>
+    <div class="file"><div class="fn">appeal-3lang.zip</div><div class="ft">三语申诉包</div><div class="fl">EN / DE / FR<br>证据 6 项 + 时间线</div><span class="badge2">可直接提交</span></div>
+  </div>
+</div></div>
+<div class="gx-sec"><div class="gx-w">
+<span class="gx-eyebrow">不是翻译，是本地表达</span>
+<h2 class="gx-h2">同一句警示语，<em class="gx-em">八种写法</em></h2>
+<p class="gx-lead">机器翻译能过词，过不了审。警示语、责任表述、尺码与材质说明，每个国家的习惯写法都不同——这一段是我们实际生成的成品，不是占位示意。</p>
+<div class="gx-langs">
+<div class="gx-hd"><span class="gx-l">警示语 · 家居 / 儿童用品类目</span><span class="gx-r">母语审校 · 8 语</span></div>
+<div class="gx-lrow"><span class="gx-code">EN</span><span class="gx-txt">Small parts. Not suitable for children under 3 years.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">DE</span><span class="gx-txt">Kleine Teile. Nicht für Kinder unter 3 Jahren geeignet.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">FR</span><span class="gx-txt">Petites pièces. Ne convient pas aux enfants de moins de 3 ans.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">IT</span><span class="gx-txt">Piccole parti. Non adatto a bambini di età inferiore a 3 anni.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">ES</span><span class="gx-txt">Piezas pequeñas. No apto para niños menores de 3 años.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">PL</span><span class="gx-txt">Małe części. Nie dla dzieci poniżej 3 lat.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">NL</span><span class="gx-txt">Kleine onderdelen. Niet geschikt voor kinderen onder 3 jaar.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lrow"><span class="gx-code">SV</span><span class="gx-txt">Små delar. Inte lämplig för barn under 3 år.</span><span class="gx-badge">已审校</span></div>
+<div class="gx-lnote">同一句在不同类目与平台还有字数差异：OTTO 70 字、Allegro 75 字、Amazon 200 字——我们按平台再收一次。</div>
+</div>
+</div><div class="gx-next"><a href="/zh/v2/platform/localize">看六个本地化维度 →</a></div>
+</div>
+
+<div class="sec" style="background:#FAFAFD;padding-top:48px"><div class="w">
+  <div class="eyebrow">04 / 通道能力</div>
+  <div class="h2">12 个平台，只有 2 个真能全自动</div>
+  <div class="lead">其余 10 个：5 个半自动、5 个要人工。先接哪个、哪些能省人，这张表直接告诉你。</div>
+  <div class="tiers">
+    <div class="tier"><span class="tag" style="color:#0891B2">A · 全自动</span><span class="num" style="color:#0891B2">2</span>
+      <h3>接上就能无人值守</h3><p>有对话写接口、政策允许、资质已拿到。</p><div class="logos"><span class="lg" style="background:#FF5A00;color:#fff">allegro</span><span class="lg" style="background:#0B0B0F;color:#fff">TikTok</span></div><div class="gain" style="color:#0B1020"><b style="color:#0891B2">省下</b> 每天 2 小时回消息</div></div>
+    <div class="tier"><span class="tag" style="color:#B45309">B · 半自动</span><span class="num" style="color:#B45309">5</span>
+      <h3>模板跑，人工兜底</h3><p>接口有，但被消息政策、频次或权限卡住；eBay 新旧接口并存，每天还有调用上限。</p><div class="logos"><span class="lg" style="background:#131A22;color:#fff">AMAZON</span><span class="lg" style="background:#0064D2;color:#fff">eBay</span><span class="lg" style="background:#0071CE;color:#fff">Walmart</span><span class="lg" style="background:#0091DA;color:#fff">bol</span><span class="lg" style="background:#E10915;color:#fff">Kaufland</span></div><div class="gain"><b style="color:#B45309">省下</b> 70% 重复回复</div></div>
+    <div class="tier"><span class="tag" style="color:#6D28D9">C · 后台人工</span><span class="num" style="color:#6D28D9">5</span>
+      <h3>没有对话写接口，导出再上传</h3><p>系统生成文案与附件，你一次粘贴回填。</p><div class="logos"><span class="lg" style="background:#FF6900;color:#fff">ZALANDO</span><span class="lg" style="background:#E2001A;color:#fff">OTTO</span><span class="lg" style="background:#0057B8;color:#fff">Cdiscount</span></div><div class="gain"><b style="color:#6D28D9">省下</b> 40 分钟 → 3 分钟</div></div>
+    <div class="tier cta-card"><span class="tag" style="color:#C4B5FD">先看你在哪一档</span>
+      <h3 style="color:#fff;font-size:19px;line-height:1.5">30 秒体检，<br>告诉你哪个平台会卡你</h3>
+      <p>不绑店、不授权、不计数。</p><div class="btn">免费体检 · 30 秒 →</div></div>
+  </div>
+
+  <div class="gx-sec gx-alt"><div class="gx-w">
+<span class="gx-eyebrow">为什么不是再买一个铺货工具</span>
+<h2 class="gx-h2">铺货工具管<em class="gx-em">上架</em>，我们管<em class="gx-em">上不去</em>和<em class="gx-em">下架后</em></h2>
+<p class="gx-lead">很多商家已经有 ERP 或铺货系统。我们不替代它们——它们把货铺出去，我们负责让货过审、出了问题能救回来、并且能对平台与老板交代。</p>
+<div class="gx-cmp">
+<table class="gx-cmptbl">
+<thead><tr><th></th><th>通用铺货工具</th><th>人工 + 表格</th><th class="us">CrossAIO</th></tr></thead>
+<tbody>
+<tr><td>多平台批量上架</td><td class="gx-yes">✓</td><td class="gx-part">手工</td><td class="us">可导入导出</td></tr>
+<tr><td>按平台字段规则改写</td><td class="gx-part">部分</td><td class="gx-no">✗</td><td class="us">12 平台逐条</td></tr>
+<tr><td>合规块 / 责任人信息</td><td class="gx-no">✗</td><td class="gx-part">靠模板</td><td class="us">按类目生成</td></tr>
+<tr><td>GPSR 技术文件底稿</td><td class="gx-no">✗</td><td class="gx-no">✗</td><td class="us">可导出 DOCX</td></tr>
+<tr><td>下架定性 + 三语申诉</td><td class="gx-no">✗</td><td class="gx-part">临时拼</td><td class="us">5 分钟定性</td></tr>
+<tr><td>责任边界写清（不代替你担责）</td><td class="gx-no">✗</td><td class="gx-no">✗</td><td class="us">明示不做什么</td></tr>
+<tr><td>只读授权 / 审计留痕</td><td class="gx-no">✗</td><td class="gx-no">✗</td><td class="us">可导出</td></tr>
+</tbody>
+</table>
+<div class="gx-cmpfoot">对比仅按公开可见的产品形态归纳，用于说明分工，不评价第三方产品。</div>
+</div>
+</div><div class="gx-next"><a href="/zh/v2/platform/app">看 12 平台能力分级 →</a></div>
+</div>
+<div class="quote">
+    <img src="http://100.124.185.46:9000/img/crossaio/sub-feature-review.jpg">
     <div>
-      <div class="slogan">🛡️ 帮商家不违规、保店铺</div>
-      <div class="eyebrow">✦ 欧洲全平台 Listing 质量 + 合规引擎</div>
-      <h1>文案只是入口，<br><span class="accent">合规 × 客服 × 质量</span>才是付费理由</h1>
-      <p class="sub">CrossAIO：一次输入 → 13 平台本地化 Listing + GPSR 合规块内嵌 + AI 客服原生内嵌 <b>EU AI Act Art.50 披露</b>（2026-08-02 强制生效）。竞品都在卖「快回复」，我们卖「不违规」——GPSR + AI Act 双重合规缺口，一次违规就可能店铺封禁。我们用合规帮您<b>保住店铺</b>。</p>
-      <div class="cta-row">
-        <a href="/signup"><button class="pill-blue">免费注册 — 先做免费体检</button></a>
-        <a href="/gpsr-check"><button class="pill-ghost">先做免费合规体检 →</button></a>
-      </div>
-      <p class="tiny">✓ 免费体检先报风险 · ✓ 注册后每天 5 次生成 · ✓ 无需信用卡</p>
-    </div>
-    <div class="gen fade-in">
-      <div class="head"><span class="cdot">🤖</span><b>CrossAIO — 矩阵生成</b><span class="win">— □ ✕</span></div>
-      <div class="body">
-        <div class="plat">
-          <span class="on">Amazon EU</span><span class="on">Amazon US</span><span class="on">Allegro</span><span class="on">Otto</span><span>+9 平台</span>
-        </div>
-        <h4>Wireless Noise Cancelling Headphones</h4>
-        <div style="margin:8px 0 0;padding:0">
-          <div style="font-size:12.5px;color:#475569;line-height:1.7;margin:2px 0">🎧 <b>Active Noise Cancellation</b> — 40dB hybrid ANC blocks engine noise &amp; airport rumble</div>
-          <div style="font-size:12.5px;color:#475569;line-height:1.7;margin:2px 0">🔋 <b>60H Playtime</b> — 10-min quick charge = 5H use · USB-C fast charging</div>
-          <div style="font-size:12.5px;color:#475569;line-height:1.7;margin:2px 0">🌍 <b>Multi-Point Bluetooth 5.3</b> — connect 2 devices simultaneously · ENC mic</div>
-        </div>
-        <div class="ok-row"><span class="tk">✓</span>标题字数全部达标（Otto 70 / Allegro 75 / Amazon 200）</div>
-        <div class="ok-row"><span class="tk">✓</span>语言自动匹配：pl / de / en / fr / ro</div>
-        <div class="ok-row"><span class="tk">✓</span>GPSR 合规块内嵌 · 欧代 + 当地语言警示语</div>
-        <div class="langs"><span>EN</span><span>DE</span><span>FR</span><span>PL</span><span>RO</span><span>+11 语言</span></div>
-      </div>
+      <div class="q">“以前 OTTO 和 Kaufland 的合规块每次都要翻后台重新写，现在一次生成、逐平台过一遍，18 个 SKU 半天变 3 分钟。”</div>
+      <div class="who">— 德国站家居类目卖家 · 月出 4,200 单</div>
+      <div class="stars">★★★★★　12 平台 · 8 语言 · 0 授权</div>
     </div>
   </div>
+<div class="gx-sec gx-alt"><div class="gx-w">
+<span class="gx-eyebrow">什么时候会被查</span>
+<h2 class="gx-h2">合规不是一次性的事，它<em class="gx-em">按月份</em>来</h2>
+<p class="gx-lead">包装量申报、EPR 年报、电池注册复核、新法规适用——欧洲的合规节点集中在几个固定时点。错过一次，往往就是下架一轮。</p>
+<div class="gx-cal">
+<div class="gx-axis">
+<span class="gx-m" style="left:4%">1 月</span><span class="gx-m" style="left:12%">2 月</span><span class="gx-m" style="left:20%">3 月</span><span class="gx-m" style="left:28%">4 月</span><span class="gx-m" style="left:36%">5 月</span><span class="gx-m" style="left:44%">6 月</span><span class="gx-m" style="left:52%">7 月</span><span class="gx-m" style="left:60%">8 月</span><span class="gx-m" style="left:68%">9 月</span><span class="gx-m" style="left:76%">10 月</span><span class="gx-m" style="left:84%">11 月</span><span class="gx-m" style="left:92%">12 月</span>
+<div class="gx-pin" style="left:4%"><div class="gx-mk"></div></div>
+<div class="gx-pin" style="left:14%"><div class="gx-mk"></div></div>
+<div class="gx-pin" style="left:36%"><div class="gx-mk"></div></div>
+<div class="gx-pin" style="left:60%"><div class="gx-mk warn"></div></div>
+<div class="gx-pin" style="left:88%"><div class="gx-mk"></div></div>
 </div>
-
-<!-- 统计 -->
-<div class="stats">
-  <div class="stat"><div class="n">13</div><div class="l">平台规则内置</div></div>
-  <div class="stat"><div class="n">7</div><div class="l">CE 类目规则库</div></div>
-  <div class="stat"><div class="n">16</div><div class="l">listing 生成语言</div></div>
-  <div class="stat"><div class="n">1/10</div><div class="l">对标工具的价格</div></div>
+<div class="gx-ev">
+<div class="gx-ec"><span class="gx-mo">01 月</span><h4>德国包装量申报</h4><p>LUCID 与双元系统年度量申报，数字要与实际销售对得上。</p><span class="gx-who">DE · 包装</span></div>
+<div class="gx-ec"><span class="gx-mo">02 月</span><h4>法国 EPR 年报</h4><p>按类目向生产者责任组织报量与费用，缺报影响次年注册。</p><span class="gx-who">FR · 包装 / 纺织</span></div>
+<div class="gx-ec"><span class="gx-mo">05 月</span><h4>电池注册复核</h4><p>电气与含电池产品需核对注册主体与型号清单是否仍一致。</p><span class="gx-who">EU · 电池</span></div>
+<div class="gx-ec"><span class="gx-mo w">08-12</span><h4>新包装法规适用</h4><p>新的欧盟包装与包装废弃物法规预计此日起适用，各国细则仍在落地。</p><span class="gx-who">EU · 包装</span></div>
 </div>
-
-<!-- 覆盖平台 -->
-<section id="sites">
-  <div class="sec-head">
-    <div class="sec-eyebrow">覆盖平台</div>
-    <h2 class="sec-title">Amazon 欧洲站 + 美国站等 13 大平台，规则全部内置</h2>
-    <p class="sec-sub">标题字数、语言、合规要求按各平台卖家中心文档持续维护</p>
-  </div>
-  <div class="sites">
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 122 40" width="118" height="39" role="img" aria-label="Amazon"><text x="0" y="21" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="23" letter-spacing="-1.2" fill="#232F3E">amazon</text><path d="M6 27 C 34 38, 76 38, 100 25" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M100 25 l -0.5 7 M100 25 l -8 -0.5" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg>
-    </span><span class="meta"><b>欧洲站 + 美国站</b>英/德/法/意/西 等 9 国 + 🇺🇸 美国 · en</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 104 40" width="96" height="37" role="img" aria-label="eBay"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="30" letter-spacing="-1"><tspan fill="#E53238">e</tspan><tspan fill="#0064D2">b</tspan><tspan fill="#F5AF02">a</tspan><tspan fill="#86B817">y</tspan></text></svg>
-    </span><span class="meta"><b>eBay</b>英/德/法/意/西 · en</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 110 40" width="104" height="38" role="img" aria-label="Allegro"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="-1" fill="#FF5A00">allegro</text></svg>
-    </span><span class="meta"><b>Allegro</b>🇵🇱 波兰/捷克/匈牙利 · pl</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 96 40" width="92" height="38" role="img" aria-label="Otto"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="2.5" fill="#D4021D">OTTO</text></svg>
-    </span><span class="meta"><b>Otto</b>🇩🇪 德国 · de</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 128 40" width="122" height="38" role="img" aria-label="Cdiscount"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" letter-spacing="-0.5"><tspan fill="#FFCF00">C</tspan><tspan fill="#004890">discount</tspan></text></svg>
-    </span><span class="meta"><b>Cdiscount</b>🇫🇷 法国 · fr</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 100 40" width="96" height="38" role="img" aria-label="eMAG"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#F26722">e</tspan><tspan fill="#005B94">MAG</tspan></text></svg>
-    </span><span class="meta"><b>eMAG</b>🇷🇴 罗马尼亚/匈/保 · ro</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 120 40" width="106" height="38" role="img" aria-label="TikTok Shop"><g transform="translate(2,6)"><rect x="0" y="0" width="28" height="28" rx="7" fill="#010101"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#25F4EE" transform="translate(-0.8,-0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#FE2C55" transform="translate(0.8,0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#fff"/></g><text x="36" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="19" letter-spacing="-0.5" fill="#010101">TikTok</text></svg>
-    </span><span class="meta"><b>TikTok Shop</b>🇬🇧🇺🇸 英美 + 🇪🇸🇮🇹🇩🇪🇫🇷 欧盟 · en</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 106 40" width="100" height="38" role="img" aria-label="Fruugo"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#94C11F">fru</tspan><tspan fill="#5FA02E">ugo</tspan></text></svg>
-    </span><span class="meta"><b>Fruugo</b>泛欧 20+ 国 · en</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 106 40" width="100" height="38" role="img" aria-label="Walmart"><text x="0" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="24" letter-spacing="-0.5" fill="#0071CE">Walmart</text><g transform="translate(92,19)"><g fill="#FFC220"><rect x="-2" y="-10" width="4" height="7.2" rx="2"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(60)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(120)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(180)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(240)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(300)"/></g></g></svg>
-    </span><span class="meta"><b>Walmart</b>🇺🇸 美国 · en</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 150 40" width="132" height="36" role="img" aria-label="Kaufland"><rect x="0" y="4" width="32" height="32" rx="4" fill="#E10911"/><text x="16" y="29" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">K</text><text x="38" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="24" fill="#E10911">Kaufland</text></svg>
-    </span><span class="meta"><b>Kaufland</b>🇩🇪 德/奥/捷/斯 · de</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="Zalando"><text x="0" y="29" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="30" fill="#FF6900" font-style="italic">zalando</text></svg>
-    </span><span class="meta"><b>Zalando</b>🇪🇺 欧洲时尚 · en→多语言</span></div>
-    <div class="site"><span class="mark">
-      <svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="bol.com"><text x="0" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" fill="#0000A4">bol.</text><text x="58" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" fill="#F29B00">com</text></svg>
-    </span><span class="meta"><b>bol.com</b>🇳🇱 荷兰/比利时 · nl</span></div>
-  </div>
-  <p class="mark-note">* 平台标识为品牌色风格化字标（说明用途），商标权利归属各平台所有者；上线时替换为官方授权素材。<b style="color:var(--blue)">Allegro / eMAG / Cdiscount / Otto / Kaufland / bol.com 已建独立规则页（点击下方卡片查看）。</b></p>
-  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px">
-    <a href="/rules/allegro" style="background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700">🇵🇱 Allegro 规则 →</a>
-    <a href="/rules/emag" style="background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700">🇷🇴 eMAG 规则 →</a>
-    <a href="/rules/cdiscount" style="background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700">🇫🇷 Cdiscount 规则 →</a>
-    <a href="/rules/otto" style="background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700">🇩🇪 Otto 规则 →</a>
-    <a href="/rules/kaufland" style="background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700">🇩🇪 Kaufland 规则 →</a>
-    <a href="/rules/bol" style="background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700">🇳🇱 bol.com 规则 →</a>
-    <a href="/rules" style="background:#eff6ff;border:1px solid var(--blue);border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;color:var(--blue)">全部 13 平台速查表 →</a>
-  </div>
-</section>
-
-<!-- 产品能力：多页式导航 → 每个能力一个独立落地页模块 -->
-<section id="features" style="padding-top:24px">
-  <div class="sec-head">
-    <div class="sec-eyebrow">产品能力 · 多页式导航</div>
-    <h2 class="sec-title">六大产品能力模块，各在独立落地页</h2>
-    <p class="sec-sub">首页只做导航，能力详情全部在各自落地页 —— 点击下方导航或模块卡进入</p>
-  </div>
-  <div class="fnav">
-    <a href="/features/gpsr">🛡️ GPSR 合规引擎 →</a>
-    <a href="/features/listing-generator">📦 Listing 生成器 →</a>
-    <a href="/features/matrix">🌍 多平台矩阵 →</a>
-    <a href="/features/review-rewrite">📈 差评改写闭环 →</a>
-    <a href="/features/ai-service">💬 AI 客服 + Art.50 →</a>
-    <a href="/features/safety-redline">🚨 政策安全红线层 →</a>
-    <a href="/features/inbox">📥 统一收件箱 →</a>
-    <a href="/features/ad-copy">📣 广告文案生成 →</a>
-    <a href="/features/listing-watch">📡 Listing 监控日报 →</a>
-    <a class="all" href="/features">🗂️ 产品能力总览 →</a>
-  </div>
-  <div class="featpages">
-    <a class="fpage" href="/features/gpsr">
-      <div class="fp-head fp1"><span class="no">模块 ① · 付费理由 #1</span><h3>🛡️ GPSR 合规引擎</h3><span class="why">恐惧驱动 · 下架即损失 · 愿付溢价</span></div>
-      <p>CE 类目自动识别 → 欧代 + 当地语言警示语 → 合规块一键回填 13 平台。属性树硬阻断 + 7x24 监控 + 15 天 Safety Gate 预警。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/matrix">
-      <div class="fp-head fp2"><span class="no">模块 ② · 规模杠杆</span><h3>🌍 多平台本地化矩阵</h3><span class="why">不绑店 · 独立工作台 · 一次输入全平台</span></div>
-      <p>13 平台规则内置，16 语言自动匹配。Allegro / eMAG / Cdiscount / Fruugo —— 主流工具覆盖率为零，我们率先补齐。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/listing-generator">
-      <div class="fp-head fp3"><span class="no">模块 ③ · 入口</span><h3>📦 Listing 生成器</h3><span class="why">字数硬校验 · 生成即合规</span></div>
-      <p>标题 + 五点 + 详情 + 搜索词四件套，Otto 70 / Allegro 75 / Amazon 200 字数硬校验，生成后自动评分标记违规项。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/review-rewrite">
-      <div class="fp-head fp4"><span class="no">模块 ④ · 续费理由</span><h3>📈 差评改写闭环</h3><span class="why">周频使用 · 直接关联转化</span></div>
-      <p>差评 8 类主题定位 → 五点修复改写；8 类买家问题语义覆盖度评分，面向 Rufus / iZi 等 AI 购物助手优化。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/ai-service">
-      <div class="fp-head fp1"><span class="no">模块 ⑤ · 合规获客入口</span><h3>💬 AI 客服 + 统一收件箱</h3><span class="why">Art.50 披露内嵌 · 2026-08 大限</span></div>
-      <p>eBay webhook 接入，每条 AI 回复原生内嵌 AI Act Art.50 披露（16 语言）；13 平台统一收件箱，GPSR 状态逐条留痕。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/safety-redline">
-      <div class="fp-head fp2"><span class="no">模块 ⑥ · 兜底线</span><h3>🚨 政策安全红线层</h3><span class="why">合规优先 · 高风险 100% 转人工</span></div>
-      <p>威胁 / 勒索 / 人身伤害诉求自动识别：拦截自动回复、安抚 + 转人工留证、15 天 Safety Gate 上报提示。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/inbox">
-      <div class="fp-head fp3"><span class="no">模块 ⑦ · 规模瓶颈解药</span><h3>📥 统一收件箱</h3><span class="why">13 平台消息一处管 · 母语回复</span></div>
-      <p>eBay OAuth 实时同步，12 平台凭证自助接入或批量导入；AI 母语草稿 + Art.50 披露 + GPSR 指引自动内嵌，合规留痕。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/ad-copy">
-      <div class="fp-head fp4"><span class="no">模块 ⑧ · 增长杠杆</span><h3>📣 广告文案生成</h3><span class="why">禁用词前置拦截 · A/B 变体</span></div>
-      <p>按平台广告位规则生成标题/描述：促销夸大词与字数超限生成前拦截，多语言 A/B 变体支持投放择优。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-    <a class="fpage" href="/features/listing-watch">
-      <div class="fp-head fp1"><span class="no">模块 ⑨ · 留存抓手</span><h3>📡 Listing 监控日报</h3><span class="why">每日自动体检 · 风险升级即报</span></div>
-      <p>Listing 字数漂移 / 合规块缺失 / 差评安全词 / 语义评分每日追踪；风险升级 SMTP 邮件日报直达，一键转修复闭环。</p>
-      <span class="go">进入落地页模块 →</span>
-    </a>
-  </div>
-</section>
-
-<!-- 差异化 -->
-<section id="why" style="padding-top:8px">
-  <div class="sec-head">
-    <div class="sec-eyebrow">为什么选 CrossAIO</div>
-    <h2 class="sec-title">竞品都在做「写文案」，我们把合规也做完了</h2>
-  </div>
-  <div class="diffs">
-    <div class="diff d1"><div class="medal">🥇</div><h3>GPSR × AI Act × 客服 × Listing 四合一</h3><p>Amazon/eBay 官方 AI 客服只解决「快回复」，不管合规；Responso/eDesk 等客服工具至今零内建 AI Act 披露。CrossAIO 在四处都做：生成 listing 时内嵌 GPSR 块，每条 AI 回复原生内嵌 <b>EU AI Act Art.50 披露（2026-08-02 强制）</b>，买家消息触发安全事件时走「合规优先回复」（GPSR 指引 + 15 天 Safety Gate 上报提示），监控 listing 时报警风险。竞品卖效率，我们卖「不违规」——这是卖家最愿意掏钱的心智。</p></div>
-    <div class="diff d2"><div class="medal">🥈</div><h3>属性树硬阻断</h3><p>不是「建议填写」，而是像平台审核一样硬拦截：EAN 校验位错误、材质成分缺失直接标记 ready_to_list = false。</p></div>
-    <div class="diff d3"><div class="medal">🥉</div><h3>语义搜索适配</h3><p>面向 Rufus / iZi 等 AI 购物助手优化：8 类买家问题语义覆盖度评分，让 AI 导购也推荐你的产品。</p></div>
-  </div>
-</section>
-
-<!-- 工作原理 -->
-<section id="how" style="padding-top:8px">
-  <div class="sec-head">
-    <div class="sec-eyebrow">工作原理</div>
-    <h2 class="sec-title">三步上线，平均节省 90% 运营时间</h2>
-  </div>
-  <div class="steps">
-    <div class="step"><div class="no">1</div><h3>输入产品信息</h3><p>产品名称 + 核心关键词，可选填属性（品牌/EAN/材质）。独立工作台，无需绑定任何店铺。</p></div>
-    <div class="step"><div class="no">2</div><h3>选择平台生成</h3><p>单平台精修或 13 平台矩阵批量生成。语言、字数、规则自动匹配，GPSR 合规块内嵌输出。</p></div>
-    <div class="step"><div class="no">3</div><h3>校验后直接上架</h3><p>属性树硬阻断排查 + 完整度评分，复制粘贴到平台卖家中心，全程 5 分钟。</p></div>
-  </div>
-</section>
-
-
-<!-- 用户评价 -->
-<section id="testis" style="padding-top:8px">
-  <div class="sec-head reveal">
-    <div class="sec-eyebrow">卖家真实反馈</div>
-    <h2 class="sec-title">欧洲跨境卖家怎么说</h2>
-  </div>
-  <div class="testis">
-    <div class="testi reveal">
-      <div class="stars">★★★★★</div>
-      <p>"之前用 Helium 10 做美国站，欧洲小平台完全没覆盖。CrossAIO 把 Allegro 和 eMAG 的规则都内置了，一次生成 13 个平台的 listing，省了我两个助手的工作量。"</p>
-      <div class="who"><div class="avatar">M</div><div><b>Marcus H.</b><span>德国 · 家居品类卖家 · 4 年</span></div></div>
-    </div>
-    <div class="testi reveal reveal-delay">
-      <div class="stars">★★★★★</div>
-      <p>"GPSR 合规块直接内嵌在 listing 里，不用自己查欧代、写德语警示语。上个月 Amazon 德国站抽检，我的产品直接通过，隔壁卖家被下架了 20 个 SKU。"</p>
-      <div class="who"><div class="avatar">S</div><div><b>Sophie L.</b><span>法国 · 美妆品类卖家 · 2 年</span></div></div>
-    </div>
-    <div class="testi reveal reveal-delay2">
-      <div class="stars">★★★★☆</div>
-      <p>"AI 客服回复草稿按买家母语生成，还自动加了 EU AI Act 披露。2026 年 8 月大限前我提前把所有客服流程都切过来了，不用怕被罚。"</p>
-      <div class="who"><div class="avatar">K</div><div><b>Karol W.</b><span>波兰 · 3C 配件卖家 · 3 年</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- GitHub 风格代码块 -->
-<section id="code" style="padding-top:8px">
-  <div class="sec-head reveal">
-    <div class="sec-eyebrow">技术架构</div>
-    <h2 class="sec-title">开源 Skills · 透明可审计</h2>
-  </div>
-  <div style="max-width:760px;margin:0 auto">
-    <!-- GitHub 仓库头 -->
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-      <span style="font-size:15px;font-weight:600;color:var(--blue);cursor:pointer">📦 crossaio-ai</span>
-      <span style="background:#eef1f4;border:1px solid #d0d7de;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#57606a">Public</span>
-      <span style="margin-left:auto;display:flex;gap:8px">
-        <span style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:4px 12px;font-size:12.5px;cursor:pointer">⭐ <b>Star</b> 1.2k</span>
-        <span style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:4px 12px;font-size:12.5px;cursor:pointer">🍴 Fork</span>
-      </span>
-    </div>
-    <!-- README 徽章 -->
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
-      <span style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#1e40af">📄 MIT License</span>
-      <span style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#166534">✓ CI Passing</span>
-      <span style="background:#fef3c7;border:1px solid #fde68a;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#92400e">🚀 v2.0</span>
-      <span style="background:#fce7f3;border:1px solid #fbcfe8;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#9d174d">13 Platforms</span>
-    </div>
-    <!-- 代码窗口 -->
-    <div style="background:#0d1117;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">
-      <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#161b22;border-bottom:1px solid #30363d">
-        <span style="width:12px;height:12px;border-radius:50%;background:#ff5f56"></span>
-        <span style="width:12px;height:12px;border-radius:50%;background:#ffbd2e"></span>
-        <span style="width:12px;height:12px;border-radius:50%;background:#27c93f"></span>
-        <span style="margin-left:12px;font-size:12.5px;color:#8b949e;font-family:monospace">listing_generator.py</span>
-      </div>
-      <pre style="padding:18px 20px;font-family:'Fira Code',Consolas,monospace;font-size:12.5px;line-height:1.8;color:#e6edf3;overflow-x:auto;margin:0"><span style="color:#7ee787">def</span> <span style="color:#d2a8ff">generate_listing</span>(product, platform=<span style="color:#a5d6ff">"amazon"</span>):
-    <span style="color:#8b949e"># 自动匹配平台规则 + 字数硬校验</span>
-    rules = PLATFORM_RULES[platform]
-    title = ai_write_title(product, max_len=rules.title_max)
-    bullets = ai_write_bullets(product, count=rules.bullet_count)
-    <span style="color:#8b949e"># GPSR 合规块自动内嵌</span>
-    gpsr_block = gpsr_engine.build_block(product.category)
-    <span style="color:#7ee787">return</span> Listing(title, bullets, gpsr_block, score=validate(title, bullets))</pre>
-    </div>
-    <!-- 贡献者头像 -->
-    <div style="display:flex;align-items:center;gap:8px;margin-top:14px">
-      <span style="font-size:12.5px;color:var(--muted)">贡献者：</span>
-      <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">C</span>
-      <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">E</span>
-      <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#d97706,#f59e0b);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">G</span>
-      <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#ef4444);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">A</span>
-      <span style="font-size:12.5px;color:var(--blue);cursor:pointer">+ 12 位开发者 →</span>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" style="padding-top:8px">
-  <div class="sec-head">
-    <div class="sec-eyebrow">常见问题</div>
-    <h2 class="sec-title">你可能想问</h2>
-  </div>
-  <div class="faq">
-    <details><summary>需要绑定我的店铺吗？</summary><div class="a">不需要。CrossAIO 是独立工作台 — 注册即用，生成的 listing 复制粘贴到任何平台卖家中心即可。我们不会请求你的店铺 API 权限。</div></details>
-    <details><summary>GPSR 合规块是什么？</summary><div class="a">EU 2023/988（通用产品安全法规）已于 2024 年 12 月强制执行：欧盟市场销售的非食品类产品必须有欧盟责任人（欧代）、当地语言安全警示语和合规的制造商信息。CrossAIO 按产品类目自动识别适用指令，生成含欧代占位与当地语言警示语的可粘贴合规块。</div></details>
-    <details><summary>生成质量如何保证？</summary><div class="a">每个平台的标题字数、语言、结构化要求内置为硬校验（如 Otto 70 字符、Allegro 75 字符），生成后自动评分并标记违规项；属性树对 EAN 校验位等做硬阻断，上架前就能发现会被拒审的问题。</div></details>
-    <details><summary>免费版和付费版差别？</summary><div class="a">免费版每天 5 次生成 + 免费合规体检（只报问题）。付费版解锁合规块全文、属性树校验、多平台矩阵，Pro 起含 AI 客服与广告文案。详见<a href="/pricing" style="color:var(--blue)">定价页</a>。</div></details>
-    <details><summary>支持哪些语言？</summary><div class="a">Listing 生成支持 16 种语言，GPSR 警示语内置 7 种（德/法/意/西/波/罗/英）。语言按平台自动匹配，也可手动指定。</div></details>
-    <details><summary>eBay / Cdiscount 等小平台也支持吗？</summary><div class="a">支持。目前 CrossAIO 已覆盖 13 个平台（Amazon EU+US、eBay、Cdiscount、Otto、Allegro、eMAG、Fruugo、Walmart、Kaufland、Zalando、bol.com、TikTok Shop）。其中 Cdiscount、Allegro、eMAG、Fruugo 在竞品中覆盖率为零，我们率先补齐。</div></details>
-    <details><summary>AI 客服需要绑定店铺吗？</summary><div class="a">第一阶段（开发中）：eBay 卖家授权后，买家消息通过 webhook 推送到 CrossAIO，AI 生成回复草稿，你确认后再发回。不需要第三方工具介入，所有数据在你的 CrossAIO 账户内。</div></details>
-  </div>
-</section>
-
-<!-- 底部 CTA -->
-<div class="cta-band">
-  <h2>先体检，再注册 — 30 秒知道你的 listing 会不会被下架</h2>
-  <p>免注册免费体检 · 无需信用卡 · 无需绑定店铺</p>
-  <a href="/gpsr-check"><button class="pill-blue">开始免费体检 →</button></a>
 </div>
+</div><div class="gx-next"><a href="/zh/v2/platform/rules">看规则差异怎么整理 →</a></div>
+</div>
+<div class="gx-sec"><div class="gx-w">
+<div class="gx-radar">
+<div class="gx-g"></div>
+<div class="gx-in">
+<span class="gx-k">政策周报</span>
+<h2>平台改规则那天，<br>你先知道</h2>
+<p class="gx-lead">12 个平台的字数、必填项、合规块要求随时在改。每周三一封，只写你卖的那几个平台，改了什么、影响哪些 SKU。</p>
+<div class="gx-form" id="gxSub"><input class="gx-input" id="gxEmail" type="email" placeholder="you@company.com" autocomplete="email" inputmode="email" aria-label="邮箱"><button class="gx-btn" id="gxSubBtn" type="button">订阅周报</button></div>
+<span class="gx-formnote" id="gxNote">每周一封 · 可随时退订 · 不用于营销推送</span>
+</div>
+<div class="gx-upd">
+<div class="gx-u"><span class="gx-du">本周 · 11 月第 2 周</span><span class="gx-tu">OTTO 标题字数口径调整</span><span class="gx-su">上限从 70 字收紧，18 个 SKU 中 3 条超长。</span></div>
+<div class="gx-u"><span class="gx-du">上周</span><span class="gx-tu">Kaufland 合规块新增字段</span><span class="gx-su">责任人联系邮箱改为必填，需重新回填。</span></div>
+<div class="gx-u"><span class="gx-du">两周前</span><span class="gx-tu">EPR 门户提交入口变更</span><span class="gx-su">DE 包装号改在合规门户统一提交。</span></div>
+</div>
+</div>
+</div><div class="gx-next"><a href="/zh/v2/tool/check">先免费体检一次 →</a></div>
+</div>
+<div class="gx-sec gx-alt"><div class="gx-w">
+<span class="gx-eyebrow">同行怎么用</span>
+<h2 class="gx-h2">按你的国家和类目，找最像你的那一个</h2>
+<div class="gx-filters" id="gxFilter"><span class="on" data-k="all">全部</span><span data-k="de">DE</span><span data-k="fr">FR</span><span data-k="pl">PL</span><span data-k="nl">NL</span><span data-k="家居">家居</span><span data-k="服饰">服饰</span><span data-k="3c">3C</span></div>
+<div class="gx-cases">
+<div class="gx-case" data-k="de 家居">
+<div class="gx-ph"><img src="/img/crossaio/sub-feature-review.jpg" alt=""><span class="gx-flag">DE · 家居</span></div>
+<div class="gx-bd"><span class="gx-who2">德国站 · 月出 4,200 单</span><span class="gx-st">18 个 SKU 的合规块，从半天压到 3 分钟</span>
+<div class="gx-metrics"><div class="gx-m2"><b>OTTO+KL</b><i>2 → 3 min</i></div><div class="gx-m2"><b>返工</b><i>−82%</i></div></div>
+<a class="gx-dl" href="/zh/v2/launch">看这条路怎么走 →</a></div>
+</div>
+<div class="gx-case" data-k="fr 服饰">
+<div class="gx-ph"><img src="/img/crossaio/sub-platform-localize.jpg" alt=""><span class="gx-flag">FR · 服饰</span></div>
+<div class="gx-bd"><span class="gx-who2">法国站 · 6 语言并行</span><span class="gx-st">EN/DE/FR 申诉包一次生成，不用再找翻译</span>
+<div class="gx-metrics"><div class="gx-m2"><b>语言</b><i>6 语</i></div><div class="gx-m2"><b>申诉周期</b><i>3 天 → 1 天</i></div></div>
+<a class="gx-dl" href="/zh/v2/platform/localize">看这条路怎么走 →</a></div>
+</div>
+<div class="gx-case" data-k="pl 3c">
+<div class="gx-ph"><img src="/img/crossaio/sub-feature-matrix.jpg" alt=""><span class="gx-flag">PL · 3C</span></div>
+<div class="gx-bd"><span class="gx-who2">波兰站 · Allegro 主战场</span><span class="gx-st">Allegro 全自动之后，每周省 6 小时盯政策</span>
+<div class="gx-metrics"><div class="gx-m2"><b>自动率</b><i>78%</i></div><div class="gx-m2"><b>巡检</b><i>7×24</i></div></div>
+<a class="gx-dl" href="/zh/v2/feature/matrix">看这条路怎么走 →</a></div>
+</div>
+</div>
+</div></div>
 
-<footer>
-  <div class="cols">
-    <a href="/zh/">首页</a><a href="/features">产品能力</a><a href="/rules">规则速查</a><a href="/pricing">定价</a><a href="/gpsr-check">免费体检</a><a href="/skills">开源 Skills</a>
-    <a href="/app">工作台</a><a href="/signin">登录</a><a href="/signup">注册</a>
+  <div class="final"><div class="glow"></div>
+    <div><h2>从一个 SKU 开始，3 分钟看到成品</h2><p>12 个平台汇集，只有 2 个能真正无人值守——这句话放在按钮上方。先体检，再付费。</p></div>
+    <div class="cx-fcta"><a class="cx-fa" href="/signup">免费开始 · 每天 5 次</a><a class="cx-fb" href="/zh/v2/tool/check">先跑一次免费体检</a></div>
   </div>
-  <div>CrossAIO — 欧洲全平台 Listing 质量 + 合规引擎 · © 2026</div>
-</footer>
+  
+</div></div>
+
+</div>
 
 <script>
-// 滚动渐入动画
 (function(){
-  var els = document.querySelectorAll('.reveal');
-  function check(){
-    els.forEach(function(el){
-      var r = el.getBoundingClientRect();
-      if(r.top < window.innerHeight - 60) el.classList.add('in');
-    });
-  }
-  window.addEventListener('scroll', check, {passive:true});
-  window.addEventListener('load', check);
-  check();
+  try{
+    var v4=document.getElementById('v4'); if(!v4) return;
+    // 演示步骤轮播
+    var steps=v4.querySelectorAll('.steps .step'), rits=v4.querySelectorAll('.rit');
+    var i=0;
+    if(steps.length){ setInterval(function(){ i=(i+1)%steps.length;
+      steps.forEach(function(s,k){s.classList.toggle('on',k===i);});
+      rits.forEach(function(r,k){r.classList.toggle('on',k===i);});
+    }, 3200); }
+  }catch(e){ if(window.console) console.error(e); }
 })();
+</script>
 
-// 数字滚动计数
+
+<script>
 (function(){
-  var stats = document.querySelectorAll('.stat .n');
-  stats.forEach(function(el){
-    var target = el.textContent.trim();
-    if(target.indexOf('/') > -1) return; // 跳过 1/10 这种
-    var num = parseInt(target);
-    if(isNaN(num)) return;
-    var start = 0, dur = 1200, t0 = null;
-    function step(ts){
-      if(!t0) t0 = ts;
-      var p = Math.min((ts - t0) / dur, 1);
-      el.textContent = Math.floor(p * num);
-      if(p < 1) requestAnimationFrame(step);
-      else el.classList.add('counted');
+  try{
+    var f=document.getElementById('gxFilter');
+    var box=document.querySelector('#v4 .gx-cases');
+    if(!f||!box) return;
+    var chips=f.getElementsByTagName('span');
+    var cases=box.querySelectorAll('.gx-case');
+    var empty=document.createElement('div');
+    empty.className='gx-empty';
+    empty.innerHTML='这个筛选下还没有公开案例。<br>可以先看 DE 家居——欧洲家居卖家的合规路径最典型。';
+    box.appendChild(empty);
+    function apply(k){
+      var shown=0;
+      for(var i=0;i<cases.length;i++){
+        var c=cases[i];
+        var keys=(c.getAttribute('data-k')||'').split(' ');
+        var hit=(k==='all')||keys.indexOf(k)>-1;
+        c.style.display=hit?'':'none';
+        if(hit) shown++;
+      }
+      empty.style.display=shown?'none':'block';
+      for(var j=0;j<chips.length;j++){
+        chips[j].className=(chips[j].getAttribute('data-k')===k)?'on':'';
+      }
     }
-    var r = el.getBoundingClientRect();
-    if(r.top < window.innerHeight) requestAnimationFrame(step);
-  });
+    f.addEventListener('click',function(e){
+      var t=e.target;
+      while(t&&t!==f&&t.tagName!=='SPAN'){ t=t.parentNode; }
+      if(!t||t===f) return;
+      apply(t.getAttribute('data-k'));
+    });
+    apply('all');
+  }catch(err){ if(window.console) console.warn('gx filter:',err); }
 })();
-
 </script>
 
 <script>
 (function(){
   try{
-    var API = "/api/v1";
-    var q = new URLSearchParams(location.search);
-    var utm = {};
-    ["utm_source","utm_medium","utm_campaign"].forEach(function(k){ if(q.get(k)) utm[k]=q.get(k); });
-    if(Object.keys(utm).length) localStorage.setItem("cb_utm", JSON.stringify(utm));
-    fetch(API+"/analytics/track",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(Object.assign({event_type:"landing_view", platform:null, meta:{page:"home"}}, utm))}).catch(function(){});
+    var box=document.getElementById('gxSub'), btn=document.getElementById('gxSubBtn'),
+        mail=document.getElementById('gxEmail'), note=document.getElementById('gxNote');
+    if(!box||!btn||!mail||!note) return;
+    var busy=false, KEY='crossaio-newsletter';
+    function say(t,ok){ note.textContent=t; note.style.color= ok? '#86EFAC' : '#FCA5A5'; }
+    if(localStorage.getItem(KEY)==='1'){ btn.textContent='已订阅 ✓'; }
+    function submit(){
+      if(busy) return;
+      var v=(mail.value||'').trim();
+      if(!/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(v)){ say('请输入有效的邮箱地址',false); mail.focus(); return; }
+      busy=true; btn.textContent='提交中…';
+      fetch('/api/v1/newsletter/subscribe',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:v, source:'home-radar', lang:'zh', page:location.pathname})
+      }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+      .then(function(res){
+        if(res.ok && res.d && res.d.ok){
+          say(res.d.message||'已订阅', true);
+          btn.textContent='已订阅 ✓'; mail.value='';
+          localStorage.setItem(KEY,'1');
+        } else {
+          say((res.d && (res.d.detail||res.d.message)) || '订阅失败，请稍后再试', false);
+          btn.textContent='订阅周报';
+        }
+      }).catch(function(){ say('网络异常，请稍后再试', false); btn.textContent='订阅周报'; })
+      .then(function(){ busy=false; });
+    }
+    btn.addEventListener('click', submit);
+    mail.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
   }catch(e){}
 })();
 </script>
-  <script src="/effects.js"></script>
-<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">欧洲跨境 Listing 质量与合规引擎。一个工作台，从一次过检到出事故后的下架急救。</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR 已强制执行</span>
+    <a class="cx-cta" href="/zh/v2/tool/check">免费体检我的店 · 30 秒 <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>能力地图</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/launch">01 上架前<small>一次过检 · 约 10 分钟</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/rescue">02 出事故<small>5 分钟定性 · 三语申诉</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/ops">03 日常运营<small>12 平台 × 6 项自动巡检</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/govern">04 治理<small>A/B/C 分级 · 操作留痕</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>产品能力</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/feature/gpsr">GPSR 合规块<small>责任人 · 警示语 · 技术文件</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/listing">Listing 质量<small>字段校验 · 标题字数</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/matrix">12 平台校验<small>A2 / B5 / C5 分级</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/review">口碑与评论<small>差评定性 · 回复模板</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/ai-service">AI 客服<small>售前问答 · 售后安抚</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/safety">风险与安全<small>封号预警 · 申诉留痕</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>覆盖平台</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/platform/rules">平台规则差异<small>12 平台对照</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/platform/app">接入状态分级<small>A 全自动 · B 半自动 · C 人工</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/platform/localize">本地化与语言<small>母语政策 · 计量单位</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/platform/limits">字数与字段限值<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>免费工具</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/tool/check">合规体检<small>30 秒 · 不绑店不授权</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/tool/skills">Skills 工作流<small>接入你的 ERP / 表格</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/tool/trust">信任中心<small>数据边界 · 只读授权</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>社区与资源</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">学院<small>合规与申诉课程</small></a></li>
+        <li><a class="cx-l" href="/community">社区<small>欧洲卖家互助</small></a></li>
+        <li><a class="cx-l" href="/blog">博客<small>平台改规则解读</small></a></li>
+        <li><a class="cx-l" href="/podcast">播客<small>跨境合规周更</small></a></li>
+        <li><a class="cx-l" href="/summit">峰会<small>欧洲卖家年度会</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · 欧洲全平台 Listing 质量与合规引擎</span>
+  <span class="cx-legal">
+    <a href="/privacy">隐私政策</a>
+    <a href="/terms">服务条款</a>
+    <a href="/zh/v2/tool/trust">合规声明</a>
+    <a href="/zh/v2/tool/trust">数据处理</a>
+  </span>
+  <span class="cx-ok"><i></i>所有系统正常 · 简体中文</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
 </body>
 </html>

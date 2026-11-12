@@ -6,11 +6,9 @@
 平台特有规则、欧代字段要求、回填字段、违规后果），并用平台原生措辞
 直接生成可粘贴的合规块。
 
-覆盖平台（2026-11-06 补齐 registry 全部 13 平台）：
-  amazon (EU) · amazon_us (US) · ebay (EU/DE) · zalando (EU 15 国)
-  fruugo (全球 30+ 国) · walmart (US) · tiktok (TikTok Shop EU)
+覆盖平台（东欧/南欧为主，逐平台深耕）：
   allegro (PL/CZ/SK) · emag (RO) · cdiscount (FR) · otto (DE)
-  kaufland (DE/AT/CZ/SK) · bol (NL/BE)
+  kaufland (DE/AT/CZ/SK) · bol (NL/BE) · miravia (ES) · fruugo · zalando
 
 ⚠️ 政策摘要是工程辅助参考，非法律意见；以平台官方政策与欧盟官方文本为准。
 """
@@ -18,6 +16,58 @@ from typing import Dict, List, Optional
 
 from . import gpsr
 from .platform_registry import platform_config
+
+
+# 12 平台共用语言层：平台自带表里没有的语言，用这套标准表述补齐，
+# 避免 [DE]/[FR]/[HU] 段落到英文标题（此前 Amazon DE/FR、bol FR、allegro HU 都踩过）。
+_GLOBAL_HEADER = {
+    "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
+    "de": "PRODUKTSICHERHEITSINFORMATIONEN (GPSR 2023/988)",
+    "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
+    "it": "INFORMAZIONI SULLA SICUREZZA DEL PRODOTTO (GPSR 2023/988)",
+    "es": "INFORMACIÓN DE SEGURIDAD DEL PRODUCTO (GPSR 2023/988)",
+    "pl": "INFORMACJE O BEZPIECZEŃSTWIE PRODUKTU (GPSR 2023/988)",
+    "nl": "PRODUCTVEILIGHEIDSINFORMATIE (GPSR 2023/988)",
+    "cs": "INFORMACE O BEZPEČNOSTI PRODUKTU (GPSR 2023/988)",
+    "sk": "INFORMÁCIE O BEZPEČNOSTI PRODUKTU (GPSR 2023/988)",
+    "hu": "TERMÉKBIZTONSÁGI INFORMÁCIÓK (GPSR 2023/988)",
+    "ro": "INFORMAȚII DE SIGURANȚĂ A PRODUSULUI (GPSR 2023/988)",
+    "sv": "PRODUKTSÄKERHETSINFORMATION (GPSR 2023/988)",
+    "da": "PRODUKTSIKKERHEDSINFORMATION (GPSR 2023/988)",
+    "bg": "ИНФОРМАЦИЯ ЗА БЕЗОПАСНОСТ НА ПРОДУКТА (GPSR 2023/988)",
+}
+_GLOBAL_REP_LABEL = {
+    "en": "Responsible Economic Operator (EU)",
+    "de": "Wirtschaftlicher Akteur in der EU",
+    "fr": "Opérateur économique responsable (UE)",
+    "it": "Operatore economico responsabile (UE)",
+    "es": "Operador económico responsable (UE)",
+    "pl": "Osoba odpowiedzialna w UE",
+    "nl": "Verantwoordelijke economische operator (EU)",
+    "cs": "Odpovědná osoba v EU",
+    "sk": "Zodpovedná osoba v EÚ",
+    "hu": "Felelős gazdasági szereplő (EU)",
+    "ro": "Persoana responsabilă din UE",
+    "sv": "Ansvarig ekonomisk aktör (EU)",
+    "da": "Ansvarlig økonomisk aktør (EU)",
+    "bg": "Отговорен икономически оператор (ЕС)",
+}
+_ROW_LABELS = {
+    "en": {"mfr": "Manufacturer", "imp": "Importer", "product": "Product", "mb": "Model/Batch"},
+    "de": {"mfr": "Hersteller", "imp": "Importeur", "product": "Produkt", "mb": "Modell/Charge"},
+    "fr": {"mfr": "Fabricant", "imp": "Importateur", "product": "Produit", "mb": "Modèle/Lot"},
+    "it": {"mfr": "Produttore", "imp": "Importatore", "product": "Prodotto", "mb": "Modello/Lotto"},
+    "es": {"mfr": "Fabricante", "imp": "Importador", "product": "Producto", "mb": "Modelo/Lote"},
+    "pl": {"mfr": "Producent", "imp": "Importer", "product": "Produkt", "mb": "Model/Partia"},
+    "nl": {"mfr": "Fabrikant", "imp": "Importeur", "product": "Product", "mb": "Model/Batch"},
+    "cs": {"mfr": "Výrobce", "imp": "Dovozce", "product": "Výrobek", "mb": "Model/Šarže"},
+    "sk": {"mfr": "Výrobca", "imp": "Dovozca", "product": "Výrobok", "mb": "Model/Šarža"},
+    "hu": {"mfr": "Gyártó", "imp": "Importőr", "product": "Termék", "mb": "Modell/Tétel"},
+    "ro": {"mfr": "Producător", "imp": "Importator", "product": "Produs", "mb": "Model/Lot"},
+    "sv": {"mfr": "Tillverkare", "imp": "Importör", "product": "Produkt", "mb": "Modell/Batch"},
+    "da": {"mfr": "Producent", "imp": "Importør", "product": "Produkt", "mb": "Model/Batch"},
+    "bg": {"mfr": "Производител", "imp": "Вносител", "product": "Продукт", "mb": "Модел/Партида"},
+}
 
 
 def _rules_allegro() -> Dict:
@@ -42,12 +92,14 @@ def _rules_allegro() -> Dict:
             "pl": "INFORMACJE O BEZPIECZEŃSTWIE PRODUKTU (GPSR 2023/988)",
             "cs": "INFORMACE O BEZPEČNOSTI PRODUKTU (GPSR 2023/988)",
             "sk": "INFORMÁCIE O BEZPEČNOSTI PRODUKTU (GPSR 2023/988)",
+            "hu": "TERMÉKBIZTONSÁGI INFORMÁCIÓK (GPSR 2023/988)",
             "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
         },
         "rep_label": {
             "pl": "Osoba odpowiedzialna w UE",
             "cs": "Odpovědná osoba v EU",
             "sk": "Zodpovedná osoba v EÚ",
+            "hu": "Felelős gazdasági szereplő (EU)",
             "en": "Responsible Economic Operator (EU)",
         },
     }
@@ -189,250 +241,46 @@ def _rules_bol() -> Dict:
         ],
         "block_header": {
             "nl": "PRODUCTVEILIGHEIDSINFORMATIE (GPSR 2023/988)",
+            "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
             "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
         },
         "rep_label": {
             "nl": "Verantwoordelijke economische operator (EU)",
+            "fr": "Opérateur économique responsable (UE)",
             "en": "Responsible Economic Operator (EU)",
         },
     }
 
 
-def _rules_amazon() -> Dict:
-    """Amazon 欧盟站（DE/FR/IT/ES/PL/SE/NL/BE/AT/IE）— 2026 后台卡点最深。"""
+def _rules_miravia() -> Dict:
     return {
-        "policy_name": "Product Compliance & GPSR Requirements (Amazon EU Seller Central)",
-        "policy_url": "https://sellercentral.amazon.eu/help/hub/reference",
-        "authority": "EU Member State Market Surveillance Authorities（各成员国市场监管机构）",
-        "native_language": "en",
-        "listing_field": "listing 安全属性字段 / Manage Your Compliance 后台提交",
+        "policy_name": "Seguridad de productos (Miravia Marketplace Policies)",
+        "policy_url": "https://seller.miravia.es/politicas",
+        "authority": "AESAN / Ministerio de Consumo（西班牙）",
+        "native_language": "es",
+        "listing_field": "Descripción / Información de seguridad",
         "rep_requirements": [
-            "制造商名称 + 邮政地址（欧盟境外制造商须有 EU 责任人）",
-            "产品标识（型号/批次）须与包装一致，按 ASIN 逐条匹配",
-            "安全警示与合规文件按站点当地语言（DE/FR/IT/ES/PL/NL/SE）",
+            "西班牙语责任人信息；Miravia 要求 EU 责任人信息为文本非图片",
+            "产品标识与批次须与实物一致",
         ],
-        "enforcement": "ASIN 屏蔽/下架 + Account Health 降权；批量上传缺 GPSR 字段报 Error 5995 拦截整批；成员国监管可强制召回",
+        "enforcement": "下架 + 店铺评分降权；西班牙消费者法罚款最高 100 万欧元",
         "rules": [
-            "2024-12-13 起 GPSR 适用于欧盟站全部 listing（此前已投放市场的旧库存豁免，需可证明投放日期）",
-            "2026 年主要卡点在后台：Manage Your Compliance 面板集中提交，批量上传缺字段直接报 Error 5995",
-            "非欧盟卖家必须先绑定 EU 责任人，否则 ASIN 逐条屏蔽且无法通过模板补录",
-            "警示语与安全信息须为各站点当地语言，仅英语在 DE/FR/IT/ES 站会被判不完整",
-            "被屏蔽 ASIN 的申诉须附 DoC、EU RP 授权书与测试报告，材料不全直接驳回",
+            "西班牙语警示语强制",
+            "Miravia 对跨境卖家执行 GPSR 文件抽查（DoC + 欧代授权书）",
         ],
         "block_header": {
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-            "de": "PRODUKTSICHERHEITSINFORMATION (GPSR 2023/988)",
-            "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
-            "it": "INFORMAZIONI DI SICUREZZA DEL PRODOTTO (GPSR 2023/988)",
             "es": "INFORMACIÓN DE SEGURIDAD DEL PRODUCTO (GPSR 2023/988)",
-            "nl": "PRODUCTVEILIGHEIDSINFORMATIE (GPSR 2023/988)",
-            "pl": "INFORMACJE O BEZPIECZEŃSTWIE PRODUKTU (GPSR 2023/988)",
+            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
         },
         "rep_label": {
-            "en": "Responsible Economic Operator (EU)",
-            "de": "Wirtschaftsteilnehmer in der EU (Verantwortliche Person)",
-            "fr": "Personne responsable dans l'UE",
-            "it": "Operatore economico responsabile (UE)",
             "es": "Operador económico responsable (UE)",
-            "nl": "Verantwoordelijke economische operator (EU)",
-            "pl": "Osoba odpowiedzialna w UE",
-        },
-    }
-
-
-def _rules_amazon_us() -> Dict:
-    """Amazon 美国站 — GPSR 不直接适用，但向欧盟销售仍需 EU RP。"""
-    return {
-        "policy_name": "Product Safety & Compliance Requirements (Amazon US Seller Central)",
-        "policy_url": "https://sellercentral.amazon.com/help/hub/reference",
-        "authority": "CPSC（美国消费品安全委员会）",
-        "native_language": "en",
-        "listing_field": "description / Safety information 字段",
-        "rep_requirements": [
-            "美国站不强制 GPSR 字段；但经 FBA/NARF 销往欧盟的商品仍须提供 EU 责任人",
-            "儿童产品须 CPSIA 追溯标签与测试报告",
-            "警示信息英文即可（美国站执法语言）",
-        ],
-        "enforcement": "Listing 移除 + 销售权限暂停；CPSC 可强制召回并处罚",
-        "rules": [
-            "GPSR 仅在欧盟境内执法，美国站 listing 不填 GPSR 字段不算违规",
-            "从美国仓直发欧盟（如 NARF/远程销售）的商品落入 GPSR 管辖，须有 EU RP 与当地语言警示",
-            "美国站安全合规按 CPSC/FCC/UL 等类目规则执行，与 GPSR 是两套体系",
-        ],
-        "block_header": {
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-        },
-        "rep_label": {
             "en": "Responsible Economic Operator (EU)",
-        },
-    }
-
-
-def _rules_ebay() -> Dict:
-    """eBay（ebay.de / eBay EU 商业卖家）。"""
-    return {
-        "policy_name": "GPSR-Anforderungen für gewerbliche Anbieter (eBay Help)",
-        "policy_url": "https://www.ebay.de/help/home",
-        "authority": "EU Member State Market Surveillance Authorities（各成员国市场监管机构）",
-        "native_language": "de",
-        "listing_field": "Angebotsbeschreibung / Produktsicherheitsangaben",
-        "rep_requirements": [
-            "商业卖家（gewerbliche Anbieter）listing 须含制造商名称+地址与产品标识",
-            "欧盟境外制造商须有 EU 责任人，信息须为可读文本（非图片）",
-            "私人卖家（二手个人物品）豁免 GPSR 大部分义务",
-        ],
-        "enforcement": "Listing 隐藏/下架 + 账户功能限制；成员国监管可处罚",
-        "rules": [
-            "2024-12-13 起 eBay 欧盟站点的商业卖家须提供 GPSR 信息，新上架先执行、存量分批覆盖",
-            "de/eu 各站点警示语按站点语言（eBay.de 德语强制）",
-            "不合规 listing 可能被过滤隐藏且不另行通知，需定期自查",
-        ],
-        "block_header": {
-            "de": "PRODUKTSICHERHEITSINFORMATION (GPSR 2023/988)",
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-            "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
-        },
-        "rep_label": {
-            "de": "Wirtschaftsteilnehmer in der EU (Verantwortliche Person)",
-            "en": "Responsible Economic Operator (EU)",
-            "fr": "Personne responsable dans l'UE",
-        },
-    }
-
-
-def _rules_zalando() -> Dict:
-    """Zalando（EU 15 国站点，时尚/家居为主）。"""
-    return {
-        "policy_name": "Product Safety & Compliance (Zalando Partner Programme / zDirect)",
-        "policy_url": "https://partner.zalando.com/",
-        "authority": "EU Member State Market Surveillance Authorities（各成员国市场监管机构）",
-        "native_language": "de",
-        "listing_field": "zDirect 产品数据模型 / 安全属性字段",
-        "rep_requirements": [
-            "非欧盟卖家须提供 EU 责任人并写入产品数据模型",
-            "合规文件（DoC、测试报告）经 zDirect 提交与更新",
-            "产品标识（EAN/型号/批次）须与实物一致",
-        ],
-        "enforcement": "产品下架 + 合作伙伴绩效影响；监管机构可处罚",
-        "rules": [
-            "Zalando 15 国站点警示语按销售国语言（de/fr/it/es/nl/pl/sv 等）",
-            "GPSR 安全属性已并入产品数据模型，缺字段直接无法上架",
-            "时尚品类涉及纺织品安全（REACH/化学限用）与 GPSR 双重要求",
-        ],
-        "block_header": {
-            "de": "PRODUKTSICHERHEITSINFORMATION (GPSR 2023/988)",
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-            "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
-            "it": "INFORMAZIONI DI SICUREZZA DEL PRODOTTO (GPSR 2023/988)",
-            "es": "INFORMACIÓN DE SEGURIDAD DEL PRODUCTO (GPSR 2023/988)",
-            "nl": "PRODUCTVEILIGHEIDSINFORMATIE (GPSR 2023/988)",
-        },
-        "rep_label": {
-            "de": "Wirtschaftsteilnehmer in der EU (Verantwortliche Person)",
-            "en": "Responsible Economic Operator (EU)",
-            "fr": "Personne responsable dans l'UE",
-        },
-    }
-
-
-def _rules_fruugo() -> Dict:
-    """Fruugo（全球性 marketplace，30+ 国，非欧盟卖家占比高）。"""
-    return {
-        "policy_name": "Fruugo Seller Terms & Product Safety (GPSR)",
-        "policy_url": "https://fruugo.com/",
-        "authority": "EU Member State Market Surveillance Authorities（销售国监管机构）",
-        "native_language": "en",
-        "listing_field": "产品 feed 安全属性 / Safety information 字段",
-        "rep_requirements": [
-            "非欧盟卖家必须提供 EU 责任人，信息写入产品 feed",
-            "产品标识（型号/批次）须与包装一致",
-            "feed 安全属性缺失会被拒绝上架",
-        ],
-        "enforcement": "Feed 拒绝/停售 + 店铺暂停；监管机构可处罚",
-        "rules": [
-            "Fruugo 销售覆盖 30+ 国，警示语按 Fruugo 翻译矩阵本地化（含小语种市场）",
-            "非欧盟卖家占比高，EU RP 是 feed 审核的常见拒绝原因",
-            "GPSR 2024-12 起新增安全属性，存量 feed 需补字段后重新提交",
-        ],
-        "block_header": {
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-            "de": "PRODUKTSICHERHEITSINFORMATION (GPSR 2023/988)",
-            "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
-            "es": "INFORMACIÓN DE SEGURIDAD DEL PRODUCTO (GPSR 2023/988)",
-            "it": "INFORMAZIONI DI SICUREZZA DEL PRODOTTO (GPSR 2023/988)",
-            "nl": "PRODUCTVEILIGHEIDSINFORMATIE (GPSR 2023/988)",
-        },
-        "rep_label": {
-            "en": "Responsible Economic Operator (EU)",
-            "de": "Wirtschaftsteilnehmer in der EU (Verantwortliche Person)",
-            "fr": "Personne responsable dans l'UE",
-        },
-    }
-
-
-def _rules_walmart() -> Dict:
-    """Walmart Marketplace（美国站）— GPSR 不直接适用。"""
-    return {
-        "policy_name": "Product Safety & Compliance (Walmart Marketplace)",
-        "policy_url": "https://marketplace.walmart.com/",
-        "authority": "CPSC（美国消费品安全委员会）",
-        "native_language": "en",
-        "listing_field": "description / Safety information 字段",
-        "rep_requirements": [
-            "美国站不强制 GPSR 字段；向欧盟销售的跨境卖家须另行安排 EU 责任人",
-            "儿童产品须 CPSIA 追溯标签；警示信息英文",
-        ],
-        "enforcement": "Listing 移除 + 账户暂停；CPSC 可强制召回",
-        "rules": [
-            "Walmart Marketplace 主要为美国站，GPSR 仅约束欧盟境内销售",
-            "美国站安全合规按 CPSC/FDA/FCC 等类目规则执行",
-            "如经第三方物流销往欧盟，商品落入 GPSR 管辖，须满足 EU RP 与当地语言警示",
-        ],
-        "block_header": {
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-        },
-        "rep_label": {
-            "en": "Responsible Economic Operator (EU)",
-        },
-    }
-
-
-def _rules_tiktok() -> Dict:
-    """TikTok Shop EU（DE/FR/IT/ES/IE），短视频/直播带货场景。"""
-    return {
-        "policy_name": "Product Compliance & GPSR (TikTok Shop Seller Center)",
-        "policy_url": "https://seller.tiktokglobalshop.com/",
-        "authority": "EU Member State Market Surveillance Authorities（各成员国市场监管机构）",
-        "native_language": "en",
-        "listing_field": "Product Compliance 字段 / listing 安全信息",
-        "rep_requirements": [
-            "跨境卖家须提供 EU 责任人并写入 listing 合规字段",
-            "产品标识（型号/批次）须与实物一致",
-            "警示语按站点当地语言（de/fr/it/es）",
-        ],
-        "enforcement": "Listing 下架 + 流量限制 + 店铺分处罚；监管机构可处罚",
-        "rules": [
-            "2024-12-13 起 TikTok Shop EU 要求 listing 提供 GPSR 信息，不合规逐步下架",
-            "短视频与直播带货场景同样须展示安全信息（不只 listing 页面）",
-            "跨境店铺是重点执法对象，无 EU RP 的商品会被限流或下架",
-        ],
-        "block_header": {
-            "en": "PRODUCT SAFETY INFORMATION (GPSR 2023/988)",
-            "de": "PRODUKTSICHERHEITSINFORMATION (GPSR 2023/988)",
-            "fr": "INFORMATIONS DE SÉCURITÉ DU PRODUIT (GPSR 2023/988)",
-            "it": "INFORMAZIONI DI SICUREZZA DEL PRODOTTO (GPSR 2023/988)",
-            "es": "INFORMACIÓN DE SEGURIDAD DEL PRODUCTO (GPSR 2023/988)",
-        },
-        "rep_label": {
-            "en": "Responsible Economic Operator (EU)",
-            "de": "Wirtschaftsteilnehmer in der EU (Verantwortliche Person)",
-            "fr": "Personne responsable dans l'UE",
         },
     }
 
 
 def _rules_generic() -> Dict:
-    """未知平台兜底（英文基础）。"""
+    """fruugo / zalando / tiktok / walmart / amazon 等走通用规则（英文基础）。"""
     return {
         "policy_name": "General Product Safety Regulation (EU) 2023/988",
         "policy_url": "https://eur-lex.europa.eu/eli/reg/2023/988/oj",
@@ -458,13 +306,6 @@ def _rules_generic() -> Dict:
 
 
 _RULE_BUILDERS = {
-    "amazon": _rules_amazon,
-    "amazon_us": _rules_amazon_us,
-    "ebay": _rules_ebay,
-    "zalando": _rules_zalando,
-    "fruugo": _rules_fruugo,
-    "walmart": _rules_walmart,
-    "tiktok": _rules_tiktok,
     "allegro": _rules_allegro,
     "emag": _rules_emag,
     "cdiscount": _rules_cdiscount,
@@ -472,6 +313,8 @@ _RULE_BUILDERS = {
     "kaufland": _rules_kaufland,
     "bol": _rules_bol,
 }
+_GENERIC_PLATFORMS = ("amazon", "ebay", "fruugo", "walmart",
+                      "zalando", "tiktok_shop_eu", "tiktok_shop_uk")
 
 
 def has_native_rules(platform: str) -> bool:
@@ -510,7 +353,8 @@ def platform_rules_card(platform: str) -> Dict:
 
 def native_compliance_block(platform: str, product_name: str,
                             keywords: List[str],
-                            eu_rep: Optional[Dict] = None) -> Dict:
+                            eu_rep: Optional[Dict] = None,
+                            model_batch: str = "") -> Dict:
     """从平台原生规则直接生成对应语言合规块（「平台原生」差异化核心）。
 
     与通用 gpsr.gpsr_block_text 的区别：
@@ -529,6 +373,14 @@ def native_compliance_block(platform: str, product_name: str,
     ordered += [l for l in languages if l not in ordered]
 
     rep = eu_rep or {}
+    # GPSR Art.16 标签必填：制造商 + 进口商（如有）+ 型号/批次。
+    mfr_name = (rep.get("manufacturer") or "").strip()
+    mfr_addr = (rep.get("manufacturer_address") or "").strip()
+    imp_name = (rep.get("importer") or "").strip()
+    imp_addr = (rep.get("importer_address") or "").strip()
+    mfr_line = (mfr_name or "[MANUFACTURER REQUIRED]") + (", " + mfr_addr if mfr_addr else "")
+    imp_line = (imp_name + (", " + imp_addr if imp_addr else "")) if imp_name else ""
+    mb_text = (model_batch or "").strip() or "[MODEL/BATCH REQUIRED]"
     rep_name = rep.get("company_name", "[欧代公司名称]")
     rep_addr = rep.get("address", "[欧代地址]")
     rep_mail = rep.get("email", "[联系邮箱]")
@@ -536,15 +388,26 @@ def native_compliance_block(platform: str, product_name: str,
     lines: List[str] = []
     shown_langs: List[str] = []
     for lang in ordered[:5]:  # 最多 5 段，防超 listing 字段长度
-        header = rules["block_header"].get(lang) or rules["block_header"]["en"]
-        label = rules["rep_label"].get(lang) or rules["rep_label"]["en"]
-        lines.append(f"[{lang.upper()}] {header}")
+        native_header = rules["block_header"].get(lang) or _GLOBAL_HEADER.get(lang)
+        header = native_header or rules["block_header"]["en"]
+        label = (rules["rep_label"].get(lang) or _GLOBAL_REP_LABEL.get(lang)
+                 or rules["rep_label"]["en"])
+        row = _ROW_LABELS.get(lang) or _ROW_LABELS["en"]
+        # 缺该语言母语标题时显式标 (EN)，不让 [CS]/[FR] 段冒充母语
+        lines.append(f"[{lang.upper()}] {header}" + ("" if native_header else " (EN)"))
         lines.append(f"  {label}: {rep_name}, {rep_addr}, {rep_mail}")
-        lines.append(f"  Product: {product_name} | Model/Batch: [型号/批次]")
+        lines.append(f"  {row['mfr']}: {mfr_line}")
+        if imp_line:
+            lines.append(f"  {row['imp']}: {imp_line}")
+        lines.append(f"  {row['product']}: {product_name} | {row['mb']}: {mb_text}")
         # 警示语：优先该语言，其次 en；均无则不输出空 bullet
         warn_written = False
         for rule in categories:
-            w = rule["warnings"].get(lang) or rule["warnings"].get("en")
+            w = rule["warnings"].get(lang)
+            if not w:
+                w = rule["warnings"].get("en")
+                if w:
+                    w = w + " (EN)"      # 回退英语必须显式标注，不冒充母语
             if w:
                 lines.append(f"  • {w}")
                 warn_written = True
@@ -572,5 +435,5 @@ def native_compliance_block(platform: str, product_name: str,
 
 # ---------- 模块级便捷导出 ----------
 def list_native_rule_platforms() -> List[str]:
-    """已建平台原生规则的平台列表（覆盖 registry 全部 13 平台）。"""
+    """已建平台原生规则的平台列表（东欧/南欧深耕平台）。"""
     return list(_RULE_BUILDERS.keys())

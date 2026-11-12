@@ -220,7 +220,7 @@ class PlatformCredential(Base):
 
     与部署环境级环境变量（CROSSBOT_CRED_*）互补：
     - 环境变量     → 平台运营方统一配置（托管/代理模式）
-    - 本表（自助） → 每个商家自己的凭证，13 平台通用，多店铺隔离零运维
+    - 本表（自助） → 每个商家自己的凭证，12 平台通用，多店铺隔离零运维
     eBay 用户级授权走 eBayConnection（OAuth 流程），不经本表。
     """
     __tablename__ = "platform_credentials"
@@ -262,7 +262,7 @@ class InboxConversation(Base):
     """跨平台统一收件箱 — 会话（一条会话对应某平台某买家的一串消息）。
 
     区别于 eBay 专用的 IncomingMessage/OutgoingReply：本表为通用聚合，
-    覆盖全部 13 平台，是"统一工作台"的数据核心。实时同步连接器（各平台
+    覆盖全部 12 平台，是"统一工作台"的数据核心。实时同步连接器（各平台
     API 拉取）为独立模块，未实现；本表支持手动导入 / 演示种子数据。
     """
     __tablename__ = "inbox_conversations"
@@ -434,3 +434,87 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+class PlatformTask(Base):
+    """B/C 档降级产物：卖家去平台后台处理的任务卡。"""
+    __tablename__ = "platform_tasks"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    platform = Column(String(50), index=True, nullable=False)
+    kind = Column(String(30), default="message")   # message / order / listing / incident
+    external_ref = Column(String(120), default="")
+    customer_message = Column(Text, default="")
+    draft_reply = Column(Text, default="")
+    backoffice_url = Column(String(300), default="")
+    status = Column(String(20), default="open")    # open / done / dismissed
+    note = Column(String(300), default="")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class UsageEvent(Base):
+    """六维用量计量（AI 调用 / 处理消息 / 解决工单 / 内容条数 / 事故闭环 / 坐席）。"""
+    __tablename__ = "usage_events"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    kind = Column(String(40), index=True, nullable=False)
+    qty = Column(Integer, default=1)
+    ref_id = Column(String(64), default="")
+    log_date = Column(Date, default=date.today, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class IncidentRecord(Base):
+    """GPSR 安全事件档案：可追溯、可举证、带 15 天上报倒计时。"""
+    __tablename__ = "incident_records"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    platform = Column(String(50), default="")
+    sku = Column(String(120), default="")
+    buyer_message = Column(Text, default="")
+    severity = Column(String(20), default="high")
+    status = Column(String(20), default="open")     # open / reported / closed
+    dossier_json = Column(Text, default="")
+    deadline_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class AddOnPurchase(Base):
+    """加购包：接入位 / 自动回复次数 / 事故闭环次数 / 坐席。"""
+    __tablename__ = "addon_purchases"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    kind = Column(String(30), index=True, nullable=False)
+    qty = Column(Integer, default=1)
+    unit_price_usd = Column(Float, default=0.0)
+    amount_usd = Column(Float, default=0.0)
+    status = Column(String(20), default="active")   # active / refunded
+    note = Column(String(200), default="")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class ListingMap(Base):
+    """SKU → 平台对象映射（offer_id / unit_id / EAN / 类目），写回与库存的硬前置。"""
+    __tablename__ = "listing_map"
+    __table_args__ = (__import__("sqlalchemy").UniqueConstraint(
+        "user_id", "platform", "sku", name="uq_listing_map"),)
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    platform = Column(String(50), index=True, nullable=False)
+    sku = Column(String(120), index=True, nullable=False)
+    offer_id = Column(String(120), default="")
+    unit_id = Column(String(120), default="")
+    ean = Column(String(40), default="")
+    extra_json = Column(Text, default="{}")
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

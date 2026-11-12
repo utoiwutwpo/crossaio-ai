@@ -142,7 +142,7 @@ def _seed(db: Session) -> None:
          "listings rank poorly and get rejected.\n"
          "The CrossAIO approach is the **Compliance Matrix**: you maintain one master product "
          "record, and the matrix maps it into each platform's attribute tree. This course shows "
-         "you how to build a master record that survives 13 platforms. Lesson 1 is the free "
+         "you how to build a master record that survives 12 platforms. Lesson 1 is the free "
          "preview - the remaining lessons need Pro.",
          12),
         ("attribute-trees", "Attribute Trees: Map Once, Publish Everywhere",

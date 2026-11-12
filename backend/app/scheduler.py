@@ -167,6 +167,10 @@ def start_scheduler() -> None:
     _scheduler.add_job(
         refresh_oauth_tokens_job, "interval", minutes=50,
         id="refresh_oauth_tokens", replace_existing=True)
+    # 消息同步：每 5 分钟拉一轮已接入平台（内部逐用户过双闸）
+    from .workers.message_sync import sync_user_job
+    _scheduler.add_job(sync_user_job, "interval", minutes=5,
+                       id="message_sync", replace_existing=True)
     _scheduler.start()
     log.info("监控调度器已启动：daily=%02d:00 UTC / pro +%02d:+%02d / business 10min / 事件 drain 2min",
              h, (h + 8) % 24, (h + 16) % 24)

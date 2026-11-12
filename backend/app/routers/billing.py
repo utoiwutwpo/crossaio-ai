@@ -236,3 +236,49 @@ async def paypal_webhook(request: Request, db: Session = Depends(get_db)):
                           "plan": user.plan})
     return {"received": True, "type": etype, "action": action,
             "verified": verified, "user_found": bool(user)}
+
+
+# ================= 加购包：接入位 / 坐席 / 自动回复次数 / 事故闭环 =================
+from pydantic import BaseModel, Field          # noqa: E402
+from ..database import AddOnPurchase           # noqa: E402
+from ..billing import ADDON_CATALOG, addon_price   # noqa: E402
+
+
+class AddOnCreate(BaseModel):
+    kind: str
+    qty: int = Field(default=1, ge=1, le=100)
+
+
+@router.get("/addons", summary="加购包目录与已购额度")
+def list_addons(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    from ..entitlements import addon_credits, addon_slots
+    rows = (db.query(AddOnPurchase)
+            .filter(AddOnPurchase.user_id == user.id).all())
+    return {
+        "catalog": ADDON_CATALOG,
+        "purchases": [{"id": r.id, "kind": r.kind, "qty": r.qty,
+                       "amount_usd": r.amount_usd, "status": r.status,
+                       "created_at": r.created_at} for r in rows],
+        "balance": {
+            "extra_slots": addon_slots(db, user.id),
+            "auto_reply_credits": addon_credits(db, user, "auto_reply"),
+            "incident_credits": addon_credits(db, user, "incident"),
+        },
+    }
+
+
+@router.post("/addons", summary="购买加购包（本地记账；配 Stripe 后由 webhook 确认）")
+def buy_addon(body: AddOnCreate, user: User = Depends(get_current_user),
+              db: Session = Depends(get_db)):
+    kind = body.kind.strip().lower()
+    if kind not in ADDON_CATALOG:
+        raise HTTPException(422, f"未知加购项：{kind}")
+    unit = addon_price(kind)
+    row = AddOnPurchase(user_id=user.id, kind=kind, qty=body.qty,
+                        unit_price_usd=unit, amount_usd=unit * body.qty,
+                        note=ADDON_CATALOG[kind]["note"])
+    db.add(row)
+    db.commit()
+    return {"id": row.id, "kind": kind, "qty": body.qty,
+            "unit_price_usd": unit, "amount_usd": row.amount_usd,
+            "mode": "stripe" if settings.stripe_secret_key else "local_mock"}

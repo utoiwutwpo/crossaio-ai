@@ -1,0 +1,421 @@
+<! DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statut d'accès A2 / B5 / C5 | CrossAIO</title>
+<style>:root{--ac:#0EA5E9}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#0B1022;font-family:'Inter','PingFang SC','Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#site-nav,#site-nav *{box-sizing:border-box}
+.s-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.s-hero{position:relative;overflow:hidden;background:linear-gradient(116deg,#070A1C 0%,#120F35 46%,#2A1670 100%);color:#fff;padding:56px 0 0}
+.s-grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:72px 72px}
+.s-orb{position:absolute;width:520px;height:520px;border-radius:50%;right:-120px;top:-160px;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 65%);filter:blur(6px)}
+.s-in{position:relative;display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;padding-bottom:44px}
+.s-l{flex:1 1 520px;min-width:0}
+.s-kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;color:#B7C4FF;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px}
+.s-h1{font-size:44px;line-height:1.16;letter-spacing:-.02em;margin:18px 0 14px;font-weight:800}
+.s-sub{font-size:15px;line-height:1.8;color:#C6CBE0;max-width:640px}
+.s-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.s-bp{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(47,107,255,.35)}
+.s-bg2{border:1px solid rgba(255,255,255,.28);color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none}
+.s-chips{display:flex;gap:18px;margin-top:18px;font-size:12.5px;color:#9AA3BD;flex-wrap:wrap}
+.s-chips span::before{content:"✓";color:#5EEAD4;margin-right:6px}
+.s-r{flex:0 0 460px;min-width:0}
+.s-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.s-shot img{display:block;width:100%;height:268px;object-fit:cover}
+.s-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#5EEAD4,transparent);animation:scan 3.4s linear infinite;opacity:.8}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.s-hud{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(8,11,26,.86);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px;backdrop-filter:blur(8px)}
+.s-hud .h{display:flex;justify-content:space-between;font-size:10.5px;color:#8FA0C8;font-family:Consolas,monospace;margin-bottom:8px}
+.s-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);margin-bottom:7px;overflow:hidden}
+.s-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2F6BFF,var(--ac,#5EEAD4))}
+.s-bar b{display:flex;justify-content:space-between;font-size:10.5px;color:#C6CBE0;font-weight:400;margin-bottom:3px}
+.s-band{background:#FAFAFD;border-bottom:1px solid #EEF1F7;padding:22px 0}
+.s-band .row{display:flex;gap:28px;flex-wrap:wrap}
+.s-band .it{flex:1 1 200px}
+.s-band b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--ac,#2F6BFF)}
+.s-band span{display:block;font-size:12px;color:#7A8499;margin-top:4px}
+.s-sec{padding:60px 0}
+.s-sec.soft{background:#FAFAFD;border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7}
+.s-eyebrow{font-size:11px;letter-spacing:.2em;color:var(--ac,#2F6BFF);font-weight:800}
+.s-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.s-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.s-steps{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.s-step{flex:1 1 200px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;position:relative;transition:.18s}
+.s-step:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08);border-color:#CBD5F5}
+.s-step .n{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.s-step .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center;margin:8px 0 10px}
+.s-step h4{font-size:14px;margin:0 0 6px;color:#0B1022}
+.s-step p{font-size:12px;color:#5B6478;line-height:1.7;margin:0}
+.s-table{margin-top:24px;border:1px solid #E3E7F0;border-radius:14px;overflow:hidden;background:#fff}
+.s-table table{width:100%;border-collapse:collapse;font-size:12.5px}
+.s-table th{text-align:left;font-weight:700;color:#0B1022;background:#F7F9FF;padding:11px 14px;font-size:12px}
+.s-table td{padding:11px 14px;border-top:1px solid #EEF1F7;color:#5B6478}
+.s-table td b{color:#0B1022;font-weight:600}
+.s-tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px}
+.s-ok{background:#ECFDF5;color:#065F46}.s-mid{background:#FFF7ED;color:#9A3412}.s-no{background:#FFF1F2;color:#9F1239}
+.s-files{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-file{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:12px;padding:14px}
+.s-file .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#8A93A6}
+.s-file .nm{margin-top:8px;font-family:Consolas,monospace;font-size:12.5px;color:#0B1022;word-break:break-all}
+.s-file p{font-size:12px;color:#5B6478;line-height:1.7;margin:8px 0 0}
+.s-sib{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-card{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;text-decoration:none;color:inherit;display:block;transition:.18s}
+.s-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08)}
+.s-card .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center}
+.s-card h4{font-size:14px;margin:10px 0 5px}
+.s-card p{font-size:12px;color:#5B6478;line-height:1.7;margin:0 0 8px}
+.s-card .go{font-size:11.5px;font-weight:700;color:var(--ac,#2F6BFF)}
+.s-end{margin-top:44px;border-radius:18px;background:linear-gradient(120deg,#141033,#2A1670 60%,#4C1D95);padding:34px 38px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;color:#fff}
+.s-end h3{margin:0;font-size:22px;letter-spacing:-.01em}
+.s-end p{margin:8px 0 0;font-size:13px;color:#C6CBE0}
+.s-foot{background:#fff;border-top:1px solid #EEF1F7;padding:20px 0;font-size:12px;color:#8A93A6}
+.s-foot .row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.s-foot a{color:#2F6BFF;text-decoration:none;margin-left:14px}
+@media(max-width:1080px){
+ .s-in{flex-direction:column}.s-r{flex:1 1 auto;width:100%}
+ .s-h1{font-size:34px}.s-steps .s-step{flex:1 1 100%}
+}
+</style>
+
+
+
+
+<style id="hx-css">
+.hx{padding:0}
+.hx-sec{padding:64px 0;background:#fff;border-top:1px solid #EEF1F7}
+.hx-sec.alt{background:#FBFBFE}
+.hx-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.hx-eyebrow{font-size:11px;letter-spacing:.2em;color:#7C3AED;font-weight:800}
+.hx-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.hx-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.hx-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.hx-tab{border:1px solid #E3E7F0;background:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;color:#3D465C;cursor:pointer}
+.hx-tab.on{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(47,107,255,.28)}
+.hx-panel{display:none;margin-top:18px;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:22px;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.hx-panel.on{display:flex}
+.hx-pl{flex:1 1 420px;min-width:0}
+.hx-pl h4{font-size:16px;margin:0 0 10px;color:#0B1022}
+.hx-pl li{font-size:13px;color:#5B6478;line-height:1.9;margin-bottom:6px}
+.hx-pr{flex:0 1 300px;min-width:0;background:#0A0F24;border-radius:14px;padding:16px;color:#fff}
+.hx-pr .k{font-size:10.5px;letter-spacing:.16em;color:#8FA0C8}
+.hx-pr .v{font-size:26px;font-weight:800;margin:6px 0 2px;color:#fff}
+.hx-pr .u{font-size:12px;color:#A9B4D0}
+.hx-pr .b{height:5px;border-radius:99px;background:rgba(255,255,255,.12);margin-top:12px;overflow:hidden}
+.hx-pr .b i{display:block;height:100%;background:linear-gradient(90deg,#2F6BFF,#7C3AED)}
+.hx-viz{margin-top:22px;border-radius:16px;background:#0A0F24;padding:14px 16px;overflow:hidden}
+.hx-viz svg{display:block;width:100%;height:auto}
+.hx-nums{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.hx-num{flex:1 1 200px;min-width:0;border:1px solid #E3E7F0;border-radius:14px;padding:16px 18px;background:#fff}
+.hx-num b{display:block;font-size:30px;letter-spacing:-.02em;color:#0B1022}
+.hx-num span{display:block;font-size:12px;color:#7A8499;margin-top:2px}
+.hx-num em{display:block;font-size:11px;color:#0E9F6E;font-style:normal;margin-top:8px}
+.hx-marq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7;padding:12px 0}
+.hx-marq .row{display:flex;gap:26px;white-space:nowrap;animation:hxscroll 26s linear infinite;font-size:12px;color:#7A8499;letter-spacing:.06em}
+@keyframes hxscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hx-gh{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;align-items:flex-start}
+.hx-heat{flex:1 1 560px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px}
+.hx-heat .hd{display:flex;justify-content:space-between;font-size:12px;color:#3D465C;margin-bottom:12px}
+.hx-svg{display:block;width:100%;height:auto}
+.hx-lg{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8A93A6}
+.hx-lg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.hx-rt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.hx-ci{border:1px solid #E3E7F0;border-radius:12px;background:#fff;padding:12px 14px;font-size:12.5px;color:#3D465C}
+.hx-ci .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hx-ci b{font-weight:600}
+.hx-ok{color:#0E9F6E}.hx-warn{color:#B45309}.hx-bad{color:#DC2626}
+.hx-diff{border:1px solid #E3E7F0;border-radius:12px;overflow:hidden;background:#0A0F24;font-family:Consolas,monospace;font-size:12px}
+.hx-diff .h{display:flex;justify-content:space-between;padding:8px 12px;background:#111834;color:#8FA0C8;font-size:11px}
+.hx-diff pre{margin:0;padding:12px;color:#C6CBE0;line-height:1.7;max-height:190px;overflow:auto}
+.hx-diff .a{color:#7EE2A8}.hx-diff .d{color:#FF9AA2}
+.hx-tl{margin-top:24px;border-left:2px solid #E3E7F0;padding-left:18px}
+.hx-tl .it{position:relative;margin-bottom:16px}
+.hx-tl .it::before{content:"";position:absolute;left:-25px;top:4px;width:8px;height:8px;border-radius:50%;background:#7C3AED}
+.hx-tl .d{font-size:11px;color:#8A93A6;letter-spacing:.08em}
+.hx-tl .t{font-size:13.5px;color:#0B1022;margin-top:2px}
+.hx-cases{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.hx-case{flex:1 1 300px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px;transition:.18s}
+.hx-case:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(23,20,64,.09)}
+.hx-case b{display:block;font-size:28px;letter-spacing:-.02em;color:#0B1022}
+.hx-case span{display:block;font-size:11.5px;color:#7A8499;margin-top:2px}
+.hx-case p{font-size:12.5px;color:#5B6478;line-height:1.8;margin:10px 0 12px}
+.hx-case a{font-size:12px;font-weight:700;color:#2F6BFF;text-decoration:none}
+.hx-faq{margin-top:24px;border-top:1px solid #EEF1F7}
+.hx-faq details{border-bottom:1px solid #EEF1F7;padding:14px 0}
+.hx-faq summary{cursor:pointer;font-size:14px;font-weight:600;color:#0B1022;list-style:none}
+.hx-faq summary::after{content:"+";float:right;color:#8A93A6}
+.hx-faq details[open] summary::after{content:"−"}
+.hx-faq p{font-size:13px;color:#5B6478;line-height:1.85;margin:10px 0 0}
+@media(max-width:1080px){.hx-pl,.hx-pr,.hx-heat,.hx-rt{flex:1 1 100%}}
+/* 17 个页面各自的动效，keyframe 名不重复 */
+@keyframes ax1{0%{transform:translateX(0);opacity:.35}45%{opacity:1}100%{transform:translateX(700px);opacity:.35}}
+@keyframes ax2{0%{stroke-dashoffset:520}100%{stroke-dashoffset:0}}
+@keyframes ax2p{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ax3{0%{transform:scaleY(.05)}60%{transform:scaleY(1)}100%{transform:scaleY(.85)}}
+@keyframes ax4{0%{stroke-dashoffset:300}100%{stroke-dashoffset:60}}
+@keyframes ax5{0%{transform:translateY(-6px);opacity:.2}30%{opacity:1}100%{transform:translateY(150px);opacity:.2}}
+@keyframes ax6{0%{width:0}70%{width:100%}100%{width:72%}}
+@keyframes ax7{0%,15%{opacity:.18;r:7}40%,55%{opacity:1;r:11}85%,100%{opacity:.18;r:7}}
+@keyframes ax8{0%{width:0}100%{width:var(--w)}}
+@keyframes ax9{0%{transform:translateY(14px);opacity:0}30%{opacity:1;transform:translateY(0)}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ax10{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes ax10b{0%,100%{opacity:.22}50%{opacity:1}}
+@keyframes ax11{0%{transform:scaleX(.1);transform-origin:left}70%{transform:scaleX(1)}100%{transform:scaleX(.9)}}
+@keyframes ax12{0%{transform:translateY(-30px);opacity:.15}55%{opacity:1}100%{transform:translateY(40px);opacity:.15}}
+@keyframes ax13{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes ax14{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+@keyframes ax15{0%{stroke-dashoffset:440}100%{stroke-dashoffset:150}}
+@keyframes ax16{0%{width:0}100%{width:var(--w)}}
+@keyframes ax17{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+
+</style><style id="cx-viz">
+.cx-viz{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.cx-viz .cv-chrome{position:absolute;left:0;right:0;top:0;height:24px;display:flex;align-items:center;gap:7px;
+padding:0 9px;background:linear-gradient(180deg,rgba(6,9,22,.86),rgba(6,9,22,.5));
+border-bottom:1px solid rgba(255,255,255,.09);font:700 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+color:#9FB0D6;letter-spacing:.02em}
+.cx-viz .cv-chrome b{color:#E6ECFF;font-weight:800}
+.cx-viz .cv-chrome .cv-d{display:inline-flex;gap:4px;margin-right:2px}
+.cx-viz .cv-chrome .cv-d i{width:6px;height:6px;border-radius:99px;background:#FF6B6B}
+.cx-viz .cv-chrome .cv-d i:nth-child(2){background:#F5C451}
+.cx-viz .cv-chrome .cv-d i:nth-child(3){background:#37D67A}
+
+.cx-viz .cv-probe{position:absolute;left:12px;top:42px;width:120px;padding:8px;border-radius:9px;
+background:rgba(6,12,24,.72);border:1px solid rgba(56,189,248,.3)}
+.cx-viz .cv-probe i{display:block;height:5px;border-radius:99px;background:rgba(56,189,248,.2);margin-bottom:6px;
+position:relative;overflow:hidden}
+.cx-viz .cv-probe i::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;border-radius:99px;
+background:linear-gradient(90deg,transparent,#38BDF8,transparent);animation:cvAppScan 2.6s ease-in-out infinite}
+.cx-viz .cv-probe i:nth-child(2)::after{animation-delay:.35s;background:linear-gradient(90deg,transparent,#A78BFA,transparent)}
+.cx-viz .cv-probe i:nth-child(3)::after{animation-delay:.7s;background:linear-gradient(90deg,transparent,#37D67A,transparent)}
+@keyframes cvAppScan{0%{left:-40%}60%,100%{left:100%}}
+</style><style id="cx-hudfix">
+.s-shot img{height:330px}
+.s-hud{left:10px;right:10px;bottom:10px;padding:9px 11px}
+.s-hud .s-bar{height:auto;background:none;border-radius:0;overflow:visible;margin-bottom:4px}
+.s-hud .s-bar b{display:flex;justify-content:space-between;gap:8px;
+font:600 9.5px/1.4 -apple-system,"Segoe UI",Arial,sans-serif;color:#A9B6D2;letter-spacing:0;margin:0}
+.s-hud .s-bar b span:last-child{color:#F2F6FF;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-hud .s-bar i{display:block;height:3px;margin-top:3px;border-radius:99px;
+background:linear-gradient(90deg,rgba(47,107,255,.95),rgba(124,58,237,.9));box-shadow:0 0 8px rgba(47,107,255,.32)}
+</style>
+<style id="i18n-fit">
+.cv-checks{max-width:150px}
+.cv-checks p{white-space:normal;line-height:1.25;font-size:8px;overflow-wrap:anywhere}
+.s-hud .s-bar b{font-size:8.6px}
+.s-hud .s-bar b span{min-width:0}
+.s-hud .s-bar b span:first-child{flex:0 1 auto;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-hud .s-bar b span:last-child{flex:0 1 auto;max-width:54%;overflow:hidden;text-overflow:ellipsis}
+.b-met .v,.b-tag,.s-tag{max-width:100%;overflow-wrap:break-word}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+</head>
+<body>
+
+<div class="s-hero"><div class="s-grid"></div><div class="s-orb"></div>
+ <div class="s-wrap"><div class="s-in">
+  <div class="s-l">
+   <div class="s-kick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.4" width="3.6" height="8.8" rx="1"/><rect x="10.2" y="6.4" width="3.6" height="12.8" rx="1"/><rect x="16.4" y="3.4" width="3.6" height="15.8" rx="1"/><path d="M4 6.4h16"/></svg> Plateforme de couverture 02 · Accès</div>
+   <h1 class="s-h1">Tous parlent d'« intégration » — <br>mais il y a trois niveaux</h1>
+   <p class="s-sub">Il existe 2 sociétés pour le niveau A entièrement automatique, 4 sociétés pour le niveau B semi-automatique et 6 sociétés pour le niveau C vous proposent des packages téléchargeables. Nous n’entendons pas « capable d’amarrage » par « entièrement automatique ».</p>
+   <div class="s-cta"><a class="s-bp" href="/fr/v2/">Regardez la carte des capacités</a><a class="s-bg2" href="/fr/v2/platform/rules">Voir la différence dans les règles</a></div>
+   <div class="s-chips"><span>A2 · B5 · C5</span><span>Statut de l'interface transparent</span><span>Réessayez en cas d'échec</span></div>
+  </div>
+  <div class="s-r"><div class="s-shot"><img src="/img/crossaio/sub-platform-app.jpg" alt=""><div class="s-scan"></div><div class="cx-viz"><div class="cv-chrome"><span class="cv-d"><i></i><i></i><i></i></span>crossaio · <b>/fr/v2/platform/app</b></div><div class="cv-probe"><i></i><i></i><i></i></div></div>
+<div class="s-hud"><div class="h"><span>Matrice · 12 Plateformes</span><span>A2 B5 C5</span></div><div class="s-bar"><b><span>Classe A</span><span>2</span></b><i style="width:17%"></i></div><div class="s-bar"><b><span>Classe B</span><span>4</span></b><i style="width:33%"></i></div><div class="s-bar"><b><span>Classe C</span><span>6</span></b><i style="width:50%"></i></div><div class="s-bar"><b><span>Escrow d’informations d’identification</span><span>9/12</span></b><i style="width:75%"></i></div></div></div></div></div></div></div>
+<div class="s-band"><div class="s-wrap"><div class="row">
+  <div class="it"><b>2</b><span>Entièrement automatique</span></div><div class="it"><b>4</b><span>Semi-automatique</span></div><div class="it"><b>6</b><span>Importation manuelle</span></div><div class="it"><b>12</b><span>Nombre total de plateformes</span></div>
+</div></div></div>
+
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">02 / Déroulement en cinq étapes</div>
+ <h2 class="s-h2">Classification, autorisation et acceptation des accès en cinq étapes</h2>
+ <div class="s-lead">Parlons d’abord des limites des capacités, puis de l’autorisation et enfin de l’automatisation.</div>
+ <div class="s-steps"><div class="s-step"><div class="n">STEP 01</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.4" width="3.6" height="8.8" rx="1"/><rect x="10.2" y="6.4" width="3.6" height="12.8" rx="1"/><rect x="16.4" y="3.4" width="3.6" height="15.8" rx="1"/><path d="M4 6.4h16"/></svg></div><h4>évaluation notée</h4><p>Divisez la plateforme de votre magasin en A/B/C en fonction du degré d'ouverture de l'interface.</p></div><div class="s-step"><div class="n">STEP 02</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.8h7l4 4V20H7z"/><path d="M14 3.8V8h4"/><path d="M9.6 13.4l1.9 1.9 3.6-3.9"/></svg></div><h4>Collecte autorisée</h4><p>Priorité en lecture seule; les autorisations d'écriture sont confirmées individuellement.</p></div><div class="s-step"><div class="n">STEP 03</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"/><path d="M16.8 13.6v6.4M13.6 16.8h6.4"/></svg></div><h4>Chaîne ouverte</h4><p>Connexion directe de niveau A, semi-automatique de niveau B, package généré de niveau C.</p></div><div class="s-step"><div class="n">STEP 04</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5.4h5.6v13.2H6z"/><path d="M12.4 5.4H18v13.2h-5.6z"/><path d="M7.6 9.4h2.4M7.6 12h2.4M14 10.6l2.4 2.6M16.4 10.6l-2.4 2.6"/></svg></div><h4>Vérification plateforme par plateforme</h4><p>Exécutez-le avec le vrai SKU pour confirmer jusqu’où vous pouvez aller.</p></div><div class="s-step"><div class="n">STEP 05</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div><h4>tableau d'état</h4><p>L'état actuel et les capacités réelles de chaque plateforme.</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">03 / Limite et calibre</div>
+ <h2 class="s-h2">Notation et capacité réelle</h2>
+ <div class="s-lead">« Être vérifié » est aussi un statut, ne prétendez pas avoir été connecté.</div>
+ <div class="s-table"><table>
+  <thead><tr><th>plateforme</th><th>Classement</th><th>Statut actuel</th><th>Statut</th></tr></thead>
+  <tbody><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 97 26" width="97" height="26" role="img" aria-label="allegro" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="96" height="25" rx="3.25" fill="#FF5A00"/><g transform="scale(0.65)"><circle cx="24" cy="20" r="9" fill="none" stroke="#FFFFFF" stroke-width="2.4"/><path d="M24 12a8 8 0 010 16" stroke="#FFFFFF" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">allegro</text></svg></td><td>A</td><td>API stable</td><td><span class="s-tag s-ok">Entièrement automatique</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 115 26" width="115" height="26" role="img" aria-label="TikTok Shop" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="114" height="25" rx="3.25" fill="#0B0B0F"/><g transform="scale(0.65)"><path d="M24 15v10a4 4 0 11-4-4" stroke="#FE2C55" stroke-width="2.8" fill="none"/><path d="M24 15c1 3 3 5 7 5" stroke="#FE2C55" stroke-width="2.2" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">TikTok Shop</text></svg></td><td>A</td><td>Diplôme requis</td><td><span class="s-tag s-ok">Entièrement automatique</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 104 26" width="104" height="26" role="img" aria-label="AMAZON" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="103" height="25" rx="3.25" fill="#131A22"/><g transform="scale(0.65)"><path d="M19 31c8 5.4 18 5.4 27 0" stroke="#FF9900" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M30 27l5-2.6 4 4.6" stroke="#FF9900" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">AMAZON</text></svg></td><td>B</td><td>Seuls les messages autorisés</td><td><span class="s-tag s-mid">Semi-automatique</span></td></tr><tr><td><b>eBay</b></td><td>B</td><td>legacy</td><td><span class="s-tag s-mid">Semi-automatique</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 105 26" width="105" height="26" role="img" aria-label="Walmart" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="104" height="25" rx="3.25" fill="#0071CE"/><g transform="scale(0.65)"><g stroke="#FFC220" stroke-width="2.6" stroke-linecap="round"><path d="M24 10v8M24 26v8M10 22h8M30 22h8M14 12l5 5M29 25l5 5M34 12l-5 5M19 25l-5 5"/></g></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">Walmart</text></svg></td><td>B</td><td>A vérifier</td><td><span class="s-tag s-mid">Semi-automatique</span></td></tr><tr><td><b>bol</b></td><td>B</td><td>A vérifier</td><td><span class="s-tag s-mid">Semi-automatique</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 83 26" width="83" height="26" role="img" aria-label="OTTO" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="82" height="25" rx="3.25" fill="#E2001A"/><g transform="scale(0.65)"><rect x="15" y="14" width="15" height="15" rx="3" fill="#FFFFFF" opacity=".92"/><rect x="20" y="19" width="5" height="5" rx="1.4" fill="#0A0F24"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">OTTO</text></svg></td><td>C</td><td>Pas d'interface publique</td><td><span class="s-tag s-no">Donnez le paquet</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 89 26" width="89" height="26" role="img" aria-label="fruugo" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="88" height="25" rx="3.25" fill="#009FE3"/><g transform="scale(0.65)"><path d="M22 26V14h9M22 20h7" stroke="#FFFFFF" stroke-width="2.4" fill="none"/><path d="M34 15l7 7-7 7" stroke="#FFFFFF" stroke-width="2" opacity=".85"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">fruugo</text></svg></td><td>C</td><td>Pas d'interface publique</td><td><span class="s-tag s-no">Donnez le paquet</span></td></tr></tbody>
+ </table></div>
+</div></div>
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">04 / Produits prêts à l'emploi</div>
+ <h2 class="s-h2">Cliquez pour ouvrir le fichier, pas la capture d'écran</h2>
+ <div class="s-lead">Chaque produit peut être soumis directement, déposé une plainte directement et comptabilisé directement.</div>
+ <div class="s-files"><div class="s-file"><div class="top"><span>JSON</span><span style="color:#0EA5E9">Statut</span></div><div class="nm">platform_status.json</div><p>12 Classification de la plateforme et statut de l'interface</p></div><div class="s-file"><div class="top"><span>MD</span><span style="color:#0EA5E9">Descriptif</span></div><div class="nm">integration_notes.md</div><p>Où peut aller chaque plateforme et pourquoi?</p></div><div class="s-file"><div class="top"><span>CSV</span><span style="color:#0EA5E9">Acceptation</span></div><div class="nm">verify_result.csv</div><p>Résultats de la vérification pour le vrai SKU</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">05/ Vous appartenez peut-être à un autre segment</div>
+ <h2 class="s-h2">Descendez ensuite, il n’est pas nécessaire de revenir sur la page d’accueil et de recommencer.</h2>
+ <div class="s-sib"><a class="s-card" href="/fr/v2/platform/rules"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="4.4" width="15.2" height="15.2" rx="2"/><path d="M4.4 9.2h15.2"/><path d="M4.4 14h15.2"/><path d="M9.6 4.4v15.2"/></svg></div><h4>Différences dans les règles de la plateforme</h4><p>Regardez les règles avant la capacité.</p><div class="go">Voir le règlement →</div></a><a class="s-card" href="/fr/v2/feature/matrix"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"/><path d="M16.8 13.6v6.4M13.6 16.8h6.4"/></svg></div><h4>12 plateformes sont distribuées en même temps</h4><p>Le chemin réel de la distribution.</p><div class="go">Voir répartition →</div></a><a class="s-card" href="/fr/v2/tool/trust"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="6.4" width="16.4" height="11.2" rx="2" stroke-dasharray="3 2.6"/><path d="M9.4 12h5.2"/><path d="M12 9.4v5.2"/></svg></div><h4>Limites et avertissements</h4><p>Les limites des capacités sont écrites ici.</p><div class="go">Regardez les frontières →</div></a></div>
+ <div class="s-end">
+   <div><h3>Regardez d’abord la classification, puis parlez du temps que vous pouvez gagner.</h3><p>La version gratuite vous permet de visualiser l'état des 12 plateformes.</p></div>
+   <div class="s-cta"><a class="s-bp" href="/fr/v2/">Regardez la carte des capacités</a></div>
+ </div>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="hx">
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">06 / Perspective de l'établi · A2 / B5 / C5</div>
+  <h2 class="hx-h2">On l’appelle aussi accès, mais il est en réalité divisé en trois niveaux.</h2>
+  <div class="hx-lead">Les entreprises de niveau A 2 sont directement connectées, les entreprises de niveau B 5 sont semi-automatiques et les entreprises de niveau C 5 ne peuvent proposer que des packages. Chaque entreprise doit indiquer clairement le point d'intervention manuelle.</div>
+  <div class="hx-tabs"><button class="hx-tab on" data-i="0">évaluation notée</button><button class="hx-tab" data-i="1">Autoriser</button><button class="hx-tab" data-i="2">sonde</button><button class="hx-tab" data-i="3">Kanban</button></div>
+  <div class="hx-panel on"><div class="hx-pl"><h4>évaluation notée</h4><ul style="margin:0;padding-left:18px"><li>Classé par documents d'interface et exigences de qualification</li><li>S'il n'y a pas de documentation, entrez C</li><li>Les résultats de notation sont accessibles au public</li></ul></div><div class="hx-pr"><div class="k">Classement</div><div class="v">A2/B5/C5</div><div class="u">Liste complète de 12 plateformes</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Autoriser</h4><ul style="margin:0;padding-left:18px"><li>Autorisation plateforme par plateforme, minimisation des autorisations</li><li>Rappel automatique pour réaccorder une fois expiré</li><li>Le statut d'autorisation entre dans le tableau de bord</li></ul></div><div class="hx-pr"><div class="k">Autoriser</div><div class="v">8 / 12</div><div class="u">4 en attente d'autorisation</div><div class="b"><i style="width:67%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>sonde</h4><ul style="margin:0;padding-left:18px"><li>Exécutez une opération de lecture sur le vrai SKU</li><li>Code d'erreur d'enregistrement d'échec</li><li>Lecture seule, aucune donnée de production écrite</li></ul></div><div class="hx-pr"><div class="k">sonde</div><div class="v">Passer</div><div class="u">11 est revenu à la normale</div><div class="b"><i style="width:92%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Kanban</h4><ul style="margin:0;padding-left:18px"><li>Trois colonnes: statut, succès final et points manuels</li><li>Raisons de l'échec dans les mots humains</li><li>Abonnable aux changements</li></ul></div><div class="hx-pr"><div class="k">Kanban</div><div class="v">1 page</div><div class="u">12 plateformes</div><div class="b"><i style="width:100%"></i></div></div></div>
+  <div class="hx-viz"><svg viewBox="0 0 740 130"><rect x="60" y="18" width="300" height="26" rx="6" fill="#111834" stroke="#0EA5E9" stroke-opacity=".5"/><rect x="80" y="52" width="260" height="26" rx="6" fill="#111834" stroke="#0EA5E9" stroke-opacity=".35"/><rect x="100" y="86" width="220" height="26" rx="6" fill="#111834" stroke="#0EA5E9" stroke-opacity=".22"/><text x="72" y="36" fill="#8FA0C8" font-size="10">A · Connexion directe 2</text><text x="92" y="70" fill="#8FA0C8" font-size="10">B · Semi-automatique 4</text><text x="112" y="104" fill="#8FA0C8" font-size="10">C·Donner le paquet 6</text><circle cx="420" cy="31" r="5" fill="#7EE2A8" style="animation:ax12 2.6s linear infinite"/><circle cx="450" cy="65" r="5" fill="#0EA5E9" style="animation:ax12 2.6s linear .8s infinite"/><circle cx="480" cy="99" r="5" fill="#FF9AA2" style="animation:ax12 2.6s linear 1.6s infinite"/></svg></div>
+  <div class="hx-nums"><div class="hx-num"><b>2</b><span>Connexion directe de classe A</span><em>Allegro / TikTok</em></div><div class="hx-num"><b>4</b><span>Semi-automatique de classe B</span><em>Confirmation manuelle requise</em></div><div class="hx-num"><b>6</b><span>Forfait de qualité C</span><em>Pas d'interface publique</em></div><div class="hx-num"><b>8/12</b><span>Autorisé</span><em>4 en attente d'autorisation</em></div></div>
+  
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">07 / Traçabilité · Accéder aux enregistrements des sondes</div>
+  <h2 class="hx-h2">Le statut de chaque magasin dépend du véritable SKU.</h2>
+  <div class="hx-lead">Les résultats de la sonde, l'état d'autorisation et l'heure du dernier succès sont affichés sur le même écran, éliminant ainsi le besoin de deviner.</div>
+  <div class="hx-gh">
+    <div class="hx-heat"><div class="hd"><span>Sonde de près de 52 semaines</span><span>2 140 fois au total</span></div><svg class="hx-svg" viewBox="0 0 624 84" role="img" aria-label="Carte thermique d'exécution au cours des 52 dernières semaines"><rect x="0" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="0" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="12" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="12" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="12" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="60" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="72" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="120" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="120" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="132" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="144" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="156" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="156" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="168" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="228" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="228" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="252" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="264" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="264" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="288" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="300" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="324" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="324" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="336" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="336" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="336" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="372" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="384" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="384" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="420" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="480" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="480" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="492" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="492" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="492" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="492" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="504" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="516" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="540" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="540" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="540" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="540" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="552" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="564" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="576" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="588" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="588" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="600" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="600" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="612" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="72" width="9" height="9" rx="2" fill="#006D32"/></svg>
+      <div class="hx-lg">moins<i style="background:#EBEDF0"></i><i style="background:#9BE9A8"></i><i style="background:#26A641"></i><i style="background:#006D32"></i><i style="background:#0E4429"></i>Beaucoup</div>
+    </div>
+    <div class="hx-rt"><div class="hx-ci"><div class="row"><b>Précision du classement</b><span class="hx-ok">Passer</span></div><div style="color:#8A93A6;margin-top:4px">A2 / B5 / C5</div></div><div class="hx-ci"><div class="row"><b>Marquage à vérifier</b><span class="hx-warn">4 maisons</span></div><div style="color:#8A93A6;margin-top:4px">Ne faites pas semblant d'être connecté</div></div><div class="hx-ci"><div class="row"><b>Acceptation réelle des SKU</b><span class="hx-ok">Passer</span></div><div style="color:#8A93A6;margin-top:4px">Exécuter sur toutes les plateformes</div></div>
+      <div class="hx-diff"><div class="h"><span>integration.status.diff</span><span>a77e20c</span></div><pre><span class="a">+ tier A: allegro, tiktok</span>
+<span class="a">+ tier B: amazon, ebay, walmart, bol, kaufland</span>
+<span class="d">- claim: "full auto all platforms"</span>
+<span class="a">+ claim: "A2 / B5 / C5"</span></pre></div>
+    </div>
+  </div>
+  <div class="hx-tl"><div class="it"><div class="d">2026-11-02 10:00</div><div class="t">Évaluation de la notation: A2/B5/C5</div></div><div class="it"><div class="d">2026-11-06 16:30</div><div class="t">Acceptation plateforme par plateforme avec de vrais SKU</div></div><div class="it"><div class="d">2026-11-10 09:00</div><div class="t">Le tableau d'affichage est mis à jour, 4 entreprises sont encore marquées pour vérification</div></div></div>
+</div></div>
+
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">08 / Résultats réels · Accès à la mesure réelle</div>
+  <h2 class="hx-h2">Accédez à la situation actuelle et affichez-la selon les niveaux</h2>
+  <div class="hx-cases"><div class="hx-case"><b>2</b><span>Peut être laissé sans surveillance</span><p>Seules deux entreprises peuvent véritablement envoyer et recevoir automatiquement.</p><a href="/fr/v2/tool/check">Vérifier ma boutique →</a></div><div class="hx-case"><b>4</b><span>Plateforme à vérifier</span><p>S'il n'y a pas de document public, il ne sera pas écrit comme « ouvert ».</p><a href="/fr/v2/platform/rules">Voir l'étape suivante →</a></div><div class="hx-case"><b>92%</b><span>Taux de réussite de la sonde</span><p>11 sont normaux et l'interface de 1 a expiré.</p><a href="/fr/signup">Commencer gratuitement · 5 contrôles par jour →</a></div></div>
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">09 / FAQ</div>
+  <h2 class="hx-h2">Quatre problèmes pratiques liés à la notation d'accès</h2>
+  <div class="hx-faq"><details><summary>Pourquoi ne pas les parcourir tous?</summary><p>Certaines plateformes ne disposent pas d'interfaces de messagerie publiques et un accès difficile entraînera un risque de fermeture de compte.</p></details><details><summary>Qu'est-ce qui nécessite spécifiquement du travail manuel pour le niveau B?</summary><p>Confirmez les champs, cliquez sur Soumettre ou copiez le message dans le backend.</p></details><details><summary>L'autorisation est-elle sûre?</summary><p>Autorisations minimales, principalement en lecture seule; les opérations d'écriture sont autorisées séparément et laissent des traces.</p></details><details><summary>Le statut va-t-il changer?</summary><p>Oui, une fois que la plateforme aura modifié l'interface et effectué une nouvelle sonde, le Kanban changera en conséquence.</p></details></div>
+</div></div>
+<script>(function(){try{var t=document.querySelectorAll('.hx-tab'),p=document.querySelectorAll('.hx-panel');for(var i=0;i<t.length;i++){(function(k){t[k].addEventListener('click',function(){for(var j=0;j<t.length;j++){t[j].className='hx-tab'+(j===k?' on':'');p[j].className='hx-panel'+(j===k?' on':'');}});})(i);}}catch(e){}})();</script>
+</div>
+
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">Le moteur de qualité et de conformité Listing du cross-border européen. Un seul espace de travail, du premier contrôle au sauvetage après délistage.</p>
+    <span class="cx-badge"><i></i>UE 2023/988 · GPSR en vigueur</span>
+    <a class="cx-cta" href="/fr/v2/tool/check">Vérifier ma boutique · 30 s <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>Carte des capacités</h4>
+      <ul>
+        <li><a class="cx-l" href="/fr/v2/launch">01 Avant le lancement<small>Inspection en un seul passage · Environ 10 minutes</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/rescue">02 Accident<small>5 minutes qualitatives · Appel trilingue</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/ops">03 Opérations quotidiennes<small>12 plateformes × 6 inspections automatiques</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/govern">04 Gouvernance<small>Classement A/B/C · Marques de manipulation</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Fonctions produit</h4>
+      <ul>
+        <li><a class="cx-l" href="/fr/v2/feature/gpsr">Bloc de conformité GPSR<small>Personne responsable · Mentions d'avertissement · Documents techniques</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/feature/listing">Qualité des annonces<small>Validation des champs · Nombre de mots du titre</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/feature/matrix">12 Vérification de la plateforme<small>Classement A2/B5/C5</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/feature/review">Bouche à oreille et avis<small>Avis négatif · Modèle de réponse</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/feature/ai-service">Service client IA<small>Questions et réponses avant-vente·Confort après-vente</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/feature/safety">Risque et sécurité<small>Avertissement de suspension de compte · Réclamation laissant des traces</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Plateformes</h4>
+      <ul>
+        <li><a class="cx-l" href="/fr/v2/platform/rules">Différences dans les règles de la plateforme<small>Comparaison de 12 plateformes</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/platform/app">Classification du statut d'accès<small>A entièrement automatique · B semi-automatique · C manuel</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/platform/localize">Localisation et langue<small>Politique des langues autochtones · Unités de mesure</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/platform/limits">Nombre de mots et limites de champs<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Outils gratuits</h4>
+      <ul>
+        <li><a class="cx-l" href="/fr/v2/tool/check">Contrôle conformité<small>30 secondes · Aucune liaison avec le magasin ni autorisation</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/tool/skills">Flux de travail des compétences<small>Connectez-vous à votre ERP/formulaires</small></a></li>
+        <li><a class="cx-l" href="/fr/v2/tool/trust">centre de confiance<small>Limites des données · Autorisation en lecture seule</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Communauté & ressources</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">collège<small>Cours sur la conformité et les griefs</small></a></li>
+        <li><a class="cx-l" href="/community">communauté<small>Entraide vendeur européen</small></a></li>
+        <li><a class="cx-l" href="/blog">Blogue<small>Interprétation des modifications des règles de la plateforme</small></a></li>
+        <li><a class="cx-l" href="/podcast">Baladodiffusion<small>Mise à jour hebdomadaire sur la conformité transfrontalière</small></a></li>
+        <li><a class="cx-l" href="/summit">sommet<small>Réunion annuelle des vendeurs européens</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · Moteur européen de qualité et de conformité des listings</span>
+  <span class="cx-legal">
+    <a href="/fr/privacy">politique de confidentialité</a>
+    <a href="/fr/terms">Conditions d'utilisation</a>
+    <a href="/fr/v2/tool/trust">Déclaration de conformité</a>
+    <a href="/fr/v2/tool/trust">Traitement des données</a>
+  </span>
+  <span class="cx-ok"><i></i>Tous les systèmes OK · chinois simplifié</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
+</body></html>

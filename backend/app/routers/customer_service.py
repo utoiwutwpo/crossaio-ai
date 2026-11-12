@@ -2,7 +2,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from ..database import get_db, User, CustomerServiceConversation, ReviewRewriteLog
+from pydantic import BaseModel
+
+from ..database import (get_db, User, CustomerServiceConversation,
+                        ReviewRewriteLog, InboxConversation, InboxMessage)
 from ..schemas import (
     CustomerServiceRequest, CustomerServiceResponse, ReviewRewriteRequest,
     ReviewRewriteResponse,
@@ -12,6 +15,11 @@ from ..experts.customer_service import CustomerServiceExpert
 from ..experts.review_rewrite import ReviewRewriteExpert
 from ..billing import check_and_record_usage
 from ..services.compliance_context import build_compliance_context
+from ..entitlements import can_act
+from ..connectors.channels.base import CapabilityNotSupported
+from ..connectors.channels.registry import adapter_for
+from ..experts.ai_act import identity_text
+from ..workers.message_sync import _load_payload, sync_all, sync_platform
 
 router = APIRouter()
 expert = CustomerServiceExpert()
@@ -82,6 +90,71 @@ def list_conversations(
             for r in rows
         ],
     }
+
+
+# ================= 统一收件箱：同步 + 发送（先过双闸） =================
+class SendReplyRequest(BaseModel):
+    platform: str
+    thread_id: str
+    text: str
+
+
+@router.post("/sync/{platform}", summary="同步单平台消息（双闸 + 适配器）")
+async def sync_one_platform(platform: str,
+                            user: User = Depends(get_current_user),
+                            db: Session = Depends(get_db)):
+    return await sync_platform(db, user, platform)
+
+
+@router.post("/sync-all", summary="同步全部已接入平台")
+async def sync_everything(user: User = Depends(get_current_user),
+                          db: Session = Depends(get_db)):
+    return await sync_all(db, user)
+
+
+@router.post("/send", summary="发送回复到平台（不支持则 409 + 修复提示）")
+async def send_to_platform(req: SendReplyRequest,
+                           user: User = Depends(get_current_user),
+                           db: Session = Depends(get_db)):
+    decision = can_act(db, user, req.platform, "send_message")
+    if not decision["allowed"]:
+        raise HTTPException(409, detail={
+            "reason_code": decision["reason_code"],
+            "hint": decision["hint"],
+            "platform": decision["platform"],
+            "action": "send_message",
+        })
+    payload = _load_payload(db, user.id, req.platform)
+    if not payload:
+        raise HTTPException(409, detail={
+            "reason_code": "not_connected",
+            "hint": f"{req.platform} 尚未保存凭证，请先在凭证中心授权"})
+
+    adapter = adapter_for(req.platform, payload)
+    try:
+        result = await adapter.send_message(req.thread_id, req.text)
+    except CapabilityNotSupported as exc:
+        raise HTTPException(409, detail=exc.as_dict())
+
+    # 计量：套餐本身不含发送时，消耗一次 auto_reply 加购额度
+    try:
+        from ..entitlements import ACTION_PLANS, consume_addon
+        if getattr(user, "plan", "free") not in ACTION_PLANS.get("send_message", set()):
+            consume_addon(db, user, "auto_reply", ref_id=req.thread_id or "")
+    except Exception:
+        pass
+
+    conv = (db.query(InboxConversation)
+            .filter(InboxConversation.user_id == user.id,
+                    InboxConversation.platform == req.platform,
+                    InboxConversation.external_thread_id == req.thread_id).first())
+    if conv:
+        db.add(InboxMessage(conversation_id=conv.id, direction="outgoing",
+                            body=req.text,
+                            ai_act_disclosure=identity_text("en")))
+        conv.status = "pending"
+        db.commit()
+    return {"ok": True, **result}
 
 
 # ================= P0-4 跨平台差评回复改写（只生成/导出，无自动发送端点） =================

@@ -119,7 +119,7 @@ FEATURES = {
         "stats": [("7", "CE 类目规则库"), ("7", "警示语原生语言"), ("13", "平台回填适配"), ("15天", "Safety Gate 上报提示")],
         "tier_line": "Free：体检只报问题 · Starter €29/月：合规块全文 + 属性树校验 + 7x24 监控",
         "faqs": [
-            ("免费体检和付费合规块的区别？", "免费体检告诉你缺什么、会被怎么罚（问题清单）；Starter 起生成可直接粘贴的合规块全文（欧代 + 警示语 + 平台原生头部），并支持 API 回填到 13 个平台。"),
+            ("免费体检和付费合规块的区别？", "免费体检告诉你缺什么、会被怎么罚（问题清单）；Starter 起生成可直接粘贴的合规块全文（欧代 + 警示语 + 平台原生头部），并支持 API 回填到 12 个平台。"),
             ("警示语是机器翻译吗？", "不是。德/法/意/西/波/罗/英 7 种语言的警示语为该语言的市场原生表述（如德国 ProdSG / 法国 DGCCRF 执法语境），不是直译。其余语言输出英文标注行并明确标示，避免空占位。"),
             ("欧代信息从哪里来？", "你可以在欧代台账中维护多个欧盟责任人并设默认；生成合规块时自动替换占位符，不需要每次手动填。"),
         ],
@@ -132,7 +132,7 @@ FEATURES = {
         "meta_desc": "一次输入生成标题/五点/详情/搜索词，Otto 70 / Allegro 75 / Amazon 200 字数硬校验，生成后自动评分标记违规项，16 语言本地化。免费每天 5 次。",
         "eyebrow": "产品能力 ② · 入口",
         "h1": "一次输入，<br>按平台规则写出<em>能过审</em>的 listing",
-        "sub": "标题 + 五点 + 详情 + 搜索词，按 13 个平台的字数、语言、结构规则生成。生成后自动评分并标记违规项 —— 不是「建议填写」，是像平台审核一样硬校验。",
+        "sub": "标题 + 五点 + 详情 + 搜索词，按 12 个平台的字数、语言、结构规则生成。生成后自动评分并标记违规项 —— 不是「建议填写」，是像平台审核一样硬校验。",
         "hero_note": "✓ 每天免费 5 次 · ✓ 无需绑定店铺 · ✓ 复制粘贴即上架",
         "mockup": "generator",
         "pain_title": "文案工具的通病",
@@ -162,7 +162,7 @@ FEATURES = {
         "stats": [("13", "平台规则内置"), ("16", "生成语言"), ("5次/天", "免费额度"), ("90%", "平均节省运营时间")],
         "tier_line": "Free：每天 5 次 · Starter €29/月：每天 50 次 + GPSR 合规块内嵌 · Pro €49/月：每天 200 次 + 广告文案",
         "faqs": [
-            ("和 ChatGPT 直接写有什么区别？", "ChatGPT 不知道 Otto 70 字符、Allegro 75 字符这些平台硬规则，也不知道 GPSR 要内嵌什么。CrossAIO 把 13 个平台的规则做成硬校验，生成即合规，不用反复改。"),
+            ("和 ChatGPT 直接写有什么区别？", "ChatGPT 不知道 Otto 70 字符、Allegro 75 字符这些平台硬规则，也不知道 GPSR 要内嵌什么。CrossAIO 把 12 个平台的规则做成硬校验，生成即合规，不用反复改。"),
             ("生成的 listing 质量如何保证？", "生成后自动评分：字数、语言、结构化要求逐项核对并标记违规项；属性树对 EAN 校验位等做硬阻断，上架前就能发现会被拒审的问题。"),
             ("需要绑定我的店铺吗？", "不需要。CrossAIO 是独立工作台，注册即用，生成结果复制粘贴到任何平台卖家中心即可。"),
         ],
@@ -171,10 +171,10 @@ FEATURES = {
     "matrix": {
         "icon": "🌍",
         "name": "多平台本地化矩阵",
-        "title": "多平台矩阵 — 一次输入 13 平台批量本地化 · Allegro/eMAG/Cdiscount 竞品零覆盖 | CrossAIO",
-        "meta_desc": "一次输入 → 13 平台批量生成本地化 Listing：Amazon EU+US、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com。不绑店独立工作台。",
+        "title": "多平台矩阵 — 一次输入 12 平台批量本地化 · Allegro/eMAG/Cdiscount 竞品零覆盖 | CrossAIO",
+        "meta_desc": "一次输入 → 12 平台批量生成本地化 Listing：Amazon EU+US、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com。不绑店独立工作台。",
         "eyebrow": "产品能力 ③ · 规模杠杆",
-        "h1": "一次输入，<br><em>13 平台</em>批量本地化",
+        "h1": "一次输入，<br><em>12 平台</em>批量本地化",
         "sub": "Amazon 欧洲站 + 美国站、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com —— 规则全部内置，语言自动匹配。H10 不碰本土平台，Marqetir 逼你绑店，我们都不。",
         "hero_note": "✓ 不绑店独立工作台 · ✓ 小平台联动覆盖东欧/南欧 · ✓ 矩阵结果逐平台可编辑",
         "mockup": "matrix",
@@ -187,7 +187,7 @@ FEATURES = {
         ],
         "caps": [
             {"group": "矩阵生成", "color": "g1", "items": [
-                ("13 平台批量生成", "一次输入 → 13 平台本地化结果，逐平台可编辑、可复制、可回填"),
+                ("12 平台批量生成", "一次输入 → 12 平台本地化结果，逐平台可编辑、可复制、可回填"),
                 ("语言自动匹配", "pl/de/fr/ro/nl 等按平台自动选择，无需手动指定"),
                 ("合规块随行内嵌", "每份 listing 输出自带 GPSR 合规块（Starter 起），扩平台不漏合规"),
             ]},
@@ -199,13 +199,13 @@ FEATURES = {
         ],
         "steps": [
             ("输入一次产品信息", "产品名称 + 关键词 + 属性，所有平台共用同一输入"),
-            ("勾选目标平台", "单选精修或 13 平台全选，规则与语言自动按平台匹配"),
+            ("勾选目标平台", "单选精修或 12 平台全选，规则与语言自动按平台匹配"),
             ("批量导出/回填", "逐平台复制粘贴，或经 API 适配层回填（Amazon SP-API / eBay REST）"),
         ],
         "stats": [("13", "平台规则内置"), ("16", "生成语言"), ("0", "需要绑定的店铺"), ("4", "竞品零覆盖小平台")],
         "tier_line": "Free：单平台体验 · Pro €49/月：3 平台矩阵 · Business €149/月：无限平台矩阵 + 优先支持",
         "faqs": [
-            ("13 个平台包括哪些？", "Amazon 欧洲站+美国站、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com。其中 Cdiscount、Allegro、eMAG、Fruugo 在竞品中覆盖率为零。"),
+            ("12 个平台包括哪些？", "Amazon 欧洲站+美国站、eBay、Allegro、Otto、Cdiscount、eMAG、TikTok Shop、Fruugo、Walmart、Kaufland、Zalando、bol.com。其中 Cdiscount、Allegro、eMAG、Fruugo 在竞品中覆盖率为零。"),
             ("矩阵生成的质量和小语种质量如何？", "每个平台按其卖家中心文档的字数/语言/结构规则硬校验；小语种按平台自动匹配当地语言，GPSR 警示语用该语言原生表述。"),
             ("真的不用绑定店铺？", "对。矩阵生成完全在 CrossAIO 工作台内完成。只有使用「API 回填」时才需要你提供对应平台的开发者凭证（Amazon SP-API / eBay OAuth），凭证存你自己的环境变量。"),
         ],
@@ -269,7 +269,7 @@ FEATURES = {
             "Amazon/eBay 官方 AI 客服只解决「快回复」，完全没有 AI Act 合规层",
             "Responso / eDesk / BaseLinker 等客服工具至今零内建 AI Act Art.50 披露 —— 而它 2026-08-02 强制生效",
             "买家消息里的安全诉求（产品断裂/过热/儿童误吞）被当成普通咨询自动秒回，漏掉 GPSR 上报义务",
-            "13 个平台的买家消息分散在各卖家后台，回复口径不一致，合规状态无法追踪",
+            "12 个平台的买家消息分散在各卖家后台，回复口径不一致，合规状态无法追踪",
         ],
         "caps": [
             {"group": "回复与披露", "color": "g1", "items": [
@@ -279,7 +279,7 @@ FEATURES = {
             ]},
             {"group": "接入与收件箱", "color": "g2", "items": [
                 ("eBay webhook 接入", "OAuth2 授权后买家消息实时推送，无需第三方工具介入"),
-                ("跨平台统一收件箱", "13 平台会话统一管理，手动导入 + API 拉取，GPSR/AI Act 状态逐条标记"),
+                ("跨平台统一收件箱", "12 平台会话统一管理，手动导入 + API 拉取，GPSR/AI Act 状态逐条标记"),
                 ("数据自留", "所有数据在你的 CrossAIO 账户内，凭证存你自己的环境变量"),
             ]},
         ],
@@ -343,11 +343,11 @@ FEATURES = {
     "inbox": {
         "icon": "📥",
         "name": "跨平台统一收件箱",
-        "title": "统一收件箱 — 13 平台买家消息一处管理 · AI 母语回复 · 合规状态逐条标记 | CrossAIO",
-        "meta_desc": "把 Amazon/eBay/Allegro/Otto/Kaufland 等 13 个平台的买家消息汇到一个界面：AI 按买家母语起草回复，Art.50 披露与 GPSR 安全指引自动内嵌，合规状态逐条留痕。",
+        "title": "统一收件箱 — 12 平台买家消息一处管理 · AI 母语回复 · 合规状态逐条标记 | CrossAIO",
+        "meta_desc": "把 Amazon/eBay/Allegro/Otto/Kaufland 等 12 个平台的买家消息汇到一个界面：AI 按买家母语起草回复，Art.50 披露与 GPSR 安全指引自动内嵌，合规状态逐条留痕。",
         "eyebrow": "产品能力 ⑦ · 规模瓶颈解药",
-        "h1": "13 个平台的买家消息，<br>一个收件箱<em>全部管完</em>",
-        "sub": "欧洲跨境卖家平均同时运营 6+ 平台，买家消息散落各后台、语言各异。CrossAIO 统一收件箱把 13 平台会话汇到一处：eBay OAuth 实时同步，其余平台凭证自助接入或批量导入；AI 草稿按买家母语生成，Art.50 披露 + GPSR 安全指引自动内嵌。",
+        "h1": "12 个平台的买家消息，<br>一个收件箱<em>全部管完</em>",
+        "sub": "欧洲跨境卖家平均同时运营 6+ 平台，买家消息散落各后台、语言各异。CrossAIO 统一收件箱把 12 平台会话汇到一处：eBay OAuth 实时同步，其余平台凭证自助接入或批量导入；AI 草稿按买家母语生成，Art.50 披露 + GPSR 安全指引自动内嵌。",
         "hero_note": "✓ eBay 实时同步 · ✓ 12 平台自助凭证/导入 · ✓ 回复合规留痕",
         "mockup": "inbox",
         "pain_title": "多平台客服的三重消耗",
@@ -371,7 +371,7 @@ FEATURES = {
         ],
         "steps": [
             ("接入平台", "eBay 一键 OAuth；其余平台在工作台凭证中心粘贴 API 凭证或批量导入消息"),
-            ("统一处理", "13 平台会话一个列表：筛选 → AI 母语草稿 → 确认发送"),
+            ("统一处理", "12 平台会话一个列表：筛选 → AI 母语草稿 → 确认发送"),
             ("合规留痕", "Art.50 披露与 GPSR 事件逐条标记，随时导出审计"),
         ],
         "stats": [("13", "平台统一接入"), ("12", "支持自助凭证"), ("16", "AI 回复语言"), ("100%", "回复合规留痕")],
@@ -397,7 +397,7 @@ FEATURES = {
         "pains": [
             "促销词踩线：best / cheapest / No.1 在多数平台广告政策里直接拒审",
             "德国站广告写英语转化腰斩，本地化又请不起母语文案",
-            "每个平台广告位字数规则不同，手写 13 平台版本纯人力消耗",
+            "每个平台广告位字数规则不同，手写 12 平台版本纯人力消耗",
         ],
         "caps": [
             {"group": "生成", "color": "g1", "items": [
@@ -549,8 +549,7 @@ def _flow_svg(steps, lang: str = "zh") -> str:
 
 _PLATFORM_FLAGS = {
     # flag 字段：有官方 logo 的平台放 <img class="pm-logo">；fruugo / bol 无 logo，保留原旗标 emoji。
-    "amazon": ('<img class="pm-logo" src="/img/logos/amazon.svg" alt="Amazon EU" />', "Amazon 欧洲站", "DE/FR/IT/ES"),
-    "amazon_us": ('<img class="pm-logo" src="/img/logos/amazon.svg" alt="Amazon US" />', "Amazon 美国站", "US/CA/MX"),
+    "amazon": ('<img class="pm-logo" src="/img/logos/amazon.svg" alt="Amazon EU + US" />', "Amazon 欧洲站 + 美国站", "UK/DE/FR/IT/ES/NL/SE/PL/BE/US"),
     "ebay": ('<img class="pm-logo" src="/img/logos/ebay.svg" alt="eBay" />', "eBay", "欧美全局"),
     "fruugo": ("🇪🇺", "Fruugo", "泛欧分销"),
     "walmart": ('<img class="pm-logo" src="/img/logos/walmart.svg" alt="Walmart" />', "Walmart", "US"),
@@ -589,7 +588,7 @@ _DISPLAY_I18N = {
 
 
 def _platform_marquee(lang: str = "zh") -> str:
-    """13 平台无缝滚动旗帜墙（悬停暂停），素材数据与平台注册表同源。"""
+    """12 平台无缝滚动旗帜墙（悬停暂停），素材数据与平台注册表同源。"""
     from ..experts.platform_registry import PLATFORMS
     chips = []
     for key, (flag, name, region) in _PLATFORM_FLAGS.items():
@@ -652,7 +651,7 @@ def _m_gpsr(lang: str = "zh") -> str:
     <rect x="330" y="282" width="110" height="24" rx="12" fill="#2563eb"/>
     <text x="385" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Arial">复制合规块</text>
     <rect x="450" y="282" width="128" height="24" rx="12" fill="#fff" stroke="#bfdbfe"/>
-    <text x="514" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8" font-family="Arial">API 回填 13 平台</text>
+    <text x="514" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8" font-family="Arial">API 回填 12 平台</text>
     <rect x="26" y="336" width="568" height="64" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
     <text x="44" y="362" font-size="12" font-weight="700" fill="#065f46" font-family="Arial">🛡 7x24 监控已开启</text>
     <text x="44" y="382" font-size="11" fill="#166534" font-family="Arial">规则更新自动复检 · 安全事件 15 天 Safety Gate 上报提示 · 风险日报推送</text>
@@ -672,7 +671,7 @@ def _m_gpsr(lang: str = "zh") -> str:
             no3="✗ manufacturer info incomplete",
             block="Generated GPSR compliance block (paste-ready)",
             copy="Copy block",
-            api="API backfill · 13 platforms",
+            api="API backfill · 12 platforms",
             mon="🛡 7×24 monitoring on",
             mond="auto re-check on rule updates · safety events reported to Safety Gate within 15 days · daily risk report"),
         "de": dict(
@@ -687,7 +686,7 @@ def _m_gpsr(lang: str = "zh") -> str:
             no3="✗ Herstellerangaben unvollständig",
             block="Erzeugter GPSR-Compliance-Block (einfügbar)",
             copy="Block kopieren",
-            api="API-Backfill · 13 Plattformen",
+            api="API-Backfill · 12 Plattformen",
             mon="🛡 7×24-Überwachung aktiv",
             mond="automatische Wiederholung bei Regel-Updates · Sicherheitsereignisse innerhalb von 15 Tagen an das Safety Gate gemeldet · täglicher Risikobericht"),
         "fr": dict(
@@ -702,7 +701,7 @@ def _m_gpsr(lang: str = "zh") -> str:
             no3="✗ infos fabricant incomplètes",
             block="Bloc de conformité GPSR généré (prêt à coller)",
             copy="Copier le bloc",
-            api="backfill API · 13 plateformes",
+            api="backfill API · 12 plateformes",
             mon="🛡 surveillance 7×24 activée",
             mond="re-vérification auto lors des mises à jour de règles · signalement Safety Gate sous 15 jours · rapport de risque quotidien"),
     }
@@ -795,12 +794,12 @@ def _m_matrix(lang: str = "zh") -> str:
     <text x="42" y="142" font-size="11" fill="#334155" font-family="Arial">标题 + 关键词 + 属性（品牌/EAN/材质）</text>
     <path d="M272 128 h30" stroke="#94a3b8" stroke-width="2"/>
     <rect x="308" y="98" width="286" height="60" rx="10" fill="#f5f3ff" stroke="#ddd6fe"/>
-    <text x="324" y="122" font-size="12" font-weight="700" fill="#6d28d9" font-family="Arial">13 平台规则内置 · 16 语言自动匹配</text>
+    <text x="324" y="122" font-size="12" font-weight="700" fill="#6d28d9" font-family="Arial">12 平台规则内置 · 16 语言自动匹配</text>
     <text x="324" y="142" font-size="11" fill="#475569" font-family="Arial">不绑店 · 独立工作台 · 结果逐平台可编辑</text>
     {tiles}
     <text x="310" y="404" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Arial">Allegro / eMAG / Cdiscount / Fruugo —— 主流工具覆盖率为零，CrossAIO 率先补齐</text>
     """
-    svg = _MOCKUP_SHELL.format(alt="13 平台矩阵批量生成", title="多平台矩阵", body=body)
+    svg = _MOCKUP_SHELL.format(alt="12 平台矩阵批量生成", title="多平台矩阵", body=body)
     return _mockup_i18n(svg, "matrix", lang)
 
 
@@ -1327,7 +1326,7 @@ def _page(slug: str, lang: str = "zh") -> str:
 <section style="padding-top:8px">
   <div class="sec-head">
     <div class="sec-eyebrow">覆盖范围</div>
-    <h2 class="sec-title">一次配置 · 13 平台同步生效</h2>
+    <h2 class="sec-title">一次配置 · 12 平台同步生效</h2>
     <p class="sec-sub">悬停可暂停滚动 · 点击左侧导航「覆盖平台」查看各平台规则详情</p>
   </div>
   {_platform_marquee()}

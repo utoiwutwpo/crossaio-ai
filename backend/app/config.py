@@ -34,12 +34,7 @@ class Settings(BaseSettings):
     # 留空 = 直连（海外服务器部署时）
     proxy_url: str = ""
 
-    # ===== 访问量统计（2026-11-06）=====
-    # GA4 Measurement ID（G-XXXXXXXXXX）。留空 = 不注入 gtag 脚本，站点零第三方依赖。
-    # 上线后只需在 Render 加环境变量 GA4_MEASUREMENT_ID 并重启，即自动在所有页面启用 GA4。
-    ga4_measurement_id: str = ""
-
-    # ===== 管理端点（埋点漏斗 /analytics/summary、访问量看板 /traffic）=====
+    # ===== 管理端点（埋点漏斗 /analytics/summary）=====
     # 上线前务必改成强随机值
     admin_token: str = ""
 

@@ -54,7 +54,7 @@ FEATURES_DE = {
         "stats": [("7", "CE-Kategorien in der Regelbibliothek"), ("7", "native Warnhinweis-Sprachen"), ("13", "Plattformen mit Backfill-Anbindung"), ("15 Tage", "Safety-Gate-Meldepflicht-Hinweis")],
         "tier_line": "Free: Check nennt nur Probleme · Starter €29/Monat: vollständiger Compliance-Block + Attributbaum-Prüfung + 7×24-Überwachung",
         "faqs": [
-            ("Was ist der Unterschied zwischen kostenlosem Check und dem kostenpflichtigen Compliance-Block?", "Der kostenlose Check sagt dir, was fehlt und wie es geahndet wird (Problemliste). Ab Starter erzeugst du den vollständigen, direkt einfügbaren Compliance-Block (EU-Verantwortlicher + Warnhinweise + plattformnativer Header) mit API-Backfill auf 13 Plattformen."),
+            ("Was ist der Unterschied zwischen kostenlosem Check und dem kostenpflichtigen Compliance-Block?", "Der kostenlose Check sagt dir, was fehlt und wie es geahndet wird (Problemliste). Ab Starter erzeugst du den vollständigen, direkt einfügbaren Compliance-Block (EU-Verantwortlicher + Warnhinweise + plattformnativer Header) mit API-Backfill auf 12 Plattformen."),
             ("Sind die Warnhinweise maschinell übersetzt?", "Nein. Die Warnhinweise in Deutsch/Französisch/Italienisch/Spanisch/Polnisch/Rumänisch/Englisch sind native Marktformulierungen dieser Sprachen (z. B. im Vollzugskontext des deutschen ProdSG bzw. der französischen DGCCRF), keine wörtliche Übersetzung. Für alle weiteren Sprachen wird eine englische Hinweiszeile klar gekennzeichnet ausgegeben — leere Platzhalter werden vermieden."),
             ("Woher kommen die Daten des EU-Verantwortlichen?", "Du pflegst mehrere EU-Verantwortliche im EU-Repräsentanten-Register und legst einen Standard fest. Beim Erzeugen des Compliance-Blocks wird der Platzhalter automatisch ersetzt — kein manuelles Ausfüllen bei jedem Produkt."),
         ],
@@ -67,7 +67,7 @@ FEATURES_DE = {
         "meta_desc": "Eine Eingabe erzeugt Titel / Bulletpoints / Beschreibung / Backend-Suchbegriffe — mit harten Zeichenlimits Otto 70 / Allegro 75 / Amazon 200, automatischer Bewertung und Markierung von Verstößen nach der Erzeugung, Lokalisierung in 16 Sprachen. Kostenlos 5×/Tag.",
         "eyebrow": "Produktfunktion ② · Der Einstieg",
         "h1": "Eine Eingabe, <br>nach Plattformregeln ein Listing schreiben, das<em>die Prüfung besteht</em>",
-        "sub": "Titel + Bulletpoints + Beschreibung + Backend-Suchbegriffe — erzeugt nach den Zeichen-, Sprach- und Strukturregeln von 13 Plattformen. Nach der Erzeugung folgt die automatische Bewertung mit Markierung der Verstöße: kein „Vorschlag zum Ausfüllen“, sondern harte Prüfung wie eine Plattformprüfung.",
+        "sub": "Titel + Bulletpoints + Beschreibung + Backend-Suchbegriffe — erzeugt nach den Zeichen-, Sprach- und Strukturregeln von 12 Plattformen. Nach der Erzeugung folgt die automatische Bewertung mit Markierung der Verstöße: kein „Vorschlag zum Ausfüllen“, sondern harte Prüfung wie eine Plattformprüfung.",
         "hero_note": "✓ 5×/Tag kostenlos · ✓ keine Shop-Anbindung nötig · ✓ Kopieren, einfügen, gelistet",
         "mockup": "generator",
         "pain_title": "Das klassische Problem der Text-Tools",
@@ -97,7 +97,7 @@ FEATURES_DE = {
         "stats": [("13", "Plattformregeln integriert"), ("16", "Erzeugungssprachen"), ("5×/Tag", "Freikontingent"), ("90%", "eingesparte Operationszeit im Schnitt")],
         "tier_line": "Free: 5×/Tag · Starter €29/Monat: 50×/Tag + GPSR-Compliance-Block eingebettet · Pro €49/Monat: 200×/Tag + Anzeigentexte",
         "faqs": [
-            ("Was ist der Unterschied zum direkten Schreiben mit ChatGPT?", "ChatGPT kennt die harten Plattformregeln nicht — Otto 70 Zeichen, Allegro 75 Zeichen — und weiß nicht, was in GPSR eingebettet sein muss. CrossAIO macht aus den Regeln von 13 Plattformen harte Prüfungen: Erzeugung = konform, ohne ständiges Nacharbeiten."),
+            ("Was ist der Unterschied zum direkten Schreiben mit ChatGPT?", "ChatGPT kennt die harten Plattformregeln nicht — Otto 70 Zeichen, Allegro 75 Zeichen — und weiß nicht, was in GPSR eingebettet sein muss. CrossAIO macht aus den Regeln von 12 Plattformen harte Prüfungen: Erzeugung = konform, ohne ständiges Nacharbeiten."),
             ("Wie wird die Qualität des erzeugten Listings sichergestellt?", "Automatische Bewertung nach der Erzeugung: Zeichenanzahl, Sprache, Strukturvorgaben werden einzeln geprüft und Verstöße markiert; der Attributbaum sperrt hart bei EAN-Prüfziffer u. a. — Ablehnungsrisiken erkennst du vor dem Listing."),
             ("Muss ich meinen Shop verbinden?", "Nein. CrossAIO ist eine eigenständige Workbench — registrieren und nutzen, die Ergebnisse kopierst du in jedes beliebige Seller-Center."),
         ],
@@ -106,10 +106,10 @@ FEATURES_DE = {
     "matrix": {
         "icon": "🌍",
         "name": "Multi-Plattform-Matrix",
-        "title": "Multi-Plattform-Matrix — eine Eingabe, Stapel-Lokalisierung für 13 Plattformen · bei der Konkurrenz auf Allegro/eMAG/Cdiscount null abgedeckt | CrossAIO",
-        "meta_desc": "Eine Eingabe → lokalisierte Listings für 13 Plattformen im Stapel: Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Eigenständige Workbench ohne Shop-Anbindung.",
+        "title": "Multi-Plattform-Matrix — eine Eingabe, Stapel-Lokalisierung für 12 Plattformen · bei der Konkurrenz auf Allegro/eMAG/Cdiscount null abgedeckt | CrossAIO",
+        "meta_desc": "Eine Eingabe → lokalisierte Listings für 12 Plattformen im Stapel: Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Eigenständige Workbench ohne Shop-Anbindung.",
         "eyebrow": "Produktfunktion ③ · Der Skalierungs-Hebel",
-        "h1": "Eine Eingabe, <br><em>13 Plattformen</em> lokalisiert im Stapel",
+        "h1": "Eine Eingabe, <br><em>12 Plattformen</em> lokalisiert im Stapel",
         "sub": "Amazon Europa + USA, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — alle Regeln integriert, Sprache automatisch zugeordnet. H10 deckt keine lokalen Plattformen ab, Marqetir zwingt dich zur Shop-Anbindung — wir nicht.",
         "hero_note": "✓ Eigenständige Workbench ohne Shop-Anbindung · ✓ Kleine Plattformen erschließen Ost-/Südeuropa · ✓ Matrix-Ergebnisse je Plattform editierbar",
         "mockup": "matrix",
@@ -122,7 +122,7 @@ FEATURES_DE = {
         ],
         "caps": [
             {"group": "Matrix-Erzeugung", "color": "g1", "items": [
-                ("Stapel-Erzeugung für 13 Plattformen", "Eine Eingabe → lokalisierte Ergebnisse für 13 Plattformen, je Plattform editierbar, kopierbar, zurückschreibbar"),
+                ("Stapel-Erzeugung für 12 Plattformen", "Eine Eingabe → lokalisierte Ergebnisse für 12 Plattformen, je Plattform editierbar, kopierbar, zurückschreibbar"),
                 ("Sprach-Auto-Abgleich", "pl/de/fr/ro/nl u. a. werden je Plattform automatisch gewählt, keine manuelle Angabe nötig"),
                 ("Compliance-Block automatisch dabei", "Jedes Listing trägt ab Starter den GPSR-Compliance-Block gleich mit — kein Compliance-Verlust beim Plattform-Ausbau"),
             ]},
@@ -140,7 +140,7 @@ FEATURES_DE = {
         "stats": [("13", "Plattformregeln integriert"), ("16", "Erzeugungssprachen"), ("0", "zu bindende Shops"), ("4", "Kleinstplattformen mit Null-Abdeckung bei der Konkurrenz")],
         "tier_line": "Free: Einzelplattform zum Testen · Pro €49/Monat: 3-Plattform-Matrix · Business €149/Monat: unbegrenzte Plattform-Matrix + Priority-Support",
         "faqs": [
-            ("Welche 13 Plattformen sind enthalten?", "Amazon Europa + USA, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Cdiscount, Allegro, eMAG und Fruugo sind bei der Konkurrenz mit null abgedeckt."),
+            ("Welche 12 Plattformen sind enthalten?", "Amazon Europa + USA, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Cdiscount, Allegro, eMAG und Fruugo sind bei der Konkurrenz mit null abgedeckt."),
             ("Wie ist die Qualität bei Matrix-Erzeugung und kleinen Sprachen?", "Jede Plattform wird hart nach Zeichen-/Sprach-/Strukturregeln ihrer Seller-Center-Dokumentation geprüft; kleine Sprachen erhalten automatisch die Landessprache der Plattform, GPSR-Warnhinweise sind native Formulierungen dieser Sprache."),
             ("Wirklich ohne Shop-Anbindung?", "Ja. Die Matrix-Erzeugung läuft vollständig in der CrossAIO-Workbench. Nur beim „API-Backfill“ brauchen wir deine Entwickler-Zugangsdaten der jeweiligen Plattform (Amazon SP-API / eBay OAuth) — diese liegen in deinen eigenen Umgebungsvariablen."),
         ],
@@ -204,7 +204,7 @@ FEATURES_DE = {
             "Die offiziellen KI-Services von Amazon/eBay lösen nur „schnelle Antworten“, ohne jede AI-Act-Compliance-Ebene.",
             "Servicetools wie Responso / eDesk / BaseLinker haben bis heute null eingebaute Art.50-Offenlegung — und die ist ab 2026-08-02 Pflicht.",
             "Sicherheitsbelange in Käufernachrichten (Produktbruch / Überhitzung / Kind hat verschluckt) werden als normale Anfrage per Auto-Antwort erledigt — die GPSR-Meldepflicht fällt durch.",
-            "Käufernachrichten von 13 Plattformen liegen verteilt in den jeweiligen Seller-Backends, die Antwortlinien sind uneinheitlich, der Compliance-Status nicht nachverfolgbar.",
+            "Käufernachrichten von 12 Plattformen liegen verteilt in den jeweiligen Seller-Backends, die Antwortlinien sind uneinheitlich, der Compliance-Status nicht nachverfolgbar.",
         ],
         "caps": [
             {"group": "Antwort & Offenlegung", "color": "g1", "items": [
@@ -278,10 +278,10 @@ FEATURES_DE = {
     "inbox": {
         "icon": "📥",
         "name": "Zentrales Postfach",
-        "title": "Zentrales Postfach — Käufernachrichten von 13 Plattformen an einem Ort · Antworten in der Muttersprache · Compliance-Status zeilenweise markiert | CrossAIO",
-        "meta_desc": "Käufernachrichten von 13 Plattformen wie Amazon/eBay/Allegro/Otto/Kaufland in einer Oberfläche: Die KI entwirft Antworten in der Muttersprache des Käufers, Art.50-Offenlegung und GPSR-Sicherheitshinweise automatisch eingebettet, der Compliance-Status zeilenweise protokolliert.",
+        "title": "Zentrales Postfach — Käufernachrichten von 12 Plattformen an einem Ort · Antworten in der Muttersprache · Compliance-Status zeilenweise markiert | CrossAIO",
+        "meta_desc": "Käufernachrichten von 12 Plattformen wie Amazon/eBay/Allegro/Otto/Kaufland in einer Oberfläche: Die KI entwirft Antworten in der Muttersprache des Käufers, Art.50-Offenlegung und GPSR-Sicherheitshinweise automatisch eingebettet, der Compliance-Status zeilenweise protokolliert.",
         "eyebrow": "Produktfunktion ⑦ · Gegen die Skalierungs-Engpässe",
-        "h1": "Käufernachrichten von 13 Plattformen, <br>ein Postfach erledigt<em>alles</em>",
+        "h1": "Käufernachrichten von 12 Plattformen, <br>ein Postfach erledigt<em>alles</em>",
         "sub": "Europäische Crossborder-Verkäufer betreiben im Schnitt 6+ Plattformen parallel, die Käufernachrichten liegen verteilt in den Backends der Plattformen, in unterschiedlichen Sprachen. Das CrossAIO-Zentrale Postfach bündelt die 13 Plattform-Conversationen an einem Ort: eBay per Echtzeit-Sync via OAuth, übrige Plattformen mit selbst eingepflegten Zugangsdaten oder Stapel-Import; die KI-Entwürfe entstehen in der Muttersprache des Käufers, Art.50-Offenlegung + GPSR-Sicherheitshinweise automatisch eingebettet.",
         "hero_note": "✓ eBay-Echtzeit-Sync · ✓ 12 Plattformen mit eigenen Zugangsdaten / Import · ✓ Antwort-Compliance protokolliert",
         "mockup": "inbox",
@@ -415,7 +415,7 @@ CHROME_DE = {
     "sec_steps_eyebrow": "So funktioniert's",
     "sec_steps_title": "In drei Schritten starten",
     "sec_cover_eyebrow": "Abdeckung",
-    "sec_cover_title": "Einmal konfigurieren · auf 13 Plattformen wirksam",
+    "sec_cover_title": "Einmal konfigurieren · auf 12 Plattformen wirksam",
     "sec_cover_sub": "Hover stoppt den Lauf · über „Plattformen“ in der Navigation gelangst du zu den Regeldetails jeder Plattform",
     "tier_cta": "Vollständige Preise ansehen →",
     "sec_faq_eyebrow": "Häufige Fragen",
@@ -474,10 +474,10 @@ MOCKUP_DE = {
         "en→多语言": "en→mehrsprachig",
         "输入一次产品信息": "Produktdaten einmal eingeben",
         "标题 + 关键词 + 属性（品牌/EAN/材质）": "Titel + Keywords + Attribute (Marke/EAN/Material)",
-        "13 平台规则内置 · 16 语言自动匹配": "13 Plattformregeln integriert · 16 Sprachen automatisch zugeordnet",
+        "12 平台规则内置 · 16 语言自动匹配": "13 Plattformregeln integriert · 16 Sprachen automatisch zugeordnet",
         "不绑店 · 独立工作台 · 结果逐平台可编辑": "Keine Shop-Anbindung · eigenständige Workbench · Ergebnisse je Plattform editierbar",
         "Allegro / eMAG / Cdiscount / Fruugo —— 主流工具覆盖率为零，CrossAIO 率先补齐": "Allegro / eMAG / Cdiscount / Fruugo — bei gängigen Tools mit null Abdeckung, CrossAIO schließt zuerst auf",
-        "13 平台矩阵批量生成": "Stapel-Erzeugung der 13-Plattform-Matrix",
+        "12 平台矩阵批量生成": "Stapel-Erzeugung der 13-Plattform-Matrix",
         "多平台矩阵": "Multi-Plattform-Matrix",
     },
     "review": {

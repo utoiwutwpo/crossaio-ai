@@ -53,7 +53,7 @@ FEATURES_EN = {
         "stats": [("7", "CE category rules"), ("7", "native warning languages"), ("13", "platform backfill adapters"), ("15-day", "Safety Gate reporting reminder")],
         "tier_line": "Free: check reports issues only · Starter €29/month: full compliance block + attribute-tree validation + 7×24 monitoring",
         "faqs": [
-            ("What's the difference between the free check and the paid block?", "The free check tells you what's missing and how you'll be penalized (an issue list); from Starter, CrossAIO generates the full paste-ready compliance block (EU Rep + warnings + platform-native headers) and supports API backfill to 13 platforms."),
+            ("What's the difference between the free check and the paid block?", "The free check tells you what's missing and how you'll be penalized (an issue list); from Starter, CrossAIO generates the full paste-ready compliance block (EU Rep + warnings + platform-native headers) and supports API backfill to 12 platforms."),
             ("Are the warnings machine-translated?", "No. The German/French/Italian/Spanish/Polish/Romanian/English warnings are native market phrasing (e.g. the German ProdSG / French DGCCRF enforcement context), not literal translation. Other languages output an explicitly marked English annotation line instead of an empty placeholder."),
             ("Where does the EU Rep info come from?", "You maintain multiple EU Responsible Persons in your EU Rep registry and set a default; the block auto-substitutes placeholders, so you never fill it by hand."),
         ],
@@ -67,7 +67,7 @@ FEATURES_EN = {
         "meta_desc": "One input generates title/bullets/description/search terms, with hard limits like Otto 70 / Allegro 75 / Amazon 200 characters; auto-scored on generation with violations flagged; 16-language localization. 5 free runs a day.",
         "eyebrow": "Capability ② · The entry point",
         "h1": "One input, <br>listing copy that <em>passes review</em> by platform rules",
-        "sub": "Title + bullet points + description + search terms, generated against the character, language and structure rules of 13 platforms. Auto-scored on generation with violations flagged — not 'suggested fields', but hard validation like platform review does.",
+        "sub": "Title + bullet points + description + search terms, generated against the character, language and structure rules of 12 platforms. Auto-scored on generation with violations flagged — not 'suggested fields', but hard validation like platform review does.",
         "hero_note": "✓ 5 free runs/day · ✓ No store binding · ✓ Copy-paste to publish",
         "mockup": "generator",
         "pain_title": "The common flaw of copy tools",
@@ -97,7 +97,7 @@ FEATURES_EN = {
         "stats": [("13", "platform rules built in"), ("16", "languages generated"), ("5/day", "free quota"), ("90%", "average ops time saved")],
         "tier_line": "Free: 5 runs/day · Starter €29/month: 50 runs/day + embedded GPSR block · Pro €49/month: 200 runs/day + ad copy",
         "faqs": [
-            ("How is this different from writing in ChatGPT?", "ChatGPT doesn't know hard platform rules like Otto 70 characters or Allegro 75, and doesn't know what GPSR must embed. CrossAIO turns the rules of 13 platforms into hard validation: compliant the moment it's generated, no revision loops."),
+            ("How is this different from writing in ChatGPT?", "ChatGPT doesn't know hard platform rules like Otto 70 characters or Allegro 75, and doesn't know what GPSR must embed. CrossAIO turns the rules of 12 platforms into hard validation: compliant the moment it's generated, no revision loops."),
             ("How is the generated listing quality guaranteed?", "Auto-scored on generation: characters, language and structure requirements checked item by item with violations flagged; the attribute tree hard-blocks issues like EAN check digits, so review-rejectable problems surface before publishing."),
             ("Do I need to bind my store?", "No. CrossAIO is a standalone workbench: sign up and use it. Copy results into any platform's Seller Central."),
         ],
@@ -107,10 +107,10 @@ FEATURES_EN = {
     "matrix": {
         "icon": "🌍",
         "name": "Multi-platform matrix",
-        "title": "Multi-platform matrix — one input, batch localization for 13 platforms · zero-competition coverage on Allegro/eMAG/Cdiscount | CrossAIO",
-        "meta_desc": "One input → batch-generate localized listings for 13 platforms: Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Standalone workbench, no store binding.",
+        "title": "Multi-platform matrix — one input, batch localization for 12 platforms · zero-competition coverage on Allegro/eMAG/Cdiscount | CrossAIO",
+        "meta_desc": "One input → batch-generate localized listings for 12 platforms: Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Standalone workbench, no store binding.",
         "eyebrow": "Capability ③ · The scale lever",
-        "h1": "One input, <br>batch localization for <em>13 platforms</em>",
+        "h1": "One input, <br>batch localization for <em>12 platforms</em>",
         "sub": "Amazon EU + US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com — all rules built in, languages auto-matched. H10 ignores local platforms; Marqetir forces store binding; we do neither.",
         "hero_note": "✓ Standalone workbench, no store binding · ✓ Long-tail platforms cover Eastern/Southern Europe · ✓ Results editable per platform",
         "mockup": "matrix",
@@ -123,7 +123,7 @@ FEATURES_EN = {
         ],
         "caps": [
             {"group": "Matrix generation", "color": "g1", "items": [
-                ("13-platform batch generation", "One input → localized results for 13 platforms; editable, copyable and backfillable per platform"),
+                ("12-platform batch generation", "One input → localized results for 12 platforms; editable, copyable and backfillable per platform"),
                 ("Auto language matching", "pl/de/fr/ro/nl etc. auto-selected per platform, no manual setup"),
                 ("Embedded compliance blocks", "Every output carries its GPSR block (from Starter) — expanding platforms never drops compliance"),
             ]},
@@ -141,7 +141,7 @@ FEATURES_EN = {
         "stats": [("13", "platform rules built in"), ("16", "languages generated"), ("0", "stores required to bind"), ("4", "long-tail platforms competitors miss")],
         "tier_line": "Free: single-platform trial · Pro €49/month: 3-platform matrix · Business €149/month: unlimited platform matrix + priority support",
         "faqs": [
-            ("Which 13 platforms are included?", "Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Among them, Cdiscount, Allegro, eMAG and Fruugo have zero coverage in competing tools."),
+            ("Which 12 platforms are included?", "Amazon EU+US, eBay, Allegro, Otto, Cdiscount, eMAG, TikTok Shop, Fruugo, Walmart, Kaufland, Zalando, bol.com. Among them, Cdiscount, Allegro, eMAG and Fruugo have zero coverage in competing tools."),
             ("How about matrix quality and small-language quality?", "Each platform is hard-validated against its Seller Central docs for characters/language/structure; small languages are auto-matched to the local language, with GPSR warnings in native phrasing."),
             ("Really no store binding?", "Correct. Matrix generation happens entirely inside the CrossAIO workbench. Only 'API backfill' needs your developer credentials for the corresponding platform (Amazon SP-API / eBay OAuth); credentials live in your own environment variables."),
         ],
@@ -207,7 +207,7 @@ FEATURES_EN = {
             "Official Amazon/eBay AI support only solves 'fast replies' with no AI Act compliance layer at all",
             "Support tools like Responso / eDesk / BaseLinker still have zero built-in AI Act Art.50 disclosure — and it takes effect mandatorily on 2026-08-02",
             "Safety claims inside buyer messages (product breaking/overheating/children swallowing) get auto-replied as ordinary inquiries, missing the GPSR reporting duty",
-            "Buyer messages from 13 platforms sit scattered in each seller backend; reply styles diverge and compliance status can't be tracked",
+            "Buyer messages from 12 platforms sit scattered in each seller backend; reply styles diverge and compliance status can't be tracked",
         ],
         "caps": [
             {"group": "Replies & disclosure", "color": "g1", "items": [
@@ -217,7 +217,7 @@ FEATURES_EN = {
             ]},
             {"group": "Inbox & integrations", "color": "g2", "items": [
                 ("eBay webhook integration", "OAuth2 authorization enables real-time buyer-message push, no third-party tools"),
-                ("Cross-platform unified inbox", "13 platforms' conversations managed together: manual import + API pull, GPSR/AI Act status marked per thread"),
+                ("Cross-platform unified inbox", "12 platforms' conversations managed together: manual import + API pull, GPSR/AI Act status marked per thread"),
                 ("Data stays with you", "All data lives in your CrossAIO account; credentials in your own environment variables"),
             ]},
         ],
@@ -283,11 +283,11 @@ FEATURES_EN = {
     "inbox": {
         "icon": "📥",
         "name": "Unified inbox",
-        "title": "Unified inbox — buyer messages from 13 platforms in one place · AI replies in buyers' native language · compliance status per thread | CrossAIO",
-        "meta_desc": "Bring buyer messages from 13 platforms like Amazon/eBay/Allegro/Otto/Kaufland into one interface: AI drafts replies in the buyer's native language, with Art.50 disclosure and GPSR safety guidance auto-embedded, compliance status logged per thread.",
+        "title": "Unified inbox — buyer messages from 12 platforms in one place · AI replies in buyers' native language · compliance status per thread | CrossAIO",
+        "meta_desc": "Bring buyer messages from 12 platforms like Amazon/eBay/Allegro/Otto/Kaufland into one interface: AI drafts replies in the buyer's native language, with Art.50 disclosure and GPSR safety guidance auto-embedded, compliance status logged per thread.",
         "eyebrow": "Capability ⑦ · The scale-bottleneck cure",
-        "h1": "Buyer messages from 13 platforms, <br>managed in <em>one inbox</em>",
-        "sub": "European cross-border sellers run 6+ platforms on average, with buyer messages scattered across backends in different languages. CrossAIO's unified inbox brings 13 platforms' conversations together: eBay real-time sync via OAuth, other platforms via self-serve credentials or batch import; AI drafts in the buyer's native language, with Art.50 disclosure + GPSR safety guidance auto-embedded.",
+        "h1": "Buyer messages from 12 platforms, <br>managed in <em>one inbox</em>",
+        "sub": "European cross-border sellers run 6+ platforms on average, with buyer messages scattered across backends in different languages. CrossAIO's unified inbox brings 12 platforms' conversations together: eBay real-time sync via OAuth, other platforms via self-serve credentials or batch import; AI drafts in the buyer's native language, with Art.50 disclosure + GPSR safety guidance auto-embedded.",
         "hero_note": "✓ eBay real-time sync · ✓ 12 platforms via self-serve credentials/import · ✓ Replies logged for compliance",
         "mockup": "inbox",
         "pain_title": "The triple cost of multi-platform support",
@@ -311,7 +311,7 @@ FEATURES_EN = {
         ],
         "steps": [
             ("Connect platforms", "eBay one-click OAuth; other platforms paste API credentials or batch-import messages in the workbench credential center"),
-            ("Unified handling", "One list for 13 platforms' conversations: filter → AI native-language draft → confirm & send"),
+            ("Unified handling", "One list for 12 platforms' conversations: filter → AI native-language draft → confirm & send"),
             ("Compliance logging", "Art.50 disclosure and GPSR events marked per thread; export audits anytime"),
         ],
         "stats": [("13", "platforms unified"), ("12", "self-serve credential platforms"), ("16", "AI reply languages"), ("100%", "of replies logged")],
@@ -430,7 +430,7 @@ CHROME_EN = {
 
     # Coverage / platform marquee section
     "sec_cover_eyebrow": "Coverage",
-    "sec_cover_title": "One setup · live across 13 platforms",
+    "sec_cover_title": "One setup · live across 12 platforms",
     "sec_cover_sub": "Hover pauses the marquee · click 'Platforms' in the nav for per-platform rule details",
 
     # Pricing tier band
@@ -514,10 +514,10 @@ MOCKUP_EN = {
         "en→多语言": "en→multi-language",
         "输入一次产品信息": "Enter product info once",
         "标题 + 关键词 + 属性（品牌/EAN/材质）": "Title + keywords + attributes (brand/EAN/material)",
-        "13 平台规则内置 · 16 语言自动匹配": "13 platforms' rules built in · 16 languages auto-matched",
+        "12 平台规则内置 · 16 语言自动匹配": "12 platforms' rules built in · 16 languages auto-matched",
         "不绑店 · 独立工作台 · 结果逐平台可编辑": "No store binding · standalone workbench · per-platform results editable",
         "Allegro / eMAG / Cdiscount / Fruugo —— 主流工具覆盖率为零，CrossAIO 率先补齐": "Allegro / eMAG / Cdiscount / Fruugo — zero coverage in mainstream tools; CrossAIO fills the gap first",
-        "13 平台矩阵批量生成": "13-platform matrix batch generation",
+        "12 平台矩阵批量生成": "12-platform matrix batch generation",
         "多平台矩阵": "Multi-platform matrix",
     },
 

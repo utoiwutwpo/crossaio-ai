@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CrossAIO 开源 Skills — GPSR 合规检查器 & 欧洲平台规则库 | 免费装进你的 AI</title>
-<meta name="description" content="两个免费开源（MIT）的跨境电商 Agent Skill：GPSR 合规检查器（7 类 CE 类目 + 多语言警示语 + 合规块生成）和欧洲 13 平台规则库（标题字数/必需语言/高频踩坑）。可直接安装到 Claude Code / Cursor / Codex 等 Agent。">
+<meta name="description" content="两个免费开源（MIT）的跨境电商 Agent Skill：GPSR 合规检查器（7 类 CE 类目 + 多语言警示语 + 合规块生成）和欧洲 12 平台规则库（标题字数/必需语言/高频踩坑）。可直接安装到 Claude Code / Cursor / Codex 等 Agent。">
 <style>
   :root{
     --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
@@ -138,24 +138,25 @@
   .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
 </style>
   <link rel="stylesheet" href="/effects.css">
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
 </head>
 <body>
 
 <div class="topbar">🎁 全部 <b>MIT 开源 · 永久免费</b> — 数据与线上引擎同源导出，装进你的 AI 立即可用</div>
 
 <nav>
-  <a class="logo" href="/zh/"><span class="dot">🤖</span>CrossAIO</a>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
     <div class="navitem">
       <a>产品能力</a>
       <div class="dropdown">
         <a href="/features/gpsr"><span>🛡️ GPSR 合规引擎<small>CE 类目 → 警示语 → 合规块 → 回填</small></span></a>
         <a href="/features/listing-generator"><span>📦 Listing 生成器<small>四件套 + 字数硬校验 + 评分</small></span></a>
-        <a href="/features/matrix"><span>🌍 多平台矩阵<small>一次输入 → 13 平台批量本地化</small></span></a>
+        <a href="/features/matrix"><span>🌍 多平台矩阵<small>一次输入 → 12 平台批量本地化</small></span></a>
         <a href="/features/review-rewrite"><span>📈 差评改写闭环<small>主题定位 → 五点修复 + 语义评分</small></span></a>
         <a href="/features/ai-service"><span>💬 AI 客服 + Art.50<small>AI Act 披露内嵌 + eBay 接入</small></span></a>
         <a href="/features/safety-redline"><span>🚨 政策安全红线层<small>威胁/勒索识别 → 转人工留证</small></span></a>
-        <a href="/features/inbox"><span>📥 统一收件箱<small>13 平台消息一处管 · 母语回复</small></span></a>
+        <a href="/features/inbox"><span>📥 统一收件箱<small>12 平台消息一处管 · 母语回复</small></span></a>
         <a href="/features/ad-copy"><span>📣 广告文案生成<small>禁用词前置拦截 + A/B 变体</small></span></a>
         <a href="/features/listing-watch"><span>📡 Listing 监控日报<small>每日自动体检 · 风险升级即报</small></span></a>
         <a href="/features"><span>🗂️ 产品能力总览<small>九大能力 · 每个能力一个独立页面</small></span></a>
@@ -170,7 +171,7 @@
         <a href="/rules/otto"><span>🇩🇪 Otto 规则详情<small>德语政策 + ProdSG + GS 标志</small></span></a>
         <a href="/rules/kaufland"><span>🇩🇪 Kaufland 规则详情<small>德/捷/斯四国站点规则</small></span></a>
         <a href="/rules/bol"><span>🇳🇱 bol.com 规则详情<small>荷兰语政策 + ACM 监管</small></span></a>
-        <a href="/rules"><span>📋 全部 13 平台速查表<small>字数 / 语言 / GPSR 要点一览</small></span></a>
+        <a href="/rules"><span>📋 全部 12 平台速查表<small>字数 / 语言 / GPSR 要点一览</small></span></a>
       </div>
     </div>
     <div class="navitem">
@@ -178,7 +179,7 @@
       <div class="dropdown">
         <a href="/compliance-check"><span>✅ 一键合规体检<small>体检 → 欧代标注 → 技术文件清单，30 秒出报告</small></span></a>
         <a href="/gpsr-check"><span>🛡️ GPSR 合规体检<small>免注册 30 秒，只报问题不收费</small></span></a>
-        <a href="/rules"><span>📋 平台规则速查表<small>13 平台字数/语言/GPSR 要点</small></span></a>
+        <a href="/rules"><span>📋 平台规则速查表<small>12 平台字数/语言/GPSR 要点</small></span></a>
         <a href="/skills"><span>🎁 开源 Skills<small>GPSR 检查器 + 规则库，MIT 免费</small></span></a>
       </div>
     </div>
@@ -214,7 +215,7 @@
   <div class="hero">
     <div class="eyebrow">✦ MIT License · Free Forever</div>
     <h1>把 CrossAIO 的合规引擎<br><span class="accent">装进你自己的 AI</span></h1>
-    <p class="sub">两个开源 Agent Skill：<b>GPSR 合规检查器</b>和<b>欧洲 13 平台规则库</b>。复制一个文件夹即可安装到 Claude Code / Cursor / Codex 等任何支持 Agent Skill 的 AI 工作流——不用注册、不用付费、不用绑定任何工具。</p>
+    <p class="sub">两个开源 Agent Skill：<b>GPSR 合规检查器</b>和<b>欧洲 12 平台规则库</b>。复制一个文件夹即可安装到 Claude Code / Cursor / Codex 等任何支持 Agent Skill 的 AI 工作流——不用注册、不用付费、不用绑定任何工具。</p>
     <div class="cta-row">
       <a href="#skills"><button class="pill-blue">查看两个 Skill ↓</button></a>
       <a href="/gpsr-check"><button class="pill-ghost">先在线免费体验 →</button></a>
@@ -295,7 +296,7 @@
         <li>9 条高频踩坑点：EAN 唯一键、波兰语强制、zDirect 入驻审核…</li>
         <li>规则数据由线上引擎自动导出（platforms.json），永不过期</li>
       </ul>
-      <div class="badges"><span class="hot">13 平台 · 持续更新</span><span>中英双语规则卡</span><span>MIT</span></div>
+      <div class="badges"><span class="hot">12 平台 · 持续更新</span><span>中英双语规则卡</span><span>MIT</span></div>
     </div>
     <div>
       <pre><span class="c"># 安装</span>
@@ -333,7 +334,7 @@
       <div class="wcard">
         <div class="ico">🚀</div>
         <h4>想要全自动？升级 SaaS</h4>
-        <p>Skill 是手动检查；SaaS 版加 7x24 Listing 监控、每日风险日报、13 平台矩阵批量生成与差评安全预警闭环。</p>
+        <p>Skill 是手动检查；SaaS 版加 7x24 Listing 监控、每日风险日报、12 平台矩阵批量生成与差评安全预警闭环。</p>
       </div>
     </div>
   </section>
@@ -370,5 +371,6 @@
 
   <script src="/effects.js"></script>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
 </body>
 </html>

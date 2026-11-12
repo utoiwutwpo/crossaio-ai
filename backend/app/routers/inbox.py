@@ -1,4 +1,4 @@
-"""跨平台统一收件箱 — 把 13 个平台的买家会话聚合到一处。
+"""跨平台统一收件箱 — 把 12 个平台的买家会话聚合到一处。
 
 设计边界（诚实声明）：
 - 本路由提供"统一视图 + 合规客服回复"的真实能力：所有平台的会话在一处
@@ -215,7 +215,7 @@ def amazon_connector_status(user: User = Depends(get_current_user),
     required = [f[0] for f in PLATFORM_CRED_REGISTRY["amazon"]["fields"]]
     rows = (db.query(PlatformCredential)
             .filter(PlatformCredential.user_id == user.id,
-                    PlatformCredential.platform.in_(["amazon", "amazon_us"]))
+                    PlatformCredential.platform.in_(["amazon"]))
             .all())
 
     best = {"status": "unconnected", "source": None, "connected_at": None,
@@ -297,7 +297,7 @@ def connector_import(
 
 
 @router.post("/conversations/seed-demo",
-             summary="生成跨 13 平台演示会话（演示统一收件箱用，明确标注 demo）")
+             summary="生成跨 12 平台演示会话（演示统一收件箱用，明确标注 demo）")
 def seed_demo(user: User = Depends(get_current_user),
               db: Session = Depends(get_db)):
     """创建一组跨平台示例会话，便于体验统一收件箱。数据为演示，非真实买家。"""

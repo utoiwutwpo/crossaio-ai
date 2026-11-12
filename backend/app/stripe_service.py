@@ -61,6 +61,32 @@ def apply_payment_failed(db: Session, user: User) -> None:
     db.commit()
 
 
+_STRIPE_NET_READY = False
+
+
+def _configure_stripe_network() -> None:
+    """Stripe SDK 出网：配了 PROXY_URL 就走代理，统一 12s 超时、最多重试 1 次。
+
+    实测本机直连 api.stripe.com 会超时（21s 未连通），不加代理时创建 checkout 会长时间
+    挂起最后 502；接上 PROXY_URL 后可正常返回。海外服务器 PROXY_URL 留空即保持直连。
+    """
+    global _STRIPE_NET_READY
+    if _STRIPE_NET_READY:
+        return
+    try:
+        import stripe
+        stripe.max_network_retries = 1
+        if settings.proxy_url:
+            import httpx
+            stripe.default_http_client = stripe.http_client.HTTPClient(
+                "httpx-proxy",
+                http_client=httpx.Client(proxy=settings.proxy_url, timeout=12.0),
+            )
+    except Exception:  # SDK 版本差异/依赖缺失 → 退回 SDK 默认行为，不阻断下单
+        pass
+    _STRIPE_NET_READY = True
+
+
 def create_checkout_session(user: User, plan: str, origin: str, billing: str = "monthly") -> dict:
     """创建 Stripe Checkout Session（subscription 模式）
 
@@ -79,6 +105,7 @@ def create_checkout_session(user: User, plan: str, origin: str, billing: str = "
         raise ValueError(f"stripe price for '{plan}' not configured")
 
     stripe.api_key = settings.stripe_secret_key
+    _configure_stripe_network()
     session = stripe.checkout.Session.create(
         mode="subscription",
         customer_email=user.email,

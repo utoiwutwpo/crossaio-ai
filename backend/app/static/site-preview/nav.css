@@ -1,0 +1,63 @@
+/* /zh 导航：逐条取自原站首页 CSS，作用域限定 #site-nav，不改动其它版块 */
+#site-nav{
+  --navy:#0b1030;--ink:#0b1022;--muted:#5b6478;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+  --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+  --bar:#1a5cf0;
+  font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  line-height:1.7;color:var(--ink);background:#fff;position:relative;z-index:200;
+  -webkit-font-smoothing:auto;letter-spacing:normal;
+}
+#site-nav .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+#site-nav .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+#site-nav nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+#site-nav .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+#site-nav .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+#site-nav .menu{display:flex;gap:6px;flex:0 0 auto;align-items:center;font-size:14px;color:var(--ink)}
+#site-nav .navitem{position:relative}
+#site-nav .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+#site-nav .navitem>a.solo::after{display:none}
+#site-nav .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+#site-nav .navitem:hover>a{background:#f1f5f9}
+#site-nav .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+#site-nav .dropdown{position:absolute;top:100%;left:8px;min-width:260px;background:#fff;border-radius:12px;
+  box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+#site-nav .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+#site-nav .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+#site-nav .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+#site-nav .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+#site-nav .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+#site-nav .right{display:flex;gap:14px;align-items:center}
+#site-nav .login-link{font-size:14px;color:var(--muted)}
+#site-nav .login-link:hover{color:var(--ink)}
+#site-nav .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+#site-nav .pill-nav:hover{background:var(--blue-dark)}
+#site-nav .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+#site-nav .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+#site-nav a{text-decoration:none;color:inherit}
+
+/* ==== nav fit：二级页与首页共用，保证 1440 宽下不换行不裁切 ==== */
+.login-link{white-space:nowrap !important;font-size:13px !important;display:inline-flex !important;align-items:center}
+.pill-nav{white-space:nowrap !important;padding:8px 13px !important;font-size:13px !important;display:inline-flex !important;align-items:center;justify-content:center;line-height:1.2}
+nav{padding-left:26px !important;padding-right:26px !important}
+nav .menu{gap:14px !important;font-size:13px !important;min-width:0}
+nav .menu .navitem>a{white-space:nowrap !important}
+nav .right{gap:10px !important;flex:0 0 auto;flex-wrap:nowrap !important}
+nav .logo{flex:0 0 auto;white-space:nowrap !important}
+.lang-switch{padding:3px 9px !important;font-size:12px !important;flex:0 0 auto}
+.lang-switch select{font-size:12px !important}
+@media (max-width:1360px){nav .menu{gap:11px !important;font-size:12.5px !important}nav .logo{font-size:17px !important}}
+
+/* ==== 商标与导航菜单的呼吸位：1440 宽下留出 22px，菜单项内边距回收 3px 抵消 ==== */
+nav .menu{margin-left:22px !important}
+nav .navitem>a{padding-left:11px !important;padding-right:11px !important}
+nav .logo .dot{margin-right:2px}
+
+@media (max-width:1180px){
+  nav .menu{gap:7px !important;margin-left:14px !important}
+  nav .logo{font-size:16px !important}
+  nav .logo .dot{width:25px;height:25px}
+  nav .navitem>a{padding-left:8px !important;padding-right:8px !important;font-size:12.5px !important;gap:4px}
+  nav .right .login-link{font-size:11.5px !important}
+  nav .right .pill-nav{padding:6px 10px !important;font-size:11.5px !important}
+  .lang-switch{padding:2px 7px !important}
+}

@@ -1,298 +1,614 @@
-<!DOCTYPE html>
+<! DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CrossAIO — Die KI-Compliance-Engine für Ihren Europa-Handel: GPSR-Listing-Check + 13-Plattform-Matrix</title>
-<meta name="description" content="CrossAIO ist eine KI-Engine für Verkäufer im Europa-Handel: GPSR-Compliance-Check, Warnhinweise in Landessprache, EU-Verantwortlicher, Listing-Massen-Generierung und mehrsprachige Anzeigentexte. 13 Plattformen in einem Arbeitsbereich. GPSR-Check ohne Registrierung.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤖</text></svg>">
+<meta charset="utf-8">
+<title>CrossAIO · Europäische grenzüberschreitende Listing-Qualitäts- und Compliance-Engine</title>
+<meta name="description" content="CrossAIO: 12-Plattform-Feldverifizierung, GPSR-Compliance-Block, Delisting-Einspruch, tägliche Inspektion und Governance-Traces. Kostenlose 30-sekündige körperliche Compliance-Untersuchung.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="/zh/home-assets/site.css">
+<link rel="stylesheet" href="/zh/home-assets/nav.css">
 <style>
-  :root{
-    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
-    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--violet:#7c3aed;
-    --ok:#059669;--err:#dc2626;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
-  a{text-decoration:none;color:inherit}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei",system-ui,Arial;color:#0B1020;background:#fff}
+#v4 *{box-sizing:border-box}
+:root{--blue:#2F6BFF;--purple:#7C3AED;--ink:#0B1020;--muted:#5B6478;--line:#E9ECF5}
+#v4 *{box-sizing:border-box}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei",system-ui,Arial;background:#fff;color:var(--ink)}
+#v4 .w{width:1240px;margin:0 auto}
+#v4 /* nav */
+.topbar{background:var(--blue);color:#fff;font-size:12.5px;text-align:center;padding:9px 0}
+#v4 .topbar b{font-weight:700}
+#v4 .nav{height:64px;display:flex;align-items:center;gap:22px;padding:0 64px;white-space:nowrap;border-bottom:1px solid #EEF1F6}
+#v4 .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px}
+#v4 .logo i{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#7C3AED,#2F6BFF)}
+#v4 .menu{display:flex;gap:22px;font-size:13.5px;font-weight:600;color:#243047;white-space:nowrap}
+#v4 .menu span{display:inline-flex;align-items:center;gap:5px}
+#v4 .menu span:after{content:"";width:6px;height:6px;border-right:1.5px solid #98A2B3;border-bottom:1.5px solid #98A2B3;transform:rotate(45deg) translateY(-1px)}
+#v4 .nav .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:14px}
+#v4 .lang{border:1px solid #E3E8F0;border-radius:999px;padding:7px 14px;color:#5B6478;font-size:13px}
+#v4 .reg{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-weight:700;font-size:13.5px}
+#v4 /* ===== HERO 620 ===== */
+.hero{position:relative;overflow:hidden;color:#fff;height:620px;
+background:radial-gradient(760px 460px at 80% 6%,rgba(124,58,237,.55),transparent 62%),
+radial-gradient(620px 420px at 34% 0%,rgba(47,107,255,.36),transparent 60%),
+linear-gradient(116deg,#070A1C,#120F35 48%,#3A1A8A)}
+#v4 .hero .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(72% 76% at 56% 16%,#000,transparent 76%)}
+#v4 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
+#v4 .orb.a{width:520px;height:520px;right:-80px;top:-140px;background:#7C3AED}
+#v4 .orb.b{width:360px;height:360px;left:-140px;bottom:-170px;background:#2F6BFF;opacity:.36}
+#v4 .hin{position:relative;z-index:2;display:flex;gap:46px;align-items:center;padding-bottom:6px;height:calc(100% - 70px);padding-top:6px}
+#v4 .left{flex:1 1 580px;min-width:0}
+#v4 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.08);border-radius:999px;padding:7px 14px;font-size:12px;color:#E9E4FF}
+#v4 .pill i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 4px rgba(52,211,153,.18)}
+#v4 h1{font-size:50px;line-height:1.14;letter-spacing:-.03em;margin:16px 0 0;font-weight:800}
+#v4 h1 em{font-style:normal;background:linear-gradient(96deg,#7DD3FC,#A78BFA 52%,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent}
+#v4 .sub{margin-top:12px;font-size:14px;line-height:1.8;color:#C9C4E4;max-width:520px}
+#v4 .sub b{color:#fff}
+#v4 .chips{display:flex;gap:8px;margin-top:14px}
+#v4 .chip{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#DDD6FE;background:rgba(255,255,255,.05)}
+#v4 .hero-cta{display:flex;align-items:center;gap:12px;margin-top:20px}
+#v4 .p{background:linear-gradient(96deg,#4F7BFF,#7C3AED);border-radius:12px;padding:16px 26px;font-size:15px;font-weight:800;box-shadow:0 14px 34px rgba(79,123,255,.4)}
+#v4 .g{border:1px solid rgba(255,255,255,.34);border-radius:12px;padding:15px 20px;font-size:14px}
+#v4 .trust{display:flex;gap:18px;margin-top:13px;font-size:12px;color:#9EA6C4}
+#v4 .trust span:before{content:"✓ ";color:#34D399}
+#v4 .right{flex:0 0 556px;position:relative;height:100%}
+#v4 .frame{position:absolute;inset:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 40px 90px rgba(4,6,20,.6)}
+#v4 .frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) brightness(.9)}
+#v4 .frame:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,28,.1),rgba(8,10,28,.8))}
+#v4 .hud{position:absolute;left:20px;right:20px;bottom:18px;z-index:3;background:rgba(10,12,26,.8);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;backdrop-filter:blur(10px)}
+#v4 .hud .top{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#9BA3C0}
+#v4 .hud .case{color:#fff;font-weight:700}
+#v4 .badge{background:rgba(251,113,133,.18);border:1px solid rgba(251,113,133,.5);color:#FECDD3;border-radius:999px;padding:3px 9px;font-size:10.5px;font-weight:700}
+#v4 .hrow{display:flex;align-items:center;gap:10px;margin-top:11px;font-size:11px;color:#C6CCE2}
+#v4 .hrow .lab{width:72px;flex:0 0 72px;color:#8F98B8}
+#v4 .bar{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+#v4 .bar i{display:block;height:100%;border-radius:4px}
+#v4 .b1 i{width:100%;background:linear-gradient(90deg,#34D399,#22D3EE)}
+#v4 .b2 i{width:67%;background:linear-gradient(90deg,#F59E0B,#FB7185)}
+#v4 .b3 i{width:84%;background:linear-gradient(90deg,#A78BFA,#22D3EE)}
+#v4 .hrow .val{width:58px;text-align:right;color:#E7EAF5;flex:0 0 58px}
+#v4 .float{position:absolute;z-index:4;background:rgba(11,14,32,.9);border:1px solid rgba(52,211,153,.42);border-radius:12px;padding:10px 13px;font-size:11px;color:#D1FAE5;box-shadow:0 16px 40px rgba(0,0,0,.45)}
+#v4 .float.a{top:18px;left:16px}
+#v4 .float.b{top:88px;left:-20px;border-color:rgba(167,139,250,.45);color:#E9D5FF}
+#v4 .float .k{display:block;font-size:9.5px;letter-spacing:.12em;color:#8B93B0;margin-bottom:3px}
+#v4 
+.pipe{position:absolute;left:0;right:0;bottom:0;z-index:5;height:70px;background:linear-gradient(180deg,transparent,rgba(6,8,20,.94) 40%)}
+#v4 .prow{display:flex;padding:26px 100px 0}
+#v4 .pstep{flex:1;position:relative;padding-left:20px}
+#v4 .pstep .dot{position:absolute;left:0;top:4px;width:8px;height:8px;border-radius:50%;background:#464C6B}
+#v4 .pstep.on .dot{background:#FB7185;box-shadow:0 0 0 4px rgba(251,113,133,.22)}
+#v4 .pstep .k{font-size:9.5px;letter-spacing:.16em;color:#7A83A3}
+#v4 .pstep .t{font-size:12px;color:#C9CEE4;margin-top:3px;font-weight:600}
+#v4 .pstep.on .t{color:#fff}
+#v4 .pstep:after{content:"";position:absolute;left:18px;top:8px;width:calc(100% - 20px);height:1px;background:rgba(255,255,255,.1)}
+#v4 .pstep:last-child:after{display:none}
+#v4 
+.stats{display:flex;border-bottom:1px solid var(--line);background:#FBFBFE}
+#v4 .stats .it{flex:1;padding:20px 0 18px;text-align:center;border-right:1px solid var(--line)}
+#v4 .stats .it:last-child{border:0}
+#v4 .stats .n{font-size:37px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(96deg,#2F6BFF,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+#v4 .stats .l{font-size:12px;color:#7A8398;margin-top:4px}
+#v4 
+.sec{padding:56px 0 40px}
+#v4 .eyebrow{font-size:11px;letter-spacing:.16em;color:#7C3AED;font-weight:700}
+#v4 .h2{font-size:36px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:10px 0 0}
+#v4 .lead{font-size:13.5px;color:var(--muted);line-height:1.8;margin-top:10px;max-width:640px}
+#v4 .doors{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+#v4 .door{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 10px 30px rgba(20,25,60,.06)}
+#v4 .door .pic{height:160px;overflow:hidden;position:relative}
+#v4 .door .pic img{width:100%;height:100%;object-fit:cover}
+#v4 .door .pic:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(8,10,30,.85))}
+#v4 .door .tag{position:absolute;left:16px;top:14px;z-index:3;font-size:10.5px;letter-spacing:.12em;color:#fff;background:rgba(8,10,26,.6);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px}
+#v4 .door .ttl{position:absolute;left:16px;right:16px;bottom:12px;z-index:3;color:#fff;font-size:19px;font-weight:800}
+#v4 .door .body{padding:16px 18px 18px}
+#v4 .door .pain{font-size:12.5px;color:#5B6478;line-height:1.75;min-height:44px}
+#v4 .door .gain{display:flex;align-items:center;gap:7px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:12px;font-weight:700;color:#0B1020}
+#v4 .door .gain i{font-style:normal;color:#10B981}
+#v4 .door .go{margin-top:12px;font-size:12.5px;font-weight:800;color:#2F6BFF}
+#v4 
+.demos{background:linear-gradient(112deg,#080B1E,#141034 52%,#2B1670);color:#fff;padding:52px 0 56px;position:relative;overflow:hidden}
+#v4 .demos .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(60% 80% at 70% 10%,#000,transparent 76%)}
+#v4 .demos .eyebrow{color:#A5B4FC}
+#v4 .demos .h2{color:#fff}
+#v4 .demos .lead{color:#B9BEDC}
+#v4 .demo-grid{display:flex;gap:26px;margin-top:26px;position:relative;z-index:2}
+#v4 .rail{flex:0 0 300px}
+#v4 .rit{padding:14px 0 14px 22px;position:relative;border-left:1px solid rgba(255,255,255,.14)}
+#v4 .rit.on{border-left-color:#22D3EE}
+#v4 .rit .n{font-size:10px;letter-spacing:.14em;color:#7B84A6}
+#v4 .rit .t{font-size:14px;font-weight:700;margin-top:4px;color:#E8EBFA}
+#v4 .rit .d{font-size:11.5px;color:#9AA2C2;margin-top:4px;line-height:1.6}
+#v4 .rit.on .t{color:#fff}
+#v4 .rit .dur{position:absolute;right:0;top:16px;font-size:10px;color:#6E769A}
+#v4 .stage{flex:1;background:rgba(8,10,24,.72);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;backdrop-filter:blur(8px)}
+#v4 .stage .hd{display:flex;justify-content:space-between;font-size:11px;color:#98A0C0}
+#v4 .stage .hd b{color:#fff}
+#v4 .steps{display:flex;gap:8px;margin-top:14px}
+#v4 .step{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;font-size:11.5px;color:#C8CEE6}
+#v4 .step b{display:block;font-size:10px;letter-spacing:.1em;color:#8890B0;margin-bottom:4px}
+#v4 .step.on{border-color:rgba(34,211,238,.55);background:rgba(34,211,238,.1);color:#fff}
+#v4 .term{margin-top:14px;background:#050714;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-family:Consolas,Menlo,monospace;font-size:11.5px;line-height:1.9;color:#A7B0D0}
+#v4 .term .ok{color:#34D399}
+#v4 .term .warn{color:#FBBF24}
+#v4 .term .cy{color:#22D3EE}
+#v4 
+.files{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+#v4 .file{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#FCFCFE}
+#v4 .file .fn{font-size:13px;font-weight:700}
+#v4 .file .ft{font-size:11px;color:#8A93A6;margin-top:3px}
+#v4 .file .fl{margin-top:10px;font-size:11px;color:#4B5468;line-height:1.7;font-family:Consolas,monospace}
+#v4 .badge2{display:inline-block;font-size:10px;padding:2px 7px;border-radius:6px;background:#ECFDF5;color:#047857;font-weight:700;margin-top:8px}
+#v4 
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+#v4 .tier{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;position:relative;box-shadow:0 10px 26px rgba(20,25,60,.05)}
+#v4 .tier .tag{font-size:10.5px;letter-spacing:.12em;font-weight:800}
+#v4 .tier .num{position:absolute;right:16px;top:12px;font-size:26px;font-weight:800}
+#v4 .tier h3{font-size:16px;margin:10px 0 0}
+#v4 .tier p{font-size:12px;color:#5B6478;line-height:1.75;margin:6px 0 0}
+#v4 .tier .logos{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+#v4 .tier .lg{font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:5px;letter-spacing:.02em}
+#v4 .tier .gain{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px}
+#v4 .tier.cta-card{background:linear-gradient(135deg,#120F35,#3A1A8A);color:#fff;border:0}
+#v4 .tier.cta p{color:#DDD6FE}
+#v4 .tier.cta .btn{margin-top:14px;background:#fff;color:#1E1B4B;border-radius:10px;padding:11px 12px;font-size:12.5px;font-weight:800;text-align:center}
+#v4 
+.quote{display:flex;gap:22px;align-items:center;background:linear-gradient(135deg,#F7F6FF,#FDFBFF);border:1px solid #EBE6FF;border-radius:18px;padding:24px;margin-top:26px}
+#v4 .quote img{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:0 0 96px}
+#v4 .quote .q{font-size:15px;line-height:1.8;font-weight:600}
+#v4 .quote .who{font-size:12px;color:#6B7488;margin-top:8px}
+#v4 .quote .stars{color:#F59E0B;font-size:12px;margin-top:6px}
+#v4 
+.final{margin:54px 0 0;border-radius:22px;background:linear-gradient(112deg,#2F6BFF,#7C3AED 78%);padding:34px 38px;display:flex;align-items:center;gap:24px;color:#fff;position:relative;overflow:hidden}
+#v4 .final .glow{position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.16);filter:blur(70px);right:-90px;top:-160px}
+#v4 .final h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.01em}
+#v4 .final p{margin:8px 0 0;font-size:12.5px;color:#DDE3FF}
+#v4 .final .btns{margin-left:auto;display:flex;gap:10px}
+#v4 .final .b1{background:#fff;color:#1E1B4B;border-radius:12px;padding:14px 22px;font-weight:800;font-size:13.5px}
+#v4 .final .b2{border:1px solid rgba(255,255,255,.45);border-radius:12px;padding:13px 18px;font-size:13px}
+#v4 .foot{border-top:1px solid var(--line);margin-top:34px;padding:20px 0 34px;display:flex;justify-content:space-between;font-size:11.5px;color:#8A93A6}
 
-  .topbar{background:linear-gradient(90deg,#1a5cf0,#6d5bf5);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px;position:relative;z-index:70}
-  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
-  .topbar b:hover{color:#dbeafe}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes kenburns{0%{transform:scale(1)}100%{transform:scale(1.07)}}
+@keyframes glowmove{0%,100%{opacity:.45}50%{opacity:.75}}
+#v4 .float{animation:floaty 7s ease-in-out infinite}
+#v4 .float.b{animation-delay:1.6s}
+#v4 .frame img{animation:kenburns 20s ease-in-out infinite alternate}
+#v4 .orb{animation:glowmove 9s ease-in-out infinite}
+#v4 .orb.b{animation-delay:2s}
+#v4 .bar i{transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+#v4 .door .pic img{transition:transform .5s ease}
+#v4 .door:hover .pic img{transform:scale(1.05)}
+#v4 .door:hover .go{transform:translateX(4px)}
+#v4 .go{transition:transform .25s ease}
+#v4 .tier{transition:transform .3s ease,box-shadow .3s ease}
+#v4 .tier:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,25,60,.12)}
 
-  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
-  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
-  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(99,102,241,.4)}
-  .menu{display:flex;gap:6px}
-  .navitem{position:relative}
-  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
-  .navitem>a.solo::after{display:none}
-  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
-  .navitem:hover>a{background:#f1f5f9}
-  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
-  .dropdown{position:absolute;top:100%;left:8px;min-width:270px;background:#fff;border-radius:12px;
-    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
-  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
-  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
-  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
-  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
-  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
-  nav .right{display:flex;gap:14px;align-items:center}
-  .pill-nav{background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 6px 18px rgba(99,102,241,.35);transition:.2s}
-  .pill-nav:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(99,102,241,.45)}
 
-  .hero-wrap{background:
-    radial-gradient(1100px 600px at 78% 30%,rgba(124,58,237,.5),transparent 62%),
-    radial-gradient(900px 500px at 10% 100%,rgba(29,78,216,.4),transparent 55%),
-    linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
-    position:relative;overflow:hidden}
-  .hero{position:relative;max-width:1240px;margin:0 auto;padding:84px 32px 96px;display:grid;
-    grid-template-columns:1.02fr .98fr;gap:44px;align-items:center;color:#fff;z-index:2}
-  .hero-grid{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
-    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-    background-size:44px 44px;
-    -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%);
-    mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 30%,transparent 75%)}
-  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none}
-  .hero-glow i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:glowpulse 9s ease-in-out infinite}
-  .hero-glow i.g1{width:420px;height:420px;left:52%;top:-90px;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 70%)}
-  .hero-glow i.g2{width:360px;height:360px;right:-80px;bottom:-120px;background:radial-gradient(circle,rgba(59,130,246,.5),transparent 70%);animation-delay:3s}
-  @keyframes glowpulse{0%,100%{opacity:.45}50%{opacity:.75}}
-  .particles{position:absolute;inset:0;z-index:1;pointer-events:none}
-  .particles i{position:absolute;width:5px;height:5px;border-radius:50%;background:#93c5fd;opacity:0;animation:ptw 7s linear infinite}
-  .particles i:nth-child(2){width:4px;height:4px;background:#c4b5fd;animation-delay:1.1s;animation-duration:9s}
-  .particles i:nth-child(3){width:6px;height:6px;background:#a5b4fc;animation-delay:2.2s;animation-duration:6s}
-  .particles i:nth-child(4){width:4px;height:4px;background:#93c5fd;animation-delay:3.3s;animation-duration:8s}
-  .particles i:nth-child(5){width:5px;height:5px;background:#c4b5fd;animation-delay:.6s;animation-duration:10s}
-  .particles i:nth-child(6){width:3px;height:3px;background:#a5b4fc;animation-delay:1.8s;animation-duration:7s}
-  .particles i:nth-child(7){width:5px;height:5px;background:#93c5fd;animation-delay:2.9s;animation-duration:9s}
-  .particles i:nth-child(8){width:4px;height:4px;background:#c4b5fd;animation-delay:4s;animation-duration:6.5s}
-  .particles i:nth-child(9){width:5px;height:5px;background:#a5b4fc;animation-delay:.9s;animation-duration:8.5s}
-  .particles i:nth-child(10){width:3px;height:3px;background:#93c5fd;animation-delay:2.5s;animation-duration:11s}
-  .particles i:nth-child(11){width:4px;height:4px;background:#c4b5fd;animation-delay:3.7s;animation-duration:7.5s}
-  .particles i:nth-child(12){width:6px;height:6px;background:#a5b4fc;animation-delay:1.4s;animation-duration:9.5s}
-  .particles i:nth-child(13){width:4px;height:4px;background:#93c5fd;animation-delay:4.4s;animation-duration:8s}
-  .particles i:nth-child(14){width:5px;height:5px;background:#c4b5fd;animation-delay:3s;animation-duration:10.5s}
-  @keyframes ptw{0%{transform:translateY(0);opacity:0}8%{opacity:.85}85%{opacity:.5}100%{transform:translateY(-60vh);opacity:0}}
-  .orbits{position:absolute;top:50%;right:-210px;width:820px;height:820px;margin-top:-410px;z-index:1;pointer-events:none}
-  .orbit{position:absolute;border:1px solid rgba(255,255,255,.10);border-radius:50%}
-  .orbit.o1{inset:0}
-  .orbit.o2{inset:90px}
-  .orbit.o3{inset:180px;border-color:rgba(139,92,246,.28)}
-  .orbit .spin{position:absolute;inset:0;animation:rot linear infinite}
-  .orbit.o1 .spin{animation-duration:30s}
-  .orbit.o2 .spin{animation-duration:20s;animation-direction:reverse}
-  .orbit.o3 .spin{animation-duration:14s}
-  .orbit .spin i{position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%}
-  .orbit.o1 .spin i{background:#4ade80;box-shadow:0 0 16px 3px rgba(74,222,128,.6)}
-  .orbit.o2 .spin i{background:#60a5fa;box-shadow:0 0 16px 3px rgba(96,165,250,.6)}
-  .orbit.o3 .spin i{background:#c4b5fd;box-shadow:0 0 16px 3px rgba(196,181,253,.6)}
-  @keyframes rot{to{transform:rotate(360deg)}}
+#v4 .right{flex:0 0 556px;position:relative;height:100%;display:flex;align-items:center;justify-content:flex-end}
+#v4 .console{position:relative;width:100%;height:100%;border-radius:18px;padding:16px 18px 12px;
+background:linear-gradient(158deg,rgba(23,20,58,.94),rgba(10,12,30,.96) 62%,rgba(17,26,58,.94));
+border:1px solid rgba(255,255,255,.14);
+box-shadow:0 40px 90px rgba(4,6,20,.55),0 0 0 1px rgba(124,58,237,.35) inset;
+overflow:hidden}
+#v4 .console:before{content:"";position:absolute;left:-30%;top:-40%;width:80%;height:120%;
+background:radial-gradient(circle,rgba(124,58,237,.35),transparent 62%);filter:blur(30px);animation:glowmove 8s ease-in-out infinite}
+#v4 .console:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(70% 70% at 60% 20%,#000,transparent 80%);pointer-events:none}
+#v4 .chead{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between}
+#v4 .cid{font-size:11.5px;letter-spacing:.04em;color:#CFD5EE;font-weight:700;display:flex;align-items:center;gap:8px}
+#v4 .cid .live{width:7px;height:7px;border-radius:50%;background:#FB7185;box-shadow:0 0 0 4px rgba(251,113,133,.2);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(251,113,133,.22)}50%{box-shadow:0 0 0 7px rgba(251,113,133,.06)}}
+#v4 .cdown{font-size:10.5px;font-weight:800;color:#FECDD3;background:rgba(251,113,133,.14);border:1px solid rgba(251,113,133,.45);border-radius:999px;padding:4px 10px}
+#v4 .pgrid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}
+#v4 .pcell{border-radius:9px;padding:6px 8px;font-size:10.5px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+#v4 .pcell b{display:block;font-size:11px;color:#fff;font-weight:800;letter-spacing:.01em}
+#v4 .pcell span{display:block;margin-top:3px;font-size:9.5px;color:#98A0C0}
+#v4 .pcell.ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.09)}
+#v4 .pcell.ok span{color:#6EE7B7}
+#v4 .pcell.bad{border-color:rgba(251,113,133,.42);background:rgba(251,113,133,.1)}
+#v4 .pcell.bad span{color:#FDA4AF}
+#v4 .pcell.warn{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.09)}
+#v4 .pcell.warn span{color:#FCD34D}
+#v4 .prow{position:relative;z-index:2;display:flex;align-items:center;gap:10px;margin-top:10px;font-size:11px;color:#C6CCE2}
+#v4 .prow .lab{width:66px;flex:0 0 66px;color:#8F98B8}
+#v4 .prow .bar{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+#v4 .prow .bar i{display:block;height:100%;border-radius:4px;position:relative}
+#v4 .prow .bar i:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:sheen 2.6s linear infinite}
+@keyframes sheen{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+#v4 .b1{width:100%;background:linear-gradient(90deg,#34D399,#22D3EE)}
+#v4 .b2{width:67%;background:linear-gradient(90deg,#F59E0B,#FB7185)}
+#v4 .b3{width:84%;background:linear-gradient(90deg,#A78BFA,#22D3EE)}
+#v4 .prow .val{width:78px;flex:0 0 78px;text-align:right;color:#E7EAF5;font-size:10.5px}
+#v4 .tlog{position:relative;z-index:2;margin-top:11px;background:#050714;border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:9px 12px;font-family:Consolas,Menlo,monospace;font-size:10.5px;line-height:1.8;color:#A7B0D0}
+#v4 .tlog em,#v4 .tlog .t-cy{font-style:normal;color:#22D3EE}
+#v4 .tlog .t-ok{font-style:normal;color:#34D399}
+#v4 .blink{animation:blink 1.1s steps(1) infinite;color:#22D3EE}
+@keyframes blink{50%{opacity:0}}
+#v4 .cfoot{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:10.5px;color:#8F98B8}
+#v4 .cpill{background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;border-radius:8px;padding:7px 11px;font-weight:800;font-size:11px}
+#v4 .fchip{position:absolute;z-index:3;background:rgba(12,15,34,.92);border:1px solid rgba(34,211,238,.45);border-radius:12px;padding:10px 12px;box-shadow:0 16px 40px rgba(0,0,0,.45);animation:floaty 7s ease-in-out infinite}
+#v4 .fchip span{display:block;font-size:9.5px;letter-spacing:.1em;color:#8B93B0}
+#v4 .fchip b{display:block;font-size:16px;color:#fff;margin-top:2px;letter-spacing:-.01em}
+#v4 .fchip em{display:block;font-style:normal;font-size:9.5px;color:#6EE7B7;margin-top:3px}
+#v4 .fchip.a{right:-22px;top:-14px;border-color:rgba(52,211,153,.45)}
+#v4 .fchip.b{right:-22px;bottom:-16px;border-color:rgba(167,139,250,.5);animation-delay:1.8s}
+#v4 .fchip.b em{color:#DDD6FE}
 
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.35);padding:7px 16px;border-radius:999px;backdrop-filter:blur(6px)}
-  .hero h1{font-size:44px;line-height:1.18;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
-  .hero h1 .accent{background:linear-gradient(90deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero p.sub{color:#c7d0e8;max-width:560px;font-size:16px;margin-bottom:28px}
-  .hero p.sub b{color:#fff}
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .pill-blue{background:linear-gradient(90deg,var(--blue-light),var(--violet));color:#fff;border-radius:999px;padding:14px 32px;font-size:15.5px;font-weight:700;display:inline-block;box-shadow:0 12px 32px rgba(124,58,237,.5);transition:.2s;position:relative;overflow:hidden}
-  .pill-blue:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(124,58,237,.6)}
-  .pill-blue::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:shine 3.2s ease-in-out infinite}
-  @keyframes shine{0%{left:-100%}55%,100%{left:100%}}
-  .pill-ghost{background:rgba(255,255,255,.06);color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:13px 28px;font-size:15px;font-weight:600;display:inline-block;transition:.2s;backdrop-filter:blur(6px)}
-  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.12);transform:translateY(-2px)}
-  .hero .trust{margin-top:22px;display:flex;gap:8px 20px;flex-wrap:wrap;font-size:12.5px;color:#9aa6c4}
-  .hero .trust span{display:inline-flex;align-items:center;gap:6px}
-  .hero .trust svg{width:14px;height:14px;flex:0 0 auto}
 
-  .mockup-cell{min-width:0;position:relative;z-index:3}
-  .mk-float{animation:mkfloat 6s ease-in-out infinite}
-  @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-  .mk-scan{animation:mkscan 4.5s ease-in-out infinite;pointer-events:none}
-  @keyframes mkscan{0%{transform:translateY(60px);opacity:0}12%{opacity:.5}88%{opacity:.5}100%{transform:translateY(392px);opacity:0}}
-  .mk-dot{animation:mkpulse 1.6s ease-in-out infinite}
-  .mk-dot.d2{animation-delay:.3s}.mk-dot.d3{animation-delay:.6s}
-  @keyframes mkpulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .mk-chip{animation:mkfade 5.5s ease-in-out infinite}
-  .mk-chip.c2{animation-delay:1.2s}
-  @keyframes mkfade{0%,100%{opacity:1}50%{opacity:.55}}
+body{display:block!important}
+#v4{text-align:left}
+#v4 .door .tag{right:auto!important;left:16px!important}
+#v4 .door .pain{text-align:left;letter-spacing:0}
+#v4 .sec .lead,#v4 .sec h2{text-align:left}
 
-  section{max-width:1240px;margin:0 auto;padding:76px 24px}
-  .sec-head{text-align:center;margin-bottom:40px}
-  .sec-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;background:#eff6ff;border:1px solid #dbeafe;padding:5px 14px;border-radius:999px}
-  .sec-title{font-size:32px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-  .sec-sub{color:var(--muted);font-size:15px;max-width:720px;margin:0 auto}
+#v4 .door .tag{display:inline-block!important;width:-moz-fit-content!important;width:fit-content!important;right:auto!important;left:16px!important;white-space:nowrap!important}
+#v4 .door .body{width:auto!important}
+#v4 .door .pain{display:block!important;width:100%!important;max-width:100%!important;text-wrap:wrap!important;text-align:left!important}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
-  @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
-  .stat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:26px 18px;box-shadow:0 8px 28px rgba(15,23,42,.06);transition:.25s}
-  .stat:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(37,99,235,.14);border-color:#bfdbfe}
-  .stat .n{font-size:34px;font-weight:800;line-height:1.2;
-    background:linear-gradient(90deg,var(--blue),var(--purple),var(--blue));background-size:200% 100%;
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    animation:shimmer 4s linear infinite}
-  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-  .stat .l{font-size:13px;color:var(--muted)}
 
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media(max-width:980px){.features{grid-template-columns:1fr}}
-  .fcard{display:block;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:28px 24px;transition:.25s;position:relative;overflow:hidden}
-  .fcard::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:linear-gradient(135deg,rgba(37,99,235,.4),rgba(139,92,246,.35),transparent 60%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.25s}
-  .fcard:hover{transform:translateY(-5px);box-shadow:0 20px 46px rgba(15,23,42,.12);border-color:#bfdbfe}
-  .fcard:hover::before{opacity:1}
-  .fcard .ico{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:16px;box-shadow:0 8px 20px rgba(99,102,241,.35)}
-  .fcard h3{font-size:17.5px;font-weight:700;margin-bottom:7px}
-  .fcard p{font-size:13.5px;color:var(--muted)}
-  .fcard .go{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:13px;font-weight:700;color:var(--blue)}
-  .fcard:hover .go{color:var(--violet)}
-  .fcard .go::after{content:"→";transition:transform .2s}
-  .fcard:hover .go::after{transform:translateX(3px)}
+#v4 .stage{display:block!important;padding:22px 24px!important;gap:0!important}
+#v4 .stage .hd{display:flex!important}
+#v4 .steps{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:10px!important;margin-top:14px!important}
+#v4 .file{display:block!important}
+#v4 .files3{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:14px!important}
+#v4 .tiers{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:14px!important}
+#v4 .tier .tag{position:static!important;right:auto!important;top:auto!important;display:inline-block!important;margin:0!important}
+#v4 .door .tag{position:absolute!important;left:16px!important;top:14px!important}
 
-  .comp-band{background:linear-gradient(120deg,#0b1030,#251a5e 60%,#3b1a86);border-radius:24px;max-width:1180px;margin:0 auto;padding:52px 44px;color:#fff;position:relative;overflow:hidden}
-  .comp-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-  .comp-band .grid2{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:26px;z-index:2}
-  @media(max-width:900px){.comp-band .grid2{grid-template-columns:1fr}}
-  .comp-col{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:26px 26px;backdrop-filter:blur(8px)}
-  .comp-col h3{font-size:19px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .comp-col h3 .tag{font-size:11px;font-weight:800;letter-spacing:.08em;border-radius:999px;padding:3px 10px}
-  .tag.t1{background:rgba(74,222,128,.18);color:#86efac;border:1px solid rgba(74,222,128,.35)}
-  .tag.t2{background:rgba(196,181,253,.16);color:#c4b5fd;border:1px solid rgba(196,181,253,.35)}
-  .comp-col p{font-size:13.5px;color:#c7d0e8;margin-bottom:10px}
-  .comp-col ul{margin:6px 0 4px 2px;list-style:none}
-  .comp-col li{font-size:13.5px;color:#dbe3f2;padding:3.5px 0 3.5px 22px;position:relative}
-  .comp-col li::before{content:"✓";position:absolute;left:0;color:#86efac;font-weight:800}
-  .comp-col li.warn::before{content:"⚠";color:#fbbf24}
-  .comp-col .big{font-size:20px;font-weight:800;color:#fff;margin:10px 0 2px;line-height:1.35}
-  .comp-col .big small{font-size:12.5px;color:#9aa6c4;font-weight:600}
-  .comp-cta{position:relative;z-index:2;text-align:center;margin-top:30px}
-  .comp-cta .pill-blue{margin-top:6px}
+#v4 .demo{align-items:start!important}
+#v4 .door .body{display:block!important}
+#v4 .door .gain{margin-top:10px!important}
+#v4 .door .go{margin-top:14px!important}
 
-  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
-  @media(max-width:980px){.flow{grid-template-columns:1fr}}
-  .step{border:1px solid var(--border);border-radius:16px;padding:24px 22px;background:#fff;transition:.25s;position:relative}
-  .step:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(37,99,235,.12);border-color:#bfdbfe}
-  .step .n{width:32px;height:32px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:12px;box-shadow:0 6px 16px rgba(99,102,241,.35)}
-  .step h4{font-size:15.5px;margin-bottom:6px}
-  .step p{font-size:13px;color:var(--muted)}
 
-  .faq{max-width:840px;margin:0 auto}
-  .faq details{border:1px solid var(--border);border-radius:14px;margin-bottom:12px;background:#fff;transition:.2s}
-  .faq details[open]{border-color:#bfdbfe;box-shadow:0 8px 26px rgba(37,99,235,.08)}
-  .faq summary{padding:16px 20px;font-size:14.5px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
-  .faq summary::after{content:"+";color:var(--muted);font-weight:400;font-size:17px;transition:.2s}
-  .faq details[open] summary::after{content:"–";transform:rotate(180deg)}
-  .faq .a{padding:0 20px 16px;font-size:13.5px;color:var(--muted)}
+#v4 .gx-sec{padding:64px 0;display:block!important}
+#v4 .gx-alt{background:#FAFAFD}
+#v4 .gx-w{width:1240px;max-width:calc(100% - 64px);margin:0 auto}
+#v4 .gx-grid{position:relative;overflow:hidden}
+#v4 .gx-grid:before{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(rgba(124,58,237,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.05) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(74% 64% at 36% 0,#000,transparent 82%);mask-image:radial-gradient(74% 64% at 36% 0,#000,transparent 82%);pointer-events:none}
+#v4 .gx-eyebrow{display:block;font-size:11px;letter-spacing:.16em;font-weight:800;color:#7C3AED;margin:0 0 12px}
+#v4 .gx-h2{display:block;font-size:33px;line-height:1.28;margin:0;letter-spacing:-.02em;color:#0F172A;font-weight:800}
+#v4 .gx-em{font-style:normal;background:linear-gradient(96deg,#2F6BFF,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+#v4 .gx-lead{display:block;font-size:13.5px;color:#5B6478;line-height:1.85;margin:12px 0 0;max-width:820px}
 
-  .cta-band{background:linear-gradient(115deg,#0a0f2e,#251a5e 55%,#3b1a86);border-radius:24px;max-width:1180px;margin:0 auto 70px;padding:56px 40px;text-align:center;color:#fff;position:relative;overflow:hidden}
-  .cta-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-  .cta-band h2{position:relative;font-size:28px;font-weight:800;margin-bottom:12px}
-  .cta-band p{position:relative;color:#c7d0e8;margin-bottom:26px;font-size:15px}
-  .cta-band .pill-blue{margin-right:6px}
 
-  /* trust wall (13 platforms) */
-  .twall{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
-  @media(max-width:980px){.twall{grid-template-columns:repeat(4,1fr)}}
-  @media(max-width:560px){.twall{grid-template-columns:repeat(2,1fr)}}
-  .twall .tp{display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;transition:.22s}
-  .twall .tp:hover{transform:translateY(-3px);border-color:#bfdbfe;box-shadow:0 12px 28px rgba(37,99,235,.12)}
-  .twall .tp .f{font-size:22px;line-height:1}
-  .twall .tp .nm{font-size:12.5px;font-weight:700;color:#334155}
-  .twall .tp small{font-size:10.5px;color:var(--muted)}
-  .twall .tp .tplogo{height:20px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px}
+#v4 .gx-mx{display:grid!important;grid-template-columns:1.06fr .94fr!important;gap:18px;margin-top:30px;align-items:start}
+#v4 .gx-tb{background:#fff;border:1px solid #E6E9F3;border-radius:18px;padding:22px}
+#v4 .gx-th{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+#v4 .gx-th b{font-size:14px;font-weight:800;color:#0F172A}
+#v4 .gx-th span{font-size:10.5px;color:#94A3B8}
+#v4 .gx-tbl{width:100%;border-collapse:collapse;table-layout:fixed;margin:0}
+#v4 .gx-tbl thead th{font-size:10px;font-weight:800;color:#64748B;letter-spacing:.04em;padding:0 0 8px;text-align:center;line-height:1.4;border:0;background:none}
+#v4 .gx-tbl thead th:first-child{text-align:left;width:80px}
+#v4 .gx-tbl tbody td{font-size:11.5px;padding:9px 0;border-top:1px solid #F1F3F9;border-bottom:0;text-align:center;color:#334155;background:none;vertical-align:middle}
+#v4 .gx-tbl tbody td:first-child{text-align:left;font-weight:800;color:#0F172A}
+#v4 .gx-tbl tbody td small{display:block;font-weight:400;color:#94A3B8;font-size:9.5px;line-height:1.4}
+#v4 .gx-dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle}
+#v4 .gx-dot.on{background:#7C3AED}
+#v4 .gx-dot.half{background:#fff;border:1.5px solid #A78BFA}
+#v4 .gx-dot.off{background:#E6E9F3}
+#v4 .gx-legend{display:flex;gap:14px;margin-top:14px;font-size:10px;color:#64748B;flex-wrap:wrap}
+#v4 .gx-legend em{display:flex;align-items:center;gap:5px;font-style:normal}
+#v4 .gx-mnote{margin-top:12px;font-size:10px;color:#94A3B8;line-height:1.65}
+#v4 .gx-sel{position:relative;overflow:hidden;background:linear-gradient(158deg,#0B0F24,#150F3A 58%,#2A1668);border-radius:18px;padding:24px;color:#fff}
+#v4 .gx-sel .gx-g{position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(80% 70% at 62% 8%,#000,transparent 85%);mask-image:radial-gradient(80% 70% at 62% 8%,#000,transparent 85%)}
+#v4 .gx-sel .gx-in{position:relative;z-index:2}
+#v4 .gx-k{display:block;font-size:10.5px;letter-spacing:.1em;font-weight:800;color:#A5B4FC}
+#v4 .gx-sel h3{font-size:17px;margin:8px 0 0;line-height:1.5;color:#fff;font-weight:800}
+#v4 .gx-flagrow{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+#v4 .gx-fl{font-size:10.5px;font-weight:800;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:7px;padding:5px 9px;color:#fff}
+#v4 .gx-list{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+#v4 .gx-li{display:flex;align-items:center;gap:9px;font-size:11.5px;color:#DDD6FE;line-height:1.6}
+#v4 .gx-li i{width:6px;height:6px;border-radius:50%;background:#FB7185;flex:0 0 6px}
+#v4 .gx-li.w i{background:#F59E0B}
+#v4 .gx-cta{display:block;margin-top:18px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);border-radius:12px;padding:14px;text-align:center;font-size:13.5px;font-weight:800;color:#fff;text-decoration:none;box-shadow:0 12px 26px rgba(124,58,237,.24)}
+#v4 .gx-sub{display:block;font-size:10px;color:#8B93C4;text-align:center;margin-top:8px}
 
-  /* testimonials */
-  .tquotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media(max-width:980px){.tquotes{grid-template-columns:1fr}}
-  .tquote{background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:26px 24px;transition:.25s;position:relative;overflow:hidden}
-  .tquote::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:linear-gradient(135deg,rgba(37,99,235,.4),rgba(139,92,246,.35),transparent 60%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.25s}
-  .tquote:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(15,23,42,.12);border-color:#bfdbfe}
-  .tquote:hover::before{opacity:1}
-  .tquote .av{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 8px 20px rgba(99,102,241,.35);margin-bottom:14px;display:block}
-  .tquote .stars{color:#f59e0b;font-size:15px;letter-spacing:2px;margin-bottom:10px}
-  .tquote p{font-size:13.5px;color:#334155;margin-bottom:12px}
-  .tquote .res{font-size:17px;font-weight:800;margin-bottom:10px;background:linear-gradient(90deg,var(--blue),var(--purple));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .tquote .who{font-size:13px;font-weight:700;color:var(--ink)}
-  .tquote .who small{display:block;font-weight:400;color:var(--muted);font-size:12px}
 
-  /* compliance & security badges */
-  .trust-badges{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:34px}
-  .tbadge{display:inline-flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:10px 18px;font-size:13px;font-weight:700;color:#334155;transition:.2s}
-  .tbadge:hover{border-color:#bfdbfe;box-shadow:0 8px 22px rgba(37,99,235,.10);transform:translateY(-2px)}
+#v4 .gx-langs{margin-top:30px;background:#fff;border:1px solid #E6E9F3;border-radius:18px;overflow:hidden}
+#v4 .gx-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#FBFBFE;border-bottom:1px solid #EEF1F8}
+#v4 .gx-l{font-size:12px;font-weight:800;color:#0F172A}
+#v4 .gx-r{font-size:10px;font-weight:800;color:#0F766E;background:rgba(15,118,110,.08);border-radius:999px;padding:4px 10px}
+#v4 .gx-lrow{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #F4F6FB}
+#v4 .gx-lrow:last-child{border-bottom:0}
+#v4 .gx-code{flex:0 0 34px;font-size:10px;font-weight:800;color:#7C3AED;letter-spacing:.05em}
+#v4 .gx-txt{flex:1;font-size:12px;color:#1F2937;line-height:1.6;min-width:0}
+#v4 .gx-badge{font-size:9.5px;font-weight:800;color:#0F766E;background:rgba(15,118,110,.08);border-radius:999px;padding:3px 8px;flex:0 0 auto}
+#v4 .gx-lnote{padding:14px 20px;background:#FAFAFD;font-size:10.5px;color:#64748B;line-height:1.7}
 
-  /* no-risk guarantee band */
-  .guarantee{background:linear-gradient(120deg,#0b1030,#251a5e 60%,#3b1a86);border-radius:24px;max-width:1180px;margin:0 auto 24px;padding:40px 40px;color:#fff;position:relative;overflow:hidden;text-align:center}
-  .guarantee::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-  .guarantee h2{position:relative;font-size:24px;font-weight:800;margin-bottom:18px}
-  .guarantee .g-items{position:relative;display:flex;justify-content:center;flex-wrap:wrap;gap:14px 40px;z-index:2}
-  .guarantee .g-item{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:700}
-  .guarantee .g-item svg{width:17px;height:17px;flex:0 0 auto}
 
-  footer{border-top:1px solid var(--border);background:var(--soft);padding:40px 24px;text-align:center;font-size:13px;color:var(--muted)}
-  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-  footer a:hover{color:var(--blue)}
-  @media(max-width:980px){
-    .hero{grid-template-columns:1fr;padding:56px 24px 72px}
-    .hero h1{font-size:34px}
-    .orbits{display:none}
-    .menu{display:none}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .particles i,.hero-glow i,.mk-float,.mk-scan,.mk-dot,.mk-chip,.pill-blue::after,.stat .n{animation:none}
-  }
+#v4 .gx-cmp{margin-top:30px;background:#fff;border:1px solid #E6E9F3;border-radius:18px;overflow:hidden}
+#v4 .gx-cmptbl{width:100%;border-collapse:collapse;margin:0}
+#v4 .gx-cmptbl thead th{background:#FBFBFE;font-size:10.5px;font-weight:800;color:#64748B;padding:14px;text-align:center;border-bottom:1px solid #EEF1F8;border-top:0}
+#v4 .gx-cmptbl thead th:first-child{text-align:left;width:190px}
+#v4 .gx-cmptbl thead th.us{color:#fff;background:linear-gradient(120deg,#4F7BFF,#7C3AED);font-size:11.5px}
+#v4 .gx-cmptbl tbody td{font-size:11.5px;color:#334155;padding:13px 14px;border-bottom:1px solid #F4F6FB;text-align:center;background:none}
+#v4 .gx-cmptbl tbody td:first-child{text-align:left;font-weight:700;color:#0F172A}
+#v4 .gx-cmptbl tbody td.us{background:rgba(124,58,237,.045);font-weight:800;color:#5B21B6}
+#v4 .gx-yes{color:#0F766E;font-weight:800}
+#v4 .gx-no{color:#B4232A}
+#v4 .gx-part{color:#B45309;font-weight:700}
+#v4 .gx-cmpfoot{padding:12px 16px;font-size:10px;color:#94A3B8;background:#FBFBFE}
+
+
+#v4 .gx-cal{margin-top:30px;background:#fff;border:1px solid #E6E9F3;border-radius:18px;padding:26px 26px 22px}
+#v4 .gx-axis{position:relative;height:1px;background:#E6E9F3;margin:34px 8px 0}
+#v4 .gx-axis .gx-m{position:absolute;top:-14px;font-size:9.5px;color:#94A3B8;transform:translateX(-50%);font-weight:700;white-space:nowrap}
+#v4 .gx-pin{position:absolute;top:0;transform:translate(-50%,-100%);width:2px;height:0}
+#v4 .gx-mk{position:absolute;top:6px;transform:translateX(-50%);width:9px;height:9px;border-radius:50%;background:#7C3AED;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+#v4 .gx-mk.warn{background:#F59E0B;box-shadow:0 0 0 4px rgba(245,158,11,.16)}
+#v4 .gx-ev{position:relative;display:flex!important;gap:14px;margin-top:44px}
+#v4 .gx-ec{flex:1 1 0;min-width:0;border:1px solid #E6E9F3;border-radius:14px;padding:16px;background:#FDFDFF}
+#v4 .gx-mo{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#5B21B6}
+#v4 .gx-mo.w{color:#B45309}
+#v4 .gx-ec h4{font-size:13px;margin:8px 0 0;line-height:1.5;color:#0F172A;font-weight:800}
+#v4 .gx-ec p{font-size:11px;color:#64748B;line-height:1.75;margin:6px 0 0}
+#v4 .gx-who{display:block;font-size:10px;font-weight:800;color:#0F766E;margin-top:8px}
+
+
+#v4 .gx-radar{display:grid!important;grid-template-columns:1.02fr .98fr!important;gap:26px;align-items:center;background:linear-gradient(150deg,#0A0E22,#120F35 55%,#241463);border-radius:22px;padding:34px;color:#fff;position:relative;overflow:hidden}
+#v4 .gx-radar .gx-g{position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:38px 38px;-webkit-mask-image:radial-gradient(70% 80% at 70% 10%,#000,transparent 85%);mask-image:radial-gradient(70% 80% at 70% 10%,#000,transparent 85%)}
+#v4 .gx-radar .gx-in{position:relative;z-index:2}
+#v4 .gx-radar .gx-k{color:#A5B4FC}
+#v4 .gx-radar h2{font-size:27px;margin:10px 0 0;color:#fff;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+#v4 .gx-radar .gx-lead{color:#C7D2FE;margin-top:10px;font-size:12.5px;max-width:none}
+#v4 .gx-form{display:flex;gap:8px;margin-top:18px}
+#v4 .gx-input{flex:1;min-width:0;height:44px;border-radius:11px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;padding:0 14px;font-family:inherit;font-size:12.5px}
+#v4 .gx-btn{height:44px;display:flex;align-items:center;padding:0 20px;border-radius:11px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:12.5px;font-weight:800;text-decoration:none;white-space:nowrap}
+#v4 .gx-formnote{display:block;font-size:10px;color:#8B93C4;margin-top:8px}
+#v4 .gx-upd{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px}
+#v4 .gx-u{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px}
+#v4 .gx-du{display:block;font-size:9.5px;font-weight:800;letter-spacing:.08em;color:#A5B4FC}
+#v4 .gx-tu{display:block;font-size:12px;font-weight:700;margin-top:5px;line-height:1.5;color:#fff}
+#v4 .gx-su{display:block;font-size:10.5px;color:#C7D2FE;margin-top:4px;line-height:1.6}
+
+
+#v4 .gx-filters{display:flex;gap:8px;margin-top:16px;font-size:11.5px;flex-wrap:wrap}
+#v4 .gx-filters span{border:1px solid #E2E7F2;border-radius:999px;padding:5px 11px;color:#4B5563;background:#fff}
+#v4 .gx-filters span.on{border-color:#7C3AED;color:#5B21B6;background:#F4F1FF;font-weight:800}
+#v4 .gx-cases{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:16px;margin-top:22px}
+#v4 .gx-case{background:#fff;border:1px solid #E6E9F3;border-radius:16px;overflow:hidden}
+#v4 .gx-ph{height:150px;overflow:hidden;position:relative}
+#v4 .gx-ph img{width:100%;height:100%;object-fit:cover;display:block;margin:0}
+#v4 .gx-flag{position:absolute;left:12px;top:12px;background:rgba(8,10,26,.72);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 10px;font-size:10.5px;color:#fff;font-weight:800}
+#v4 .gx-bd{padding:16px}
+#v4 .gx-who2{display:block;font-size:11px;color:#8A93A6}
+#v4 .gx-st{display:block;margin-top:8px;font-size:13px;font-weight:700;line-height:1.6;color:#0F172A}
+#v4 .gx-metrics{display:flex;gap:8px;margin-top:12px}
+#v4 .gx-m2{flex:1;background:#FAFAFD;border-radius:8px;padding:8px}
+#v4 .gx-m2 b{display:block;font-size:9.5px;color:#8A93A6;letter-spacing:.08em;font-weight:700}
+#v4 .gx-m2 i{display:block;font-size:12.5px;font-weight:800;margin-top:2px;font-style:normal;color:#0F172A}
+#v4 .gx-dl{display:inline-block;margin-top:12px;font-size:10.5px;font-weight:800;color:#5B21B6;text-decoration:none}
+
+
+#v4 .gx-empty{display:none;grid-column:1/-1;padding:20px;border:1px dashed #DDE3F1;border-radius:14px;background:#FAFBFE;color:#5B6478;font-size:13px;line-height:1.7}
+@media (max-width:1100px){
+ #v4 .w,#v4 .gx-w{width:auto;max-width:100%;padding-left:24px;padding-right:24px}
+ #v4 .hin{display:block;height:auto;padding-bottom:24px}
+ #v4 .hero{height:auto;padding-top:36px}
+ #v4 .left{flex:none;width:100%}
+ #v4 .right{flex:none;width:100%;height:auto;margin-top:28px}
+ #v4 .console{height:auto}
+ #v4 .pipe{position:static;height:auto;background:#060814;padding-bottom:8px}
+ #v4 .pipe .prow{flex-wrap:wrap;padding:18px 24px 0;gap:12px}
+ #v4 .pstep{flex:1 1 46%}
+ #v4 .stats{display:block !important}
+ #v4 .stats>.w,#v4 .stats .w{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;width:100% !important;max-width:100% !important}
+ #v4 .stats .it{flex:none;width:auto;border-right:0;box-shadow:inset -1px -1px 0 var(--line)}
+ #v4 .doors{grid-template-columns:1fr}
+ #v4 .tiers{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .files3{grid-template-columns:1fr !important}
+ #v4 .gx-mx{grid-template-columns:minmax(0,1fr) !important}
+ #v4 .gx-tb{padding:14px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ #v4 .gx-tbl{min-width:560px}
+ #v4 .gx-mx{align-items:stretch !important}
+ #v4 .gx-sel{margin-top:16px}
+ #v4 .gx-cases{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .gx-radar{grid-template-columns:1fr !important;padding:22px}
+ #v4 .gx-cmp{overflow-x:auto}
+ #v4 .gx-cmptbl{min-width:600px}
+ #v4 .gx-ev{flex-wrap:wrap}
+ #v4 .gx-ec{flex:1 1 46%}
+ #v4 .demo-grid{display:block}
+ #v4 .rail{flex:none;width:100%}
+ #v4 .quote{flex-direction:column;align-items:flex-start}
+ #v4 .final{flex-direction:column;align-items:flex-start;padding:26px}
+ #v4 .foot{flex-direction:column;gap:10px}
+ #v4 .h2{font-size:30px}
+ #v4 .gx-h2{font-size:28px}
+}
+@media (max-width:760px){
+ #v4 .w,#v4 .gx-w{padding-left:16px;padding-right:16px}
+ #v4 .h1,#v4 .hero h1{font-size:32px}
+ #v4 .h2{font-size:24px;line-height:1.3}
+ #v4 .gx-h2{font-size:22px;line-height:1.35}
+ #v4 .lead,#v4 .gx-lead{font-size:13.5px}
+ #v4 .tiers{grid-template-columns:minmax(0,1fr) !important}
+ #v4 .steps{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .steps>div{min-width:0}
+ #v4 .gx-cases{grid-template-columns:minmax(0,1fr) !important}
+ #v4 .gx-ec{flex:1 1 100%}
+ #v4 .gx-ev{flex-direction:column;margin-top:18px}
+ #v4 .gx-axis{display:none}
+ #v4 .gx-cal{padding:16px}
+ #v4 .gx-lrow{flex-wrap:wrap;gap:8px;padding:12px 14px}
+ #v4 .gx-lrow .gx-l{flex:0 0 34px}
+ #v4 .gx-lrow .gx-txt{flex:1 1 100%;font-size:12.5px;line-height:1.5}
+ #v4 .gx-form{flex-direction:column}
+ #v4 .gx-form .gx-btn{width:100%;text-align:center}
+ #v4 .gx-filters span{padding:6px 12px;font-size:11px}
+ #v4 .gx-cmptbl{min-width:520px;font-size:11.5px}
+ #v4 .gx-cmptbl th,#v4 .gx-cmptbl td{padding:9px 10px}
+ #v4 .chead{flex-wrap:wrap;gap:6px}
+ #v4 .cg .cc{font-size:11px}
+ #v4 .pipe{padding-bottom:0}
+ #v4 .pipe .prow{padding:14px 16px 0}
+ #v4 .pstep{flex:1 1 100%}
+ #v4 .sec{padding:40px 0 28px}
+ #v4 .gx-sec{padding:40px 0 28px}
+ #v4 .final{padding:22px}
+ #v4 .final .h2{font-size:20px}
+ #v4 .hero-cta{flex-direction:column;align-items:stretch;gap:10px}
+ #v4 .hero-cta .p,#v4 .hero-cta .g{width:100%;text-align:center;justify-content:center}
+ #v4 .right,#v4 .console{width:100% !important;max-width:100% !important;min-width:0 !important}
+ #v4 .pgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ #v4 .chead{flex-direction:column;align-items:flex-start;gap:8px}
+ #v4 .tlog{font-size:11px;overflow-x:auto}
+ #v4 .prow .val{flex:0 0 84px}
+ #v4 .console .prow .bar{flex:1 1 -0;min-width:70px}
+ #v4 .w,#v4 .gx-w{width:100% !important;max-width:100% !important;padding:0 14px !important;margin:0 !important;box-sizing:border-box !important}
+ #v4 .console{width:100% !important;padding:12px 12px 10px !important}
+ #v4 .gx-tb,#v4 .gx-cmp,#v4 .gx-langs{border-radius:14px}
+ #v4 .sub,#v4 .lead,#v4 .gx-lead{max-width:100%}
+ #v4 .pcell,#v4 .tier,#v4 .gx-case,#v4 .gx-ec,#v4 .file,#v4 .door{min-width:0}
+ #v4 .pcell b,#v4 .pcell span,#v4 .sub,#v4 .gx-lead,#v4 .lead,#v4 .gx-tu,#v4 .gx-su{overflow-wrap:anywhere;word-break:break-word}
+ #v4 .gx-ec{width:auto}
+}
 </style>
-  <link rel="stylesheet" href="/effects.css">
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+</style>
+<style id="cx-fit">
+#v4 .gx-cal{overflow:hidden}
+#v4 .gx-ev{flex-wrap:wrap!important}
+#v4 .gx-ec{flex:1 1 320px!important;max-width:100%!important;min-width:0!important}
+#v4 .gx-ec h4,#v4 .gx-ec p,#v4 .gx-mo,#v4 .gx-mo.w,#v4 .gx-who,#v4 .gx-li,#v4 .gx-li.w{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+@media (max-width:760px){
+ #v4 .gx-ec{flex:1 1 100%!important}
+ #v4 .gx-ev{flex-direction:column!important;margin-top:18px}
+}
+#v4 .final{flex-wrap:wrap;row-gap:16px}
+#v4 .final>div:first-of-type{flex:1 1 380px;min-width:0}
+#v4 .cx-fcta{display:flex;gap:12px;flex-wrap:wrap;flex:none}
+#v4 .cx-fa,#v4 .cx-fb{height:46px;padding:0 22px;border-radius:12px;display:inline-flex;align-items:center;
+justify-content:center;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:800}
+#v4 .cx-fa{background:#fff;color:#2F6BFF}
+#v4 .cx-fb{background:linear-gradient(90deg,#F59E0B,#FB7185);color:#fff}
+@media (max-width:760px){
+ #v4 .cx-fcta{width:100%}
+ #v4 .cx-fa,#v4 .cx-fb{flex:1 1 100%}
+}
+#v4 .hero-cta a,#v4 .cpill{text-decoration:none}
+#v4 .hero-cta a{display:inline-flex;align-items:center}
+#v4 .cpill{display:inline-flex;align-items:center}
+#v4 .gx-next{max-width:1240px;margin:16px auto 0;padding:0 24px;box-sizing:border-box}
+#v4 .gx-next a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;
+color:#2F6BFF;text-decoration:none;border-bottom:1px solid rgba(47,107,255,.35);padding-bottom:2px}
+</style>
+
+
+<style id="nav-fit">
+.login-link{white-space:nowrap !important;font-size:13px !important}
+.pill-nav{white-space:nowrap !important;padding:8px 13px !important;font-size:13px !important}
+nav{padding-left:26px !important;padding-right:26px !important}
+nav .menu{gap:14px !important;font-size:13px !important;min-width:0}
+nav .menu .navitem>a{white-space:nowrap !important}
+nav .right{gap:10px !important;flex:0 0 auto}
+.lang-switch{padding:3px 9px !important;font-size:12px !important}
+.lang-switch select{font-size:12px !important}
+@media (max-width:1360px){nav .menu{gap:11px !important;font-size:12.5px !important}nav .logo{font-size:17px !important}}
+</style>
+
+
+
+<style id="home-foot-fit">
+.cfoot{display:flex;align-items:center;gap:8px}
+.cfoot span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cfoot .cpill{flex:0 0 auto;white-space:nowrap}
+</style>
+<style id="cx-nav-gap">
+nav .menu{margin-left:22px}
+nav .navitem>a{padding-left:11px !important;padding-right:11px !important}
+nav .logo .dot{margin-right:2px}
+@media (max-width:1180px){
+  nav .menu{gap:7px !important;margin-left:14px !important}
+  nav .logo{font-size:16px !important}
+  nav .logo .dot{width:25px;height:25px}
+  nav .navitem>a{padding-left:8px !important;padding-right:8px !important;font-size:12.5px !important;gap:4px}
+  nav .right .login-link{font-size:11.5px !important}
+  nav .right .pill-nav{padding:6px 10px !important;font-size:11.5px !important}
+  .lang-switch{padding:2px 7px !important}
+}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
 </head>
 <body>
-
+<div id="site-nav">
 <div class="topbar">🛡️ Die GPSR (EU 2023/988) ist anwendbar — <b onclick="location.href='/de/gpsr-check'">kostenloser 30-Sekunden-Check →</b></div>
 
 <nav>
-  <a class="logo" href="/de/"><span class="dot">🤖</span>CrossAIO</a>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
-    <div class="navitem"><a>Produkt</a>
+    <div class="navitem">
+      <a href="/de/v2/">Fähigkeitskarte</a>
       <div class="dropdown">
-        <a href="/de/features/gpsr"><span>🛡️ GPSR-Compliance-Engine<small>CE-Kategorien → Warnhinweise → Compliance-Block → Backfill</small></span></a>
-        <a href="/de/features/listing-generator"><span>📦 Listing-Generator<small>Komplettset + Wortzahl-Prüfung + Score</small></span></a>
-        <a href="/de/features/matrix"><span>🌍 Multi-Plattform-Matrix<small>Eine Eingabe → 13 Plattformen lokalisiert</small></span></a>
-        <a href="/de/features/review-rewrite"><span>📈 Bewertungs-Umschreibung<small>Themenzuordnung → 5-Punkte-Fixes + semantischer Score</small></span></a>
-        <a href="/de/features/ai-service"><span>💬 KI-Kundenservice<small>AI-Act-Art.-50-Offenlegung eingebaut + eBay</small></span></a>
-        <a href="/de/features/safety-redline"><span>🚨 Sicherheits-Rotlinie<small>Bedrohung/Erpressung erkennen → an Mensch übergeben</small></span></a>
-        <a href="/de/features/inbox"><span>📥 Zentrales Postfach<small>Nachrichten von 13 Plattformen · Muttersprache antworten</small></span></a>
-        <a href="/de/features/ad-copy"><span>📣 Anzeigentext-Generator<small>Verbotene-Wörter-Prüfung + A/B-Varianten</small></span></a>
-        <a href="/de/features/listing-watch"><span>📡 Listing-Monitoring<small>Tägliche Auto-Prüfung · sofortige Risikoalarme</small></span></a>
-        <a href="/de/features"><span>🗂️ Fähigkeiten-Übersicht<small>Neun Fähigkeiten · eine Seite pro Fähigkeit</small></span></a>
+        <a href="/de/v2/launch"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#ECFEFF;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/></svg></span><span><span style="display:block">01 · Vor dem Launch</span><small>Ein Durchlauf · ca. 10 Min. · keine Freigabe</small></span></span></a>
+        <a href="/de/v2/rescue"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#FFF1F2;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FB7185" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19H3z"/><path d="M12 9v4.5"/><path d="M12 16.2v.3"/></svg></span><span><span style="display:block">02 · Vorfall</span><small>In 5 Min. einordnen · Einspruch in 3 Sprachen</small></span></span></a>
+        <a href="/de/v2/ops"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#ECFDF5;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-7 4 14 2.5-7h5"/></svg></span><span><span style="display:block">03 · Tagesbetrieb</span><small>12 Plattformen × 6 automatische Prüfungen</small></span></span></a>
+        <a href="/de/v2/govern"><span style="display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:#F5F3FF;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.4 3 8 7 9 4-1 7-4.6 7-9V6z"/><path d="m8.6 12 2.2 2.2 4.2-4.4"/></svg></span><span><span style="display:block">04 · Governance</span><small>A/B/C/D-Kompetenzmatrix · Audit-Trail</small></span></span></a>
+      </div>
+    </div>    <div class="navitem">
+      <a>Produktfunktionen</a>
+      <div class="dropdown">
+                <a href="/de/v2/feature/gpsr"><span>🛡️ GPSR-Compliance-Block<small>CE-Kategorie → Warnhinweise → Compliance-Block → Rückschreiben</small></span></a>
+        <a href="/de/v2/feature/listing"><span>📦 Multi-Platform-Texte<small>Listing + Anzeigen-A/B · harte Zeichenprüfung</small></span></a>
+        <a href="/de/v2/feature/matrix"><span>🌍 Verteilung auf 12 Plattformen<small>Eine Eingabe → lokalisiert für 12 Plattformen</small></span></a>
+        <a href="/de/v2/feature/review"><span>📈 Bewertungs-Reparatur<small>Themenanalyse → 5-Punkt-Fixes → semantischer Score</small></span></a>
+        <a href="/de/v2/feature/ai-service"><span>💬 Support & KI-Offenlegung<small>Einheitlicher Posteingang + Art.-50-Hinweis</small></span></a>
+        <a href="/de/v2/feature/safety"><span>🚨 Bedrohungs-Filter<small>Erkennung von Drohungen/Erpressung → Übergabe mit Nachweis</small></span></a>
       </div>
     </div>
-    <div class="navitem"><a>Plattformen</a>
+    <div class="navitem">
+      <a>Plattformen</a>
       <div class="dropdown">
-        <a href="/de/rules/allegro"><span>🇵🇱 Allegro-Regeln<small>Polnische Richtlinien + UOKiK-Aufsicht</small></span></a>
-        <a href="/de/rules/emag"><span>🇷🇴 eMAG-Regeln<small>Rumänische Richtlinien + ANPC-Aufsicht</small></span></a>
-        <a href="/de/rules/cdiscount"><span>🇫🇷 Cdiscount-Regeln<small>Französische Richtlinien (Loi Toubon) + DGCCRF</small></span></a>
-        <a href="/de/rules/otto"><span>🇩🇪 Otto-Regeln<small>Deutsche Richtlinien + ProdSG + GS-Zeichen</small></span></a>
-        <a href="/de/rules/kaufland"><span>🇩🇪 Kaufland-Regeln<small>DE/CZ/SK-Vier-Länder-Sites</small></span></a>
-        <a href="/de/rules/bol"><span>🇳🇱 bol.com-Regeln<small>Niederländische Richtlinien + ACM-Aufsicht</small></span></a>
-        <a href="/de/rules"><span>📋 Alle 13 Plattformen Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
+                <a href="/de/v2/platform/rules"><span>🇪🇺 Regelunterschiede<small>12-Plattform-Vergleich · Zeichen/Sprache/GPSR</small></span></a>
+        <a href="/de/v2/platform/app"><span>🔌 Anbindung A2 / B5 / C5<small>was vollautomatisch läuft und was nicht</small></span></a>
+        <a href="/de/v2/platform/localize"><span>🌐 Lokalisierung & Sprache<small>Sprachvorgaben · Einheiten · verbotene Wörter</small></span></a>
+        <a href="/de/v2/platform/limits"><span>📋 Zeichenlimits auf einen Blick<small>OTTO 70 → TikTok 255 auf einer Seite</small></span></a>
       </div>
     </div>
-    <div class="navitem"><a>Kostenlose Tools</a>
+    <div class="navitem">
+      <a>Kostenlose Tools</a>
       <div class="dropdown">
-        <a href="/de/compliance-check"><span>✅ Compliance-Check<small>Check → EU-Vertreter → technische Dateiliste, 30-s-Bericht</small></span></a>
-        <a href="/de/gpsr-check"><span>🛡️ GPSR-Compliance-Check<small>Kostenlos, ohne Registrierung, 30 Sekunden</small></span></a>
-        <a href="/de/rules"><span>📋 Plattform-Regeln Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
-        <a href="/de/skills"><span>🎁 Open-Source-Skills<small>GPSR-Prüfer + Regelwerk, MIT kostenlos</small></span></a>
+                <a href="/de/v2/tool/check"><span>✅ 30-Sekunden-Compliance-Check<small>Zwei Checks zusammengeführt · ohne Anmeldung</small></span></a>
+        <a href="/de/v2/tool/skills"><span>🎁 Open-Source-Skills<small>GPSR-Checker + Regelbibliothek, MIT</small></span></a>
+        <a href="/de/v2/tool/trust"><span>📌 Umfang & Haftung<small>Was wir tun – und was nicht</small></span></a>
       </div>
     </div>
     <div class="navitem">
       <a>Community</a>
       <div class="dropdown">
-        <a href="/academy"><span>🎓 CrossAIO Academy<small>Kostenloser GPSR-Kurs · öffentlich prüfbares Zertifikat</small></span></a>
-        <a href="/community"><span>💬 Verkäufer-Forum<small>Europäische Cross-Border-Verkäufer · Zertifikatsabzeichen</small></span></a>
-        <a href="/blog"><span>📝 Blog<small>GPSR / Lokalisierung / Wachstum</small></span></a>
-        <a href="/podcast"><span>🎬 Video-Podcast<small>Folgen zu GPSR & Cross-Border-Wachstum ansehen</small></span></a>
-        <a href="/summit"><span>🎊 Virtueller Gipfel<small>10.-11. Dez. 2026 · kostenlose Anmeldung</small></span></a>
-        <a href="/trust"><span>🤝 Transparentes Versprechen<small>Flatrate 0% Umsatzbeteiligung · Klick-Kündigung · öffentlicher Vergleich</small></span></a>
+        <a href="/academy"><span>🎓 CrossAIO Academy<small>Kostenloser GPSR-Kurs · prüfbares Zertifikat</small></span></a>
+        <a href="/community"><span>💬 Händler-Community<small>Europäische Cross-Border-Händler · Badge-Identität</small></span></a>
+        <a href="/blog"><span>📝 Blog<small>GPSR / Multi-Platform-Lokalisierung / Wachstum</small></span></a>
+        <a href="/podcast"><span>🎬 Video-Podcast<small>GPSR und Cross-Border-Wachstum, online ansehen</small></span></a>
+        <a href="/summit"><span>🎊 Virtueller Summit<small>10.–11. Dezember · kostenlos</small></span></a>
+        <a href="/trust"><span>🤝 Transparenz-Versprechen<small>Festpreis, 0 % Provision · jederzeit kündbar · offener Vergleich</small></span></a>
       </div>
     </div>
     <div class="navitem"><a class="solo" href="/de/pricing">Preise</a></div>
@@ -300,291 +616,501 @@
   <div class="right">
       <div class="lang-switch" role="navigation" aria-label="Language" style="display:inline-flex;gap:3px;align-items:center;padding:4px 12px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;font-size:12.5px">
     🌐<select onchange="location.href=this.value" style="border:none;background:transparent;font-size:12.5px;color:#334155;outline:none;cursor:pointer;font-weight:700">
-        <option value="/en/">English</option>
+        
+        
+        
+        
+        <option value="/">English</option>
         <option value="/de/" selected>Deutsch</option>
         <option value="/fr/">Français</option>
         <option value="/zh/">中文</option>
     </select>
   </div>
-<a href="/de/signin" style="font-size:14px;color:var(--muted)">Anmelden</a>
-    <a href="/de/signup"><button class="pill-nav">Kostenlos registrieren</button></a>
+<a class="login-link" href="/de/signin">Anmelden</a>
+    <a href="/de/signup"><button class="pill-nav">Jetzt starten</button></a>
   </div>
 </nav>
+</div>
+<div id="v4">
+<div class="hero">
+  <div class="grid"></div><div class="orb a"></div><div class="orb b"></div>
+  <div class="w">
+    <div class="hin">
+      <div class="left">
+        <div class="pill"><i></i>EU 2023/988 · GPSR gilt jetzt</div>
+        <h1>Handeln, bevor gesperrt wird –<br>die <em>Compliance</em> zuerst</h1>
+        <div class="sub">30 Sekunden zeigen, <b>welche der 12 Plattformen Sie blockieren</b>: fehlender EU-Verantwortlicher, fehlende Warnhinweise, ungültige EAN-Prüfziffer, zu lange Felder. Erst das bestehen – dann über Automatisierung reden.</div>
+        <div class="chips"><span class="chip">EU · 12 PLATTFORMEN</span><span class="chip">8 SPRACHEN</span><span class="chip">KEINE FREIGABE</span></div>
+        <div class="hero-cta"><a class="p" href="/de/v2/tool/check">Shop kostenlos prüfen · 30 Sek. →</a><a class="g" href="/de/v2/rescue">▶ 60 Sekunden echte Rettung ansehen</a></div>
+        <div class="trust"><span>Keine Kreditkarte</span><span>Keine Shop-Anbindung</span><span>5 kostenlose Checks pro Tag</span></div>
+      </div>
+      <div class="right">
+  <div class="console">
+    <div class="chead">
+      <span class="cid"><i class="live"></i>INC-2026-1042 · P1 · DE-Shop</span>
+      <span class="cdown">Noch 2 Tage 14 Std.</span>
+    </div>
 
-<div class="hero-wrap">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"><i class="g1"></i><i class="g2"></i></div>
-  <div class="particles"><i style="left:8%;top:70%"></i><i style="left:16%;top:40%"></i><i style="left:24%;top:82%"></i><i style="left:33%;top:55%"></i><i style="left:42%;top:30%"></i><i style="left:50%;top:75%"></i><i style="left:58%;top:45%"></i><i style="left:66%;top:85%"></i><i style="left:74%;top:35%"></i><i style="left:82%;top:65%"></i><i style="left:88%;top:20%"></i><i style="left:93%;top:50%"></i><i style="left:14%;top:15%"></i><i style="left:70%;top:12%"></i></div>
-  <div class="orbits">
-    <div class="orbit o1"><div class="spin"><i></i></div></div>
-    <div class="orbit o2"><div class="spin"><i></i></div></div>
-    <div class="orbit o3"><div class="spin"><i></i></div></div>
+    <div class="pgrid">
+      <div class="pcell ok"><b>Allegro</b><span>Einreichbar</span></div>
+      <div class="pcell ok"><b>TikTok</b><span>Einreichbar</span></div>
+      <div class="pcell bad"><b>Amazon</b><span>EU-Vertreter fehlt</span></div>
+      <div class="pcell warn"><b>OTTO</b><span>22 Zeichen zu lang</span></div>
+      <div class="pcell bad"><b>Kaufland</b><span>Chat wartet auf Freigabe</span></div>
+      <div class="pcell ok"><b>eMAG</b><span>Prüfung bestanden</span></div>
+    </div>
+
+    <div class="prow"><span class="lab">Einordnung fertig</span><span class="bar"><i class="b1"></i></span><span class="val">5/5 · 4m32s</span></div>
+    <div class="prow"><span class="lab">Nachweise komplett</span><span class="bar"><i class="b2"></i></span><span class="val">4/6</span></div>
+    <div class="prow"><span class="lab">Dreisprachiger Einspruch</span><span class="bar"><i class="b3"></i></span><span class="val">EN DE FR</span></div>
+
+    <div class="tlog">
+      <div><em>›</em> diagnose INC-2026-1042 --platform amazon</div>
+      <div><i class="t-ok">✓</i> 1 harter Blocker: kein EU-Verantwortlicher</div>
+      <div><i class="t-ok">✓</i> Einspruchsvorlage EN / DE / FR erzeugt</div>
+      <div class="t-cursor"><i class="t-cy">›</i> Nachweise 4/6, 2 Punkte fehlen<span class="blink">▌</span></div>
+    </div>
+
+    <div class="cfoot"><span>Kein Shop-Zugriff · Nur-Lese-Diagnose · keine Daten gespeichert</span><a class="cpill" href="/de/v2/tool/check">Check öffnen →</a></div>
   </div>
-  <div class="hero">
+</div>
+    </div>
+  </div>
+  <div class="pipe"><div class="prow">
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 01</div><div class="t">Datenerfassung</div></div>
+    <div class="pstep on"><span class="dot"></span><div class="k">SCHRITT 02 · Sie sind hier</div><div class="t">Sperrung / P1-Einordnung</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 03</div><div class="t">Prüfung im Verkauf</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 04</div><div class="t">Quartals-Review</div></div>
+  </div></div>
+<div class="pipe"><div class="prow">
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 01</div><div class="t">Datenerfassung</div></div>
+    <div class="pstep on"><span class="dot"></span><div class="k">SCHRITT 02 · Sie sind hier</div><div class="t">Sperrung / P1-Einordnung</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 03</div><div class="t">Prüfung im Verkauf</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 04</div><div class="t">Quartals-Review</div></div>
+  </div></div>
+<div class="pipe"><div class="prow">
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 01</div><div class="t">Datenerfassung</div></div>
+    <div class="pstep on"><span class="dot"></span><div class="k">SCHRITT 02 · Sie sind hier</div><div class="t">Sperrung / P1-Einordnung</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 03</div><div class="t">Prüfung im Verkauf</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 04</div><div class="t">Quartals-Review</div></div>
+  </div></div>
+<div class="pipe"><div class="prow">
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 01</div><div class="t">Datenerfassung</div></div>
+    <div class="pstep on"><span class="dot"></span><div class="k">SCHRITT 02 · Sie sind hier</div><div class="t">Sperrung / P1-Einordnung</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 03</div><div class="t">Prüfung im Verkauf</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 04</div><div class="t">Quartals-Review</div></div>
+  </div></div>
+<div class="pipe"><div class="prow">
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 01</div><div class="t">Datenerfassung</div></div>
+    <div class="pstep on"><span class="dot"></span><div class="k">SCHRITT 02 · Sie sind hier</div><div class="t">Sperrung / P1-Einordnung</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 03</div><div class="t">Prüfung im Verkauf</div></div>
+    <div class="pstep"><span class="dot"></span><div class="k">STEP 04</div><div class="t">Quartals-Review</div></div>
+  </div></div>
+</div>
+
+<div class="stats"><div class="w" style="display:flex">
+  <div class="it"><div class="n">1,777+</div><div class="l">Europäische Händler aktiv</div></div>
+  <div class="it"><div class="n">55,550+</div><div class="l">Lokalisierte Listings</div></div>
+  <div class="it"><div class="n">12</div><div class="l">Plattformen · ein Zugang</div></div>
+  <div class="it"><div class="n">8</div><div class="l">Sprachen · Compliance-Formulierung</div></div>
+</div></div>
+<div class="gx-sec gx-grid"><div class="gx-w">
+<span class="gx-eyebrow">In welchen Ländern verkaufen Sie?</span>
+<h2>Dasselbe Produkt, <em class="gx-em">ein Land weiter</em> – eine Pflicht mehr</h2>
+<p class="gx-lead">Nicht jedes Land prüft nur die Listing-Felder. Deutschland verlangt eine LUCID-Verpackungsnummer, Frankreich eine eigene EPR, Schweden und die Niederlande eine Verpackungs-Produzentenregistrierung, Elektrogeräte zusätzlich WEEE und Batterieregistrierung. Die Tabelle ist nach Ländern sortiert – Sie sehen sofort, welche Kästchen Sie noch ausfüllen müssen.</p>
+<div class="gx-mx">
+<div class="gx-tb">
+<div class="gx-th"><b>Land × Compliance-Punkt</b><span>Variiert je nach Kategorie und Verkaufsmethode · Angabe</span></div>
+<table class="gx-tbl">
+<thead><tr><th></th><th>GPSR<br>EU-Verantwortlicher</th><th>Verpackung<br>EPR</th><th>WEEE</th><th>Batterie</th><th>VAT</th><th>lokal<br>Sprache</th></tr></thead>
+<tbody>
+<tr><td>Deutschland<small>DE</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>Frankreich<small>FR</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>Italien<small>IT</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>Spanien<small>ES</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>Polen<small>PL</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+<tr><td>Niederlande<small>NL</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td></tr>
+<tr><td>Schweden<small>SE</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td></tr>
+<tr><td>Belgien<small>BE</small></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot half"></i></td><td><i class="gx-dot on"></i></td><td><i class="gx-dot on"></i></td></tr>
+</tbody>
+</table>
+<div class="gx-legend"><em><i class="gx-dot on"></i>erforderlich</em><em><i class="gx-dot half"></i>Abhängig von der Kategorie</em><em><i class="gx-dot off"></i>Normalerweise nicht beteiligt</em></div>
+<div class="gx-mnote">Zusammengestellt aus den Compliance-Portalen der Plattformen und den nationalen Registerstellen. Die Tabelle zeigt, welche Kästchen Sie ausfüllen müssen – die Registrierung selbst ersetzt sie nicht.</div>
+</div>
+<div class="gx-sel"><div class="gx-g"></div><div class="gx-in">
+<span class="gx-k">Die häufigste Kombination</span>
+<h3>Händler DE + FR + PL · Kategorie Möbel & Heimtextilien</h3>
+<div class="gx-flagrow"><span class="gx-fl">DE</span><span class="gx-fl">FR</span><span class="gx-fl">PL</span><span class="gx-fl">Möbel</span></div>
+<div class="gx-list">
+<div class="gx-li"><i></i><span>DE-Verpackungsnummer nie eingereicht – eine LUCID-Nummer mit einer falschen Ziffer wird abgelehnt</span></div>
+<div class="gx-li"><i></i><span>In FR fehlt die nationale EPR-Nummer</span></div>
+<div class="gx-li w"><i></i><span>PL hat eine Nummer, aber die hinterlegte Registrierung passt nicht zum Etikett</span></div>
+</div>
+<a class="gx-cta" href="/de/v2/tool/check">In 30 Sekunden sehen, welche Kästchen fehlen →</a>
+<span class="gx-sub">Keine Kreditkarte · keine Shop-Anbindung · 5 kostenlose Checks pro Tag</span>
+</div></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="w">
+  <div class="eyebrow">01 / Vier Situationen</div>
+  <div class="h2">Wo hängt es? Vier Einstiege</div>
+  <div class="lead">Eine Werkbank, vier Einstiege. Räumen Sie die Ablehnungsgründe weg, bevor Sie veröffentlichen; holen Sie sich in Minuten einen Befund, wenn ein Listing rausfliegt; lassen Sie die tägliche Prüfung das Monitoring übernehmen; und sichern Sie einen Prüfpfad für den Tag, an dem Chef oder Plattform fragen.</div>
+  <div class="doors">
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/pl-pack.jpg"><span class="tag">01 · Vor der Veröffentlichung</span><div class="ttl">Beim ersten Anlauf durch die Prüfung – keine Nachreichungen</div></div>
+      <div class="body"><div class="pain">Wortanzahl, Attribute, EAN und Compliance-Blöcke, SKU für SKU über alle Plattformen – ein ganzer Arbeitstag und trotzdem Lücken.</div>
+        <div class="gain"><i>↓</i> Spart 3 Stunden manuelle Prüfung pro Tag</div><div class="go">Vor dem Veröffentlichen prüfen →</div></div></div>
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/night-call.jpg"><span class="tag">02 · Vorfall</span><div class="ttl">In fünf Minuten zum Befund, kein Raten mehr</div></div>
+      <div class="body"><div class="pain">Das Listing fliegt raus und die Mail sagt nur „Illegal“. Welches Feld ändern Sie?</div>
+        <div class="gain"><i>↓</i> Spart 3 Tage Support-Nachlauf</div><div class="go">Rettungsplatz öffnen →</div></div></div>
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/ops-screens.jpg"><span class="tag">03 · Täglicher Betrieb</span><div class="ttl">7×24-Prüfung – warten Sie nicht auf die nächste Mail</div></div>
+      <div class="body"><div class="pain">Die Regeln ändern sich wöchentlich: was heute durchgeht, wird nächste Woche abgelehnt – und niemand schaut hin.</div>
+        <div class="gain"><i>↓</i> Spart 6 Stunden Regel-Monitoring pro Woche</div><div class="go">Prüfplatz öffnen →</div></div></div>
+    <div class="door"><div class="pic"><img src="http://100.124.185.46:9000/zh/home-assets/boss-meeting.jpg"><span class="tag">04 · Governance</span><div class="ttl">Ist das Konto weg, hören Sie auf zu kämpfen</div></div>
+      <div class="body"><div class="pain">Wenn der Chef fragt „sind wir compliant?“, haben Sie nur Chats und Screenshots.</div>
+        <div class="gain"><i>↓</i> Spart einen Tag Reporting</div><div class="go">Governance-Platz öffnen →</div></div></div>
+  </div>
+</div></div>
+
+<div class="demos"><div class="grid"></div><div class="w">
+  <div class="eyebrow">02 / 60-Sekunden-Live-Demo</div>
+  <div class="h2">Kein Dashboard – vier Workflows laufen nebeneinander</div>
+  <div class="lead">Vom Wareneingang bis zum fertigen Einspruchspaket hat jeder Schritt eine Eingabe, eine Ausgabe und eine Datei zum Herunterladen. Die Zeitleiste unten läuft von selbst.</div>
+  <div class="demo-grid">
+    <div class="rail">
+      <div class="rit on"><span class="dur">0–8s</span><div class="n">STEP 01</div><div class="t">Datenerfassung</div><div class="d">Excel-/ERP-Direktimport, Felder werden automatisch erkannt</div></div>
+      <div class="rit"><span class="dur">8–22s</span><div class="n">STEP 02</div><div class="t">12-Plattform-Prüfung</div><div class="d">Wortanzahl, Pflichtattribute, EAN und Compliance-Blöcke, Punkt für Punkt</div></div>
+      <div class="rit"><span class="dur">22–38s</span><div class="n">STEP 03</div><div class="t">Einreichungspaket erzeugen</div><div class="d">TSV + Upload-Reihenfolge + Rückschreib-Hinweise</div></div>
+      <div class="rit"><span class="dur">38–60s</span><div class="n">STEP 04</div><div class="t">Zurückschreiben und Spuren sichern</div><div class="d">Status je Plattform zurückschreiben, Fehlendes markieren</div></div>
+    </div>
+    <div class="stage">
+      <div class="hd"><span><b>BATCH-2026-1110</b> · 18 SKU · DE / FR / PL</span><span>15 einreichbar · 3 in Nacharbeit</span></div>
+      <div class="steps">
+        <div class="step on"><b>STEP 01</b>Datenerfassung</div>
+        <div class="step"><b>STEP 02</b>Feldüberprüfung</div>
+        <div class="step"><b>STEP 03</b>Compliance-Block</div>
+        <div class="step"><b>STEP 04</b>Paket abschicken</div>
+      </div>
+      <div class="term">
+        <div><span class="cy">›</span> scan 18 SKU × 12 platforms ...</div>
+        <div><span class="ok">✓</span> Wortzahl-Prüfung: 15/18 bestanden <span style="color:#6E769A">· OTTO: 3 Titel über 70 Zeichen</span></div>
+        <div><span class="ok">✓</span> EAN-Prüfziffer 18/18 gültig</div>
+        <div><span class="warn">!</span> 2 EU-Verantwortliche fehlen · 1 Warnhinweis fehlt</div>
+        <div><span class="ok">✓</span> GPSR-Compliance-Block erzeugt · 4 Kategorien · DE/FR/PL</div>
+        <div><span class="cy">›</span> Einreichungspaket: 14 Dateien fertig · ca. 3 Minuten</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="sec"><div class="w">
+  <div class="eyebrow">03 / Was Sie bekommen</div>
+  <div class="h2">Was in drei Minuten herauskommt</div>
+  <div class="lead">Keine Screenshots – Dateien zum direkten Upload: Vergleichstabelle, Compliance-Block, Einspruchspaket.</div>
+  <div class="files">
+    <div class="file"><div class="fn">gpsr-block-de.txt</div><div class="ft">GPSR Compliance Block · Deutsch</div><div class="fl">EU-Verantwortlicher/Hersteller/Warnmeldung<br>4 Kategorien · lokalisiert</div><span class="badge2">Direkt einfügbar</span></div>
+    <div class="file"><div class="fn">otto-fix-18.csv</div><div class="ft">Checkliste Feldkorrektur</div><div class="fl">3 überlange Titel<br>Kürzungsvorschläge + Ersatzformulierung</div><span class="badge2">Zeile für Zeile änderbar</span></div>
+    <div class="file"><div class="fn">appeal-3lang.zip</div><div class="ft">Dreisprachiges Einspruchspaket</div><div class="fl">EN / DE / FR<br>6 Belege + Zeitachse</div><span class="badge2">Direkt einreichbar</span></div>
+  </div>
+</div></div>
+<div class="gx-sec"><div class="gx-w">
+<span class="gx-eyebrow">Keine Übersetzung – eine lokale Formulierung</span>
+<h2>Derselbe Warnhinweis, <em class="gx-em">acht Varianten</em></h2>
+<p class="gx-lead">Maschinenübersetzung schafft die Wörter, aber nicht die Prüfung. Warnhinweise, Verantwortungsangaben, Größen- und Materialhinweise werden in jedem Land anders formuliert – der Block unten ist echte Ausgabe, kein Platzhalter.</p>
+<div class="gx-langs">
+<div class="gx-hd"><span class="gx-l">Warnhinweis · Kategorie Möbel / Kinderprodukte</span><span class="gx-r">Muttersprachliche Prüfer · 8 Sprachen</span></div>
+<div class="gx-lrow"><span class="gx-code">EN</span><span class="gx-txt">Small parts. Not suitable for children under 3 years.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">DE</span><span class="gx-txt">Kleine Teile. Nicht für Kinder unter 3 Jahren geeignet.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">FR</span><span class="gx-txt">Petites pièces. Ne convient pas aux enfants de moins de 3 ans.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">IT</span><span class="gx-txt">Piccole parti. Non adatto a bambini di età inferiore a 3 anni.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">ES</span><span class="gx-txt">Piezas pequeñas. No apto para niños menores de 3 años.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">PL</span><span class="gx-txt">Małe części. Nie dla dzieci poniżej 3 lat.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">NL</span><span class="gx-txt">Kleine onderdelen. Niet geschikt voor kinderen onder 3 jaar.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lrow"><span class="gx-code">SV</span><span class="gx-txt">Små delar. Inte lämplig för barn under 3 år.</span><span class="gx-badge">Bewertet</span></div>
+<div class="gx-lnote">Derselbe Satz hat unterschiedliche Wortanzahlen in verschiedenen Kategorien und Plattformen: OTTO 70 Wörter, Allegro 75 Wörter, Amazon 200 Wörter – wir sammeln sie je nach Plattform erneut.</div>
+</div>
+</div><div class="gx-next"><a href="/de/v2/platform/localize">Schauen Sie sich die sechs Lokalisierungsdimensionen an →</a></div>
+</div>
+
+<div class="sec" style="background:#FAFAFD;padding-top:48px"><div class="w">
+  <div class="eyebrow">04 / Kanalabdeckung</div>
+  <div class="h2">12 Plattformen, nur 2 sind wirklich vollautomatisch</div>
+  <div class="lead">Die anderen 10 teilen sich in 5 halbautomatische und 5 manuelle. Welche zuerst anbinden und welche wirklich Köpfe sparen – diese Tabelle beantwortet es.</div>
+  <div class="tiers">
+    <div class="tier"><span class="tag" style="color:#0891B2">A · Vollautomatisch</span><span class="num" style="color:#0891B2">2</span>
+      <h3>Einmal anbinden, dann läuft es</h3><p>Dialog-API offen, Richtlinie erlaubt es, Qualifikationen liegen vor.</p><div class="logos"><span class="lg" style="background:#FF5A00;color:#fff">allegro</span><span class="lg" style="background:#0B0B0F;color:#fff">TikTok</span></div><div class="gain" style="color:#0B1020"><b style="color:#0891B2">sparen</b> Spart 2 Stunden Nachrichten pro Tag</div></div>
+    <div class="tier"><span class="tag" style="color:#B45309">B · Halbautomatisch</span><span class="num" style="color:#B45309">5</span>
+      <h3>Vorlagen laufen, Sie schieben nach</h3><p>Schnittstellen existieren, aber Nachrichtenrichtlinie, Limits oder Berechtigungen blockieren; bei eBay laufen alte und neue Schnittstelle parallel, mit Tageslimit.</p><div class="logos"><span class="lg" style="background:#131A22;color:#fff">AMAZON</span><span class="lg" style="background:#0064D2;color:#fff">eBay</span><span class="lg" style="background:#0071CE;color:#fff">Walmart</span><span class="lg" style="background:#0091DA;color:#fff">bol</span><span class="lg" style="background:#E10915;color:#fff">Kaufland</span></div><div class="gain"><b style="color:#B45309">sparen</b> Spart 70 % doppelter Antworten</div></div>
+    <div class="tier"><span class="tag" style="color:#6D28D9">C · Backoffice-Arbeit</span><span class="num" style="color:#6D28D9">5</span>
+      <h3>Keine Dialog-API – exportieren, dann manuell hochladen</h3><p>Das System schreibt Text und Anhänge; Sie fügen sie in einem Durchgang ein.</p><div class="logos"><span class="lg" style="background:#FF6900;color:#fff">ZALANDO</span><span class="lg" style="background:#E2001A;color:#fff">OTTO</span><span class="lg" style="background:#0057B8;color:#fff">Cdiscount</span></div><div class="gain"><b style="color:#6D28D9">sparen</b> 40 Minuten → 3 Minuten</div></div>
+    <div class="tier cta-card"><span class="tag" style="color:#C4B5FD">Erst prüfen, in welchem Gang Sie sind</span>
+      <h3 style="color:#fff;font-size:19px;line-height:1.5">Ein 30-Sekunden-Check,<br>sagt Ihnen, welche Plattform Sie blockiert</h3>
+      <p>Keine Shop-Anbindung, keine Autorisierung, wird nicht gezählt.</p><div class="btn">Kostenloser Check · 30 s →</div></div>
+  </div>
+
+  <div class="gx-sec gx-alt"><div class="gx-w">
+<span class="gx-eyebrow">Warum nicht einfach ein weiteres Listing-Tool kaufen?</span>
+<h2>Listing-Tools kümmern sich ums <em class="gx-em">Einstellen</em>. Wir um <em class="gx-em">kommt nicht live</em> und <em class="gx-em">nach der Sperrung</em></h2>
+<p class="gx-lead">Viele Händler haben bereits ein ERP oder ein Listing-Tool. Wir ersetzen sie nicht – sie stellen das Produkt ein, wir sorgen dafür, dass es die Prüfung passiert, im Ernstfall zurückkommt und Sie gegenüber Plattform und Geschäftsführung etwas vorweisen können.</p>
+<div class="gx-cmp">
+<table class="gx-cmptbl">
+<thead><tr><th></th><th>Generische Listing-Tools</th><th>Manuell + Formulare</th><th class="us">CrossAIO</th></tr></thead>
+<tbody>
+<tr><td>Batch-Start auf mehreren Plattformen</td><td class="gx-yes">✓</td><td class="gx-part">Manuell</td><td class="us">Kann importiert und exportiert werden</td></tr>
+<tr><td>Gemäß den Feldregeln der Plattform neu geschrieben</td><td class="gx-part">Teilweise</td><td class="gx-no">✗</td><td class="us">12 Plattformen Stück für Stück</td></tr>
+<tr><td>Compliance-Block/Informationen zur verantwortlichen Person</td><td class="gx-no">✗</td><td class="gx-part">Vorlagengetrieben</td><td class="us">Nach Kategorie generieren</td></tr>
+<tr><td>Entwurf eines technischen GPSR-Dokuments</td><td class="gx-no">✗</td><td class="gx-no">✗</td><td class="us">Exportierbares DOCX</td></tr>
+<tr><td>Delisting-Triage + dreisprachig</td><td class="gx-no">✗</td><td class="gx-part">Vorübergehender Kampf</td><td class="us">Befund in 5 Minuten</td></tr>
+<tr><td>Grenzen der Haftung klar benennen (die rechtliche Konsequenz tragen wir nicht für Sie)</td><td class="gx-no">✗</td><td class="gx-no">✗</td><td class="us">Was man nicht tun sollte</td></tr>
+<tr><td>Nur-Lese-Zugang / Audit-Trail</td><td class="gx-no">✗</td><td class="gx-no">✗</td><td class="us">Exportierbar</td></tr>
+</tbody>
+</table>
+<div class="gx-cmpfoot">Dieser Vergleich fasst nur öffentlich sichtbare Produktformen zusammen, um die Arbeitsteilung zu zeigen; Drittanbieter werden nicht bewertet.</div>
+</div>
+</div><div class="gx-next"><a href="/de/v2/platform/app">Zu den 12 Plattform-Profilen →</a></div>
+</div>
+<div class="quote">
+    <img src="http://100.124.185.46:9000/img/crossaio/sub-feature-review.jpg">
     <div>
-      <div class="eyebrow">✦ KI-Engine für den Europa-Handel</div>
-      <h1>Ein KI-Assistent — für Ihr<br>Europa-Geschäft <span class="accent">konformes Wachstum.</span></h1>
-      <p class="sub">Überwacht Ihre Listings wie ein Operations-Spezialist: erkennt <b>GPSR-Compliance-Lücken</b>, zeigt De-Listing-Risiken auf, generiert Reparaturtexte — rund um die Uhr, 7×24.</p>
-      <div class="cta-row">
-        <a href="/de/signup"><button class="pill-blue">Kostenlos registrieren</button></a>
-        <a href="/de/gpsr-check"><button class="pill-ghost">Kostenlosen GPSR-Check starten →</button></a>
-      </div>
-      <div class="trust">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Check ohne Registrierung</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Kein Shopify nötig</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>13 Plattformen abgedeckt</span>
-      </div>
+      <div class="q">„Die Compliance-Blöcke für OTTO und Kaufland mussten früher jedes Mal im Backoffice neu geschrieben werden. Jetzt werden sie einmal erzeugt und pro Plattform neu gefasst: 18 SKUs gehen von einem halben Tag auf 3 Minuten.“</div>
+      <div class="who">— Möbelhändler, Deutschland · 4.200 Bestellungen pro Monat</div>
+      <div class="stars">★★★★★　12 Plattformen · 8 Sprachen · 0 Lizenzen</div>
     </div>
-    <div class="mockup-cell">
-      <svg viewBox="0 0 620 430" width="100%" role="img" aria-label="CrossAIO Workbench: Listing-Generierung mit GPSR-Compliance-Block und Risikostufe" style="max-width:560px;display:block;margin:0 auto;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))">
-        <defs>
-          <linearGradient id="mkScanG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#3b82f6" stop-opacity="0"/>
-            <stop offset=".5" stop-color="#3b82f6" stop-opacity=".18"/>
-            <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
-          </linearGradient>
-          <clipPath id="mkClip"><rect x="10" y="10" width="600" height="410" rx="16"/></clipPath>
-          <linearGradient id="mkBtn" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/>
-          </linearGradient>
-        </defs>
-        <g class="mk-float">
-          <rect x="10" y="10" width="600" height="410" rx="16" fill="#ffffff"/>
-          <rect x="10" y="10" width="600" height="44" rx="16" fill="#f1f5f9"/>
-          <rect x="10" y="38" width="600" height="16" fill="#f1f5f9"/>
-          <circle class="mk-dot" cx="34" cy="32" r="6" fill="#fca5a5"/>
-          <circle class="mk-dot d2" cx="54" cy="32" r="6" fill="#fcd34d"/>
-          <circle class="mk-dot d3" cx="74" cy="32" r="6" fill="#86efac"/>
-          <rect x="26" y="60" width="24" height="24" rx="7" fill="url(#mkBtn)"/>
-          <text x="38" y="78" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial">🤖</text>
-          <text x="60" y="77" font-size="14" font-weight="700" fill="#0f172a" font-family="Arial">CrossAIO — Listing + Compliance Engine</text>
-          <text x="548" y="77" font-size="11" fill="#059669" font-family="Arial">● LIVE 7×24</text>
+  </div>
+<div class="gx-sec gx-alt"><div class="gx-w">
+<span class="gx-eyebrow">Wann wird es untersucht?</span>
+<h2>Compliance ist keine Einmalaufgabe – sie kommt <em class="gx-em">Monat für Monat</em></h2>
+<p class="gx-lead">Verpackungsmengenmeldungen, EPR-Jahresberichte, Batterieregistrierungs-Prüfungen, neu greifende Vorschriften – europäische Compliance konzentriert sich auf wenige feste Termine. Einen verpassen heißt meist eine ganze Listing-Runde verlieren.</p>
+<div class="gx-cal">
+<div class="gx-axis">
+<span class="gx-m" style="left:4%">Januar</span><span class="gx-m" style="left:12%">Februar</span><span class="gx-m" style="left:20%">März</span><span class="gx-m" style="left:28%">April</span><span class="gx-m" style="left:36%">Mai</span><span class="gx-m" style="left:44%">Juni</span><span class="gx-m" style="left:52%">Juli</span><span class="gx-m" style="left:60%">August</span><span class="gx-m" style="left:68%">September</span><span class="gx-m" style="left:76%">Oktober</span><span class="gx-m" style="left:84%">November</span><span class="gx-m" style="left:92%">Dezember</span>
+<div class="gx-pin" style="left:4%"><div class="gx-mk"></div></div>
+<div class="gx-pin" style="left:14%"><div class="gx-mk"></div></div>
+<div class="gx-pin" style="left:36%"><div class="gx-mk"></div></div>
+<div class="gx-pin" style="left:60%"><div class="gx-mk warn"></div></div>
+<div class="gx-pin" style="left:88%"><div class="gx-mk"></div></div>
+</div>
+<div class="gx-ev">
+<div class="gx-ec"><span class="gx-mo">Januar</span><h4>Deutsche Verpackungsmengendeklaration</h4><p>Jährliche LUCID- und Systemmengen müssen zum tatsächlichen Umsatz passen.</p><span class="gx-who">DE · Verpackung</span></div>
+<div class="gx-ec"><span class="gx-mo">Februar</span><h4>Französischer EPR-Jahresbericht</h4><p>Mengen und Gebühren je Kategorie an die Systemgesellschaft melden; wer es auslässt, hat im Folgejahr Probleme mit der Registrierung.</p><span class="gx-who">FR · Verpackung / Textil</span></div>
+<div class="gx-ec"><span class="gx-mo">Mai</span><h4>Überprüfung der Batterieregistrierung</h4><p>Bei Elektro- und Batterieprodukten prüfen, ob Registrierungseinheit und Modellliste noch stimmen.</p><span class="gx-who">EU·Batterie</span></div>
+<div class="gx-ec"><span class="gx-mo w">08-12</span><h4>Es gelten neue Verpackungsvorschriften</h4><p>Ab diesem Tag gilt die neue EU-Verpackungsverordnung; nationale Details laufen noch nach.</p><span class="gx-who">EU · Verpackung</span></div>
+</div>
+</div>
+</div><div class="gx-next"><a href="/de/v2/platform/rules">Wo die Regeln abweichen →</a></div>
+</div>
+<div class="gx-sec"><div class="gx-w">
+<div class="gx-radar">
+<div class="gx-g"></div>
+<div class="gx-in">
+<span class="gx-k">Regel-Update wöchentlich</span>
+<h2>Am Tag, an dem eine Plattform ihre Regeln ändert,<br>wissen Sie es zuerst</h2>
+<p class="gx-lead">Zeichenlimits, Pflichtfelder und Compliance-Block-Vorgaben auf 12 Plattformen ändern sich laufend. Jeden Mittwoch eine Mail, nur Ihre Plattformen: was sich geändert hat und welche SKUs betroffen sind.</p>
+<div class="gx-form" id="gxSub"><input class="gx-input" id="gxEmail" type="email" placeholder="you@company.com" autocomplete="email" inputmode="email" aria-label="E-Mail"><button class="gx-btn" id="gxSubBtn" type="button">Wöchentlich abonnieren</button></div>
+<span class="gx-formnote" id="gxNote">Eine Mail pro Woche · jederzeit abbestellbar · nie für Marketing genutzt</span>
+</div>
+<div class="gx-upd">
+<div class="gx-u"><span class="gx-du">Diese Woche · 2. November</span><span class="gx-tu">OTTO: neue Titelgrenze</span><span class="gx-su">Die Grenze sinkt auf 70 Zeichen; 3 von 18 SKUs sind jetzt zu lang.</span></div>
+<div class="gx-u"><span class="gx-du">letzte Woche</span><span class="gx-tu">Neue Felder im Kaufland-Compliance-Block</span><span class="gx-su">Die Kontakt-E-Mail des Verantwortlichen ist jetzt Pflichtfeld und muss neu eingetragen werden.</span></div>
+<div class="gx-u"><span class="gx-du">vor zwei Wochen</span><span class="gx-tu">EPR-Portal: neue Einreichung</span><span class="gx-su">Änderungen der DE-Verpackungsnummer laufen jetzt über das Compliance-Portal.</span></div>
+</div>
+</div>
+</div><div class="gx-next"><a href="/de/v2/tool/check">Erst kostenlos prüfen →</a></div>
+</div>
+<div class="gx-sec gx-alt"><div class="gx-w">
+<span class="gx-eyebrow">Wie es andere machen</span>
+<h2>Nach Land und Kategorie – finden Sie den Fall, der Ihnen am nächsten ist</h2>
+<div class="gx-filters" id="gxFilter"><span class="on" data-k="all">Alle</span><span data-k="de">DE</span><span data-k="fr">FR</span><span data-k="pl">PL</span><span data-k="nl">NL</span><span data-k="home">Möbel</span><span data-k="clothing">Kleidung</span><span data-k="3c">3C</span></div>
+<div class="gx-cases">
+<div class="gx-case" data-k="de home">
+<div class="gx-ph"><img src="/img/crossaio/sub-feature-review.jpg" alt=""><span class="gx-flag">DE · Startseite</span></div>
+<div class="gx-bd"><span class="gx-who2">Deutschland · 4.200 Bestellungen pro Monat</span><span class="gx-st">Compliance-Blöcke für 18 SKUs: halber Tag → 3 Minuten</span>
+<div class="gx-metrics"><div class="gx-m2"><b>OTTO+KL</b><i>2 → 3 min</i></div><div class="gx-m2"><b>Nacharbeiten</b><i>−82%</i></div></div>
+<a class="gx-dl" href="/de/v2/launch">Sehen Sie, wie dieser Weg verläuft →</a></div>
+</div>
+<div class="gx-case" data-k="fr clothing">
+<div class="gx-ph"><img src="/img/crossaio/sub-platform-localize.jpg" alt=""><span class="gx-flag">FR · Kleidung</span></div>
+<div class="gx-bd"><span class="gx-who2">Frankreich · 6 Sprachen parallel</span><span class="gx-st">Ein EN/DE/FR-Einspruchspaket, keine Übersetzersuche mehr</span>
+<div class="gx-metrics"><div class="gx-m2"><b>Sprache</b><i>6 Wörter</i></div><div class="gx-m2"><b>Einspruchszyklus</b><i>3 Tage → 1 Tag</i></div></div>
+<a class="gx-dl" href="/de/v2/platform/localize">Sehen Sie, wie dieser Weg verläuft →</a></div>
+</div>
+<div class="gx-case" data-k="pl 3c">
+<div class="gx-ph"><img src="/img/crossaio/sub-feature-matrix.jpg" alt=""><span class="gx-flag">PL · 3C</span></div>
+<div class="gx-bd"><span class="gx-who2">Polen · Allegro ist das Hauptfeld</span><span class="gx-st">Mit vollautomatisiertem Allegro sparen Sie 6 Stunden Monitoring pro Woche.</span>
+<div class="gx-metrics"><div class="gx-m2"><b>Automatisierung</b><i>78%</i></div><div class="gx-m2"><b>Inspektion</b><i>7×24</i></div></div>
+<a class="gx-dl" href="/de/v2/feature/matrix">Sehen Sie, wie dieser Weg verläuft →</a></div>
+</div>
+</div>
+</div></div>
 
-          <rect x="26" y="100" width="180" height="150" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
-          <text x="40" y="124" font-size="12" font-weight="700" fill="#0f172a" font-family="Arial">Produkteingabe</text>
-          <rect x="40" y="134" width="150" height="18" rx="4" fill="#e2e8f0"/>
-          <text x="46" y="147" font-size="10" fill="#475569" font-family="Arial">Kabellose Kopfhörer</text>
-          <rect x="40" y="158" width="150" height="18" rx="4" fill="#e2e8f0"/>
-          <text x="46" y="171" font-size="10" fill="#475569" font-family="Arial">EAN 4 002345 678901</text>
-          <rect x="40" y="182" width="150" height="18" rx="4" fill="#e2e8f0"/>
-          <text x="46" y="195" font-size="10" fill="#475569" font-family="Arial">Kategorie: Elektronik</text>
-          <rect x="40" y="212" width="150" height="24" rx="12" fill="url(#mkBtn)"/>
-          <text x="115" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Arial">Generieren →</text>
+  <div class="final"><div class="glow"></div>
+    <div><h2>Mit einer SKU starten – in 3 Minuten das Ergebnis</h2><p>12 Plattformen an einem Ort, nur 2 wirklich unbeaufsichtigt – erst prüfen, dann zahlen.</p></div>
+    <div class="cx-fcta"><a class="cx-fa" href="/de/signup">Kostenlos starten · 5 Checks pro Tag</a><a class="cx-fb" href="/de/v2/tool/check">Kostenlos prüfen</a></div>
+  </div>
+  
+</div></div>
 
-          <rect x="222" y="100" width="180" height="150" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
-          <text x="236" y="124" font-size="12" font-weight="700" fill="#0f172a" font-family="Arial">Listing (Otto · DE)</text>
-          <rect x="236" y="132" width="150" height="7" rx="3.5" fill="#e2e8f0"/>
-          <rect x="236" y="132" width="112" height="7" rx="3.5" fill="#059669"/>
-          <text x="376" y="138" font-size="9.5" fill="#059669" font-family="Arial">47/70</text>
-          <text x="236" y="162" font-size="10" fill="#334155" font-family="Arial">Kabellose Noise-Cancelling</text>
-          <text x="236" y="176" font-size="10" fill="#334155" font-family="Arial">Kopfhörer, Bluetooth 5.3…</text>
-          <rect x="236" y="188" width="150" height="7" rx="3.5" fill="#f1f5f9"/>
-          <rect x="236" y="202" width="150" height="7" rx="3.5" fill="#f1f5f9"/>
-          <rect x="236" y="216" width="150" height="7" rx="3.5" fill="#f1f5f9"/>
-          <text x="236" y="236" font-size="10" font-weight="700" fill="#1d4ed8" font-family="Arial">Score 94/100 · validiert</text>
+</div>
 
-          <rect x="418" y="100" width="176" height="150" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
-          <text x="432" y="122" font-size="11" font-weight="700" fill="#065f46" font-family="Arial">🛡 GPSR-Compliance-Block</text>
-          <rect x="432" y="132" width="148" height="16" rx="4" fill="#d1fae5"/>
-          <text x="438" y="144" font-size="9.5" fill="#065f46" font-family="Arial">EU-Verantwortlicher: CB-REP GmbH</text>
-          <rect x="432" y="154" width="148" height="16" rx="4" fill="#d1fae5"/>
-          <text x="438" y="166" font-size="9.5" fill="#065f46" font-family="Arial">Warnhinweis (DE) ✓</text>
-          <rect x="432" y="176" width="148" height="16" rx="4" fill="#d1fae5"/>
-          <text x="438" y="188" font-size="9.5" fill="#065f46" font-family="Arial">Hersteller + EAN ✓</text>
-          <rect x="432" y="206" width="72" height="22" rx="11" fill="url(#mkBtn)"/>
-          <text x="468" y="221" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="Arial">Kopieren</text>
-          <rect x="512" y="206" width="68" height="22" rx="11" fill="#fff" stroke="#bfdbfe"/>
-          <text x="546" y="221" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8" font-family="Arial">Einpflegen</text>
+<script>
+(function(){
+  try{
+    var v4=document.getElementById('v4'); if(!v4) return;
+    // 演示步骤轮播
+    var steps=v4.querySelectorAll('.steps .step'), rits=v4.querySelectorAll('.rit');
+    var i=0;
+    if(steps.length){ setInterval(function(){ i=(i+1)%steps.length;
+      steps.forEach(function(s,k){s.classList.toggle('on',k===i);});
+      rits.forEach(function(r,k){r.classList.toggle('on',k===i);});
+    }, 3200); }
+  }catch(e){ if(window.console) console.error(e); }
+})();
+</script>
 
-          <rect x="26" y="266" width="568" height="52" rx="10" fill="#0b1030"/>
-          <text x="44" y="288" font-size="12" font-weight="700" fill="#fff" font-family="Arial">7×24 Listing-Monitoring</text>
-          <text x="44" y="306" font-size="10.5" fill="#9aa6c4" font-family="Arial">tägliche Auto-Prüfung · Risiko-Alarme · Tagesbericht</text>
-          <circle class="mk-dot" cx="548" cy="290" r="6" fill="#4ade80"/>
-          <text x="524" y="294" font-size="10" fill="#86efac" font-family="Arial">AKTIV</text>
 
-          <g class="mk-chip">
-            <rect x="26" y="334" width="132" height="30" rx="15" fill="#f1f5f9"/>
-            <text x="92" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇩🇪 Otto · DE</text>
-            <rect x="166" y="334" width="140" height="30" rx="15" fill="#f1f5f9"/>
-            <text x="236" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇵🇱 Allegro · PL</text>
-          </g>
-          <g class="mk-chip c2">
-            <rect x="314" y="334" width="146" height="30" rx="15" fill="#f1f5f9"/>
-            <text x="387" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇳🇱 bol.com · NL</text>
-            <rect x="468" y="334" width="126" height="30" rx="15" fill="#f1f5f9"/>
-            <text x="531" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Arial">🇫🇷 Cdiscount</text>
-          </g>
-          <text x="26" y="392" font-size="11" fill="#94a3b8" font-family="Arial">+ 9 weitere Plattformen · eine Eingabe, jeder Marktplatz</text>
+<script>
+(function(){
+  try{
+    var f=document.getElementById('gxFilter');
+    var box=document.querySelector('#v4 .gx-cases');
+    if(!f||!box) return;
+    var chips=f.getElementsByTagName('span');
+    var cases=box.querySelectorAll('.gx-case');
+    var empty=document.createElement('div');
+    empty.className='gx-empty';
+    empty.innerHTML='这个筛选下还没有公开案例。<br>可以先看 DE 家居——欧洲家居卖家的合规路径最典型。';
+    box.appendChild(empty);
+    function apply(k){
+      var shown=0;
+      for(var i=0;i<cases.length;i++){
+        var c=cases[i];
+        var keys=(c.getAttribute('data-k')||'').split(' ');
+        var hit=(k==='all')||keys.indexOf(k)>-1;
+        c.style.display=hit?'':'none';
+        if(hit) shown++;
+      }
+      empty.style.display=shown?'none':'block';
+      for(var j=0;j<chips.length;j++){
+        chips[j].className=(chips[j].getAttribute('data-k')===k)?'on':'';
+      }
+    }
+    f.addEventListener('click',function(e){
+      var t=e.target;
+      while(t&&t!==f&&t.tagName!=='SPAN'){ t=t.parentNode; }
+      if(!t||t===f) return;
+      apply(t.getAttribute('data-k'));
+    });
+    apply('all');
+  }catch(err){ if(window.console) console.warn('gx filter:',err); }
+})();
+</script>
 
-          <rect class="mk-scan" x="10" y="0" width="600" height="34" fill="url(#mkScanG)" clip-path="url(#mkClip)"/>
-        </g>
-      </svg>
+<script>
+(function(){
+  try{
+    var box=document.getElementById('gxSub'), btn=document.getElementById('gxSubBtn'),
+        mail=document.getElementById('gxEmail'), note=document.getElementById('gxNote');
+    if(!box||!btn||!mail||!note) return;
+    var busy=false, KEY='crossaio-newsletter';
+    function say(t,ok){ note.textContent=t; note.style.color= ok? '#86EFAC' : '#FCA5A5'; }
+    if(localStorage.getItem(KEY)==='1'){ btn.textContent='已订阅 ✓'; }
+    function submit(){
+      if(busy) return;
+      var v=(mail.value||'').trim();
+      if(!/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(v)){ say('请输入有效的邮箱地址',false); mail.focus(); return; }
+      busy=true; btn.textContent='提交中…';
+      fetch('/api/v1/newsletter/subscribe',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:v, source:'home-radar', lang:'zh', page:location.pathname})
+      }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+      .then(function(res){
+        if(res.ok && res.d && res.d.ok){
+          say(res.d.message||'已订阅', true);
+          btn.textContent='已订阅 ✓'; mail.value='';
+          localStorage.setItem(KEY,'1');
+        } else {
+          say((res.d && (res.d.detail||res.d.message)) || '订阅失败，请稍后再试', false);
+          btn.textContent='订阅周报';
+        }
+      }).catch(function(){ say('网络异常，请稍后再试', false); btn.textContent='订阅周报'; })
+      .then(function(){ busy=false; });
+    }
+    btn.addEventListener('click', submit);
+    mail.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
+  }catch(e){}
+})();
+</script>
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">Die Listing-Qualitäts- und Compliance-Engine für europäische Cross-Border-Händler. Ein Workspace – vom ersten Check bis zum Rettungseinsatz nach dem Delisting.</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR ist in Kraft</span>
+    <a class="cx-cta" href="/de/v2/tool/check">Shop kostenlos prüfen · 30 Sek. <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>Fähigkeitskarte</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/launch">01 Vor dem Start<small>Inspektion in einem Durchgang · Etwa 10 Minuten</small></a></li>
+        <li><a class="cx-l" href="/de/v2/rescue">02 Unfall<small>Befund in 5 Minuten · Dreisprachige Ansprache</small></a></li>
+        <li><a class="cx-l" href="/de/v2/ops">03 Täglicher Betrieb<small>12 Plattformen × 6 automatische Inspektionen</small></a></li>
+        <li><a class="cx-l" href="/de/v2/govern">04 Governance<small>A/B/C-Klassifizierung · Handhabungsmarkierungen</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Produktfunktionen</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/feature/gpsr">GPSR-Konformitätsblock<small>EU-Verantwortlicher · Warnhinweise · Technische Dokumente</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/listing">Auflistungsqualität<small>Feldvalidierung · Anzahl der Titelwörter</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/matrix">12-Plattform-Prüfung<small>Klassifizierung A2 / B5 / C5</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/review">Mundpropaganda und Bewertungen<small>Negative Bewertung · Antwortvorlage</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/ai-service">KI-Kundenservice<small>Fragen und Antworten vor dem Verkauf · Komfort nach dem Verkauf</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/safety">Risiko und Sicherheit<small>Warnung zur Kontosperrung · Beschwerde hinterlässt Spuren</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Plattformen</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/platform/rules">Unterschiede in den Plattformregeln<small>12 Plattformvergleich</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/app">Klassifizierung des Zugriffsstatus<small>A vollautomatisch · B halbautomatisch · C manuell</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/localize">Lokalisierung und Sprache<small>Muttersprachliche Richtlinien · Maßeinheiten</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/limits">Wortanzahl und Feldgrenzen<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kostenlose Tools</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/tool/check">Compliance-Check<small>30 Sekunden · Keine Bindung an den Shop oder Autorisierung</small></a></li>
+        <li><a class="cx-l" href="/de/v2/tool/skills">Kompetenz-Workflow<small>Stellen Sie eine Verbindung zu Ihrem ERP/Formular her</small></a></li>
+        <li><a class="cx-l" href="/de/v2/tool/trust">Vertrauenszentrum<small>Datengrenzen · Nur-Lese-Berechtigung</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Community & Ressourcen</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">Akademie<small>Kurse zu Compliance und Einspruch</small></a></li>
+        <li><a class="cx-l" href="/community">Community<small>Gegenseitige Unterstützung europäischer Verkäufer</small></a></li>
+        <li><a class="cx-l" href="/blog">Blog<small>Änderungen der Plattformregeln, erklärt</small></a></li>
+        <li><a class="cx-l" href="/podcast">Podcast<small>Wöchentliches Update zur EU-Compliance</small></a></li>
+        <li><a class="cx-l" href="/summit">Gipfel<small>Jahresgipfel europäischer Händler</small></a></li>
+      </ul>
     </div>
   </div>
 </div>
-
-<section class="reveal">
-  <div class="stats">
-    <div class="stat"><div class="n"><span class="count-up">8000</span>+</div><div class="l">betreute Händler in Europa</div></div>
-    <div class="stat"><div class="n"><span class="count-up">250000</span>+</div><div class="l">generierte &amp; lokalisierte Listings</div></div>
-    <div class="stat"><div class="n"><span class="count-up">13</span></div><div class="l">Plattformen abgedeckt</div></div>
-    <div class="stat"><div class="n"><span class="count-up">94</span>%</div><div class="l">Compliance-Check-Bestehensquote</div></div>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head">
-    <div class="sec-eyebrow">Überall vertraut</div>
-    <h2 class="sec-title">Unterstützte Marktplätze</h2>
-    <p class="sec-sub">Eine Eingabe, jeder Marktplatz — Regelpakete für alle 13 Plattformen integriert</p>
-  </div>
-  <div class="twall">
-    <div class="tp"><img class="tplogo" src="/img/logos/amazon.svg" alt="Amazon EU"/><span class="nm">Amazon EU</span><small>DE/FR/IT/ES</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/amazon.svg" alt="Amazon US"/><span class="nm">Amazon US</span><small>US/CA/MX</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/ebay.svg" alt="eBay"/><span class="nm">eBay</span><small>EU + global</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/allegro.svg" alt="Allegro"/><span class="nm">Allegro</span><small>Polen · PL</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/otto.svg" alt="Otto"/><span class="nm">Otto</span><small>Deutschland · DE</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/cdiscount.png" alt="Cdiscount"/><span class="nm">Cdiscount</span><small>Frankreich · FR</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/emag.svg" alt="eMAG"/><span class="nm">eMAG</span><small>Rumänien · RO</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/kaufland.svg" alt="Kaufland"/><span class="nm">Kaufland</span><small>DE / CZ / SK</small></div>
-    <div class="tp"><span class="f">🇳🇱</span><span class="nm">bol.com</span><small>NL · EAN erforderlich</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/zalando.svg" alt="Zalando"/><span class="nm">Zalando</span><small>Europäische Mode</small></div>
-    <div class="tp"><span class="f">🇪🇺</span><span class="nm">Fruugo</span><small>pan-EU</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/tiktok.svg" alt="TikTok Shop"/><span class="nm">TikTok Shop</span><small>Social Commerce</small></div>
-    <div class="tp"><img class="tplogo" src="/img/logos/walmart.svg" alt="Walmart"/><span class="nm">Walmart</span><small>US</small></div>
-  </div>
-</section>
-
-<section id="features" class="reveal">
-  <div class="sec-head">
-    <div class="sec-eyebrow">Produkt</div>
-    <h2 class="sec-title">Volle Unterstützung für Ihr Europa-Geschäft</h2>
-    <p class="sec-sub">Compliance zuerst, Effizienz danach — das ist das gesamte Produkt</p>
-  </div>
-  <div class="features">
-    <a class="fcard" href="/de/gpsr-check"><div class="ico">🛡️</div><h3>GPSR-Compliance-Engine</h3><p>EU 2023/988: EU-Verantwortlicher, Warnhinweise in Landessprache, CE-Kennzeichnung, Bedienungsanleitung. Fehlt ein Punkt, droht das De-Listing.</p><span class="go">Engine prüfen</span></a>
-    <a class="fcard" href="/de/rules"><div class="ico">🌍</div><h3>13-Plattform-Regelpakete</h3><p>Amazon EU/US, eBay, Allegro, Otto, Cdiscount, eMAG, Kaufland, bol.com, Zalando, Fruugo, TikTok Shop, Walmart — Titellimits, Sprachen, Attribute integriert.</p><span class="go">Alle 13 Plattformen ansehen</span></a>
-    <a class="fcard" href="/de/signup"><div class="ico">🤖</div><h3>KI-Kundenservice</h3><p>Zentrales Postfach über 13 Plattformen; automatische Antworten mit Art.-50-Offenlegung (16 Sprachen), Rotlinie bei Bedrohung, Übergabe an Mensch per Klick.</p><span class="go">So funktioniert's</span></a>
-    <a class="fcard" href="/de/signup"><div class="ico">✍️</div><h3>Listing-Generierung</h3><p>Von Produktdaten → plattformnative Titel/Bullets/Beschreibung in der jeweils erforderlichen Sprache; Matrix-Modus über mehrere Plattformen zugleich.</p><span class="go">Listing generieren</span></a>
-    <a class="fcard" href="/de/signup"><div class="ico">📡</div><h3>Listing-Monitoring</h3><p>7×24 automatische Tagesprüfung; Risikostufe pro Listing, neue Risikoalarme, täglicher Risikobericht per E-Mail.</p><span class="go">Monitoring einrichten</span></a>
-    <a class="fcard" href="/de/signup"><div class="ico">📣</div><h3>Anzeigen &amp; Bewertungen</h3><p>Anzeigentext-Generierung, Bewertungs-zu-Listing-Schleife: Kunden-Schmerzpunkte fließen direkt in Ihre nächste Version ein.</p><span class="go">Listings stärken</span></a>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="comp-band">
-    <div class="grid2">
-      <div class="comp-col">
-        <h3>🛡️ GPSR — EU 2023/988 <span class="tag t1">SEIT 13. DEZ 2024</span></h3>
-        <p class="big">Fehlt der EU-Verantwortlicher oder ein Warnhinweis in Landessprache = <small>De-Listing + Safety-Gate-Meldung</small></p>
-        <ul>
-          <li>EU-Verantwortlicher-Register</li>
-          <li>Warnhinweise in Landessprache</li>
-          <li>EG-Konformitätserklärung als Vorlage</li>
-          <li>15-Tage-Meldepflicht bei Vorfällen</li>
-        </ul>
-      </div>
-      <div class="comp-col">
-        <h3>⚖️ EU-KI-Act — Art. 50 <span class="tag t2">2. AUG 2026</span></h3>
-        <p>Jede KI-Kundenservice-Antwort muss Käufern offen zeigen: <b style="color:#fff">„Sie sprechen mit einer KI"</b> — in Landessprache und maschinenlesbar.</p>
-        <ul>
-          <li class="warn">Bußgelder bis zu 15 Mio. € oder 3 % des weltweiten Umsatzes</li>
-          <li>Offenlegung automatisch in jeder Antwort eingebaut</li>
-        </ul>
-      </div>
-    </div>
-    <div class="comp-cta">
-      <a href="/de/gpsr-check"><button class="pill-blue">Kostenlosen 30-Sekunden-Check starten →</button></a>
-    </div>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head">
-    <div class="sec-eyebrow">So funktioniert's</div>
-    <h2 class="sec-title">Vier Schritte, ein Workbench</h2>
-  </div>
-  <div class="flow">
-    <div class="step"><div class="n">1</div><h4>Produkt eingeben</h4><p>Fügen Sie Ihre Produktdaten ein; die Engine füllt den Attribute-Baum.</p></div>
-    <div class="step"><div class="n">2</div><h4>Compliance-Check laufen lassen</h4><p>GPSR-Punkte + plattformnative Regeln; Sie erhalten eine Risikostufe.</p></div>
-    <div class="step"><div class="n">3</div><h4>Listings + Blöcke generieren</h4><p>Plattformtexte in der richtigen Sprache + voller GPSR-Compliance-Block.</p></div>
-    <div class="step"><div class="n">4</div><h4>Monitor &amp; betreuen</h4><p>7×24 Listing-Monitoring; der KI-Kundenservice bearbeitet das Postfach.</p></div>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head">
-    <div class="sec-eyebrow">FAQ</div>
-    <h2 class="sec-title">Häufige Fragen</h2>
-  </div>
-  <div class="faq">
-    <details><summary>Brauche ich für den Check eine Registrierung?</summary><div class="a">Nein. Sie füllen die Produktdaten direkt aus und erhalten das Ergebnis. Gäste dürfen täglich 3 Mal kostenlos prüfen. Mit einem kostenlosen Konto lassen sich Prüfverläufe speichern und die Funktionen zur Textgenerierung weiter nutzen.</div></details>
-    <details><summary>Was ist die GPSR? Und wann wird sie Pflicht?</summary><div class="a">Die EU 2023/988, „Allgemeine Produktsicherungsverordnung", ist seit dem 13. Dezember 2024 anwendbar. Für online verkaufte Produkte sind Informationen zum EU-Verantwortlichen und Sicherheitsinformationen in Landessprache vorgeschrieben; CE-Kategorien brauchen die CE-Kennzeichnung. Fehlende Angaben können zum De-Listing durch die Plattform führen.</div></details>
-    <details><summary>Ist der Check wirklich kostenlos? Verbraucht er Generierungs-Guthaben?</summary><div class="a">Ja, der Check ist kostenlos und verbraucht kein Guthaben. Der Bericht mit Risikostufe wird vollständig ausgewiesen; der einfügbare Compliance-Block ist mit dem Tarif Starter oder höher freischaltbar.</div></details>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head">
-    <div class="sec-eyebrow">Stimmen unserer Händler</div>
-    <h2 class="sec-title">Vertraut von DACH-Händlern</h2>
-    <p class="sec-sub">Echte Ergebnisse aus Deutschland, Österreich und der Schweiz</p>
-  </div>
-  <div class="tquotes">
-    <div class="tquote">
-      <img class="av" src="/img/avatars/de1.jpg" alt="BavariaTech GmbH Händler" />
-      <div class="stars">★★★★★</div>
-      <p>"Otto hat unsere Titel früher wegen Grammatik abgelehnt — jetzt bestehen alle beim ersten Einreichen."</p>
-      <div class="res">0 Ablehnungen in 6 Monaten</div>
-      <div class="who">BavariaTech GmbH<small>München · Otto + Kaufland</small></div>
-    </div>
-    <div class="tquote">
-      <img class="av" src="/img/avatars/de2.jpg" alt="NordLicht GmbH Händlerin" />
-      <div class="stars">★★★★★</div>
-      <p>"Die GPSR-Bausteine haben unsere Sperrungen beendet — Warnhinweise auf Deutsch und Polnisch waren am selben Tag fertig."</p>
-      <div class="res">+41 % Conversion</div>
-      <div class="who">NordLicht GmbH<small>Hamburg · Amazon.de + eBay</small></div>
-    </div>
-    <div class="tquote">
-      <img class="av" src="/img/avatars/de3.jpg" alt="AlpenMarkt GmbH Händler" />
-      <div class="stars">★★★★★</div>
-      <p>"Ein Workbench für unsere Listings und den EU-Rep-Baustein — die Beschwerden sind um zwei Drittel gesunken."</p>
-      <div class="res">−62 % Beschwerden in 90 Tagen</div>
-      <div class="who">AlpenMarkt GmbH<small>Wien · Amazon.de + bol.com</small></div>
-    </div>
-  </div>
-  <div class="trust-badges">
-    <span class="tbadge">🇪🇺 DSGVO-konform</span>
-    <span class="tbadge">⚖️ EU AI Act-konform</span>
-    <span class="tbadge">🔒 Sichere Zahlungen mit Stripe</span>
-    <span class="tbadge">✓ Keine Kreditkarte nötig</span>
-  </div>
-</section>
-
-<div class="guarantee reveal">
-  <h2>Risikofreie Garantie</h2>
-  <div class="g-items">
-    <span class="g-item"><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>Kostenloser Compliance-Check</span>
-    <span class="g-item"><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>5 kostenlose Generierungen pro Tag</span>
-    <span class="g-item"><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>Jederzeit kündbar</span>
-  </div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · Europäische Vollplattform-Listing-Qualitäts- und Compliance-Engine</span>
+  <span class="cx-legal">
+    <a href="/de/privacy">Datenschutzrichtlinie</a>
+    <a href="/de/terms">Nutzungsbedingungen</a>
+    <a href="/de/v2/tool/trust">Compliance-Erklärung</a>
+    <a href="/de/v2/tool/trust">Datenverarbeitung</a>
+  </span>
+  <span class="cx-ok"><i></i>Alle Systeme normal · Chinesisch (vereinfacht)</span>
 </div>
-
-<div class="cta-band reveal">
-  <h2>Compliance zuerst, dann Effizienz</h2>
-  <p>Kostenlos starten: 5 Generierungen pro Tag · keine Kreditkarte nötig</p>
-  <a href="/de/signup"><button class="pill-blue">Kostenlos registrieren →</button></a>
-  <a href="/de/gpsr-check"><button class="pill-ghost">Kostenlosen GPSR-Check starten</button></a>
 </div>
-
-<footer>
-  <div class="cols">
-    <a href="/de/">Startseite</a><a href="/de/pricing">Preise</a><a href="/de/rules">Regelübersicht</a><a href="/de/gpsr-check">Kostenloser Check</a><a href="/de/skills">Open-Source-Skills</a><a href="/de/privacy">Datenschutzerklärung</a><a href="/de/terms">AGB</a>
-  </div>
-  <div>CrossAIO — Listing-Qualitäts- und Compliance-Engine für alle europäischen Plattformen · © 2026</div>
-</footer>
-
-  <script src="/effects.js"></script>
-<script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
 </body>
 </html>

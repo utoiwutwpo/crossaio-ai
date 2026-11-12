@@ -1,0 +1,421 @@
+<! DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Risk message interception | CrossAIO</title>
+<style>:root{--ac:#EF4444}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#0B1022;font-family:'Inter','PingFang SC','Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#site-nav,#site-nav *{box-sizing:border-box}
+.s-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.s-hero{position:relative;overflow:hidden;background:linear-gradient(116deg,#070A1C 0%,#120F35 46%,#2A1670 100%);color:#fff;padding:56px 0 0}
+.s-grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:72px 72px}
+.s-orb{position:absolute;width:520px;height:520px;border-radius:50%;right:-120px;top:-160px;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 65%);filter:blur(6px)}
+.s-in{position:relative;display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;padding-bottom:44px}
+.s-l{flex:1 1 520px;min-width:0}
+.s-kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;color:#B7C4FF;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px}
+.s-h1{font-size:44px;line-height:1.16;letter-spacing:-.02em;margin:18px 0 14px;font-weight:800}
+.s-sub{font-size:15px;line-height:1.8;color:#C6CBE0;max-width:640px}
+.s-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.s-bp{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(47,107,255,.35)}
+.s-bg2{border:1px solid rgba(255,255,255,.28);color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none}
+.s-chips{display:flex;gap:18px;margin-top:18px;font-size:12.5px;color:#9AA3BD;flex-wrap:wrap}
+.s-chips span::before{content:"✓";color:#5EEAD4;margin-right:6px}
+.s-r{flex:0 0 460px;min-width:0}
+.s-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.s-shot img{display:block;width:100%;height:268px;object-fit:cover}
+.s-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#5EEAD4,transparent);animation:scan 3.4s linear infinite;opacity:.8}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.s-hud{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(8,11,26,.86);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px;backdrop-filter:blur(8px)}
+.s-hud .h{display:flex;justify-content:space-between;font-size:10.5px;color:#8FA0C8;font-family:Consolas,monospace;margin-bottom:8px}
+.s-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);margin-bottom:7px;overflow:hidden}
+.s-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2F6BFF,var(--ac,#5EEAD4))}
+.s-bar b{display:flex;justify-content:space-between;font-size:10.5px;color:#C6CBE0;font-weight:400;margin-bottom:3px}
+.s-band{background:#FAFAFD;border-bottom:1px solid #EEF1F7;padding:22px 0}
+.s-band .row{display:flex;gap:28px;flex-wrap:wrap}
+.s-band .it{flex:1 1 200px}
+.s-band b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--ac,#2F6BFF)}
+.s-band span{display:block;font-size:12px;color:#7A8499;margin-top:4px}
+.s-sec{padding:60px 0}
+.s-sec.soft{background:#FAFAFD;border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7}
+.s-eyebrow{font-size:11px;letter-spacing:.2em;color:var(--ac,#2F6BFF);font-weight:800}
+.s-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.s-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.s-steps{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.s-step{flex:1 1 200px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;position:relative;transition:.18s}
+.s-step:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08);border-color:#CBD5F5}
+.s-step .n{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.s-step .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center;margin:8px 0 10px}
+.s-step h4{font-size:14px;margin:0 0 6px;color:#0B1022}
+.s-step p{font-size:12px;color:#5B6478;line-height:1.7;margin:0}
+.s-table{margin-top:24px;border:1px solid #E3E7F0;border-radius:14px;overflow:hidden;background:#fff}
+.s-table table{width:100%;border-collapse:collapse;font-size:12.5px}
+.s-table th{text-align:left;font-weight:700;color:#0B1022;background:#F7F9FF;padding:11px 14px;font-size:12px}
+.s-table td{padding:11px 14px;border-top:1px solid #EEF1F7;color:#5B6478}
+.s-table td b{color:#0B1022;font-weight:600}
+.s-tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px}
+.s-ok{background:#ECFDF5;color:#065F46}.s-mid{background:#FFF7ED;color:#9A3412}.s-no{background:#FFF1F2;color:#9F1239}
+.s-files{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-file{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:12px;padding:14px}
+.s-file .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#8A93A6}
+.s-file .nm{margin-top:8px;font-family:Consolas,monospace;font-size:12.5px;color:#0B1022;word-break:break-all}
+.s-file p{font-size:12px;color:#5B6478;line-height:1.7;margin:8px 0 0}
+.s-sib{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-card{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;text-decoration:none;color:inherit;display:block;transition:.18s}
+.s-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08)}
+.s-card .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center}
+.s-card h4{font-size:14px;margin:10px 0 5px}
+.s-card p{font-size:12px;color:#5B6478;line-height:1.7;margin:0 0 8px}
+.s-card .go{font-size:11.5px;font-weight:700;color:var(--ac,#2F6BFF)}
+.s-end{margin-top:44px;border-radius:18px;background:linear-gradient(120deg,#141033,#2A1670 60%,#4C1D95);padding:34px 38px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;color:#fff}
+.s-end h3{margin:0;font-size:22px;letter-spacing:-.01em}
+.s-end p{margin:8px 0 0;font-size:13px;color:#C6CBE0}
+.s-foot{background:#fff;border-top:1px solid #EEF1F7;padding:20px 0;font-size:12px;color:#8A93A6}
+.s-foot .row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.s-foot a{color:#2F6BFF;text-decoration:none;margin-left:14px}
+@media(max-width:1080px){
+ .s-in{flex-direction:column}.s-r{flex:1 1 auto;width:100%}
+ .s-h1{font-size:34px}.s-steps .s-step{flex:1 1 100%}
+}
+</style>
+
+
+
+
+<style id="hx-css">
+.hx{padding:0}
+.hx-sec{padding:64px 0;background:#fff;border-top:1px solid #EEF1F7}
+.hx-sec.alt{background:#FBFBFE}
+.hx-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.hx-eyebrow{font-size:11px;letter-spacing:.2em;color:#7C3AED;font-weight:800}
+.hx-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.hx-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.hx-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.hx-tab{border:1px solid #E3E7F0;background:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;color:#3D465C;cursor:pointer}
+.hx-tab.on{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(47,107,255,.28)}
+.hx-panel{display:none;margin-top:18px;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:22px;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.hx-panel.on{display:flex}
+.hx-pl{flex:1 1 420px;min-width:0}
+.hx-pl h4{font-size:16px;margin:0 0 10px;color:#0B1022}
+.hx-pl li{font-size:13px;color:#5B6478;line-height:1.9;margin-bottom:6px}
+.hx-pr{flex:0 1 300px;min-width:0;background:#0A0F24;border-radius:14px;padding:16px;color:#fff}
+.hx-pr .k{font-size:10.5px;letter-spacing:.16em;color:#8FA0C8}
+.hx-pr .v{font-size:26px;font-weight:800;margin:6px 0 2px;color:#fff}
+.hx-pr .u{font-size:12px;color:#A9B4D0}
+.hx-pr .b{height:5px;border-radius:99px;background:rgba(255,255,255,.12);margin-top:12px;overflow:hidden}
+.hx-pr .b i{display:block;height:100%;background:linear-gradient(90deg,#2F6BFF,#7C3AED)}
+.hx-viz{margin-top:22px;border-radius:16px;background:#0A0F24;padding:14px 16px;overflow:hidden}
+.hx-viz svg{display:block;width:100%;height:auto}
+.hx-nums{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.hx-num{flex:1 1 200px;min-width:0;border:1px solid #E3E7F0;border-radius:14px;padding:16px 18px;background:#fff}
+.hx-num b{display:block;font-size:30px;letter-spacing:-.02em;color:#0B1022}
+.hx-num span{display:block;font-size:12px;color:#7A8499;margin-top:2px}
+.hx-num em{display:block;font-size:11px;color:#0E9F6E;font-style:normal;margin-top:8px}
+.hx-marq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7;padding:12px 0}
+.hx-marq .row{display:flex;gap:26px;white-space:nowrap;animation:hxscroll 26s linear infinite;font-size:12px;color:#7A8499;letter-spacing:.06em}
+@keyframes hxscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hx-gh{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;align-items:flex-start}
+.hx-heat{flex:1 1 560px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px}
+.hx-heat .hd{display:flex;justify-content:space-between;font-size:12px;color:#3D465C;margin-bottom:12px}
+.hx-svg{display:block;width:100%;height:auto}
+.hx-lg{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8A93A6}
+.hx-lg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.hx-rt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.hx-ci{border:1px solid #E3E7F0;border-radius:12px;background:#fff;padding:12px 14px;font-size:12.5px;color:#3D465C}
+.hx-ci .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hx-ci b{font-weight:600}
+.hx-ok{color:#0E9F6E}.hx-warn{color:#B45309}.hx-bad{color:#DC2626}
+.hx-diff{border:1px solid #E3E7F0;border-radius:12px;overflow:hidden;background:#0A0F24;font-family:Consolas,monospace;font-size:12px}
+.hx-diff .h{display:flex;justify-content:space-between;padding:8px 12px;background:#111834;color:#8FA0C8;font-size:11px}
+.hx-diff pre{margin:0;padding:12px;color:#C6CBE0;line-height:1.7;max-height:190px;overflow:auto}
+.hx-diff .a{color:#7EE2A8}.hx-diff .d{color:#FF9AA2}
+.hx-tl{margin-top:24px;border-left:2px solid #E3E7F0;padding-left:18px}
+.hx-tl .it{position:relative;margin-bottom:16px}
+.hx-tl .it::before{content:"";position:absolute;left:-25px;top:4px;width:8px;height:8px;border-radius:50%;background:#7C3AED}
+.hx-tl .d{font-size:11px;color:#8A93A6;letter-spacing:.08em}
+.hx-tl .t{font-size:13.5px;color:#0B1022;margin-top:2px}
+.hx-cases{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.hx-case{flex:1 1 300px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px;transition:.18s}
+.hx-case:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(23,20,64,.09)}
+.hx-case b{display:block;font-size:28px;letter-spacing:-.02em;color:#0B1022}
+.hx-case span{display:block;font-size:11.5px;color:#7A8499;margin-top:2px}
+.hx-case p{font-size:12.5px;color:#5B6478;line-height:1.8;margin:10px 0 12px}
+.hx-case a{font-size:12px;font-weight:700;color:#2F6BFF;text-decoration:none}
+.hx-faq{margin-top:24px;border-top:1px solid #EEF1F7}
+.hx-faq details{border-bottom:1px solid #EEF1F7;padding:14px 0}
+.hx-faq summary{cursor:pointer;font-size:14px;font-weight:600;color:#0B1022;list-style:none}
+.hx-faq summary::after{content:"+";float:right;color:#8A93A6}
+.hx-faq details[open] summary::after{content:"−"}
+.hx-faq p{font-size:13px;color:#5B6478;line-height:1.85;margin:10px 0 0}
+@media(max-width:1080px){.hx-pl,.hx-pr,.hx-heat,.hx-rt{flex:1 1 100%}}
+/* 17 个页面各自的动效，keyframe 名不重复 */
+@keyframes ax1{0%{transform:translateX(0);opacity:.35}45%{opacity:1}100%{transform:translateX(700px);opacity:.35}}
+@keyframes ax2{0%{stroke-dashoffset:520}100%{stroke-dashoffset:0}}
+@keyframes ax2p{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ax3{0%{transform:scaleY(.05)}60%{transform:scaleY(1)}100%{transform:scaleY(.85)}}
+@keyframes ax4{0%{stroke-dashoffset:300}100%{stroke-dashoffset:60}}
+@keyframes ax5{0%{transform:translateY(-6px);opacity:.2}30%{opacity:1}100%{transform:translateY(150px);opacity:.2}}
+@keyframes ax6{0%{width:0}70%{width:100%}100%{width:72%}}
+@keyframes ax7{0%,15%{opacity:.18;r:7}40%,55%{opacity:1;r:11}85%,100%{opacity:.18;r:7}}
+@keyframes ax8{0%{width:0}100%{width:var(--w)}}
+@keyframes ax9{0%{transform:translateY(14px);opacity:0}30%{opacity:1;transform:translateY(0)}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ax10{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes ax10b{0%,100%{opacity:.22}50%{opacity:1}}
+@keyframes ax11{0%{transform:scaleX(.1);transform-origin:left}70%{transform:scaleX(1)}100%{transform:scaleX(.9)}}
+@keyframes ax12{0%{transform:translateY(-30px);opacity:.15}55%{opacity:1}100%{transform:translateY(40px);opacity:.15}}
+@keyframes ax13{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes ax14{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+@keyframes ax15{0%{stroke-dashoffset:440}100%{stroke-dashoffset:150}}
+@keyframes ax16{0%{width:0}100%{width:var(--w)}}
+@keyframes ax17{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+
+</style><style id="cx-viz">
+.cx-viz{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.cx-viz .cv-chrome{position:absolute;left:0;right:0;top:0;height:24px;display:flex;align-items:center;gap:7px;
+padding:0 9px;background:linear-gradient(180deg,rgba(6,9,22,.86),rgba(6,9,22,.5));
+border-bottom:1px solid rgba(255,255,255,.09);font:700 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+color:#9FB0D6;letter-spacing:.02em}
+.cx-viz .cv-chrome b{color:#E6ECFF;font-weight:800}
+.cx-viz .cv-chrome .cv-d{display:inline-flex;gap:4px;margin-right:2px}
+.cx-viz .cv-chrome .cv-d i{width:6px;height:6px;border-radius:99px;background:#FF6B6B}
+.cx-viz .cv-chrome .cv-d i:nth-child(2){background:#F5C451}
+.cx-viz .cv-chrome .cv-d i:nth-child(3){background:#37D67A}
+
+.cx-viz .cv-radar{position:absolute;right:14px;bottom:170px;width:82px;height:86px;border-radius:50%;
+background:radial-gradient(circle,rgba(251,113,133,.16),rgba(8,11,26,.5) 70%);
+border:1px solid rgba(251,113,133,.4);overflow:hidden}
+.cx-viz .cv-radar::before{content:"";position:absolute;inset:0;border-radius:50%;
+background:conic-gradient(from 0deg,rgba(251,113,133,.55),rgba(251,113,133,0) 42%);
+animation:cvSafetySpin 2.8s linear infinite}
+.cx-viz .cv-radar::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;
+background:#FB7185;transform:translate(-50%,-50%);box-shadow:0 0 0 4px rgba(251,113,133,.22)}
+@keyframes cvSafetySpin{to{transform:rotate(360deg)}}
+</style><style id="cx-hudfix">
+.s-shot img{height:330px}
+.s-hud{left:10px;right:10px;bottom:10px;padding:9px 11px}
+.s-hud .s-bar{height:auto;background:none;border-radius:0;overflow:visible;margin-bottom:4px}
+.s-hud .s-bar b{display:flex;justify-content:space-between;gap:8px;
+font:600 9.5px/1.4 -apple-system,"Segoe UI",Arial,sans-serif;color:#A9B6D2;letter-spacing:0;margin:0}
+.s-hud .s-bar b span:last-child{color:#F2F6FF;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-hud .s-bar i{display:block;height:3px;margin-top:3px;border-radius:99px;
+background:linear-gradient(90deg,rgba(47,107,255,.95),rgba(124,58,237,.9));box-shadow:0 0 8px rgba(47,107,255,.32)}
+</style>
+<style id="i18n-fit">
+.cv-checks{max-width:150px}
+.cv-checks p{white-space:normal;line-height:1.25;font-size:8px;overflow-wrap:anywhere}
+.s-hud .s-bar b{font-size:8.6px}
+.s-hud .s-bar b span{min-width:0}
+.s-hud .s-bar b span:first-child{flex:0 1 auto;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-hud .s-bar b span:last-child{flex:0 1 auto;max-width:54%;overflow:hidden;text-overflow:ellipsis}
+.b-met .v,.b-tag,.s-tag{max-width:100%;overflow-wrap:break-word}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+</head>
+<body>
+
+<div class="s-hero"><div class="s-grid"></div><div class="s-orb"></div>
+ <div class="s-wrap"><div class="s-in">
+  <div class="s-l">
+   <div class="s-kick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6 19 6.2v6c0 4-3 6.7-7 7.8-4-1.1-7-3.8-7-7.8v-6z"/><path d="M8.2 8.2l7.6 7.6"/><path d="M15.8 8.2 8.2 15.8"/></svg> Product Capabilities 06 · Risk Control</div>
+   <h1 class="s-h1">Stop it first — <br>then decide who handles it</h1>
+   <p class="s-sub">Threats, extortion, malicious claims, inducement of private transactions - identify them before they enter the customer service queue, transfer them to a human and keep evidence.</p>
+   <div class="s-cta"><a class="s-bp" href="/en/signup">See interception rules</a><a class="s-bg2" href="/en/v2/tool/trust">See boundary description</a></div>
+   <div class="s-chips"><span>5 types of risks</span><span>Automatically retain certificate</span><span>No automatic reply</span></div>
+  </div>
+  <div class="s-r"><div class="s-shot"><img src="/img/crossaio/sub-feature-safety.jpg" alt=""><div class="s-scan"></div><div class="cx-viz"><div class="cv-chrome"><span class="cv-d"><i></i><i></i><i></i></span>crossaio · <b>/en/v2/feature/safety</b></div><div class="cv-radar"></div></div>
+<div class="s-hud"><div class="h"><span>Risk · Today 12</span><span>Transfer to manual 4</span></div><div class="s-bar"><b><span>Threat</span><span>3</span></b><i style="width:25%"></i></div><div class="s-bar"><b><span>blackmail</span><span>2</span></b><i style="width:17%"></i></div><div class="s-bar"><b><span>induce in private</span><span>4</span></b><i style="width:33%"></i></div><div class="s-bar"><b><span>Bad faith claims</span><span>3</span></b><i style="width:25%"></i></div></div></div></div></div></div></div>
+<div class="s-band"><div class="s-wrap"><div class="row">
+  <div class="it"><b>5</b><span>Risk type</span></div><div class="it"><b>12</b><span>Hit today</span></div><div class="it"><b>4</b><span>Switch to manual</span></div><div class="it"><b>0</b><span>automatic reply</span></div>
+</div></div></div>
+
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">02 / Five-step flow</div>
+ <h2 class="s-h2">Identify → Retain certificate → Transfer</h2>
+ <div class="s-lead">There is no automatic reply in the risk control process. This is our deliberate choice.</div>
+ <div class="s-steps"><div class="s-step"><div class="n">STEP 01</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6 19 6.2v6c0 4-3 6.7-7 7.8-4-1.1-7-3.8-7-7.8v-6z"/><path d="M8.2 8.2l7.6 7.6"/><path d="M15.8 8.2 8.2 15.8"/></svg></div><h4>Semantic recognition</h4><p>Determine risk types based on utterance characteristics and context, not just keywords.</p></div><div class="s-step"><div class="n">STEP 02</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.8h7l4 4V20H7z"/><path d="M14 3.8V8h4"/><path d="M9.6 13.4l1.9 1.9 3.6-3.9"/></svg></div><h4>Evidence retention</h4><p>The original text, time, platform, and session ID are archived together.</p></div><div class="s-step"><div class="n">STEP 03</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.4" width="3.6" height="8.8" rx="1"/><rect x="10.2" y="6.4" width="3.6" height="12.8" rx="1"/><rect x="16.4" y="3.4" width="3.6" height="15.8" rx="1"/><path d="M4 6.4h16"/></svg></div><h4>hierarchical allocation</h4><p>Assign to the corresponding person in charge according to severity.</p></div><div class="s-step"><div class="n">STEP 04</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 6.6h11.6v8.2H9.6l-3.4 2.6v-2.6H4.4z"/><path d="M17 12.4h2.6v4.4h-1.8v1.8l-2.2-1.8"/><path d="M8 10.6h4.4"/></svg></div><h4>Manual reply</h4><p>Suggested wording is given, and it is up to people to post it.</p></div><div class="s-step"><div class="n">STEP 05</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5.4h5.6v13.2H6z"/><path d="M12.4 5.4H18v13.2h-5.6z"/><path d="M7.6 9.4h2.4M7.6 12h2.4M14 10.6l2.4 2.6M16.4 10.6l-2.4 2.6"/></svg></div><h4>Review</h4><p>Weekly summary type distribution and processing time.</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">03 / Boundary and caliber</div>
+ <h2 class="s-h2">Five types of risks, five types of treatments</h2>
+ <div class="s-lead">The default action here is "stop", not "reply first".</div>
+ <div class="s-table"><table>
+  <thead><tr><th>Risk type</th><th>Identification basis</th><th>Dispose</th><th>Status</th></tr></thead>
+  <tbody><tr><td><b>Threat to person/property</b></td><td>Clearly word the threat</td><td>Immediately transfer to manual + retain certificate</td><td><span class="s-tag s-no">high risk</span></td></tr><tr><td><b>Extortion for refund</b></td><td>Leave negative reviews/reports without paying.</td><td>Transfer to labor, no commitment</td><td><span class="s-tag s-no">high risk</span></td></tr><tr><td><b>induce side deals</b></td><td>Request an off-site transfer</td><td>Reject + report</td><td><span class="s-tag s-no">high risk</span></td></tr><tr><td><b>Bad faith claims</b></td><td>Repeated claims for the same order</td><td>Manual verification</td><td><span class="s-tag s-mid">in</span></td></tr><tr><td><b>Unusually concentrated negative reviews</b></td><td>Many bad reviews in a short period of time</td><td>Check whether it is out of stock</td><td><span class="s-tag s-mid">in</span></td></tr></tbody>
+ </table></div>
+</div></div>
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">04 / Ready-to-use products</div>
+ <h2 class="s-h2">Click to open the file, not the screenshot</h2>
+ <div class="s-lead">Each product can be submitted directly, complained directly, and accounted for directly.</div>
+ <div class="s-files"><div class="s-file"><div class="top"><span>JSON</span><span style="color:#EF4444">evidence</span></div><div class="nm">risk_evidence_1110.json</div><p>Hit 12 with original snapshot</p></div><div class="s-file"><div class="top"><span>MD</span><span style="color:#EF4444">rules</span></div><div class="nm">risk_rules_v3.md</div><p>5 types of judgment characteristics and treatment actions</p></div><div class="s-file"><div class="top"><span>CSV</span><span style="color:#EF4444">Review</span></div><div class="nm">risk_weekly.csv</div><p>Distribution by type of week</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">05 / You may belong to another segment</div>
+ <h2 class="s-h2">Then go down, there is no need to go back to the homepage and start over.</h2>
+ <div class="s-sib"><a class="s-card" href="/en/v2/feature/ai-service"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.4" r="6.6"/><path d="M12 6.8V4.4M9.6 3.4h4.8"/><path d="M12 13.4l3-2.4"/><path d="M9.4 13.6l1.4 1.5 3.2-3.4"/></svg></div><h4>Customer Service and AI Disclosure</h4><p>Leave the security message to customer service for reply.</p><div class="go">See customer service →</div></a><a class="s-card" href="/en/v2/rescue"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.6v5.6"/><path d="M12 16.6v.8"/><path d="M3.8 12h2.2M18 12h2.2"/></svg></div><h4>Accident, 5 minutes identification</h4><p>How to save someone if something really happened?</p><div class="go">Watch rescue →</div></a><a class="s-card" href="/en/v2/tool/trust"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="6.4" width="16.4" height="11.2" rx="2" stroke-dasharray="3 2.6"/><path d="M9.4 12h5.2"/><path d="M12 9.4v5.2"/></svg></div><h4>Boundaries and disclaimers</h4><p>Risk control is not a substitute for legal advice.</p><div class="go">Look at the borders →</div></a></div>
+ <div class="s-end">
+   <div><h3>The first action of risk control is not to reply</h3><p>The free version comes with a trial run of 5 sessions.</p></div>
+   <div class="s-cta"><a class="s-bp" href="/en/signup">See interception rules</a></div>
+ </div>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="hx">
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">06 / Workbench Perspective · 12 Risk Messages</div>
+  <h2 class="hx-h2">Stop it first and then decide who will deal with it.</h2>
+  <div class="hx-lead">Five types of risks are identified before entering the reply queue; the default action is not to reply, but to collect evidence first and then escalate.</div>
+  <div class="hx-tabs"><button class="hx-tab on" data-i="0">identify</button><button class="hx-tab" data-i="1">intercept</button><button class="hx-tab" data-i="2">evidence collection</button><button class="hx-tab" data-i="3">Upgrade</button></div>
+  <div class="hx-panel on"><div class="hx-pl"><h4>identify</h4><ul style="margin:0;padding-left:18px"><li>Five categories: threats, extortion, malicious claims, inducement, and fraud</li><li>Based on semantics rather than keywords</li><li>False positives are flagged for manual review</li></ul></div><div class="hx-pr"><div class="k">identify</div><div class="v">12 items</div><div class="u">Category 5 hits</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>intercept</h4><ul style="margin:0;padding-left:18px"><li>Automatic reply if hit or not</li><li>Default action: No reply, get evidence first</li><li>Whitelist available</li></ul></div><div class="hx-pr"><div class="k">intercept</div><div class="v">12 / 12</div><div class="u">Stop them all</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>evidence collection</h4><ul style="margin:0;padding-left:18px"><li>Original snapshot + time + session ID</li><li>Evidence package cannot be edited</li><li>Export with hash</li></ul></div><div class="hx-pr"><div class="k">evidence</div><div class="v">100%</div><div class="u">Exportable</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Upgrade</h4><ul style="margin:0;padding-left:18px"><li>Transfer high-risk workers to workers and notify the person in charge</li><li>The upgrade path is written down, not verbally</li><li>Writing back processing results</li></ul></div><div class="hx-pr"><div class="k">Upgrade</div><div class="v">4 items</div><div class="u">High risk has passed</div><div class="b"><i style="width:100%"></i></div></div></div>
+  <div class="hx-viz"><svg viewBox="0 0 740 130"><circle cx="80" cy="62" r="46" fill="none" stroke="#25304D"/><circle cx="80" cy="62" r="30" fill="none" stroke="#25304D"/><circle cx="80" cy="62" r="14" fill="none" stroke="#25304D"/><line x1="80" y1="62" x2="126" y2="62" stroke="#EF4444" stroke-width="2" style="transform-origin:80px 62px;animation:ax10 3s linear infinite"/><circle cx="98" cy="44" r="4" fill="#FF9AA2" style="animation:ax10b 2s infinite"/><circle cx="58" cy="78" r="4" fill="#EF4444" style="animation:ax10b 2.6s infinite .4s"/><text x="170" y="40" fill="#8FA0C8" font-size="11">5 types of risks · No automatic reply by default</text><rect x="170" y="56" width="240" height="8" rx="4" fill="#25304D"/><rect x="170" y="78" width="180" height="8" rx="4" fill="#25304D"/></svg></div>
+  <div class="hx-nums"><div class="hx-num"><b>5</b><span>risk category</span><em>Semantic recognition</em></div><div class="hx-num"><b>12</b><span>hit on the day</span><em>Block all</em></div><div class="hx-num"><b>0</b><span>automatic reply</span><em>It is not designed to automatically return</em></div><div class="hx-num"><b>4</b><span>High risk upgrade</span><em>Converted to manual</em></div></div>
+  
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">07 / Traceability · Risk Forensics</div>
+  <h2 class="hx-h2">Each interception has the original text, time and session ID.</h2>
+  <div class="hx-lead">The screenshot will change, but the record will not; the evidence package cannot be changed under the same event number.</div>
+  <div class="hx-gh">
+    <div class="hx-heat"><div class="hd"><span>Interceptions in the last 52 weeks</span><span>Total 742 items</span></div><svg class="hx-svg" viewBox="0 0 624 84" role="img" aria-label="Execution heat map over the past 52 weeks"><rect x="0" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="0" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="0" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="12" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="24" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="36" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="36" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="60" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="72" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="84" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="120" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="120" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="132" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="144" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="168" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="168" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="168" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="180" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="180" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="192" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="204" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="228" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="228" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="240" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="240" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="240" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="252" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="264" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="300" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="324" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="336" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="336" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="336" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="336" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="396" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="408" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="408" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="420" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="420" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="432" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="456" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="456" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="480" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="480" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="480" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="492" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="504" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="504" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="504" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="516" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="528" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="528" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="540" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="552" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="564" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="564" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="588" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="588" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="588" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="72" width="9" height="9" rx="2" fill="#006D32"/></svg>
+      <div class="hx-lg">less<i style="background:#EBEDF0"></i><i style="background:#9BE9A8"></i><i style="background:#26A641"></i><i style="background:#006D32"></i><i style="background:#0E4429"></i>Much</div>
+    </div>
+    <div class="hx-rt"><div class="hx-ci"><div class="row"><b>Risk identification</b><span class="hx-ok">12 items</span></div><div style="color:#8A93A6;margin-top:4px">All hits in category 5</div></div><div class="hx-ci"><div class="row"><b>Evidence retention</b><span class="hx-ok">Pass</span></div><div style="color:#8A93A6;margin-top:4px">Original text + time + session ID</div></div><div class="hx-ci"><div class="row"><b>automatic reply</b><span class="hx-ok">0 items</span></div><div style="color:#8A93A6;margin-top:4px">It is not designed to automatically return</div></div>
+      <div class="hx-diff"><div class="h"><span>risk.rules.diff</span><span>d44a8b7</span></div><pre><span class="a">+ rule: extortion_refund</span>
+<span class="a">+ capture: evidence bundle</span>
+<span class="d">- autoreply: true</span>
+<span class="a">+ autoreply: false # Does not automatically reply by default</span></pre></div>
+    </div>
+  </div>
+  <div class="hx-tl"><div class="it"><div class="d">2026-11-10 11:40</div><div class="t">12 risky news hits</div></div><div class="it"><div class="d">2026-11-10 11:41</div><div class="t">Evidence package generation, original text snapshot archiving</div></div><div class="it"><div class="d">2026-11-10 11:45</div><div class="t">4 high-risk items were transferred to manual work, 0 items were automatically replied</div></div></div>
+</div></div>
+
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">08 / Real results · Interception measurement</div>
+  <h2 class="hx-h2">Stop it once and you may save a refund</h2>
+  <div class="hx-cases"><div class="hx-case"><b>12</b><span>Interception on the same day</span><p>None enter the auto-reply queue.</p><a href="/en/v2/tool/check">Check my store free →</a></div><div class="hx-case"><b>5</b><span>Identify categories</span><p>Threats, extortion, malicious claims, inducement, fraud.</p><a href="/en/v2/feature/ai-service">See the next step →</a></div><div class="hx-case"><b>0</b><span>automatic reply</span><p>Leave it alone by default and ensure that the evidence is complete first.</p><a href="/en/signup">Start free · 5 checks a day →</a></div></div>
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">09 / FAQ</div>
+  <h2 class="hx-h2">Four must-answer questions for risk interception</h2>
+  <div class="hx-faq"><details><summary>Will it accidentally injure normal customers?</summary><p>Manual review will be done, and false alarms can be released with one click and the reasons will be recorded.</p></details><details><summary>Can evidence be used to appeal against the platform?</summary><p>Yes, with time and session ID, ready to export.</p></details><details><summary>Why not auto-reply?</summary><p>In risky scenarios, automatic replies will increase responsibility, and it is safer to default to not moving.</p></details><details><summary>Can I access my own customer service system?</summary><p>Yes, message callback is performed without replacing the original system.</p></details></div>
+</div></div>
+<script>(function(){try{var t=document.querySelectorAll('.hx-tab'),p=document.querySelectorAll('.hx-panel');for(var i=0;i<t.length;i++){(function(k){t[k].addEventListener('click',function(){for(var j=0;j<t.length;j++){t[j].className='hx-tab'+(j===k?' on':'');p[j].className='hx-panel'+(j===k?' on':'');}});})(i);}}catch(e){}})();</script>
+</div>
+
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">The Listing quality and compliance engine for European cross-border sellers. One workspace, from first-pass check to post-incident rescue.</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR now enforced</span>
+    <a class="cx-cta" href="/en/v2/tool/check">Check my store free · 30s <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>Capability map</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/launch">01 Before launch<small>One pass inspection · About 10 minutes</small></a></li>
+        <li><a class="cx-l" href="/en/v2/rescue">02 Accident<small>5 minutes qualitative · Trilingual appeal</small></a></li>
+        <li><a class="cx-l" href="/en/v2/ops">03 Daily operations<small>12 platforms × 6 automatic inspections</small></a></li>
+        <li><a class="cx-l" href="/en/v2/govern">04 Governance<small>A/B/C classification · Handling marks</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Product capabilities</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/feature/gpsr">GPSR Compliance Block<small>Responsible person · Warning words · Technical documents</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/listing">Listing quality<small>Field validation · Title word count</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/matrix">12 Platform verification<small>A2 / B5 / C5 classification</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/review">Word of mouth and reviews<small>Negative review · Reply template</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/ai-service">AI customer service<small>Pre-sale Q&A·After-sale comfort</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/safety">Risk and safety<small>Account suspension warning · Complaint leaving traces</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Platforms covered</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/platform/rules">Differences in platform rules<small>12 platform comparison</small></a></li>
+        <li><a class="cx-l" href="/en/v2/platform/app">Access status classification<small>A fully automatic · B semi-automatic · C manual</small></a></li>
+        <li><a class="cx-l" href="/en/v2/platform/localize">Localization and Language<small>Native Language Policy · Units of Measurement</small></a></li>
+        <li><a class="cx-l" href="/en/v2/platform/limits">Word count and field limits<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Free tools</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/tool/check">Compliance check<small>30 seconds · No binding to the store or authorization</small></a></li>
+        <li><a class="cx-l" href="/en/v2/tool/skills">Skills workflow<small>Connect to your ERP/forms</small></a></li>
+        <li><a class="cx-l" href="/en/v2/tool/trust">trust center<small>Data boundaries · Read-only authorization</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Community & resources</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">college<small>Compliance and Grievance Course</small></a></li>
+        <li><a class="cx-l" href="/community">community<small>European seller mutual assistance</small></a></li>
+        <li><a class="cx-l" href="/blog">Blog<small>Interpretation of platform rules changes</small></a></li>
+        <li><a class="cx-l" href="/podcast">Podcast<small>Cross-border compliance weekly update</small></a></li>
+        <li><a class="cx-l" href="/summit">summit<small>European Sellers Annual Meeting</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · European full-platform Listing quality and compliance engine</span>
+  <span class="cx-legal">
+    <a href="/en/privacy">privacy policy</a>
+    <a href="/en/terms">Terms of Service</a>
+    <a href="/en/v2/tool/trust">Compliance statement</a>
+    <a href="/en/v2/tool/trust">Data processing</a>
+  </span>
+  <span class="cx-ok"><i></i>All systems operational · Chinese (Simplified)</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
+</body></html>

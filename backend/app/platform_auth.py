@@ -45,7 +45,7 @@ def get_platform_unlocks(platform: str) -> Dict:
 
 
 def list_all_platforms_status(db: Session, user_id: str) -> List[Dict]:
-    """列出全部 13 平台的接入状态（用于凭证中心渲染）。"""
+    """列出全部 12 平台的接入状态（用于凭证中心渲染）。"""
     connected = get_connected_platforms(db, user_id)
     result = []
     for pkey, cfg in PLATFORM_CRED_REGISTRY.items():

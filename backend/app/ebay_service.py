@@ -85,7 +85,7 @@ class eBayService:
         params = {
             "response_type": "code",
             "client_id": settings.ebay_client_id,
-            "redirect_uri": f"{settings.app_url}/ebay/oauth/callback",
+            "redirect_uri": f"{settings.app_url}/api/v1/ebay/oauth/callback",
             "scope": "%20".join(EBAY_SCOPES),
             "state": state,  # CSRF 防护
         }
@@ -131,7 +131,7 @@ class eBayService:
                 data={
                     "grant_type": "authorization_code",
                     "code": auth_code,
-                    "redirect_uri": f"{settings.app_url}/ebay/oauth/callback",
+                    "redirect_uri": f"{settings.app_url}/api/v1/ebay/oauth/callback",
                 },
                 headers={
                     "Authorization": self._basic_auth(),

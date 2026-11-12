@@ -167,21 +167,22 @@
   @media (prefers-reduced-motion: reduce){.particles i,.mk-float,.mk-dot{animation:none}}
 </style>
   <link rel="stylesheet" href="/effects.css">
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
 </head>
 <body>
 
 <nav>
-  <a class="logo" href="/de/"><span class="dot">🤖</span>CrossAIO</a>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
     <div class="navitem"><a>Produkt</a>
       <div class="dropdown">
         <a href="/de/features/gpsr"><span>🛡️ GPSR-Compliance-Engine<small>CE-Kategorien → Warnhinweise → Compliance-Block → Backfill</small></span></a>
         <a href="/de/features/listing-generator"><span>📦 Listing-Generator<small>Komplettset + Wortzahl-Prüfung + Score</small></span></a>
-        <a href="/de/features/matrix"><span>🌍 Multi-Plattform-Matrix<small>Eine Eingabe → 13 Plattformen lokalisiert</small></span></a>
+        <a href="/de/features/matrix"><span>🌍 Multi-Plattform-Matrix<small>Eine Eingabe → 12 Plattformen lokalisiert</small></span></a>
         <a href="/de/features/review-rewrite"><span>📈 Bewertungs-Umschreibung<small>Themenzuordnung → 5-Punkte-Fixes + semantischer Score</small></span></a>
         <a href="/de/features/ai-service"><span>💬 KI-Kundenservice<small>AI-Act-Art.-50-Offenlegung eingebaut + eBay</small></span></a>
         <a href="/de/features/safety-redline"><span>🚨 Sicherheits-Rotlinie<small>Bedrohung/Erpressung erkennen → an Mensch übergeben</small></span></a>
-        <a href="/de/features/inbox"><span>📥 Zentrales Postfach<small>Nachrichten von 13 Plattformen · Muttersprache antworten</small></span></a>
+        <a href="/de/features/inbox"><span>📥 Zentrales Postfach<small>Nachrichten von 12 Plattformen · Muttersprache antworten</small></span></a>
         <a href="/de/features/ad-copy"><span>📣 Anzeigentext-Generator<small>Verbotene-Wörter-Prüfung + A/B-Varianten</small></span></a>
         <a href="/de/features/listing-watch"><span>📡 Listing-Monitoring<small>Tägliche Auto-Prüfung · sofortige Risikoalarme</small></span></a>
         <a href="/de/features"><span>🗂️ Fähigkeiten-Übersicht<small>Neun Fähigkeiten · eine Seite pro Fähigkeit</small></span></a>
@@ -195,7 +196,7 @@
         <a href="/de/rules/otto"><span>🇩🇪 Otto-Regeln<small>Deutsche Richtlinien + ProdSG + GS-Zeichen</small></span></a>
         <a href="/de/rules/kaufland"><span>🇩🇪 Kaufland-Regeln<small>DE/CZ/SK-Vier-Länder-Sites</small></span></a>
         <a href="/de/rules/bol"><span>🇳🇱 bol.com-Regeln<small>Niederländische Richtlinien + ACM-Aufsicht</small></span></a>
-        <a href="/de/rules"><span>📋 Alle 13 Plattformen Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
+        <a href="/de/rules"><span>📋 Alle 12 Plattformen Cheat-Sheet<small>Wortlimits / Sprachen / GPSR-Essentials</small></span></a>
       </div>
     </div>
     <div class="navitem"><a>Kostenlose Tools</a>
@@ -242,7 +243,7 @@
       <div class="trust">
         <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ohne Registrierung</span>
         <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Keine Kreditkarte</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>13 Plattformen abgedeckt</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>12 Plattformen abgedeckt</span>
       </div>
     </div>
     <div>
@@ -298,7 +299,7 @@
     <label>Kernbegriffe (durch Komma getrennt) *</label><input id="g_kw" placeholder="z. B. toy, puzzle, kids">
     <label>Hauptplattform</label>
     <select id="g_platform">
-      <option value="amazon">Amazon EU-Marktplatz</option><option value="amazon_us">Amazon US-Marktplatz</option><option value="ebay">eBay</option>
+      <option value="amazon">Amazon EU- + US-Marktplatz</option><option value="ebay">eBay</option>
       <option value="cdiscount">Cdiscount (Frankreich)</option><option value="otto">Otto (Deutschland)</option>
       <option value="allegro">Allegro (Polen)</option><option value="emag">eMAG (Rumänien)</option>
       <option value="tiktok">TikTok Shop (EU/US)</option><option value="walmart">Walmart (USA)</option>
@@ -336,7 +337,7 @@
       <tr><td><b>Erst testen, dann zahlen</b></td><td class="nowin">Erst registrieren und Shop anbinden, um Funktionen zu sehen</td><td class="win">Erst kostenlos prüfen, dann registrieren</td></tr>
       <tr><td><b>Startkosten</b></td><td class="nowin">€159+/Monat</td><td class="win">Kostenloser Check + ab €29/Monat</td></tr>
       <tr><td><b>GPSR-Compliance</b></td><td class="nowin">Wird nicht abgedeckt</td><td class="win">Compliance-Block in jedem Listing eingebettet</td></tr>
-      <tr><td><b>Plattformabdeckung</b></td><td>12+ europäische Plattformen</td><td>13 Plattformen (12 europäische + Amazon US, inkl. Kaufland/Zalando/bol)</td></tr>
+      <tr><td><b>Plattformabdeckung</b></td><td>12+ europäische Plattformen</td><td>12 Plattformen (12 europäische + Amazon US, inkl. Kaufland/Zalando/bol)</td></tr>
       <tr><td><b>Semantische Suchanpassung</b></td><td class="nowin">Nicht vorhanden</td><td class="win">Abdeckungsscore für Rufus-/iZi-Fragestellungen</td></tr>
     </table>
   </div>
@@ -418,5 +419,6 @@ document.getElementById("btnGo").onclick = async () => {
 
   <script src="/effects.js"></script>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
 </body>
 </html>

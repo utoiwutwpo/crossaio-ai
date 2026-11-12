@@ -16,11 +16,11 @@ from __future__ import annotations
 FEATURE_ITEMS = [
     ("gpsr", "/features/gpsr", "🛡️", "GPSR 合规引擎", "CE 类目 → 警示语 → 合规块 → 回填"),
     ("listing-generator", "/features/listing-generator", "📦", "Listing 生成器", "四件套 + 字数硬校验 + 评分"),
-    ("matrix", "/features/matrix", "🌍", "多平台矩阵", "一次输入 → 13 平台批量本地化"),
+    ("matrix", "/features/matrix", "🌍", "多平台矩阵", "一次输入 → 12 平台批量本地化"),
     ("review-rewrite", "/features/review-rewrite", "📈", "差评改写闭环", "主题定位 → 五点修复 + 语义评分"),
     ("ai-service", "/features/ai-service", "💬", "AI 客服 + Art.50", "AI Act 披露内嵌 + eBay 接入"),
     ("safety-redline", "/features/safety-redline", "🚨", "政策安全红线层", "威胁/勒索识别 → 转人工留证"),
-    ("inbox", "/features/inbox", "📥", "统一收件箱", "13 平台消息一处管 · 母语回复"),
+    ("inbox", "/features/inbox", "📥", "统一收件箱", "12 平台消息一处管 · 母语回复"),
     ("ad-copy", "/features/ad-copy", "📣", "广告文案生成", "禁用词前置拦截 + A/B 变体"),
     ("listing-watch", "/features/listing-watch", "📡", "Listing 监控日报", "每日自动体检 · 风险升级即报"),
 ]
@@ -37,13 +37,13 @@ PLATFORM_ITEMS = [
 TOOL_ITEMS = [
     ("/compliance-check", "✅", "一键合规体检", "体检 → 欧代标注 → 技术文件清单，30 秒出报告"),
     ("/gpsr-check", "🛡️", "GPSR 合规体检", "免注册 30 秒，只报问题不收费"),
-    ("/rules", "📋", "平台规则速查表", "13 平台字数/语言/GPSR 要点"),
+    ("/rules", "📋", "平台规则速查表", "12 平台字数/语言/GPSR 要点"),
     ("/skills", "🎁", "开源 Skills", "GPSR 检查器 + 规则库，MIT 免费"),
 ]
 
 # ---------------------------------------------------------------------------
 # 三语文案（术语表口径；CrossAIO / GPSR / Art.50 / eBay / UOKiK / ANPC / ProdSG /
-# Loi Toubon / ACM / MIT 等专有词不翻译；13 平台数量与 30 秒等数值保留）
+# Loi Toubon / ACM / MIT 等专有词不翻译；12 平台数量与 30 秒等数值保留）
 # ---------------------------------------------------------------------------
 
 NAV_I18N = {
@@ -56,7 +56,7 @@ NAV_I18N = {
         "signup": "免费注册",
         "feature_overview_label": "产品能力总览",
         "feature_overview_sub": "六大能力 · 每个能力一个独立页面",
-        "platforms_index_label": "全部 13 平台速查表",
+        "platforms_index_label": "全部 12 平台速查表",
         "platforms_index_sub": "字数 / 语言 / GPSR 要点",
     },
     "en": {
@@ -68,7 +68,7 @@ NAV_I18N = {
         "signup": "Sign up free",
         "feature_overview_label": "Capabilities overview",
         "feature_overview_sub": "Six core capabilities · one standalone page each",
-        "platforms_index_label": "Rules reference — all 13 platforms",
+        "platforms_index_label": "Rules reference — all 12 platforms",
         "platforms_index_sub": "Characters / languages / GPSR essentials",
     },
     "de": {
@@ -80,7 +80,7 @@ NAV_I18N = {
         "signup": "Kostenlos registrieren",
         "feature_overview_label": "Funktionsübersicht",
         "feature_overview_sub": "Sechs Kernfunktionen · je eine eigene Seite",
-        "platforms_index_label": "Regelübersicht — alle 13 Plattformen",
+        "platforms_index_label": "Regelübersicht — alle 12 Plattformen",
         "platforms_index_sub": "Zeichen / Sprachen / GPSR-Wesentliches",
     },
     "fr": {
@@ -92,7 +92,7 @@ NAV_I18N = {
         "signup": "Inscription gratuite",
         "feature_overview_label": "Aperçu des fonctionnalités",
         "feature_overview_sub": "Six fonctionnalités clés · chacune sa page dédiée",
-        "platforms_index_label": "Référentiel de règles — les 13 plateformes",
+        "platforms_index_label": "Référentiel de règles — les 12 plateformes",
         "platforms_index_sub": "Caractères / langues / points clés GPSR",
     },
 }
@@ -102,33 +102,33 @@ FEATURE_I18N = {
     "en": [
         ("GPSR compliance engine", "CE categories → safety warnings → compliance blocks → backfill"),
         ("Listing generator", "Title / bullet points / description / backend terms + strict character limits + scoring"),
-        ("Multi-platform matrix", "One input → batch localization for 13 platforms"),
+        ("Multi-platform matrix", "One input → batch localization for 12 platforms"),
         ("Review rewriting loop", "Issue theme detection → bullet fixes + semantic score"),
         ("AI customer service + Art.50", "AI Act disclosure embedded + eBay integration"),
         ("Policy safety red-line layer", "Threat/extortion detection → hand off to a human, logged"),
-        ("Unified inbox", "Messages from 13 platforms in one place · replies in buyers' language"),
+        ("Unified inbox", "Messages from 12 platforms in one place · replies in buyers' language"),
         ("Ad copy generator", "Pre-block banned words + A/B variants"),
         ("Listing monitoring daily report", "Daily automated check · instant alert on risk escalation"),
     ],
     "de": [
         ("GPSR-Compliance-Engine", "CE-Kategorien → Sicherheitshinweise → Compliance-Blöcke → Rückschreiben"),
         ("Listing-Generator", "Titel / Bulletpoints / Beschreibung / Backend-Suchbegriffe + harte Zeichenlimits + Bewertung"),
-        ("Multi-Plattform-Matrix", "Eine Eingabe → Stapel-Lokalisierung für 13 Plattformen"),
+        ("Multi-Plattform-Matrix", "Eine Eingabe → Stapel-Lokalisierung für 12 Plattformen"),
         ("Bewertungs-Umschreibungs-Kreislauf", "Themenerkennung → Bulletpoint-Fixes + semantische Bewertung"),
         ("KI-Kundenservice + Art.50", "AI-Act-Offenlegung eingebettet + eBay-Anbindung"),
         ("Sicherheits-Rotlinien-Ebene", "Drohungs-/Erpressungserkennung → an einen Menschen übergeben, protokolliert"),
-        ("Zentrales Postfach", "Messages von 13 Plattformen an einem Ort · Antworten in der Muttersprache"),
+        ("Zentrales Postfach", "Messages von 12 Plattformen an einem Ort · Antworten in der Muttersprache"),
         ("Anzeigentext-Generator", "Sperrwörter vorab blockieren + A/B-Varianten"),
         ("Täglicher Listing-Monitoring-Bericht", "Täglicher automatischer Check · sofortige Meldung bei Risikoanstieg"),
     ],
     "fr": [
         ("Moteur de conformité GPSR", "Catégories CE → avertissements de sécurité → blocs de conformité → backfill"),
         ("Générateur de listings", "Titre / puces / description / mots-clés back-end + limites strictes de caractères + évaluation"),
-        ("Matrice multi-plateformes", "Une saisie → localisation en masse pour 13 plateformes"),
+        ("Matrice multi-plateformes", "Une saisie → localisation en masse pour 12 plateformes"),
         ("Boucle de réécriture d'avis", "Identification du thème → correctifs de puces + score sémantique"),
         ("Service client IA + Art.50", "Divulgation selon l'AI Act intégrée + intégration eBay"),
         ("Couche de lignes rouges de sécurité", "Détection de menaces/chantage → transfert à un agent humain, traçable"),
-        ("Boîte de réception unifiée", "Messages de 13 plateformes au même endroit · réponses dans la langue maternelle"),
+        ("Boîte de réception unifiée", "Messages de 12 plateformes au même endroit · réponses dans la langue maternelle"),
         ("Générateur de textes publicitaires", "Blocage préalable des mots interdits + variantes A/B"),
         ("Rapport de surveillance quotidien des listings", "Vérification automatique quotidienne · alerte immédiate en cas de montée du risque"),
     ],
@@ -167,19 +167,19 @@ TOOL_I18N = {
     "en": [
         ("One-click compliance check", "Check → EU Rep marking → technical file checklist, report in 30 seconds"),
         ("GPSR compliance check", "No sign-up, 30 seconds — issues only, free"),
-        ("Platforms rules reference", "13 platforms: character limits / languages / GPSR essentials"),
+        ("Platforms rules reference", "12 platforms: character limits / languages / GPSR essentials"),
         ("Open-source Skills", "GPSR checker + rule library, free MIT"),
     ],
     "de": [
         ("Compliance-Check mit einem Klick", "Check → EU-Verantwortlichen-Kennzeichnung → Checkliste technischer Unterlagen, Bericht in 30 Sekunden"),
         ("GPSR-Compliance-Check", "Ohne Registrierung, 30 Sekunden — nur Probleme, kostenlos"),
-        ("Plattform-Regelübersicht", "13 Plattformen: Zeichenlimits / Sprachen / GPSR-Wesentliches"),
+        ("Plattform-Regelübersicht", "12 Plattformen: Zeichenlimits / Sprachen / GPSR-Wesentliches"),
         ("Open-Source-Skills", "GPSR-Prüfer + Regelsammlung, kostenlos MIT"),
     ],
     "fr": [
         ("Vérification de conformité en un clic", "Vérification → marquage du représentant UE → liste de contrôle de la documentation technique, rapport en 30 secondes"),
         ("Vérification de conformité GPSR", "Sans inscription, 30 secondes — seulement les problèmes, gratuit"),
-        ("Référentiel de règles des plateformes", "13 plateformes : limites de caractères / langues / points clés GPSR"),
+        ("Référentiel de règles des plateformes", "12 plateformes : limites de caractères / langues / points clés GPSR"),
         ("Skills open source", "Vérificateur GPSR + bibliothèque de règles, gratuit MIT"),
     ],
 }
@@ -235,7 +235,7 @@ def site_nav(active: str = "", active_item: str = "", lang: str = "zh", switcher
     tool_tr = TOOL_I18N.get(lang)
 
     # 有翻译版本的目标加前缀；/features/* 与 /rules/{platform} 已有翻译，lang 版加前缀
-    logo_href = f"{p}/" if p else "/"
+    logo_href = "/"
     pricing_href = f"{p}/pricing" if p else "/pricing"
     signin_href = f"{p}/signin" if p else "/signin"
     signup_href = f"{p}/signup" if p else "/signup"
@@ -266,7 +266,23 @@ def site_nav(active: str = "", active_item: str = "", lang: str = "zh", switcher
     def active_cls(section: str) -> str:
         return " active" if section == active else ""
 
-    return f"""<nav>
+    # 品牌商标统一指向站根：href="/" 已能覆盖 localhost 与 IP 两种入口，
+    # 这里再把属性改成“当前域名 + /”，保证右击/悬停看到的也是绝对地址。
+    brand_script = (
+        '<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{'
+        'var o=location.origin+"/";'
+        "var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*=\"brand\"]');"
+        'for(var i=0;i<l.length;i++){if(l[i].textContent.indexOf("CrossAIO")>=0){l[i].setAttribute("href",o);}}'
+        '}catch(e){}})();</script>'
+    )
+
+    nav_style = (
+        '<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/'
+        'nav{position:-webkit-sticky;position:sticky;top:0;z-index:1000;'
+        'background:#fff;box-shadow:0 1px 0 rgba(15,23,42,.07)}</style>'
+    )
+
+    return f"""{nav_style}<nav>
   <a class="logo" href="{logo_href}"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
     <div class="navitem{active_cls("features")}">
@@ -288,4 +304,4 @@ def site_nav(active: str = "", active_item: str = "", lang: str = "zh", switcher
     <a class="login-link" href="{signin_href}">{nav["signin"]}</a>
     <a href="{signup_href}"><button class="pill-nav">{nav["signup"]}</button></a>
   </div>
-</nav>"""
+</nav>{brand_script}"""

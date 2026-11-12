@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8">
+<title>上架前 · 一次过检 · CrossAIO 能力地图</title>
+<meta name="description" content="12 平台字段与字数校验、EAN 校验位、GPSR 合规块内嵌，一次生成可提交包。">
+<style>
+body{margin:0;padding:0;box-sizing:border-box}
+#site-nav,#site-nav *{box-sizing:border-box}
+.b-hero,.b-sec,.b-band,.b-foot,.b-hero *,.b-sec *,.b-band *,.b-foot *{box-sizing:border-box}
+.b-hero h1,.b-hero p,.b-sec h1,.b-sec h2,.b-sec p,.b-sec td,.b-sec th,.b-band h1,.b-band h2,.b-band p{margin:0;padding:0}
+body{background:#fff;color:#0B1022;font-family:Inter,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.b-wrap{width:1240px;max-width:calc(100% - 64px);margin:0 auto}
+.b-hero{position:relative;overflow:hidden;color:#fff;padding:64px 0 0;
+  background:radial-gradient(760px 460px at 82% 12%,rgba(124,58,237,.42),transparent 62%),
+  radial-gradient(620px 420px at 12% 0%,rgba(47,107,255,.28),transparent 60%),
+  linear-gradient(116deg,#070A1C 0%,#120F35 48%,#241155 100%)}
+.b-hero .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(70% 76% at 52% 20%,#000,transparent 78%);-webkit-mask-image:radial-gradient(70% 76% at 52% 20%,#000,transparent 78%)}
+.b-hero .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;background:var(--ac)}
+.b-hero .orb.a{width:440px;height:440px;right:-70px;top:-110px}
+.b-hero .orb.b{width:320px;height:320px;left:-120px;bottom:-140px;opacity:.32}
+.b-in{position:relative;z-index:2;display:flex;gap:52px;align-items:flex-start}
+.b-left{flex:1 1 600px;min-width:0;padding-top:4px}
+.b-kick{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);border-radius:999px;padding:7px 14px;font-size:12px;color:#E9E4FF}
+.b-kick i{width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.b-no{margin-left:12px;font-size:11px;letter-spacing:.18em;color:#A5B4FC}
+.b-h1{margin-top:20px;font-size:46px;line-height:1.2;letter-spacing:-.02em;font-weight:800;color:#fff}
+.b-h1 em{font-style:normal;background:linear-gradient(96deg,#7DD3FC,#A78BFA 55%,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent}
+.b-sub{margin-top:16px;font-size:15.5px;line-height:1.85;color:#C9D2E4;max-width:560px}
+.b-sub b{color:#fff;font-weight:600}
+.b-pills{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.b-pill{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);border-radius:10px;padding:9px 12px;font-size:12.5px;color:#DCE3F2}
+.b-pill b{color:#fff;font-weight:700;margin-right:5px}
+.b-ctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.b-bp{background:linear-gradient(135deg,#2F6BFF,#7C3AED);border-radius:12px;padding:14px 24px;font-size:14.5px;font-weight:700;color:#fff;box-shadow:0 14px 32px rgba(58,90,255,.38);cursor:pointer;transition:filter .18s,transform .18s}
+.b-bp:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.b-bg{border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.07);border-radius:12px;padding:14px 22px;font-size:14.5px;color:#EAF0FF;cursor:pointer;transition:border-color .18s}
+.b-bg:hover{border-color:var(--ac)}
+.b-tiny{margin-top:16px;font-size:12px;color:#93A0BC;display:flex;gap:18px;flex-wrap:wrap}
+.b-tiny span::before{content:"✓";color:#34D399;margin-right:6px}
+.b-right{flex:0 0 480px;max-width:480px}
+.b-frame{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.b-frame img{display:block;width:100%;height:300px;object-fit:cover}
+.b-frame .scan{position:absolute;left:-30%;right:-30%;height:120px;top:0;background:linear-gradient(180deg,transparent,rgba(255,255,255,.16),transparent);animation:bscan 5.5s linear infinite}
+@keyframes bscan{0%{transform:translateY(-140px)}100%{transform:translateY(340px)}}
+.b-tag{position:absolute;left:14px;top:14px;right:14px;display:flex;justify-content:space-between;gap:10px;background:rgba(8,10,26,.72);backdrop-filter:blur(8px);border-radius:10px;padding:10px 12px;font-size:12px;color:#fff}
+.b-tag .t1{font-weight:700}
+.b-tag .live{display:inline-block;width:6px;height:6px;border-radius:50%;background:#F43F5E;margin-right:6px;animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.b-con{margin-top:0;background:rgba(8,10,26,.82);border-top:1px solid rgba(255,255,255,.12);padding:14px 16px}
+.b-con .ch{display:flex;justify-content:space-between;font-size:10.5px;letter-spacing:.1em;color:#9AA6C4;margin-bottom:10px}
+.b-bar{margin-top:9px}
+.b-bar .lb{display:flex;justify-content:space-between;font-size:11.5px;color:#DCE3F2;margin-bottom:5px}
+.b-bar .tr{height:7px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.b-bar .fl{height:100%;border-radius:99px;background:linear-gradient(90deg,#2F6BFF,#22D3EE);transition:width .4s ease-out}
+.b-bar:nth-child(3) .fl{background:linear-gradient(90deg,#F59E0B,#FB7185)}
+.b-bar:nth-child(4) .fl{background:linear-gradient(90deg,#12B981,#34D399)}
+@keyframes bfl{from{width:0}}
+.b-steps{position:relative;z-index:2;margin-top:44px;padding:0 0 26px;border-top:1px solid rgba(255,255,255,.1)}
+.b-pline{display:flex;gap:0;padding-top:22px}
+.b-ps{flex:1 1 0;min-width:0;position:relative}
+.b-ps .dt{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.28)}
+.b-ps .ln{position:absolute;left:10px;right:0;top:5px;height:1px;background:rgba(255,255,255,.16)}
+.b-ps:last-child .ln{display:none}
+.b-ps .nm{margin-top:9px;font-size:10.5px;letter-spacing:.12em;color:#93A0BC}
+.b-ps .ds{margin-top:3px;font-size:12.5px;color:#C9D2E4}
+.b-ps.on .dt{background:var(--ac);box-shadow:0 0 12px var(--ac)}
+.b-ps.on .nm{color:var(--ac)}
+.b-ps.on .ds{color:#fff;font-weight:600}
+
+.b-sec{padding:56px 0}
+.b-metrics{display:flex;gap:14px;flex-wrap:wrap}
+.b-met{flex:1 1 190px;min-width:0;border:1px solid #E7EAF3;border-radius:14px;padding:18px;background:#fff;transition:transform .18s,box-shadow .18s}
+.b-met:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(23,20,64,.08)}
+.b-met .v{font-size:26px;font-weight:800;color:var(--ac);letter-spacing:-.02em}
+.b-met .l{margin-top:4px;font-size:13px;color:#5B6478}
+.b-met .src{margin-top:6px;font-size:11px;color:#8A93A6;font-family:Consolas,monospace}
+
+.b-flow{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.b-fl{flex:1 1 200px;min-width:0;border:1px solid #E7EAF3;border-radius:14px;padding:16px;background:#FBFBFE;position:relative;transition:border-color .18s,transform .18s;cursor:pointer}
+.b-fl:hover{border-color:var(--ac);transform:translateY(-2px)}
+.b-fl .n{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.b-fl .t{font-size:14px;font-weight:700;margin-top:5px}
+.b-fl .d{font-size:12px;color:#5B6478;margin-top:5px;line-height:1.7}
+.b-fl::after{content:"";position:absolute;left:16px;right:16px;bottom:0;height:2px;background:var(--ac);opacity:.5;transform:scaleX(.25);transform-origin:left;transition:transform .2s}
+.b-fl:hover::after{transform:scaleX(1)}
+
+.b-tbl{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;table-layout:fixed}.b-tbl th:nth-child(1),.b-tbl td:nth-child(1){width:27%}.b-tbl th:nth-child(2),.b-tbl td:nth-child(2){width:30%}
+.b-tbl th{text-align:left;font-size:11px;letter-spacing:.1em;color:#8A93A6;font-weight:600;padding:0 12px 10px}
+.b-tbl td{padding:12px;border-top:1px solid #EEF1F7;color:#1F2637}
+.b-tbl .st{font-size:11.5px;font-weight:700}
+.b-ok{color:#059669}.b-bad{color:#C81E46}.b-warn{color:#B45309}.b-dim{color:#8A93A6}
+
+.b-files{display:flex;flex-direction:column;gap:8px}
+.b-file{display:flex;align-items:center;gap:12px;border:1px solid #E7EAF3;border-radius:12px;padding:12px 14px;background:#fff;cursor:pointer;transition:background .16s,transform .16s,border-color .16s}
+.b-file:hover{background:#F8F8FD;transform:translateX(3px);border-color:#D8DCEA}
+.b-file .ico{width:40px;height:28px;border-radius:6px;background:#F1F3F9;color:#5B6478;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.b-file .fn{flex:1 1 auto;font-size:12.5px;font-family:Consolas,monospace;color:#0B1022}
+.b-file .stt{font-size:11px;padding:3px 8px;border-radius:999px;flex:0 0 auto}
+
+.b-sib{display:flex;gap:12px;flex-wrap:wrap}
+.b-sb{flex:1 1 240px;min-width:0;border:1px solid #E7EAF3;border-radius:14px;padding:16px;background:#fff;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+.b-sb:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(23,20,64,.09);border-color:var(--ac)}
+.b-sb .k{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.b-sb .t{font-size:15px;font-weight:700;margin-top:5px}
+.b-sb .d{font-size:12px;color:#5B6478;margin-top:5px;line-height:1.7}
+.b-sb .m{font-size:11.5px;color:var(--ac);font-weight:700;margin-top:8px}
+
+.b-band{background:linear-gradient(96deg,#141033,#3A1A8A 70%,#5B21B6);color:#fff;padding:44px 0;margin-top:14px}
+.b-band .in{display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap}
+.b-band h2{font-size:28px;letter-spacing:-.02em}
+.b-band p{font-size:13px;color:#C9D2E4;margin-top:8px}
+.b-band .rr{display:flex;gap:12px;flex-wrap:wrap}
+.b-icbadge{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(47,107,255,.5),rgba(124,58,237,.5));border:1px solid rgba(255,255,255,.28);margin-bottom:14px}
+.b-fl .fic{width:30px;height:30px;border-radius:9px;border:1px solid #E3E7F0;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:9px}
+.b-sb .sic{width:30px;height:30px;border-radius:9px;border:1px solid #E3E7F0;background:#F8F9FD;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.b-eyebrow{font-size:11px;letter-spacing:.2em;color:#2F6BFF;font-weight:700}
+.b-h2{font-size:30px;letter-spacing:-.02em;margin-top:10px}
+.b-lead{font-size:14px;color:#5B6478;margin-top:10px;max-width:720px;line-height:1.8}
+.b-foot{border-top:1px solid #EEF1F7;margin-top:10px;padding:22px 0;display:flex;justify-content:space-between;font-size:12px;color:#8A93A6;flex-wrap:wrap;gap:8px}
+.b-foot a{color:#8A93A6;text-decoration:none}
+@media(max-width:1080px){
+  .b-in{flex-direction:column;gap:26px}
+  .b-right{flex:1 1 auto;max-width:none;width:100%}
+  .b-h1{font-size:34px}
+  .b-pline{flex-wrap:wrap;gap:14px}
+  .b-ps{flex:1 1 40%}
+}
+</style>
+
+
+
+
+
+<style id="hx-css">
+.hx{padding:0}
+.hx-sec{padding:64px 0;background:#fff;border-top:1px solid #EEF1F7}
+.hx-sec.alt{background:#FBFBFE}
+.hx-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.hx-eyebrow{font-size:11px;letter-spacing:.2em;color:#7C3AED;font-weight:800}
+.hx-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.hx-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.hx-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.hx-tab{border:1px solid #E3E7F0;background:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;color:#3D465C;cursor:pointer}
+.hx-tab.on{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(47,107,255,.28)}
+.hx-panel{display:none;margin-top:18px;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:22px;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.hx-panel.on{display:flex}
+.hx-pl{flex:1 1 420px;min-width:0}
+.hx-pl h4{font-size:16px;margin:0 0 10px;color:#0B1022}
+.hx-pl li{font-size:13px;color:#5B6478;line-height:1.9;margin-bottom:6px}
+.hx-pr{flex:0 1 300px;min-width:0;background:#0A0F24;border-radius:14px;padding:16px;color:#fff}
+.hx-pr .k{font-size:10.5px;letter-spacing:.16em;color:#8FA0C8}
+.hx-pr .v{font-size:26px;font-weight:800;margin:6px 0 2px;color:#fff}
+.hx-pr .u{font-size:12px;color:#A9B4D0}
+.hx-pr .b{height:5px;border-radius:99px;background:rgba(255,255,255,.12);margin-top:12px;overflow:hidden}
+.hx-pr .b i{display:block;height:100%;background:linear-gradient(90deg,#2F6BFF,#7C3AED)}
+.hx-viz{margin-top:22px;border-radius:16px;background:#0A0F24;padding:14px 16px;overflow:hidden}
+.hx-viz svg{display:block;width:100%;height:auto}
+.hx-nums{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.hx-num{flex:1 1 200px;min-width:0;border:1px solid #E3E7F0;border-radius:14px;padding:16px 18px;background:#fff}
+.hx-num b{display:block;font-size:30px;letter-spacing:-.02em;color:#0B1022}
+.hx-num span{display:block;font-size:12px;color:#7A8499;margin-top:2px}
+.hx-num em{display:block;font-size:11px;color:#0E9F6E;font-style:normal;margin-top:8px}
+.hx-marq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7;padding:12px 0}
+.hx-marq .row{display:flex;gap:26px;white-space:nowrap;animation:hxscroll 26s linear infinite;font-size:12px;color:#7A8499;letter-spacing:.06em}
+@keyframes hxscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hx-gh{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;align-items:flex-start}
+.hx-heat{flex:1 1 560px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px}
+.hx-heat .hd{display:flex;justify-content:space-between;font-size:12px;color:#3D465C;margin-bottom:12px}
+.hx-svg{display:block;width:100%;height:auto}
+.hx-lg{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8A93A6}
+.hx-lg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.hx-rt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.hx-ci{border:1px solid #E3E7F0;border-radius:12px;background:#fff;padding:12px 14px;font-size:12.5px;color:#3D465C}
+.hx-ci .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hx-ci b{font-weight:600}
+.hx-ok{color:#0E9F6E}.hx-warn{color:#B45309}.hx-bad{color:#DC2626}
+.hx-diff{border:1px solid #E3E7F0;border-radius:12px;overflow:hidden;background:#0A0F24;font-family:Consolas,monospace;font-size:12px}
+.hx-diff .h{display:flex;justify-content:space-between;padding:8px 12px;background:#111834;color:#8FA0C8;font-size:11px}
+.hx-diff pre{margin:0;padding:12px;color:#C6CBE0;line-height:1.7;max-height:190px;overflow:auto}
+.hx-diff .a{color:#7EE2A8}.hx-diff .d{color:#FF9AA2}
+.hx-tl{margin-top:24px;border-left:2px solid #E3E7F0;padding-left:18px}
+.hx-tl .it{position:relative;margin-bottom:16px}
+.hx-tl .it::before{content:"";position:absolute;left:-25px;top:4px;width:8px;height:8px;border-radius:50%;background:#7C3AED}
+.hx-tl .d{font-size:11px;color:#8A93A6;letter-spacing:.08em}
+.hx-tl .t{font-size:13.5px;color:#0B1022;margin-top:2px}
+.hx-cases{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.hx-case{flex:1 1 300px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px;transition:.18s}
+.hx-case:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(23,20,64,.09)}
+.hx-case b{display:block;font-size:28px;letter-spacing:-.02em;color:#0B1022}
+.hx-case span{display:block;font-size:11.5px;color:#7A8499;margin-top:2px}
+.hx-case p{font-size:12.5px;color:#5B6478;line-height:1.8;margin:10px 0 12px}
+.hx-case a{font-size:12px;font-weight:700;color:#2F6BFF;text-decoration:none}
+.hx-faq{margin-top:24px;border-top:1px solid #EEF1F7}
+.hx-faq details{border-bottom:1px solid #EEF1F7;padding:14px 0}
+.hx-faq summary{cursor:pointer;font-size:14px;font-weight:600;color:#0B1022;list-style:none}
+.hx-faq summary::after{content:"+";float:right;color:#8A93A6}
+.hx-faq details[open] summary::after{content:"−"}
+.hx-faq p{font-size:13px;color:#5B6478;line-height:1.85;margin:10px 0 0}
+@media(max-width:1080px){.hx-pl,.hx-pr,.hx-heat,.hx-rt{flex:1 1 100%}}
+/* 17 个页面各自的动效，keyframe 名不重复 */
+@keyframes ax1{0%{transform:translateX(0);opacity:.35}45%{opacity:1}100%{transform:translateX(700px);opacity:.35}}
+@keyframes ax2{0%{stroke-dashoffset:520}100%{stroke-dashoffset:0}}
+@keyframes ax2p{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ax3{0%{transform:scaleY(.05)}60%{transform:scaleY(1)}100%{transform:scaleY(.85)}}
+@keyframes ax4{0%{stroke-dashoffset:300}100%{stroke-dashoffset:60}}
+@keyframes ax5{0%{transform:translateY(-6px);opacity:.2}30%{opacity:1}100%{transform:translateY(150px);opacity:.2}}
+@keyframes ax6{0%{width:0}70%{width:100%}100%{width:72%}}
+@keyframes ax7{0%,15%{opacity:.18;r:7}40%,55%{opacity:1;r:11}85%,100%{opacity:.18;r:7}}
+@keyframes ax8{0%{width:0}100%{width:var(--w)}}
+@keyframes ax9{0%{transform:translateY(14px);opacity:0}30%{opacity:1;transform:translateY(0)}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ax10{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes ax10b{0%,100%{opacity:.22}50%{opacity:1}}
+@keyframes ax11{0%{transform:scaleX(.1);transform-origin:left}70%{transform:scaleX(1)}100%{transform:scaleX(.9)}}
+@keyframes ax12{0%{transform:translateY(-30px);opacity:.15}55%{opacity:1}100%{transform:translateY(40px);opacity:.15}}
+@keyframes ax13{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes ax14{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+@keyframes ax15{0%{stroke-dashoffset:440}100%{stroke-dashoffset:150}}
+@keyframes ax16{0%{width:0}100%{width:var(--w)}}
+@keyframes ax17{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+</style>
+<style id="cx-viz">
+.cx-viz{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.cx-viz .cv-chrome{position:absolute;left:0;right:0;top:0;height:24px;display:flex;align-items:center;gap:7px;
+padding:0 9px;background:linear-gradient(180deg,rgba(6,9,22,.86),rgba(6,9,22,.5));
+border-bottom:1px solid rgba(255,255,255,.09);font:700 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+color:#9FB0D6;letter-spacing:.02em}
+.cx-viz .cv-chrome b{color:#E6ECFF;font-weight:800}
+.cx-viz .cv-chrome .cv-d{display:inline-flex;gap:4px;margin-right:2px}
+.cx-viz .cv-chrome .cv-d i{width:6px;height:6px;border-radius:99px;background:#FF6B6B}
+.cx-viz .cv-chrome .cv-d i:nth-child(2){background:#F5C451}
+.cx-viz .cv-chrome .cv-d i:nth-child(3){background:#37D67A}
+
+.cx-viz .cv-rail{position:absolute;left:12px;top:96px;display:flex;align-items:center;gap:12px;border-radius:10px;
+background:rgba(6,10,24,.66);border:1px solid rgba(94,234,212,.3);padding:8px 11px}
+.cx-viz .cv-rail .cv-rl{display:flex;align-items:center;gap:5px;white-space:nowrap;font:700 10px/1 ui-monospace,monospace;color:#9FEDE4}
+.cx-viz .cv-rail .cv-rl s{display:block;width:6px;height:6px;border-radius:99px;background:#22D3EE;flex:none;
+text-decoration:none;animation:cvLaunchPod 2.6s ease-in-out infinite}
+.cx-viz .cv-rail .cv-rl:nth-child(2) s{animation-delay:.55s;background:#67E8F9}
+.cx-viz .cv-rail .cv-rl:nth-child(3) s{animation-delay:1.1s;background:#7C3AED}
+@keyframes cvLaunchPod{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,.6);opacity:.75}
+50%{box-shadow:0 0 0 5px rgba(34,211,238,0);opacity:1}}
+</style><style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+</head>
+<body>
+<div style="--ac:#22D3EE">
+<div class="b-hero">
+  <div class="grid"></div>
+  <div class="orb a"></div><div class="orb b"></div>
+  <div class="b-wrap">
+    <div class="b-in">
+      <div class="b-left">
+        <div class="b-icbadge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div>
+        <div><span class="b-kick"><i></i>一次过检 · 约 10 分钟</span><span class="b-no">01 · 上架前</span></div>
+        <h1 class="b-h1">把驳回原因<em>原地消灭</em></h1>
+        <div class="b-sub">18 个 SKU 进仓，系统先按 12 平台各自的字数、必填属性、EAN 规则校验一遍，再把 GPSR 合规块按平台原生格式写好。<b>能提交的才叫完成，其余先告诉你在哪。</b></div>
+        <div class="b-pills"><div class="b-pill"><b>≈10 分钟</b>一批 18 SKU</div><div class="b-pill"><b>0 授权</b>不需要店铺权限</div><div class="b-pill"><b>14 个文件</b>TSV + 指南</div></div>
+        <div class="b-ctas">
+          <div class="b-bp" onclick="location.href='/gpsr-check'">免费跑一次体检</div>
+          <div class="b-bg" onclick="location.href='/app'">看一份样例包</div>
+        </div>
+        <div class="b-tiny"><span>无需信用卡</span><span>不绑 Shopify</span><span>30 秒出结果</span></div>
+      </div>
+      <div class="b-right">
+        <div class="b-frame"><img src="/zh/home-assets/pl-pack.jpg" alt=""><div class="scan"></div><div class="cx-viz"><div class="cv-rail"><div class="cv-rl"><s></s>push 18</div><div class="cv-rl"><s></s>校验 15/18</div><div class="cv-rl"><s></s>merge 14</div></div></div>
+<div class="b-tag"><div class="t1"><span class="live"></span>BATCH-2026-1110 · 18 SKU</div><div>15/18 可提交 · A-1044 待修</div></div><div class="b-con">
+            <div class="ch"><span>CROSSAIO · 上架面板</span><span>LIVE 2026-11-10</span></div>
+            <div class="b-bar"><div class="lb"><span>字段 / 字数校验</span><span>15 / 18 通过</span></div><div class="tr"><div class="fl" style="width:83%"></div></div></div><div class="b-bar"><div class="lb"><span>GPSR 合规块</span><span>4 / 4 已生成</span></div><div class="tr"><div class="fl" style="width:100%"></div></div></div><div class="b-bar"><div class="lb"><span>提交包</span><span>14 个文件</span></div><div class="tr"><div class="fl" style="width:100%"></div></div></div>
+          </div></div></div></div>
+    <div class="b-steps"><div class="b-pline"><div class="b-ps"><div class="dt"></div><div class="ln"></div><div class="nm">STEP 01</div><div class="ds">资料进仓</div></div><div class="b-ps on"><div class="dt"></div><div class="ln"></div><div class="nm">STEP 02</div><div class="ds">字段校验</div></div><div class="b-ps"><div class="dt"></div><div class="ln"></div><div class="nm">STEP 03</div><div class="ds">合规块</div></div><div class="b-ps"><div class="dt"></div><div class="ln"></div><div class="nm">STEP 04</div><div class="ds">提交包</div></div><div class="b-ps"><div class="dt"></div><div class="ln"></div><div class="nm">STEP 05</div><div class="ds">上传指南</div></div></div></div>
+  </div>
+</div>
+
+<div class="b-sec"><div class="b-wrap">
+  <div class="b-eyebrow">01 / 三秒证据</div>
+  <div class="b-metrics">
+    <div class="b-met"><div class="v" data-to="15/18">15/18</div><div class="l">可提交 SKU</div><div class="src">batch_20261110.json</div></div><div class="b-met"><div class="v" data-to="14">14</div><div class="l">拆分文件</div><div class="src">files/</div></div><div class="b-met"><div class="v" data-to="3">3</div><div class="l">硬阻断项</div><div class="src">A-1042 / A-1044</div></div><div class="b-met"><div class="v" data-to="0">0</div><div class="l">需要的授权</div><div class="src">auth/</div></div>
+  </div>
+</div></div>
+
+<div class="b-sec" style="padding-top:0"><div class="b-wrap">
+  <div class="b-eyebrow">02 / 五步走完</div>
+  <h2 class="b-h2">你只需要交出资料，剩下五步它自己走</h2>
+  <div class="b-lead">每一步都能看到输入与输出，中途不跳工具、不导出再导入。</div>
+  <div class="b-flow" style="margin-top:22px">
+    <div class="b-fl" onclick="location.href='/gpsr-check'"><div class="fic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div><div class="n">STEP 01</div><div class="t">资料进仓</div><div class="d">Excel / ERP 导出直接丢进来，自动识别字段</div></div><div class="b-fl" onclick="location.href='/gpsr-check'"><div class="fic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="4.4" width="15.2" height="15.2" rx="2"/><path d="M4.4 9.2h15.2"/><path d="M4.4 14h15.2"/><path d="M9.6 4.4v15.2"/></svg></div><div class="n">STEP 02</div><div class="t">12 平台校验</div><div class="d">字数 70–255、必填属性、图片规格</div></div><div class="b-fl" onclick="location.href='/gpsr-check'"><div class="fic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.8h7l4 4V20H7z"/><path d="M14 3.8V8h4"/><path d="M9.6 13.4l1.9 1.9 3.6-3.9"/></svg></div><div class="n">STEP 03</div><div class="t">EAN 与合规</div><div class="d">校验位算错先拦，GPSR 块按平台格式生成</div></div><div class="b-fl" onclick="location.href='/gpsr-check'"><div class="fic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"/><path d="M16.8 13.6v6.4M13.6 16.8h6.4"/></svg></div><div class="n">STEP 04</div><div class="t">打包提交</div><div class="d">TSV + 平台上传顺序 + 回填说明</div></div><div class="b-fl" onclick="location.href='/gpsr-check'"><div class="fic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.4" width="3.6" height="8.8" rx="1"/><rect x="10.2" y="6.4" width="3.6" height="12.8" rx="1"/><rect x="16.4" y="3.4" width="3.6" height="15.8" rx="1"/><path d="M4 6.4h16"/></svg></div><div class="n">STEP 05</div><div class="t">上传与回填</div><div class="d">逐平台状态回写，缺什么标什么</div></div>
+  </div>
+</div></div>
+
+<div class="b-sec" style="padding-top:0;background:#FAFAFD"><div class="b-wrap">
+  <div class="b-eyebrow">03 / 能做什么，不能做什么</div>
+  <h2 class="b-h2">12 个平台，字数上限并不一样</h2>
+  <div class="b-lead">同一段文案，OTTO 只能 70 字，TikTok 可以 255 字。写死一套模板，必然驳回。</div>
+<div style="margin:16px 0 4px;padding:16px 18px;border-radius:14px;border:1px solid rgba(47,107,255,.16);background:linear-gradient(135deg,rgba(47,107,255,.055),rgba(124,58,237,.07));display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between"><div style="flex:1 1 320px;min-width:0"><div style="font-size:11px;letter-spacing:.12em;color:#6D28D9;font-weight:700">通道能力 · 先看你在哪一档</div><div style="font-size:15px;font-weight:700;color:#0F172A;margin-top:6px">12 个平台只有 2 个能全自动，其余 10 个要半自动或人工</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:#ECFEFF;color:#0E7490;border:1px solid #A5F3FC">A · 全自动 2</span><span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:#FFFBEB;color:#B45309;border:1px solid #FDE68A">B · 半自动 4</span><span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:#F5F3FF;color:#6D28D9;border:1px solid #DDD6FE">C · 后台人工 6</span></div></div><div onclick="location.href='/gpsr-check'" style="cursor:pointer;background:#2F6BFF;color:#fff;border-radius:10px;padding:12px 18px;font-size:13px;font-weight:800;white-space:nowrap">免费体检 · 30 秒看会卡在哪 →</div></div>
+  <table class="b-tbl">
+    <thead><tr><th>平台</th><th>标题字数上限</th><th>本批状态</th></tr></thead>
+    <tbody><tr><td>OTTO</td><td>70</td><td class="st b-bad">2 条超限</td></tr><tr><td>Allegro</td><td>75</td><td class="st b-ok">可提交</td></tr><tr><td>eBay</td><td>80</td><td class="st b-ok">可提交</td></tr><tr><td>Walmart</td><td>100</td><td class="st b-ok">可提交</td></tr><tr><td>Fruugo</td><td>100</td><td class="st b-warn">待补属性</td></tr><tr><td>Cdiscount</td><td>120</td><td class="st b-ok">可提交</td></tr><tr><td>bol</td><td>120</td><td class="st b-ok">可提交</td></tr><tr><td>eMAG</td><td>150</td><td class="st b-warn">待补属性</td></tr></tbody>
+  </table>
+</div></div>
+
+<div class="b-sec"><div class="b-wrap">
+  <div class="b-eyebrow">04 / 可拿走的产物</div>
+  <h2 class="b-h2">点开就是文件，不是截图</h2>
+  <div class="b-lead">每个产物都能直接提交、直接申诉、直接交账。</div>
+  <div class="b-files" style="margin-top:22px"><div class="b-file" onclick="location.href='/app'"><div class="ico">TSV</div><div class="fn">pack_12platforms_20261110.zip</div><span class="stt" style="background:#ECFDF5;color:#065F46">可提交</span></div><div class="b-file" onclick="location.href='/app'"><div class="ico">TXT</div><div class="fn">gpsr_block_de_allegro.txt</div><span class="stt" style="background:#EFF6FF;color:#1D4ED8">平台原生</span></div><div class="b-file" onclick="location.href='/app'"><div class="ico">CSV</div><div class="fn">blockers_a1042_a1044.csv</div><span class="stt" style="background:#FFF1F2;color:#9F1239">3 条待修</span></div></div>
+</div></div>
+
+<div class="b-sec" style="padding-top:0"><div class="b-wrap">
+  <div class="b-eyebrow">05 / 你可能还属于另一段</div>
+  <div class="b-sib" style="margin-top:16px"><div class="b-sb" style="--ac:#FB7185" onclick="location.href='/zh/v2/rescue'"><div class="sic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6478" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.6v5.6"/><path d="M12 16.6v.8"/><path d="M3.8 12h2.2M18 12h2.2"/></svg></div><div class="k">02</div><div class="t">出事故</div><div class="d">已经被下架，先定性再申诉</div><div class="m">5 分钟定性 →</div></div><div class="b-sb" style="--ac:#34D399" onclick="location.href='/zh/v2/ops'"><div class="sic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6478" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.6a7.6 7.6 0 0 1 15.2 0"/><path d="M12 16.6 15.6 10"/><circle cx="12" cy="16.6" r="1.5"/><path d="M4.8 12.4 6 13M18.6 12.4 19.2 13.6M9.6 7.6 10.4 8.9M14.4 7.6 13.6 8.9"/></svg></div><div class="k">03</div><div class="t">日常运营</div><div class="d">上架之后的掉分与超卖</div><div class="m">每天自己跑 →</div></div><div class="b-sb" style="--ac:#A78BFA" onclick="location.href='/zh/v2/govern'"><div class="sic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6478" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6 19 6v6.4c0 4.2-3 6.9-7 8-4-1.1-7-3.8-7-8V6z"/><path d="M8.6 9.6h6.8M8.6 12.8h6.8"/><path d="M8.6 16h3.6"/></svg></div><div class="k">04</div><div class="t">治理</div><div class="d">谁能改、改了什么、凭证在哪</div><div class="m">对老板交账 →</div></div></div>
+</div></div>
+
+<div class="b-band"><div class="b-wrap"><div class="in">
+  <div><h2>先跑一次体检，再决定要不要付费</h2><p>免费版每天 5 次；GPSR 体检永久免费、不计数。</p></div>
+  <div class="rr">
+    <div class="b-bp" onclick="location.href='/gpsr-check'">免费跑一次体检</div>
+    <div class="b-bg" style="border-color:rgba(255,255,255,.34)" onclick="location.href='/app'">看一份样例包</div>
+  </div>
+</div></div></div>
+
+<div class="b-wrap">
+
+
+
+
+
+
+
+
+
+<div class="hx">
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">06 / 工作台视角 · 批次 18 SKU</div>
+  <h2 class="hx-h2">18 个 SKU 进来，先看哪 3 个会卡住</h2>
+  <div class="hx-lead">首轮可提交 15/18，阻断项直接指出缺什么，不让人翻三个系统去找原因。</div>
+  <div class="hx-tabs"><button class="hx-tab on" data-i="0">批次导入</button><button class="hx-tab" data-i="1">字段校验</button><button class="hx-tab" data-i="2">合规块</button><button class="hx-tab" data-i="3">提交包</button></div>
+  <div class="hx-panel on"><div class="hx-pl"><h4>批次导入</h4><ul style="margin:0;padding-left:18px"><li>18 个 SKU 一次进，母表不拆</li><li>平台差异自动展开成待填字段</li><li>缺项在导入时就标出来</li></ul></div><div class="hx-pr"><div class="k">批次状态</div><div class="v">15 / 18</div><div class="u">3 条待补件</div><div class="b"><i style="width:83%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>字段校验</h4><ul style="margin:0;padding-left:18px"><li>EAN 校验位逐条算，不靠肉眼</li><li>12 平台字数上限硬校验</li><li>必填属性缺失直接阻断</li></ul></div><div class="hx-pr"><div class="k">字段通过</div><div class="v">42 / 45</div><div class="u">3 项硬阻断</div><div class="b"><i style="width:93%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>合规块</h4><ul style="margin:0;padding-left:18px"><li>CE 类目 → 警示语 → 责任人三段式</li><li>按平台原生格式回填，不另存附件</li><li>缺责任人不出包</li></ul></div><div class="hx-pr"><div class="k">合规块</div><div class="v">4 / 4</div><div class="u">字段齐全</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>提交包</h4><ul style="margin:0;padding-left:18px"><li>TSV + 上传指南一起给</li><li>阻断项单独列出，不混在通过项里</li><li>出包即生成回执模板</li></ul></div><div class="hx-pr"><div class="k">产物</div><div class="v">14</div><div class="u">9 类文件</div><div class="b"><i style="width:100%"></i></div></div></div>
+  <div class="hx-viz"><svg viewBox="0 0 740 120"><line x1="81" y1="60" x2="139" y2="60" stroke="#2A3556" stroke-width="2"/><line x1="231" y1="60" x2="289" y2="60" stroke="#2A3556" stroke-width="2"/><line x1="381" y1="60" x2="439" y2="60" stroke="#2A3556" stroke-width="2"/><line x1="531" y1="60" x2="589" y2="60" stroke="#2A3556" stroke-width="2"/><circle cx="70" cy="60" r="11" fill="none" stroke="#22D3EE" stroke-width="2"/><circle cx="70" cy="60" r="4" fill="#22D3EE"/><circle cx="220" cy="60" r="11" fill="none" stroke="#22D3EE" stroke-width="2"/><circle cx="220" cy="60" r="4" fill="#22D3EE"/><circle cx="370" cy="60" r="11" fill="none" stroke="#22D3EE" stroke-width="2"/><circle cx="370" cy="60" r="4" fill="#22D3EE"/><circle cx="520" cy="60" r="11" fill="none" stroke="#22D3EE" stroke-width="2"/><circle cx="520" cy="60" r="4" fill="#22D3EE"/><circle cx="670" cy="60" r="11" fill="none" stroke="#22D3EE" stroke-width="2"/><circle cx="670" cy="60" r="4" fill="#22D3EE"/><circle r="5" fill="#7EE2A8" style="animation:ax1 3.2s linear infinite" cx="70" cy="60"/><text x="70" y="96" fill="#8FA0C8" font-size="10" text-anchor="middle">导入</text><text x="220" y="96" fill="#8FA0C8" font-size="10" text-anchor="middle">校验</text><text x="370" y="96" fill="#8FA0C8" font-size="10" text-anchor="middle">阻断</text><text x="520" y="96" fill="#8FA0C8" font-size="10" text-anchor="middle">出包</text><text x="670" y="96" fill="#8FA0C8" font-size="10" text-anchor="middle">提交</text></svg></div>
+  <div class="hx-nums"><div class="hx-num"><b>18</b><span>本批 SKU</span><em>一批一次走完</em></div><div class="hx-num"><b>15</b><span>首轮可提交</span><em>3 条阻断在提交前</em></div><div class="hx-num"><b>3</b><span>阻断原因</span><em>责任人 / EAN / 属性</em></div><div class="hx-num"><b>14</b><span>产物文件</span><em>TSV + 指南 + 回执</em></div></div>
+  
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">07 / 可追溯 · 批次可追溯</div>
+  <h2 class="hx-h2">这一批的每一步，都能倒着查回去</h2>
+  <div class="hx-lead">导入时间、谁改的字段、哪条被阻断、什么时候放行——按批次号一次查全。</div>
+  <div class="hx-gh">
+    <div class="hx-heat"><div class="hd"><span>近 52 周上架批次</span><span>累计 1,842 批</span></div><svg class="hx-svg" viewBox="0 0 624 84" role="img" aria-label="近 52 周执行热力图"><rect x="0" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="0" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="0" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="0" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="12" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="24" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="24" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="36" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="36" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="36" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="36" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="72" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="72" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="84" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="84" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="84" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="96" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="132" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="132" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="144" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="144" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="156" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="156" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="180" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="192" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="228" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="228" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="228" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="240" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="240" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="252" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="264" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="264" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="288" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="288" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="300" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="324" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="336" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="336" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="336" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="336" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="372" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="372" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="384" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="396" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="408" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="420" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="432" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="432" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="480" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="492" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="504" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="528" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="564" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="576" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="576" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="588" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="588" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="588" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="600" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="612" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="612" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/></svg>
+      <div class="hx-lg">少<i style="background:#EBEDF0"></i><i style="background:#9BE9A8"></i><i style="background:#26A641"></i><i style="background:#006D32"></i><i style="background:#0E4429"></i>多</div>
+    </div>
+    <div class="hx-rt"><div class="hx-ci"><div class="row"><b>合规块完整性</b><span class="hx-ok">通过</span></div><div style="color:#8A93A6;margin-top:4px">4/4 字段齐全</div></div><div class="hx-ci"><div class="row"><b>平台字数</b><span class="hx-ok">通过</span></div><div style="color:#8A93A6;margin-top:4px">12 平台均在限内</div></div><div class="hx-ci"><div class="row"><b>欧盟责任人</b><span class="hx-warn">阻断</span></div><div style="color:#8A93A6;margin-top:4px">A-1042 缺名称与地址</div></div>
+      <div class="hx-diff"><div class="h"><span>batch_20261110.diff</span><span>a41f9c2</span></div><pre><span class="a">+ eu_rep: "DE-Import GmbH"  # A-1042 补件</span>
+<span class="a">+ warning: 8 locales</span>
+<span class="d">- ean: "5901234123450"</span>
+<span class="a">+ ean: "5901234123457"  # 校验位修正</span></pre></div>
+    </div>
+  </div>
+  <div class="hx-tl"><div class="it"><div class="d">2026-11-10 09:12</div><div class="t">导入 18 SKU，识别 3 类缺失</div></div><div class="it"><div class="d">2026-11-10 09:19</div><div class="t">阻断 A-1042 / A-1044，其余 15 条入队</div></div><div class="it"><div class="d">2026-11-10 09:31</div><div class="t">出 14 份产物，批次关闭</div></div></div>
+</div></div>
+
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">08 / 真实结果 · 上架前实测</div>
+  <h2 class="hx-h2">同一批货，省下的返工</h2>
+  <div class="hx-cases"><div class="hx-case"><b>15/18</b><span>首轮可提交</span><p>3 条在提交前被拦下，没有带着问题上架。</p><a href="/zh/v2/tool/check">免费体检我的店 →</a></div><div class="hx-case"><b>9 类</b><span>产物文件类型</span><p>TSV、上传指南、回执模板一次给齐。</p><a href="/zh/v2/feature/gpsr">看相关的下一环 →</a></div><div class="hx-case"><b>1 次</b><span>返工次数</span><p>字段在导入阶段补齐，没有二次提交。</p><a href="/signup">免费开始 · 每天 5 次 →</a></div></div>
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">09 / 常见疑问</div>
+  <h2 class="hx-h2">上架前，最常被问的四件事</h2>
+  <div class="hx-faq"><details><summary>阻断之后还能改吗？</summary><p>能。补件后重新校验，只重跑受影响的那几条，不整批重来。</p></details><details><summary>EAN 校验位是自动算的吗？</summary><p>是，按 GS1 规则算第 13 位，算错直接标红并给出正确值。</p></details><details><summary>提交包能直接上传吗？</summary><p>通过项可直接上传；阻断项不在包里，避免混进去被整批退回。</p></details><details><summary>母表要改格式吗？</summary><p>不用。按现有模板填，字段映射在导入时完成。</p></details></div>
+</div></div>
+<script>(function(){try{var t=document.querySelectorAll('.hx-tab'),p=document.querySelectorAll('.hx-panel');for(var i=0;i<t.length;i++){(function(k){t[k].addEventListener('click',function(){for(var j=0;j<t.length;j++){t[j].className='hx-tab'+(j===k?' on':'');p[j].className='hx-panel'+(j===k?' on':'');}});})(i);}}catch(e){}})();</script>
+</div>
+
+</div>
+
+<!-- 数字为静态口径，不做入场计数，避免首帧显示错误数值 -->
+</div>
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">欧洲跨境 Listing 质量与合规引擎。一个工作台，从一次过检到出事故后的下架急救。</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR 已强制执行</span>
+    <a class="cx-cta" href="/zh/v2/tool/check">免费体检我的店 · 30 秒 <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>能力地图</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/launch">01 上架前<small>一次过检 · 约 10 分钟</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/rescue">02 出事故<small>5 分钟定性 · 三语申诉</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/ops">03 日常运营<small>12 平台 × 6 项自动巡检</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/govern">04 治理<small>A/B/C 分级 · 操作留痕</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>产品能力</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/feature/gpsr">GPSR 合规块<small>责任人 · 警示语 · 技术文件</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/listing">Listing 质量<small>字段校验 · 标题字数</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/matrix">12 平台校验<small>A2 / B5 / C5 分级</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/review">口碑与评论<small>差评定性 · 回复模板</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/ai-service">AI 客服<small>售前问答 · 售后安抚</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/feature/safety">风险与安全<small>封号预警 · 申诉留痕</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>覆盖平台</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/platform/rules">平台规则差异<small>12 平台对照</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/platform/app">接入状态分级<small>A 全自动 · B 半自动 · C 人工</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/platform/localize">本地化与语言<small>母语政策 · 计量单位</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/platform/limits">字数与字段限值<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>免费工具</h4>
+      <ul>
+        <li><a class="cx-l" href="/zh/v2/tool/check">合规体检<small>30 秒 · 不绑店不授权</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/tool/skills">Skills 工作流<small>接入你的 ERP / 表格</small></a></li>
+        <li><a class="cx-l" href="/zh/v2/tool/trust">信任中心<small>数据边界 · 只读授权</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>社区与资源</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">学院<small>合规与申诉课程</small></a></li>
+        <li><a class="cx-l" href="/community">社区<small>欧洲卖家互助</small></a></li>
+        <li><a class="cx-l" href="/blog">博客<small>平台改规则解读</small></a></li>
+        <li><a class="cx-l" href="/podcast">播客<small>跨境合规周更</small></a></li>
+        <li><a class="cx-l" href="/summit">峰会<small>欧洲卖家年度会</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · 欧洲全平台 Listing 质量与合规引擎</span>
+  <span class="cx-legal">
+    <a href="/privacy">隐私政策</a>
+    <a href="/terms">服务条款</a>
+    <a href="/zh/v2/tool/trust">合规声明</a>
+    <a href="/zh/v2/tool/trust">数据处理</a>
+  </span>
+  <span class="cx-ok"><i></i>所有系统正常 · 简体中文</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
+</body>
+</html>

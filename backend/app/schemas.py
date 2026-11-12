@@ -7,7 +7,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 PlanType = Literal["free", "starter", "pro", "business"]
 PlatformType = Literal[
-    "amazon", "amazon_us", "tiktok", "ebay", "walmart",
+    "amazon", "tiktok", "ebay", "walmart",
     "cdiscount", "otto", "allegro", "emag", "fruugo", "kaufland", "zalando", "bol",
 ]
 LanguageType = Literal[
@@ -79,6 +79,8 @@ class BulletPoint(BaseModel):
 class ProductDescriptionResponse(BaseModel):
     id: Optional[str] = None
     platform: Optional[str] = None
+    provenance: Optional[Dict] = None   # Art.50(2) 机器可读标记
+    provenance: Optional[Dict] = None   # Art.50(2) 机器可读标记
     language: str = "en"
     title: str
     bullet_points: List[BulletPoint]
@@ -154,6 +156,10 @@ class CustomerServiceRequest(BaseModel):
     language: Optional[LanguageType] = "en"   # 用于 Art.50 当地语言披露
     ai_act_disclosure: bool = True             # 默认开启 AI Act Art.50 身份告知注入
     platform: Optional[PlatformType] = None    # 缺省 → "amazon"；决定 GPSR 合规块语言与 Art.50 披露语言
+    # 事实护栏：卖家/平台提供的真实数据；缺省时 AI 不得猜测时效或退货期限
+    delivery_status: Optional[str] = Field(default=None, max_length=200)
+    delivery_estimate: Optional[str] = Field(default=None, max_length=200)
+    return_window_days: Optional[int] = Field(default=None, ge=0, le=365)
 
 
 class CustomerServiceResponse(BaseModel):

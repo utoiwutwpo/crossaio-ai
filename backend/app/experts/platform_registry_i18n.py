@@ -15,7 +15,7 @@ PLATFORM_I18N: dict = {
     # ===== Amazon 欧洲站 =====
     "amazon": {
         "en": {
-            "display": "Amazon EU",
+            "display": "Amazon EU + US",
             "notes": [
                 "First 3 words of the title should carry the core keyword; titles on the German site must be in German",
                 "Bullet points: pain point → feature → scenario → quality → after-sales",
@@ -23,7 +23,7 @@ PLATFORM_I18N: dict = {
             ],
         },
         "de": {
-            "display": "Amazon EU",
+            "display": "Amazon EU + US",
             "notes": [
                 "Die ersten 3 Wörter des Titels sollten das Kernkeyword enthalten; Titel auf dem deutschen Marktplatz müssen auf Deutsch sein",
                 "Bulletpoints: Schmerzpunkt → Funktion → Anwendungsbereich → Qualität → After-Sales",
@@ -31,7 +31,7 @@ PLATFORM_I18N: dict = {
             ],
         },
         "fr": {
-            "display": "Amazon UE",
+            "display": "Amazon UE + États-Unis",
             "notes": [
                 "Les 3 premiers mots du titre doivent porter le mot-clé principal ; les titres du site allemand doivent être en allemand",
                 "Puces : point douloureux → fonction → scénario → qualité → service après-vente",
@@ -40,35 +40,6 @@ PLATFORM_I18N: dict = {
         },
     },
     # ===== Amazon 美国站 =====
-    "amazon_us": {
-        "en": {
-            "display": "Amazon US",
-            "notes": [
-                "First 3 words of the title should carry the core keyword; promotional words (free shipping / best seller / guarantee) and ALL-CAPS words are banned",
-                "Bullet points: pain point → feature → scenario → quality → after-sales; capitalize the first word of each bullet (phrase-style)",
-                "Backend search terms (generic keywords) must not repeat keywords already in the title; competitor brand names and ASINs are banned",
-                "The US site has no GPSR mandate; compliance focus is on FTC product claims and category review (FDA/UL/FCC categories require qualifications)",
-            ],
-        },
-        "de": {
-            "display": "Amazon US",
-            "notes": [
-                "Die ersten 3 Wörter des Titels sollten das Kernkeyword enthalten; Werbewörter (free shipping / best seller / guarantee) sowie durchgängige Großschreibung sind verboten",
-                "Bulletpoints: Schmerzpunkt → Funktion → Anwendungsbereich → Qualität → After-Sales; jedes Bulletpoint groß anfangen (Satzstil)",
-                "Backend-Suchbegriffe (generic keywords) dürfen bereits im Titel genannte Keywords nicht wiederholen; Markennamen von Wettbewerbern und ASINs sind verboten",
-                "Der US-Marktplatz hat keine GPSR-Pflicht; der Compliance-Fokus liegt auf FTC-Produktaussagen und Kategorieprüfung (FDA/UL/FCC-Kategorien erfordern Qualifikationsnachweise)",
-            ],
-        },
-        "fr": {
-            "display": "Amazon US",
-            "notes": [
-                "Les 3 premiers mots du titre doivent porter le mot-clé principal ; les mots promotionnels (free shipping / best seller / guarantee) et les mots tout en majuscules sont interdits",
-                "Puces : point douloureux → fonction → scénario → qualité → service après-vente ; commencez chaque puce par une majuscule (style phrase)",
-                "Les mots-clés de recherche backend (generic keywords) ne doivent pas répéter les mots-clés déjà présents dans le titre ; les noms de marques concurrentes et les ASIN sont interdits",
-                "Le site américain n'a pas de GPSR obligatoire ; l'enjeu de conformité porte sur les allégations FTC et le contrôle catégoriel (les catégories FDA/UL/FCC nécessitent des qualifications)",
-            ],
-        },
-    },
     # ===== eBay =====
     "ebay": {
         "en": {

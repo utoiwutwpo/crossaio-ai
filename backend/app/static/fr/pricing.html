@@ -161,23 +161,24 @@
   @media (prefers-reduced-motion: reduce){.particles i,.hero-glow i,.mk-float{animation:none}}
 </style>
   <link rel="stylesheet" href="/effects.css">
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
 </head>
 <body>
 
 <div class="topbar">🎁 <b>Démarrage gratuit :</b> 5 générations par jour · vérification GPSR sans inscription · sans carte bancaire</div>
 
 <nav>
-  <a class="logo" href="/fr/"><span class="dot">🤖</span>CrossAIO</a>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossAIO</a>
   <div class="menu">
     <div class="navitem"><a>Produit</a>
       <div class="dropdown">
         <a href="/fr/features/gpsr"><span>🛡️ Moteur de conformité GPSR<small>Catégorie CE → avertissements → bloc de conformité → backfill</small></span></a>
         <a href="/fr/features/listing-generator"><span>📦 Générateur de listing<small>Kit complet + validation du nombre de mots + score</small></span></a>
-        <a href="/fr/features/matrix"><span>🌍 Matrice multi-plateforme<small>Une saisie → localisé pour 13 plateformes</small></span></a>
+        <a href="/fr/features/matrix"><span>🌍 Matrice multi-plateforme<small>Une saisie → localisé pour 12 plateformes</small></span></a>
         <a href="/fr/features/review-rewrite"><span>📈 Réécriture d'avis<small>Cartographie des thèmes → correctifs en 5 points + score sémantique</small></span></a>
         <a href="/fr/features/ai-service"><span>💬 Service client IA<small>Divulgation Art. 50 de l'AI Act intégrée + eBay</small></span></a>
         <a href="/fr/features/safety-redline"><span>🚨 Couche de lignes rouges<small>Détection menace/chantage → transfert humain</small></span></a>
-        <a href="/fr/features/inbox"><span>📥 Boîte de réception unifiée<small>Messages de 13 plateformes · répondre en langue maternelle</small></span></a>
+        <a href="/fr/features/inbox"><span>📥 Boîte de réception unifiée<small>Messages de 12 plateformes · répondre en langue maternelle</small></span></a>
         <a href="/fr/features/ad-copy"><span>📣 Générateur de textes publicitaires<small>Pré-vérification des mots interdits + variantes A/B</small></span></a>
         <a href="/fr/features/listing-watch"><span>📡 Surveillance des listings<small>Audit auto quotidien · alertes de risque instantanées</small></span></a>
         <a href="/fr/features"><span>🗂️ Aperçu des fonctionnalités<small>Neuf fonctionnalités · une page par fonctionnalité</small></span></a>
@@ -191,7 +192,7 @@
         <a href="/fr/rules/otto"><span>🇩🇪 Règles Otto<small>Politique allemande + ProdSG + marque GS</small></span></a>
         <a href="/fr/rules/kaufland"><span>🇩🇪 Règles Kaufland<small>Sites DE/CZ/SK quatre pays</small></span></a>
         <a href="/fr/rules/bol"><span>🇳🇱 Règles bol.com<small>Politique néerlandaise + supervision ACM</small></span></a>
-        <a href="/fr/rules"><span>📋 Les 13 plateformes cheat-sheet<small>Limites de mots / langues / essentiels GPSR</small></span></a>
+        <a href="/fr/rules"><span>📋 Les 12 plateformes cheat-sheet<small>Limites de mots / langues / essentiels GPSR</small></span></a>
       </div>
     </div>
     <div class="navitem"><a>Outils gratuits</a>
@@ -378,7 +379,7 @@
     <tr class="hot-col"><td>Service client IA (détection d'intention/sentiment + couche lignes rouges + transfert)</td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
     <tr class="hot-col"><td>Divulgation auto en langue locale « identité IA » Art. 50 (16 langues)</td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="y">✓ avec le service</span></td><td><span class="y">✓</span></td></tr>
     <tr><td>Scan GPSR avant envoi → réponses conformes en priorité (rappel de déclaration Safety Gate à 15 jours)</td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
-    <tr><td>Boîte de réception unifiée multi-plateformes (fils 13 plateformes + filtre plateforme)</td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
+    <tr><td>Boîte de réception unifiée multi-plateformes (fils 12 plateformes + filtre plateforme)</td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
 
     <tr class="cat"><td colspan="5">✍️ Génération &amp; optimisation <small>Listing / publicités / boucle d'avis</small></td></tr>
     <tr><td>Limite d'appels quotidienne</td><td>5</td><td>50</td><td>200</td><td>1000</td></tr>
@@ -493,5 +494,106 @@ function setCycle(c){
 
   <script src="/effects.js"></script>
 <script>(function(){try{localStorage.setItem("crossaio_lang",document.documentElement.lang||"zh")}catch(e){}})();</script>
+<script id="cx-pricing-checkout">
+/* 2026-11-12：定价页订阅 CTA 真正接上付款。
+   已登录（localStorage 有 cb_token）→ 直接下单拿 Stripe 收银台链接并跳转；
+   未登录 → 仍然去注册（注册后 /app?upgrade= 会自动发起结算）。
+   另：?checkout=cancelled 时给出「已取消、未扣款」提示，避免用户以为白点一场。 */
+(function(){
+  var L = (document.documentElement.lang || "zh").slice(0, 2);
+  var T = {
+    zh: {wait:"正在打开安全支付页（约 1–2 秒，请勿重复点击）…", signin:"登录状态已过期，请重新登录后再订阅。", err:"订阅暂时失败：", cancelled:"已取消支付，未产生任何扣款。可以重新选择套餐继续。", ok:"已恢复你上次选择的套餐位置。"},
+    en: {wait:"Opening the secure payment page (about 1–2 s, please don’t click twice)…", signin:"Your session expired. Please sign in again to subscribe.", err:"Subscription failed: ", cancelled:"Payment cancelled — nothing was charged. Pick a plan again whenever you’re ready.", ok:""},
+    de: {wait:"Sichere Zahlungsseite wird geöffnet (ca. 1–2 s, bitte nicht doppelt klicken)…", signin:"Sitzung abgelaufen. Bitte erneut anmelden, um zu abonnieren.", err:"Abo fehlgeschlagen: ", cancelled:"Zahlung abgebrochen – es wurde nichts belastet. Sie können jederzeit erneut einen Tarif wählen.", ok:""},
+    fr: {wait:"Ouverture de la page de paiement sécurisée (1 à 2 s, ne cliquez pas deux fois)…", signin:"Session expirée. Reconnectez-vous pour vous abonner.", err:"Échec de l’abonnement : ", cancelled:"Paiement annulé — aucun montant n’a été débité. Vous pouvez choisir un forfait à tout moment.", ok:""}
+  }[L] || {};
+
+  function token(){ try{ return localStorage.getItem("cb_token") || ""; }catch(e){ return ""; } }
+
+  function toast(msg, kind){
+    var box = document.getElementById("cxPricingToast");
+    if(!box){
+      box = document.createElement("div");
+      box.id = "cxPricingToast";
+      box.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:28px;z-index:9999;"
+        + "max-width:min(92vw,560px);padding:12px 18px;border-radius:12px;font-size:13.5px;line-height:1.5;"
+        + "box-shadow:0 10px 30px rgba(15,23,42,.18);display:none;";
+      document.body.appendChild(box);
+    }
+    box.style.background = kind === "err" ? "#fee2e2" : (kind === "ok" ? "#dcfce7" : "#eef2ff");
+    box.style.color = kind === "err" ? "#991b1b" : (kind === "ok" ? "#166534" : "#1e293b");
+    box.style.border = "1px solid " + (kind === "err" ? "#fecaca" : (kind === "ok" ? "#bbf7d0" : "#c7d2fe"));
+    box.innerHTML = msg;
+    box.style.display = "block";
+  }
+
+  function planOf(a){
+    try{ return new URLSearchParams(new URL(a.getAttribute("href"), location.origin).search).get("plan"); }
+    catch(e){ return null; }
+  }
+  function billingOf(a){
+    try{ return new URLSearchParams(new URL(a.getAttribute("href"), location.origin).search).get("billing") || "monthly"; }
+    catch(e){ return "monthly"; }
+  }
+
+  function wire(){
+    var logged = !!token();
+    document.querySelectorAll("a.go[href*='signup']").forEach(function(a){
+      if(!logged) return;                       // 未登录：保持去注册
+      if(a.dataset.cxWired) return;
+      a.dataset.cxWired = "1";
+      a.addEventListener("click", function(ev){
+        var plan = planOf(a);
+        if(!plan) return;                        // /signup 无 plan → 交给原逻辑
+        ev.preventDefault();
+        var orig = a.textContent;
+        a.textContent = T.wait || "…";
+        a.style.pointerEvents = "none";
+        a.style.opacity = "0.7";
+        toast(T.wait || "…", "info");
+        fetch("/api/v1/billing/subscription", {
+          method: "POST",
+          headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token()},
+          body: JSON.stringify({plan: plan, billing: billingOf(a)})
+        }).then(function(r){
+          return r.json().catch(function(){ return {}; }).then(function(d){ return {status: r.status, d: d}; });
+        }).then(function(res){
+          var d = res.d || {};
+          if(res.status === 401){
+            try{ localStorage.removeItem("cb_token"); }catch(e){}
+            toast((T.signin || "") + ' <a href="/signin" style="text-decoration:underline">→</a>', "err");
+            a.textContent = orig; a.style.pointerEvents = ""; a.style.opacity = "";
+            return;
+          }
+          if(d.checkout_url){ location.href = d.checkout_url; return; }
+          if(d.approve_url){ location.href = d.approve_url; return; }
+          if(res.status === 200 && d.plan){
+            toast("✓ " + plan.toUpperCase(), "ok"); a.textContent = orig; a.style.pointerEvents = ""; a.style.opacity = "";
+            return;
+          }
+          toast((T.err || "") + (d.detail || res.status), "err");
+          a.textContent = orig; a.style.pointerEvents = ""; a.style.opacity = "";
+        }).catch(function(e){
+          toast((T.err || "") + (e && e.message ? e.message : e), "err");
+          a.textContent = orig; a.style.pointerEvents = ""; a.style.opacity = "";
+        });
+      });
+    });
+  }
+
+  function cancelledNotice(){
+    try{
+      if(new URLSearchParams(location.search).get("checkout") !== "cancelled") return;
+      toast(T.cancelled || "", "info");
+      var n = 0; var iv = setInterval(function(){ if(++n > 90){ clearInterval(iv); } }, 500);
+      window.addEventListener("click", function(){ var b = document.getElementById("cxPricingToast"); if(b) b.style.display = "none"; }, {once:true});
+    }catch(e){}
+  }
+
+  if(document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", function(){ wire(); cancelledNotice(); }); }
+  else { wire(); cancelledNotice(); }
+})();
+</script>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
 </body>
 </html>

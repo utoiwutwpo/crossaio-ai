@@ -1,0 +1,421 @@
+<! DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kurze Fakten zur Wortanzahl und Sprache | CrossAIO</title>
+<style>:root{--ac:#14B8A6}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#0B1022;font-family:'Inter','PingFang SC','Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#site-nav,#site-nav *{box-sizing:border-box}
+.s-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.s-hero{position:relative;overflow:hidden;background:linear-gradient(116deg,#070A1C 0%,#120F35 46%,#2A1670 100%);color:#fff;padding:56px 0 0}
+.s-grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:72px 72px}
+.s-orb{position:absolute;width:520px;height:520px;border-radius:50%;right:-120px;top:-160px;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 65%);filter:blur(6px)}
+.s-in{position:relative;display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;padding-bottom:44px}
+.s-l{flex:1 1 520px;min-width:0}
+.s-kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;color:#B7C4FF;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px}
+.s-h1{font-size:44px;line-height:1.16;letter-spacing:-.02em;margin:18px 0 14px;font-weight:800}
+.s-sub{font-size:15px;line-height:1.8;color:#C6CBE0;max-width:640px}
+.s-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.s-bp{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(47,107,255,.35)}
+.s-bg2{border:1px solid rgba(255,255,255,.28);color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none}
+.s-chips{display:flex;gap:18px;margin-top:18px;font-size:12.5px;color:#9AA3BD;flex-wrap:wrap}
+.s-chips span::before{content:"✓";color:#5EEAD4;margin-right:6px}
+.s-r{flex:0 0 460px;min-width:0}
+.s-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.s-shot img{display:block;width:100%;height:268px;object-fit:cover}
+.s-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#5EEAD4,transparent);animation:scan 3.4s linear infinite;opacity:.8}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.s-hud{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(8,11,26,.86);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px;backdrop-filter:blur(8px)}
+.s-hud .h{display:flex;justify-content:space-between;font-size:10.5px;color:#8FA0C8;font-family:Consolas,monospace;margin-bottom:8px}
+.s-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);margin-bottom:7px;overflow:hidden}
+.s-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2F6BFF,var(--ac,#5EEAD4))}
+.s-bar b{display:flex;justify-content:space-between;font-size:10.5px;color:#C6CBE0;font-weight:400;margin-bottom:3px}
+.s-band{background:#FAFAFD;border-bottom:1px solid #EEF1F7;padding:22px 0}
+.s-band .row{display:flex;gap:28px;flex-wrap:wrap}
+.s-band .it{flex:1 1 200px}
+.s-band b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--ac,#2F6BFF)}
+.s-band span{display:block;font-size:12px;color:#7A8499;margin-top:4px}
+.s-sec{padding:60px 0}
+.s-sec.soft{background:#FAFAFD;border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7}
+.s-eyebrow{font-size:11px;letter-spacing:.2em;color:var(--ac,#2F6BFF);font-weight:800}
+.s-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.s-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.s-steps{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.s-step{flex:1 1 200px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;position:relative;transition:.18s}
+.s-step:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08);border-color:#CBD5F5}
+.s-step .n{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.s-step .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center;margin:8px 0 10px}
+.s-step h4{font-size:14px;margin:0 0 6px;color:#0B1022}
+.s-step p{font-size:12px;color:#5B6478;line-height:1.7;margin:0}
+.s-table{margin-top:24px;border:1px solid #E3E7F0;border-radius:14px;overflow:hidden;background:#fff}
+.s-table table{width:100%;border-collapse:collapse;font-size:12.5px}
+.s-table th{text-align:left;font-weight:700;color:#0B1022;background:#F7F9FF;padding:11px 14px;font-size:12px}
+.s-table td{padding:11px 14px;border-top:1px solid #EEF1F7;color:#5B6478}
+.s-table td b{color:#0B1022;font-weight:600}
+.s-tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px}
+.s-ok{background:#ECFDF5;color:#065F46}.s-mid{background:#FFF7ED;color:#9A3412}.s-no{background:#FFF1F2;color:#9F1239}
+.s-files{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-file{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:12px;padding:14px}
+.s-file .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#8A93A6}
+.s-file .nm{margin-top:8px;font-family:Consolas,monospace;font-size:12.5px;color:#0B1022;word-break:break-all}
+.s-file p{font-size:12px;color:#5B6478;line-height:1.7;margin:8px 0 0}
+.s-sib{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-card{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;text-decoration:none;color:inherit;display:block;transition:.18s}
+.s-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08)}
+.s-card .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center}
+.s-card h4{font-size:14px;margin:10px 0 5px}
+.s-card p{font-size:12px;color:#5B6478;line-height:1.7;margin:0 0 8px}
+.s-card .go{font-size:11.5px;font-weight:700;color:var(--ac,#2F6BFF)}
+.s-end{margin-top:44px;border-radius:18px;background:linear-gradient(120deg,#141033,#2A1670 60%,#4C1D95);padding:34px 38px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;color:#fff}
+.s-end h3{margin:0;font-size:22px;letter-spacing:-.01em}
+.s-end p{margin:8px 0 0;font-size:13px;color:#C6CBE0}
+.s-foot{background:#fff;border-top:1px solid #EEF1F7;padding:20px 0;font-size:12px;color:#8A93A6}
+.s-foot .row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.s-foot a{color:#2F6BFF;text-decoration:none;margin-left:14px}
+@media(max-width:1080px){
+ .s-in{flex-direction:column}.s-r{flex:1 1 auto;width:100%}
+ .s-h1{font-size:34px}.s-steps .s-step{flex:1 1 100%}
+}
+</style>
+
+
+
+
+<style id="hx-css">
+.hx{padding:0}
+.hx-sec{padding:64px 0;background:#fff;border-top:1px solid #EEF1F7}
+.hx-sec.alt{background:#FBFBFE}
+.hx-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.hx-eyebrow{font-size:11px;letter-spacing:.2em;color:#7C3AED;font-weight:800}
+.hx-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.hx-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.hx-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.hx-tab{border:1px solid #E3E7F0;background:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;color:#3D465C;cursor:pointer}
+.hx-tab.on{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(47,107,255,.28)}
+.hx-panel{display:none;margin-top:18px;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:22px;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.hx-panel.on{display:flex}
+.hx-pl{flex:1 1 420px;min-width:0}
+.hx-pl h4{font-size:16px;margin:0 0 10px;color:#0B1022}
+.hx-pl li{font-size:13px;color:#5B6478;line-height:1.9;margin-bottom:6px}
+.hx-pr{flex:0 1 300px;min-width:0;background:#0A0F24;border-radius:14px;padding:16px;color:#fff}
+.hx-pr .k{font-size:10.5px;letter-spacing:.16em;color:#8FA0C8}
+.hx-pr .v{font-size:26px;font-weight:800;margin:6px 0 2px;color:#fff}
+.hx-pr .u{font-size:12px;color:#A9B4D0}
+.hx-pr .b{height:5px;border-radius:99px;background:rgba(255,255,255,.12);margin-top:12px;overflow:hidden}
+.hx-pr .b i{display:block;height:100%;background:linear-gradient(90deg,#2F6BFF,#7C3AED)}
+.hx-viz{margin-top:22px;border-radius:16px;background:#0A0F24;padding:14px 16px;overflow:hidden}
+.hx-viz svg{display:block;width:100%;height:auto}
+.hx-nums{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.hx-num{flex:1 1 200px;min-width:0;border:1px solid #E3E7F0;border-radius:14px;padding:16px 18px;background:#fff}
+.hx-num b{display:block;font-size:30px;letter-spacing:-.02em;color:#0B1022}
+.hx-num span{display:block;font-size:12px;color:#7A8499;margin-top:2px}
+.hx-num em{display:block;font-size:11px;color:#0E9F6E;font-style:normal;margin-top:8px}
+.hx-marq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7;padding:12px 0}
+.hx-marq .row{display:flex;gap:26px;white-space:nowrap;animation:hxscroll 26s linear infinite;font-size:12px;color:#7A8499;letter-spacing:.06em}
+@keyframes hxscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hx-gh{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;align-items:flex-start}
+.hx-heat{flex:1 1 560px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px}
+.hx-heat .hd{display:flex;justify-content:space-between;font-size:12px;color:#3D465C;margin-bottom:12px}
+.hx-svg{display:block;width:100%;height:auto}
+.hx-lg{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8A93A6}
+.hx-lg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.hx-rt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.hx-ci{border:1px solid #E3E7F0;border-radius:12px;background:#fff;padding:12px 14px;font-size:12.5px;color:#3D465C}
+.hx-ci .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hx-ci b{font-weight:600}
+.hx-ok{color:#0E9F6E}.hx-warn{color:#B45309}.hx-bad{color:#DC2626}
+.hx-diff{border:1px solid #E3E7F0;border-radius:12px;overflow:hidden;background:#0A0F24;font-family:Consolas,monospace;font-size:12px}
+.hx-diff .h{display:flex;justify-content:space-between;padding:8px 12px;background:#111834;color:#8FA0C8;font-size:11px}
+.hx-diff pre{margin:0;padding:12px;color:#C6CBE0;line-height:1.7;max-height:190px;overflow:auto}
+.hx-diff .a{color:#7EE2A8}.hx-diff .d{color:#FF9AA2}
+.hx-tl{margin-top:24px;border-left:2px solid #E3E7F0;padding-left:18px}
+.hx-tl .it{position:relative;margin-bottom:16px}
+.hx-tl .it::before{content:"";position:absolute;left:-25px;top:4px;width:8px;height:8px;border-radius:50%;background:#7C3AED}
+.hx-tl .d{font-size:11px;color:#8A93A6;letter-spacing:.08em}
+.hx-tl .t{font-size:13.5px;color:#0B1022;margin-top:2px}
+.hx-cases{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.hx-case{flex:1 1 300px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px;transition:.18s}
+.hx-case:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(23,20,64,.09)}
+.hx-case b{display:block;font-size:28px;letter-spacing:-.02em;color:#0B1022}
+.hx-case span{display:block;font-size:11.5px;color:#7A8499;margin-top:2px}
+.hx-case p{font-size:12.5px;color:#5B6478;line-height:1.8;margin:10px 0 12px}
+.hx-case a{font-size:12px;font-weight:700;color:#2F6BFF;text-decoration:none}
+.hx-faq{margin-top:24px;border-top:1px solid #EEF1F7}
+.hx-faq details{border-bottom:1px solid #EEF1F7;padding:14px 0}
+.hx-faq summary{cursor:pointer;font-size:14px;font-weight:600;color:#0B1022;list-style:none}
+.hx-faq summary::after{content:"+";float:right;color:#8A93A6}
+.hx-faq details[open] summary::after{content:"−"}
+.hx-faq p{font-size:13px;color:#5B6478;line-height:1.85;margin:10px 0 0}
+@media(max-width:1080px){.hx-pl,.hx-pr,.hx-heat,.hx-rt{flex:1 1 100%}}
+/* 17 个页面各自的动效，keyframe 名不重复 */
+@keyframes ax1{0%{transform:translateX(0);opacity:.35}45%{opacity:1}100%{transform:translateX(700px);opacity:.35}}
+@keyframes ax2{0%{stroke-dashoffset:520}100%{stroke-dashoffset:0}}
+@keyframes ax2p{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ax3{0%{transform:scaleY(.05)}60%{transform:scaleY(1)}100%{transform:scaleY(.85)}}
+@keyframes ax4{0%{stroke-dashoffset:300}100%{stroke-dashoffset:60}}
+@keyframes ax5{0%{transform:translateY(-6px);opacity:.2}30%{opacity:1}100%{transform:translateY(150px);opacity:.2}}
+@keyframes ax6{0%{width:0}70%{width:100%}100%{width:72%}}
+@keyframes ax7{0%,15%{opacity:.18;r:7}40%,55%{opacity:1;r:11}85%,100%{opacity:.18;r:7}}
+@keyframes ax8{0%{width:0}100%{width:var(--w)}}
+@keyframes ax9{0%{transform:translateY(14px);opacity:0}30%{opacity:1;transform:translateY(0)}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ax10{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes ax10b{0%,100%{opacity:.22}50%{opacity:1}}
+@keyframes ax11{0%{transform:scaleX(.1);transform-origin:left}70%{transform:scaleX(1)}100%{transform:scaleX(.9)}}
+@keyframes ax12{0%{transform:translateY(-30px);opacity:.15}55%{opacity:1}100%{transform:translateY(40px);opacity:.15}}
+@keyframes ax13{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes ax14{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+@keyframes ax15{0%{stroke-dashoffset:440}100%{stroke-dashoffset:150}}
+@keyframes ax16{0%{width:0}100%{width:var(--w)}}
+@keyframes ax17{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+
+</style><style id="cx-viz">
+.cx-viz{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.cx-viz .cv-chrome{position:absolute;left:0;right:0;top:0;height:24px;display:flex;align-items:center;gap:7px;
+padding:0 9px;background:linear-gradient(180deg,rgba(6,9,22,.86),rgba(6,9,22,.5));
+border-bottom:1px solid rgba(255,255,255,.09);font:700 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+color:#9FB0D6;letter-spacing:.02em}
+.cx-viz .cv-chrome b{color:#E6ECFF;font-weight:800}
+.cx-viz .cv-chrome .cv-d{display:inline-flex;gap:4px;margin-right:2px}
+.cx-viz .cv-chrome .cv-d i{width:6px;height:6px;border-radius:99px;background:#FF6B6B}
+.cx-viz .cv-chrome .cv-d i:nth-child(2){background:#F5C451}
+.cx-viz .cv-chrome .cv-d i:nth-child(3){background:#37D67A}
+
+.cx-viz .cv-scale{position:absolute;left:12px;right:12px;top:34px;height:26px}
+.cx-viz .cv-scale .ticks{position:absolute;inset:0;background:
+repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 1px,transparent 1px 11px);
+mask:linear-gradient(180deg,transparent 55%,#000 55%)}
+.cx-viz .cv-scale .cur{position:absolute;top:0;bottom:0;width:2px;border-radius:2px;
+background:linear-gradient(180deg,#F59E0B,#FDE68A);animation:cvLimitsSlide 5s ease-in-out infinite}
+.cx-viz .cv-scale .lb{position:absolute;right:0;top:-2px;font:700 9.2px/1.4 ui-monospace,monospace;color:#FCD34D}
+@keyframes cvLimitsSlide{0%{left:4%}30%{left:22%}55%{left:62%}80%,100%{left:62%}}
+</style><style id="cx-hudfix">
+.s-shot img{height:330px}
+.s-hud{left:10px;right:10px;bottom:10px;padding:9px 11px}
+.s-hud .s-bar{height:auto;background:none;border-radius:0;overflow:visible;margin-bottom:4px}
+.s-hud .s-bar b{display:flex;justify-content:space-between;gap:8px;
+font:600 9.5px/1.4 -apple-system,"Segoe UI",Arial,sans-serif;color:#A9B6D2;letter-spacing:0;margin:0}
+.s-hud .s-bar b span:last-child{color:#F2F6FF;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-hud .s-bar i{display:block;height:3px;margin-top:3px;border-radius:99px;
+background:linear-gradient(90deg,rgba(47,107,255,.95),rgba(124,58,237,.9));box-shadow:0 0 8px rgba(47,107,255,.32)}
+</style>
+<style id="i18n-fit">
+.cv-checks{max-width:150px}
+.cv-checks p{white-space:normal;line-height:1.25;font-size:8px;overflow-wrap:anywhere}
+.s-hud .s-bar b{font-size:8.6px}
+.s-hud .s-bar b span{min-width:0}
+.s-hud .s-bar b span:first-child{flex:0 1 auto;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-hud .s-bar b span:last-child{flex:0 1 auto;max-width:54%;overflow:hidden;text-overflow:ellipsis}
+.b-met .v,.b-tag,.s-tag{max-width:100%;overflow-wrap:break-word}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+</head>
+<body>
+
+<div class="s-hero"><div class="s-grid"></div><div class="s-orb"></div>
+ <div class="s-wrap"><div class="s-in">
+  <div class="s-l">
+   <div class="s-kick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.4" r="6.6"/><path d="M12 6.8V4.4M9.6 3.4h4.8"/><path d="M12 13.4l3-2.4"/><path d="M9.4 13.6l1.4 1.5 3.2-3.4"/></svg> Abdeckungsplattform 04 · Schnellcheck</div>
+   <h1 class="s-h1">Von 70 bis 255 Zeichen – <br>auf einer Seite prüfen, dann schreiben</h1>
+   <p class="s-sub">Die maximale Wortzahl und die Sprachanforderungen für die Titel der 12 Plattformen sind nach Plattform geordnet. Es ist einfacher, vor dem Schreiben zu lesen, als nach dem Schreiben abzubrechen.</p>
+   <div class="s-cta"><a class="s-bp" href="/de/v2/platform/rules">Tabelle kopieren</a><a class="s-bg2" href="/de/v2/feature/listing">Compliance-Text erzeugen</a></div>
+   <div class="s-chips"><span>12 Plattformen</span><span>Hartkappe</span><span>Sprachanforderungen</span></div>
+  </div>
+  <div class="s-r"><div class="s-shot"><img src="/img/crossaio/sub-platform-limits.jpg" alt=""><div class="s-scan"></div><div class="cx-viz"><div class="cv-chrome"><span class="cv-d"><i></i><i></i><i></i></span>crossaio · <b>/de/v2/platform/limits</b></div><div class="cv-scale"><div class="ticks"></div><div class="cur"></div><div class="lb">70 · 200 · 255</div></div></div>
+<div class="s-hud"><div class="h"><span>Limits · 12</span><span>Überprüfen Sie diese Woche</span></div><div class="s-bar"><b><span>OTTO</span><span>70</span></b><i style="width:27%"></i></div><div class="s-bar"><b><span>Allegro</span><span>75</span></b><i style="width:29%"></i></div><div class="s-bar"><b><span>eBay</span><span>80</span></b><i style="width:31%"></i></div><div class="s-bar"><b><span>Amazon</span><span>200</span></b><i style="width:78%"></i></div></div></div></div></div></div></div>
+<div class="s-band"><div class="s-wrap"><div class="row">
+  <div class="it"><b>70</b><span>Minimale Obergrenze</span></div><div class="it"><b>255</b><span>maximale Obergrenze</span></div><div class="it"><b>12</b><span>Plattform</span></div><div class="it"><b>8</b><span>Sprache</span></div>
+</div></div></div>
+
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">02 / Fünf-Schritte-Flow</div>
+ <h2 class="s-h2">So verwenden Sie diese Tabelle</h2>
+ <div class="s-lead">Schreiben Sie zuerst den kürzesten und erweitern Sie ihn dann zum längeren, anstatt ihn umgekehrt zu löschen.</div>
+
+ <div class="s-steps"><div class="s-step"><div class="n">STEP 01</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.4" r="6.6"/><path d="M12 6.8V4.4M9.6 3.4h4.8"/><path d="M12 13.4l3-2.4"/><path d="M9.4 13.6l1.4 1.5 3.2-3.4"/></svg></div><h4>Überprüfen Sie die minimale Obergrenze</h4><p>Innerhalb derselben Charge von SKUs wird die Länge des ersten Entwurfs auf der Grundlage der strengsten Plattform bestimmt.</p></div><div class="s-step"><div class="n">STEP 02</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 6.4h8.2M4.6 10.4h6"/><path d="M4.6 14.4h5.2"/><path d="M15.8 9.4l3.6 3.6-6.4 6.4-3.8.8.8-3.8z"/></svg></div><h4>Schreiben Sie die wichtigsten Verkaufsargumente auf</h4><p>Tragen Sie in den ersten 40 Zeichen die wichtigsten Unterschiede ein.</p></div><div class="s-step"><div class="n">STEP 03</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="4.4" width="15.2" height="15.2" rx="2"/><path d="M4.4 9.2h15.2"/><path d="M4.4 14h15.2"/><path d="M9.6 4.4v15.2"/></svg></div><h4>Nach Plattform erweitern</h4><p>Die lange Plattform mit oberer Begrenzung ergänzt Szenen und Parameter.</p></div><div class="s-step"><div class="n">STEP 04</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5.4h5.6v13.2H6z"/><path d="M12.4 5.4H18v13.2h-5.6z"/><path d="M7.6 9.4h2.4M7.6 12h2.4M14 10.6l2.4 2.6M16.4 10.6l-2.4 2.6"/></svg></div><h4>Verifizierung von Plattform zu Plattform</h4><p>Harte Überprüfung, ohne sich auf das bloße Auge zu verlassen.</p></div><div class="s-step"><div class="n">STEP 05</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div><h4>Exportieren</h4><p>Kopierblatt mit Wortanzahl.</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">03 / Grenze und Kaliber</div>
+ <h2 class="s-h2">12 Wortanzahl und Sprache der Plattform</h2>
+ <div class="s-lead">Bei dieser Tabelle handelt es sich um dieselben Daten, die vom Validator verwendet werden.</div>
+ <div class="s-table"><table>
+  <thead><tr><th>Plattform</th><th>Titelkappe</th><th>Sprache</th><th>Status</th></tr></thead>
+  <tbody><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 83 26" width="83" height="26" role="img" aria-label="OTTO" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="82" height="25" rx="3.25" fill="#E2001A"/><g transform="scale(0.65)"><rect x="15" y="14" width="15" height="15" rx="3" fill="#FFFFFF" opacity=".92"/><rect x="20" y="19" width="5" height="5" rx="1.4" fill="#0A0F24"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">OTTO</text></svg></td><td>70</td><td>DE</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 97 26" width="97" height="26" role="img" aria-label="allegro" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="96" height="25" rx="3.25" fill="#FF5A00"/><g transform="scale(0.65)"><circle cx="24" cy="20" r="9" fill="none" stroke="#FFFFFF" stroke-width="2.4"/><path d="M24 12a8 8 0 010 16" stroke="#FFFFFF" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">allegro</text></svg></td><td>75</td><td>PL</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td><b>eBay</b></td><td>80</td><td>Website</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 105 26" width="105" height="26" role="img" aria-label="Walmart" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="104" height="25" rx="3.25" fill="#0071CE"/><g transform="scale(0.65)"><g stroke="#FFC220" stroke-width="2.6" stroke-linecap="round"><path d="M24 10v8M24 26v8M10 22h8M30 22h8M14 12l5 5M29 25l5 5M34 12l-5 5M19 25l-5 5"/></g></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">Walmart</text></svg></td><td>100</td><td>EN</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 89 26" width="89" height="26" role="img" aria-label="fruugo" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="88" height="25" rx="3.25" fill="#009FE3"/><g transform="scale(0.65)"><path d="M22 26V14h9M22 20h7" stroke="#FFFFFF" stroke-width="2.4" fill="none"/><path d="M34 15l7 7-7 7" stroke="#FFFFFF" stroke-width="2" opacity=".85"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">fruugo</text></svg></td><td>100</td><td>EN</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 111 26" width="111" height="26" role="img" aria-label="cdiscount" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="110" height="25" rx="3.25" fill="#0057B8"/><g transform="scale(0.65)"><path d="M31 14h-8l-3.4 5.2v5.6L23 26h8" stroke="#FF6A00" stroke-width="2.4" fill="none"/><path d="M33 18.6l6.5 6.5M39.5 18.6L33 25.1" stroke="#FF6A00" stroke-width="1.8" opacity=".85"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">cdiscount</text></svg></td><td>120</td><td>FR</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td><b>bol</b></td><td>120</td><td>NL</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 97 26" width="97" height="26" role="img" aria-label="ZALANDO" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="96" height="25" rx="3.25" fill="#FF6900"/><g transform="scale(0.65)"><path d="M18 26l7-12 7 12M19 22h12" stroke="#FFFFFF" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">ZALANDO</text></svg></td><td>120</td><td>DE</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 109 26" width="109" height="26" role="img" aria-label="Kaufland" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="108" height="25" rx="3.25" fill="#E10915"/><g transform="scale(0.65)"><path d="M21 26V14M21 20l8-6M21 20l9 6" stroke="#FFFFFF" stroke-width="2.8" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">Kaufland</text></svg></td><td>150</td><td>DE</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 85 26" width="85" height="26" role="img" aria-label="eMAG" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="84" height="25" rx="3.25" fill="#FF3C00"/><g transform="scale(0.65)"><path d="M17 24a8 8 0 1112 6" stroke="#FFFFFF" stroke-width="2.6" fill="none"/><circle cx="30" cy="30" r="2" fill="#FFFFFF"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">eMAG</text></svg></td><td>150</td><td>RO</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 104 26" width="104" height="26" role="img" aria-label="AMAZON" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="103" height="25" rx="3.25" fill="#131A22"/><g transform="scale(0.65)"><path d="M19 31c8 5.4 18 5.4 27 0" stroke="#FF9900" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M30 27l5-2.6 4 4.6" stroke="#FF9900" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">AMAZON</text></svg></td><td>200</td><td>Website</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 115 26" width="115" height="26" role="img" aria-label="TikTok Shop" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="114" height="25" rx="3.25" fill="#0B0B0F"/><g transform="scale(0.65)"><path d="M24 15v10a4 4 0 11-4-4" stroke="#FE2C55" stroke-width="2.8" fill="none"/><path d="M24 15c1 3 3 5 7 5" stroke="#FE2C55" stroke-width="2.2" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">TikTok Shop</text></svg></td><td>255</td><td>EN</td><td><span class="s-tag s-ok">Hartkappe</span></td></tr></tbody>
+ </table></div>
+</div></div>
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">04 / Gebrauchsfertige Produkte</div>
+ <h2 class="s-h2">Klicken Sie hier, um die Datei zu öffnen, nicht den Screenshot</h2>
+ <div class="s-lead">Jedes Produkt kann direkt eingereicht, direkt reklamiert und direkt abgerechnet werden.</div>
+ <div class="s-files"><div class="s-file"><div class="top"><span>CSV</span><span style="color:#14B8A6">Importierbar</span></div><div class="nm">title_limits.csv</div><p>Plattform/Cap/Sprache, Importvalidator</p></div><div class="s-file"><div class="top"><span>MD</span><span style="color:#14B8A6">Druckbar</span></div><div class="nm">title_limits.md</div><p>einseitige Version</p></div><div class="s-file"><div class="top"><span>TXT</span><span style="color:#14B8A6">Schneller Check</span></div><div class="nm">short_limits.txt</div><p>Es werden nur die kürzesten 6 Plattformen aufgeführt</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">05 / Möglicherweise gehören Sie einem anderen Segment an</div>
+ <h2 class="s-h2">Gehen Sie dann nach unten, Sie müssen nicht zur Startseite zurückkehren und von vorne beginnen.</h2>
+ <div class="s-sib"><a class="s-card" href="/de/v2/platform/rules"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="4.4" width="15.2" height="15.2" rx="2"/><path d="M4.4 9.2h15.2"/><path d="M4.4 14h15.2"/><path d="M9.6 4.4v15.2"/></svg></div><h4>Unterschiede in den Plattformregeln</h4><p>Das Zählen von Wörtern ist nur einer davon.</p><div class="go">Siehe die Regeln →</div></a><a class="s-card" href="/de/v2/feature/listing"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 6.4h8.2M4.6 10.4h6"/><path d="M4.6 14.4h5.2"/><path d="M15.8 9.4l3.6 3.6-6.4 6.4-3.8.8.8-3.8z"/></svg></div><h4>Erstellung von Texten für mehrere Plattformen</h4><p>Generieren Sie direkt entsprechend der Obergrenze.</p><div class="go">Lesen Sie die Kopie →</div></a><a class="s-card" href="/de/v2/platform/localize"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.4" cy="10.4" r="6.2"/><path d="M4.2 10.4h12.4"/><path d="M10.4 4.2c1.9 2 2.9 4 2.9 6.2s-1 4.2-2.9 6.2c-1.9-2-2.9-4.2-2.9-6.2s1-4.2 2.9-6.2z"/><path d="M14.8 13.4h5.6M14.8 16.4h5.6M17.6 13.4v5.6"/></svg></div><h4>Lokalisierung und Sprache</h4><p>Die Sprache und die Einheiten werden gemeinsam geändert.</p><div class="go">Siehe Lokalisierung →</div></a></div>
+ <div class="s-end">
+   <div><h3>Schauen Sie sich zuerst die Obergrenze an und schreiben Sie dann den Titel</h3><p>Der Spickzettel ist kostenlos und es ist keine Registrierung erforderlich.</p></div>
+   <div class="s-cta"><a class="s-bp" href="/de/v2/platform/rules">Tabelle kopieren</a></div>
+ </div>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="hx">
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">06 / Workbench-Perspektive · 70 → 255</div>
+  <h2 class="hx-h2">Von 70 bis 255, lesen Sie vor dem Schreiben.</h2>
+  <div class="hx-lead">Erstellen Sie den ersten Entwurf gemäß den strengsten Bedingungen und erweitern Sie ihn dann auf eine längere Länge. Sie können nicht mehr als ein Wort einreichen.</div>
+  <div class="hx-tabs"><button class="hx-tab on" data-i="0">Wortzahl</button><button class="hx-tab" data-i="1">Sprache</button><button class="hx-tab" data-i="2">Oberhalb der Falte sichtbar</button><button class="hx-tab" data-i="3">Validator</button></div>
+  <div class="hx-panel on"><div class="hx-pl"><h4>Wortzahl</h4><ul style="margin:0;padding-left:18px"><li>12 Plattformtitel / fünf Punkte / beschreiben die Obergrenze von drei Ebenen</li><li>Finalisieren Sie den ersten Entwurf nach den strengsten Standards</li><li>Overlimit bietet zwei kürzere Schreibmöglichkeiten</li></ul></div><div class="hx-pr"><div class="k">Plattform</div><div class="v">12</div><div class="u">Drei Ebenen der Wortzählung</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Sprache</h4><ul style="margin:0;padding-left:18px"><li>Von der Plattform unterstützte Sprachen werden separat aufgeführt</li><li>Nicht unterstützte Sprachen werden nicht generiert</li><li>Kombinationsüberprüfung von Sprache und Wortanzahl</li></ul></div><div class="hx-pr"><div class="k">Sprache</div><div class="v">8</div><div class="u">Verbunden mit der Wortanzahl</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Oberhalb der Falte sichtbar</h4><ul style="margin:0;padding-left:18px"><li>Die ersten 60 Zeichen auf Mobilgeräten sind die kritischsten</li><li>Wichtige Verkaufsargumente im Vorfeld</li><li>Achten Sie nicht auf die Wortzahl, sondern auf die Sichtbarkeit</li></ul></div><div class="hx-pr"><div class="k">Oberhalb der Falte</div><div class="v">60 Zeichen</div><div class="u">Mobiler Erlebniswert</div><div class="b"><i style="width:90%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Validator</h4><ul style="margin:0;padding-left:18px"><li>Es hat den gleichen Ursprung wie die Tabelle. Eine Änderung der Tabelle bedeutet eine Änderung der Überprüfung.</li><li>Hartes Scheitern über dem Limit, loslassen ohne Vorwarnung</li><li>Ergebnisse können exportiert werden</li></ul></div><div class="hx-pr"><div class="k">Homologie</div><div class="v">Pass</div><div class="u">ein Tisch</div><div class="b"><i style="width:100%"></i></div></div></div>
+  <div class="hx-viz"><svg viewBox="0 0 740 130"><rect x="40" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><rect x="95" y="40" width="1.6" height="10" fill="#8FA0C8" opacity=".7"/><rect x="150" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><rect x="205" y="40" width="1.6" height="10" fill="#8FA0C8" opacity=".7"/><rect x="260" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><rect x="315" y="40" width="1.6" height="10" fill="#8FA0C8" opacity=".7"/><rect x="370" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><rect x="425" y="40" width="1.6" height="10" fill="#8FA0C8" opacity=".7"/><rect x="480" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><rect x="535" y="40" width="1.6" height="10" fill="#8FA0C8" opacity=".7"/><rect x="590" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><rect x="645" y="40" width="1.6" height="10" fill="#8FA0C8" opacity=".7"/><rect x="700" y="40" width="1.6" height="18" fill="#8FA0C8" opacity=".7"/><line x1="40" y1="40" x2="700" y2="40" stroke="#25304D"/><text x="40" y="86" fill="#8FA0C8" font-size="10">70</text><text x="330" y="86" fill="#8FA0C8" font-size="10">150</text><text x="668" y="86" fill="#8FA0C8" font-size="10">255</text><g style="animation:ax14 4s ease-in-out infinite alternate"><rect x="36" y="26" width="8" height="26" fill="#14B8A6"/></g><text x="40" y="112" fill="#8FA0C8" font-size="10">Bildunterschrift: OTTO 70 → TikTok Shop 255</text></svg></div>
+  <div class="hx-nums"><div class="hx-num"><b>70</b><span>Minimale Obergrenze</span><em>OTTO-Titel</em></div><div class="hx-num"><b>255</b><span>maximale Obergrenze</span><em>TikTok Shop</em></div><div class="hx-num"><b>3</b><span>Wortanzahlbereich</span><em>Titel / Fünf Punkte / Beschreibung</em></div><div class="hx-num"><b>60</b><span>Über den Falzzeichen</span><em>Mobil ist das Wichtigste</em></div></div>
+  
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">07 / Rückverfolgbarkeit·Anzahl der Wörter</div>
+  <h2 class="hx-h2">Jede Obergrenze hat ihre Quelle und ihre Überprüfungszeit.</h2>
+  <div class="hx-lead">Der Originaltext der Plattform, die Crawlzeit und die anwendbaren Kategorien werden in die Tabelle geschrieben und sind nicht auf den Speicher angewiesen.</div>
+  <div class="hx-gh">
+    <div class="hx-heat"><div class="hd"><span>Versöhnung der letzten 52 Wochen</span><span>Insgesamt 7.930 Mal</span></div><svg class="hx-svg" viewBox="0 0 624 84" role="img" aria-label="Ausführungs-Heatmap der letzten 52 Wochen"><rect x="0" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="0" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="0" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="12" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="12" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="12" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="24" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="24" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="36" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="36" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="36" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="36" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="48" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="60" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="72" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="84" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="84" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="120" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="132" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="156" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="156" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="156" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="156" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="180" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="192" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="204" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="204" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="216" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="228" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="228" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="228" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="228" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="252" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="264" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="264" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="264" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="264" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="288" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="288" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="300" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="300" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="324" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="324" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="336" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="336" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="348" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="348" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="372" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="396" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="408" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="408" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="408" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="420" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="444" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="456" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="456" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="456" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="468" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="492" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="492" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="504" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="504" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="504" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="516" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="540" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="540" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="540" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="540" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="564" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="576" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="588" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="612" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="612" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="612" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="612" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="612" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/></svg>
+      <div class="hx-lg">weniger<i style="background:#EBEDF0"></i><i style="background:#9BE9A8"></i><i style="background:#26A641"></i><i style="background:#006D32"></i><i style="background:#0E4429"></i>Viel</div>
+    </div>
+    <div class="hx-rt"><div class="hx-ci"><div class="row"><b>Daten in der Tabelle</b><span class="hx-ok">12 Plattformen</span></div><div style="color:#8A93A6;margin-top:4px">Gleicher Ursprung wie Validator</div></div><div class="hx-ci"><div class="row"><b>Minimale Obergrenze</b><span class="hx-ok">70</span></div><div style="color:#8A93A6;margin-top:4px">OTTO</div></div><div class="hx-ci"><div class="row"><b>maximale Obergrenze</b><span class="hx-ok">255</span></div><div style="color:#8A93A6;margin-top:4px">TikTok Shop</div></div>
+      <div class="hx-diff"><div class="h"><span>title_limits.diff</span><span>c5a09e7</span></div><pre><span class="a">+ limit: OTTO 70</span>
+<span class="a">+ limit: Amazon 200</span>
+<span class="d">- limit: 999</span>
+<span class="a">+ validator: hard_fail</span></pre></div>
+    </div>
+  </div>
+  <div class="hx-tl"><div class="it"><div class="d">2026-11-05 08:00</div><div class="t">12 Plattform-Wortzählung und Sprachüberprüfung</div></div><div class="it"><div class="d">2026-11-05 08:30</div><div class="t">Gleicher Ursprung wie Validator, CSV exportieren</div></div><div class="it"><div class="d">2026-11-10 09:00</div><div class="t">Diese Woche überprüft, keine Änderungen</div></div></div>
+</div></div>
+
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">08 / Echte Ergebnisse · Messung der tatsächlichen Wortzahl</div>
+  <h2 class="hx-h2">Bezogen auf die Wortanzahl ist die Nacharbeit am teuersten</h2>
+  <div class="hx-cases"><div class="hx-case"><b>70</b><span>Die strengste Obergrenze</span><p>Es ist einfacher zu schreiben, indem man zuerst OTTO drückt und es dann auf eine längere Länge erweitert.</p><a href="/de/v2/tool/check">Shop kostenlos prüfen →</a></div><div class="hx-case"><b>255</b><span>breiteste Obergrenze</span><p>TikTok Shop gibt am meisten, kann aber nicht kopiert werden.</p><a href="/de/v2/platform/localize">Zum nächsten Schritt →</a></div><div class="hx-case"><b>0</b><span>Überschreitung des Limits für die Übermittlung</span><p>Hartes Scheitern, es wird nicht mit übermäßiger Wortanzahl eingereicht.</p><a href="/de/signup">Kostenlos starten · 5 Checks pro Tag →</a></div></div>
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">09 / FAQ</div>
+  <h2 class="hx-h2">Vier Fragen zur Wortbegrenzung</h2>
+  <div class="hx-faq"><details><summary>Was passiert, wenn es mehr als ein Wort ist?</summary><p>Wenn es direkt fehlschlägt, wird es nicht automatisch abgeschnitten, um zu vermeiden, dass der Satz in einen schlechten Satz zerfällt.</p></details><details><summary>Welche Plattform wird sich durchsetzen?</summary><p>Entscheiden Sie sich für den ersten Entwurf auf der Grundlage der strengsten Plattform, die Sie studieren möchten, und erweitern Sie ihn dann.</p></details><details><summary>Wie berechnet man chinesische Schriftzeichen?</summary><p>Je nach Plattformkaliber (Zeichen oder Bytes) bitte in der Tabelle angeben.</p></details><details><summary>Wie oft wird die Tabelle aktualisiert?</summary><p>Eine wöchentliche Überprüfung und ein wöchentlicher Bericht werden an dem Tag veröffentlicht, an dem die Plattform die Regeln ändert.</p></details></div>
+</div></div>
+<script>(function(){try{var t=document.querySelectorAll('.hx-tab'),p=document.querySelectorAll('.hx-panel');for(var i=0;i<t.length;i++){(function(k){t[k].addEventListener('click',function(){for(var j=0;j<t.length;j++){t[j].className='hx-tab'+(j===k?' on':'');p[j].className='hx-panel'+(j===k?' on':'');}});})(i);}}catch(e){}})();</script>
+</div>
+
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">Die Listing-Qualitäts- und Compliance-Engine für europäische Cross-Border-Händler. Ein Workspace – vom ersten Check bis zum Rettungseinsatz nach dem Delisting.</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR ist in Kraft</span>
+    <a class="cx-cta" href="/de/v2/tool/check">Shop kostenlos prüfen · 30 Sek. <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>Capability-Map</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/launch">01 Vor dem Start<small>Inspektion in einem Durchgang · Etwa 10 Minuten</small></a></li>
+        <li><a class="cx-l" href="/de/v2/rescue">02 Unfall<small>5 Minuten qualitativ · Dreisprachige Ansprache</small></a></li>
+        <li><a class="cx-l" href="/de/v2/ops">03 Täglicher Betrieb<small>12 Plattformen × 6 automatische Inspektionen</small></a></li>
+        <li><a class="cx-l" href="/de/v2/govern">04 Governance<small>A/B/C-Klassifizierung · Handhabungsmarkierungen</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Produktfunktionen</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/feature/gpsr">GPSR-Konformitätsblock<small>Verantwortliche Person · Warnhinweise · Technische Dokumente</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/listing">Auflistungsqualität<small>Feldvalidierung · Anzahl der Titelwörter</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/matrix">12 Plattformüberprüfung<small>Klassifizierung A2 / B5 / C5</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/review">Mundpropaganda und Bewertungen<small>Negative Bewertung · Antwortvorlage</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/ai-service">KI-Kundenservice<small>Fragen und Antworten vor dem Verkauf · Komfort nach dem Verkauf</small></a></li>
+        <li><a class="cx-l" href="/de/v2/feature/safety">Risiko und Sicherheit<small>Warnung zur Kontosperrung · Beschwerde hinterlässt Spuren</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Plattformen</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/platform/rules">Unterschiede in den Plattformregeln<small>12 Plattformvergleich</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/app">Klassifizierung des Zugriffsstatus<small>A vollautomatisch · B halbautomatisch · C manuell</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/localize">Lokalisierung und Sprache<small>Muttersprachliche Richtlinien · Maßeinheiten</small></a></li>
+        <li><a class="cx-l" href="/de/v2/platform/limits">Wortanzahl und Feldgrenzen<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kostenlose Tools</h4>
+      <ul>
+        <li><a class="cx-l" href="/de/v2/tool/check">Compliance-Check<small>30 Sekunden · Keine Bindung an den Shop oder Autorisierung</small></a></li>
+        <li><a class="cx-l" href="/de/v2/tool/skills">Kompetenz-Workflow<small>Stellen Sie eine Verbindung zu Ihrem ERP/Formular her</small></a></li>
+        <li><a class="cx-l" href="/de/v2/tool/trust">Vertrauenszentrum<small>Datengrenzen · Nur-Lese-Berechtigung</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Community & Ressourcen</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">Hochschule<small>Compliance- und Beschwerdekurs</small></a></li>
+        <li><a class="cx-l" href="/community">Gemeinschaft<small>Gegenseitige Unterstützung europäischer Verkäufer</small></a></li>
+        <li><a class="cx-l" href="/blog">Blog<small>Interpretation der Änderungen der Plattformregeln</small></a></li>
+        <li><a class="cx-l" href="/podcast">Podcast<small>Wöchentliches Update zur grenzüberschreitenden Compliance</small></a></li>
+        <li><a class="cx-l" href="/summit">Gipfel<small>Jahrestagung der europäischen Verkäufer</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · Europäische Vollplattform-Listing-Qualitäts- und Compliance-Engine</span>
+  <span class="cx-legal">
+    <a href="/de/privacy">Datenschutzrichtlinie</a>
+    <a href="/de/terms">Nutzungsbedingungen</a>
+    <a href="/de/v2/tool/trust">Compliance-Erklärung</a>
+    <a href="/de/v2/tool/trust">Datenverarbeitung</a>
+  </span>
+  <span class="cx-ok"><i></i>Alle Systeme normal · Chinesisch (vereinfacht)</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
+</body></html>

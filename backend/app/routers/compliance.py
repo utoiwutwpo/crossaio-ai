@@ -186,7 +186,7 @@ def credentials_status(user: User = Depends(get_current_user),
                  .filter(eBayConnection.user_id == user.id).first())
     ebay_user_ok = ebay_conn is not None
 
-    # 13 平台自助凭证（PlatformCredential 表，AES-256 加密封存）
+    # 12 平台自助凭证（PlatformCredential 表，AES-256 加密封存）
     from ..experts.platform_credentials import PLATFORM_CRED_REGISTRY, cred_guide
     saved_platforms = {r.platform: r for r in
                        db.query(PlatformCredential)
@@ -210,7 +210,7 @@ def credentials_status(user: User = Depends(get_current_user),
             }
             continue
         row = saved_platforms.get(p)
-        env_ready = (p in ("amazon", "amazon_us")) and amz_ready
+        env_ready = (p == "amazon") and amz_ready
         platforms[p] = {
             "label": label, "oauth": False,
             "connected": row is not None,
@@ -244,7 +244,7 @@ def credentials_status(user: User = Depends(get_current_user),
     }
 
 
-# ---- 商家自助凭证（粘贴 → AES-256 加密封存，13 平台通用） ----
+# ---- 商家自助凭证（粘贴 → AES-256 加密封存，12 平台通用） ----
 
 class PlatformCredIn(BaseModel):
     """自助接入表单：字段名随平台注册表动态校验。"""
@@ -262,7 +262,7 @@ def save_platform_creds(platform: str, body: PlatformCredIn,
 
     cfg = PLATFORM_CRED_REGISTRY.get(platform)
     if not cfg:
-        raise HTTPException(404, f"未知平台：{platform}（支持 13 平台，见 GET /credentials）")
+        raise HTTPException(404, f"未知平台：{platform}（支持 12 平台，见 GET /credentials）")
     if cfg.get("oauth"):
         raise HTTPException(400, "eBay 走 OAuth 授权流程，请用 GET /api/v1/ebay/auth-url")
 
@@ -272,15 +272,19 @@ def save_platform_creds(platform: str, body: PlatformCredIn,
     if missing:
         raise HTTPException(422, f"缺少必填字段：{', '.join(missing)}")
 
-    # 订阅配额：平台接入数量按套餐自动识别（free/starter=1，pro=3，business=无限）
-    from ..billing import plan_config
+    # 订阅闸：统一走 entitlements.can_act（能力 + 接入位 + 加权占用），不再维护第二套计数配额
     from .automation import connected_platforms
-    quota = plan_config(user.plan)["platforms"]
     connected = connected_platforms(db, user.id)
-    if platform not in connected and quota is not None and len(connected) >= quota:
-        raise HTTPException(
-            402, f"当前套餐（{user.plan}）最多接入 {quota} 个平台"
-                 f"（已接入 {len(connected)} 个）。升级套餐解锁更多平台接入。")
+    if platform not in connected:
+        from ..entitlements import can_act
+        decision = can_act(db, user, platform, "connect")
+        if not decision["allowed"]:
+            raise HTTPException(402, detail={
+                "reason_code": decision["reason_code"],
+                "hint": decision["hint"],
+                "platform": platform,
+                "action": "connect",
+            })
 
     # 只保留注册表字段（多余键丢弃），整包 JSON 加密
     payload = {k: str(body.credentials.get(k, "")).strip()

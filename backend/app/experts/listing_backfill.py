@@ -29,11 +29,6 @@ _BACKFILL_TARGETS: Dict[str, Dict] = {
         "api": "Selling Partner API — PATCH /listings/2021-08-01/items/{sku}",
         "auth": "LWA + AWS SigV4（需 SP-API 开发者账号 + 合规读写权限）",
     },
-    "amazon_us": {
-        "field": "product_description（美国站无 GPSR 强制，但建议保留安全信息）",
-        "api": "Selling Partner API — PATCH /listings/2021-08-01/items/{sku}",
-        "auth": "LWA + AWS SigV4",
-    },
     "ebay": {
         "field": "Item.Description（支持 HTML，合规块以 HTML 段落回填）",
         "api": "Trading API Add/ReviseItem 或 Bulk Data Exchange",
@@ -204,7 +199,6 @@ def submit_backfill_payload(platform: str, payload: Dict, dry_run: bool = True) 
 _REAL_ENDPOINTS: Dict[str, str] = {
     "ebay": "https://api.ebay.com/sell/inventory/v1/inventory_item",  # + /{sku}
     "amazon": "https://sellingpartnerapi-eu.amazon.com/listings/2021-08-01/items",  # + /{sku}
-    "amazon_us": "https://sellingpartnerapi-na.amazon.com/listings/2021-08-01/items",
 }
 
 # 真实写回支持的平台（其余平台暂走凭证+手动回填，标注于 backfill_target）
@@ -230,7 +224,7 @@ def _build_real_request(platform: str, payload: Dict, creds: Dict,
                         "Accept": "application/json"},
             "body": {"product": {"description": block}},
         }
-    if platform in ("amazon", "amazon_us"):
+    if platform == "amazon":
         url = f"{_REAL_ENDPOINTS[platform]}/{sku}"
         token = (_fetch_lwa_token(creds) if live
                  else creds.get("token") or "<LWA_TOKEN_live_fetch>")

@@ -2,31 +2,31 @@
 CrossAIO — FastAPI 主应用
 本地运行：uvicorn app.main:app --reload --port 8000
 """
-import base64 as _base64
 import logging
 import re as _re
-import secrets as _secrets
 import time as _time
 from contextlib import asynccontextmanager
 from pathlib import Path
-from urllib.parse import parse_qsl as _parse_qsl, urlencode as _urlencode
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
-from starlette.concurrency import run_in_threadpool
 
 from .config import settings
 from .database import init_db
 from . import community_models  # 注册社区/播客/峰会 ORM 模型（随 create_all 自动建表）
-from . import blog_post_pages   # 博客文章真实 URL 页（/en/blog/{slug}，SEO 可索引）
 from .routers import (ads, analytics, billing, customer_service, ebay,
                       listings, products, users, eu_rep, inbox, rule_pages,
                       feature_pages, gpsr_pages, compliance, automation,
                       community, podcast, summit, blog, trust, academy,
-                      notifications, connectors)
+                      notifications, connectors, platform_auth,
+                      entitlements, platform_tasks, incidents, provenance)
+from . import newsletter_models  # 注册政策周报订阅表（随 create_all 建表）
+from .routers import site_preview  # 能力地图新版（纯新增）
+from .routers import site_preview  # 能力地图新版（纯新增）
 from .routers.site_nav import FEATURE_ITEMS, FEATURE_I18N, NAV_I18N
+from .routers import home_page  # /zh 首页资产（纯新增）
 from .scheduler import start_scheduler, stop_scheduler
 
 logging.basicConfig(level=logging.INFO)
@@ -91,7 +91,7 @@ SEO_PAGE_DESC = {
         "fr": "Contrôle GPSR gratuit : téléversez vos données produit et obtenez un rapport détaillé au règlement européen sur la sécurité générale des produits, avec plan d'action.",
     },
 }
-_SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup", "traffic")
+_SEO_NOINDEX_SEGMENTS = ("app", "signin", "signup")
 
 
 def _split_lang_path(path: str):
@@ -134,10 +134,10 @@ def _seo_head_tags(path: str, html: str) -> str:
     desc = (SEO_PAGE_DESC.get(sub) or SEO_GENERIC_DESC).get(lang) or SEO_GENERIC_DESC["en"]
     has_desc = 'name="description"' in html
     has_og = 'property="og:title"' in html
-    # 顺序：英文优先（en → de → fr）；2026-11-06 决策 zh 不做 SEO，不入 hreflang
+    # 顺序：英文优先，中文最后（en → de → fr → zh）
     alternates = "".join(
         f'<link rel="alternate" hreflang="{lg}" href="{_e(_u(lg))}">'
-        for lg in ("en", "de", "fr"))
+        for lg in ("en", "de", "fr", "zh"))
     alternates += f'<link rel="alternate" hreflang="x-default" href="{_e(_u("en"))}">'
     desc_tags = "" if has_desc else f'<meta name="description" content="{_e(desc)}">'
     og_tags = "" if has_og else (
@@ -158,146 +158,6 @@ def _seo_head_tags(path: str, html: str) -> str:
     )
 
 
-# ---------------------------------------------------------------------------
-# 访问量统计：服务端 PV + UTM 首触归因 + 可选 GA4
-# 2026-11-07 P0：UA 三态分类（human / bot / probe）与渠道参数落库，
-# 目的是让一周后的「真人访问量 / 渠道转化」可复算、可归因，不再被自检请求灌水。
-# ---------------------------------------------------------------------------
-_BOT_UA_RE = _re.compile(
-    r"bot|spider|crawl|slurp|bingpreview|facebookexternalhit|curl|python|"
-    r"wget|httpie|headless|ahrefs|semrush|mj12|dotbot|go-http-client|"
-    r"scrapy|mechanize|libwww|lwp::|java/|node-fetch|axios|okhttp|"
-    r"yandex|baiduspider|duckduckbot|petalbot", _re.I)
-
-# 内部探针 / 平台健康检查 / 自动化浏览器：单列 probe，既不算真人也不算搜索引擎。
-_PROBE_UA_RE = _re.compile(
-    r"uptimerobot|pingdom|statuscake|site24x7|monitor|healthcheck|health-check|"
-    r"kube-probe|elb-healthcheck|googlehc|render/|nagios|zabbix|datadog|"
-    r"newrelic|lighthouse|playwright|puppeteer|selenium|phantomjs|postman|"
-    r"insomnia|crossaio-|check_http", _re.I)
-
-# 真人浏览器必须具备完整指纹：Mozilla/5.0 + 渲染引擎 + 具体浏览器版本号。
-_BROWSER_UA_RE = _re.compile(
-    r"Mozilla/5\.0.*(?:Chrome/\d|Safari/\d|Firefox/\d|Edg/\d|"
-    r"OPR/\d|Version/\d|SamsungBrowser/\d)", _re.I | _re.S)
-
-_UTM_KEYS = ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term")
-_VID_COOKIE = "caio_vid"
-_ATTR_COOKIE = "caio_attr"
-
-# Referer 兜底：已云端排期但链接未带 UTM 的帖子（FB 3 条）仍能归到渠道。
-_REF_CHANNELS = (
-    ("reddit", "reddit"), ("sellerforum", "sellerforum"),
-    ("facebook", "facebook"), ("instagram", "instagram"),
-    ("google.", "google"), ("bing.", "bing"),
-    ("linkedin.", "linkedin"), ("youtube.", "youtube"),
-    ("allegro", "allegro"), ("bol.com", "bol"), ("emag", "emag"),
-)
-
-
-def _classify_ua(ua: str, accept: str, sec_fetch_dest: str) -> str:
-    """返回 human / bot / probe。
-
-    2026-11-06 的看板把「无 UA / 健康检查 / 自建 curl 验证」也算成真人，
-    导致 31 个真人 PV 中几乎没有真实访客。此处改为三态：
-      bot    = 搜索引擎与已知抓取器（仍要单独看，判断收录进度）
-      probe  = 空 UA、无浏览器指纹、健康检查、自动化客户端（不计真人）
-      human  = 完整浏览器指纹 + 文档导航请求头
-    """
-    u = (ua or "").strip()
-    low = u.lower()
-    if _BOT_UA_RE.search(low):
-        return "bot"
-    if not u or len(u) < 25 or _PROBE_UA_RE.search(low):
-        return "probe"
-    if not _BROWSER_UA_RE.search(u):
-        return "probe"
-    if sec_fetch_dest and sec_fetch_dest.lower() not in ("document", "iframe"):
-        return "probe"
-    if "text/html" not in (accept or "").lower():
-        return "probe"
-    return "human"
-
-
-def _utm_from_query(request) -> dict:
-    out = {}
-    for k in _UTM_KEYS:
-        v = (request.query_params.get(k) or "").strip()[:60]
-        if v:
-            out[k] = v
-    return out
-
-
-def _encode_attr(utm: dict) -> str:
-    """cookie 值用 urlsafe base64，避免 & / = 被 Cookie 解析器截断。"""
-    return _base64.urlsafe_b64encode(_urlencode(utm).encode()).decode().rstrip("=")
-
-
-def _decode_attr(raw: str) -> dict:
-    try:
-        s = _base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)).decode()
-        return {k: v[:60] for k, v in _parse_qsl(s, keep_blank_values=False)
-                if k in _UTM_KEYS}
-    except Exception:
-        return {}
-
-
-def _ref_channel(ref: str) -> str:
-    low = (ref or "").lower()
-    for needle, name in _REF_CHANNELS:
-        if needle in low:
-            return name
-    return ""
-
-
-def _ga4_snippet() -> str:
-    """Measurement ID 未配置时返回空串，站点保持零第三方脚本。"""
-    mid = (settings.ga4_measurement_id or "").strip()
-    if not mid.startswith("G-") or len(mid) < 5:
-        return ""
-    return (
-        f'<script async src="https://www.googletagmanager.com/gtag/js?id={mid}"></script>'
-        '<script>window.dataLayer=window.dataLayer||[];'
-        'function gtag(){dataLayer.push(arguments);}'
-        'gtag("js",new Date());'
-        f'gtag("config","{mid}");</script>'
-    )
-
-
-def _record_pageview(request, vid: str, utm: dict, ua_kind: str, ref: str) -> None:
-    """服务端记录一次页面浏览（含 UTM 首触归因）。失败绝不阻断业务。"""
-    try:
-        from .database import SessionLocal, AnalyticsEvent
-        from .routers.analytics import ip_hash
-        db = SessionLocal()
-        try:
-            db.add(AnalyticsEvent(
-                event_type="page_view",
-                platform=ua_kind,  # human / bot / probe
-                utm_source=utm.get("utm_source", "")[:100],
-                utm_medium=utm.get("utm_medium", "")[:100],
-                utm_campaign=utm.get("utm_campaign", "")[:100],
-                ip_hash=ip_hash(request),
-                user_id="",
-                meta={
-                    "path": request.url.path[:200],
-                    "ua": (request.headers.get("user-agent") or "")[:300],
-                    "ua_kind": ua_kind,
-                    "is_bot": ua_kind != "human",  # 兼容旧看板字段
-                    "ref": ref[:200],
-                    "vid": vid,
-                    "utm": dict(utm),
-                },
-            ))
-            db.commit()
-        except Exception:
-            db.rollback()
-        finally:
-            db.close()
-    except Exception:
-        pass
-
-
 @app.middleware("http")
 async def seo_head_inject_middleware(request, call_next):
     resp = await call_next(request)
@@ -306,80 +166,26 @@ async def seo_head_inject_middleware(request, call_next):
         return resp
     body = b"".join([chunk async for chunk in resp.body_iterator])
     html = body.decode("utf-8", errors="replace")
-
-    # 匿名访客 ID + 渠道归因 cookie（last non-direct，30 天）。
-    # 只存随机 ID 与 utm_* 参数，不含任何个人信息。
-    vid = request.cookies.get(_VID_COOKIE) or _secrets.token_hex(8)
-    new_cookies: list[str] = []
-    if not request.cookies.get(_VID_COOKIE):
-        new_cookies.append(
-            f"{_VID_COOKIE}={vid}; Max-Age=31536000; Path=/; SameSite=Lax; HttpOnly")
-    ref = (request.headers.get("referer") or "")[:200]
-    utm = _utm_from_query(request)
-    if utm.get("utm_source"):
-        new_cookies.append(
-            f"{_ATTR_COOKIE}={_encode_attr(utm)}; Max-Age=2592000; Path=/; SameSite=Lax")
-    else:
-        utm = _decode_attr(request.cookies.get(_ATTR_COOKIE) or "")
-        if not utm:
-            channel = _ref_channel(ref)
-            if channel:
-                utm = {"utm_source": channel, "utm_medium": "referral"}
-                # 无 UTM 的渠道点击（FB 云端帖 / Reddit profile）也要持久化，
-                # 否则后续站内跳转后的体检 / 注册事件会丢失渠道归因。
-                new_cookies.append(
-                    f"{_ATTR_COOKIE}={_encode_attr(utm)}; Max-Age=2592000; Path=/; SameSite=Lax")
-
-    # 服务端 PV：覆盖全部 200 HTML 页面；内部看板自身不计入，避免刷新污染数据。
-    if request.url.path.rstrip("/") != "/traffic":
-        ua_kind = _classify_ua(
-            request.headers.get("user-agent") or "",
-            request.headers.get("accept") or "",
-            request.headers.get("sec-fetch-dest") or "",
-        )
-        await run_in_threadpool(
-            _record_pageview, request, vid=vid, utm=utm,
-            ua_kind=ua_kind, ref=ref)
-
-    # GA4：ID 未配置时零注入。两个返回分支都要带上，故在此统一改写 body。
-    head_i = html.find("<head")
-    ga4 = _ga4_snippet()
-    if ga4 and head_i >= 0 and "googletagmanager.com/gtag/js" not in html:
-        gi = html.find(">", head_i)
-        if gi >= 0:
-            html = html[:gi + 1] + "\n" + ga4 + html[gi + 1:]
-            body = html.encode("utf-8")
-
-    def _with_cookies(r: Response) -> Response:
-        for cookie in new_cookies:
-            r.headers.append("set-cookie", cookie)
-        return r
-
-    def _rebuild(_body: bytes) -> Response:
-        # body_iterator 已被上方消费，必须用新 Response 重建返回：
-        # 直接 return resp 会得到已耗尽的迭代器 → 200 + 空 body（content-length 超前）。
-        headers = dict(resp.headers)
-        headers.pop("content-length", None)
-        return _with_cookies(
-            Response(_body, status_code=200, headers=headers, media_type=ctype))
-
     head_i = html.find("<head")
     if head_i < 0 or 'rel="canonical"' in html:
-        return _rebuild(body)
+        return resp  # 非 HTML 结构或已有 SEO 标签：原样返回
     close_i = html.find(">", head_i)
     if close_i < 0:
-        return _rebuild(body)
+        return resp
     try:
         tags = _seo_head_tags(request.url.path, html)
     except Exception:
-        return _rebuild(body)
+        return resp
     new_html = html[:close_i + 1] + "\n" + tags + html[close_i + 1:]
     headers = dict(resp.headers)
     headers.pop("content-length", None)
-    return _with_cookies(
-        HTMLResponse(new_html, status_code=resp.status_code, headers=headers))
+    return HTMLResponse(new_html, status_code=resp.status_code, headers=headers)
 
 API_PREFIX = "/api/v1"
+from .routers import workbench_pro  # Workbench Pro
+from .routers import pipeline  # 四段一键流水线
+app.include_router(workbench_pro.router, prefix=f"{API_PREFIX}/pro", tags=["workbench-pro"])
+app.include_router(pipeline.router, prefix=f"{API_PREFIX}", tags=["pipeline"])
 app.include_router(users.router, prefix=f"{API_PREFIX}/users", tags=["users"])
 app.include_router(users.oauth_router, tags=["users-oauth"])  # Google OAuth2 回调：GET /users/google（顶层路径）
 app.include_router(products.router, prefix=f"{API_PREFIX}/products", tags=["products"])
@@ -396,49 +202,16 @@ app.include_router(rule_pages.router, tags=["rule-pages"])
 # 不能被 /{lang}/features（lang=gpsr-check）抢先匹配吞掉
 app.include_router(gpsr_pages.router, tags=["gpsr-pages"])
 app.include_router(feature_pages.router, tags=["feature-pages"])
-
-# ---------------------------------------------------------------------------
-# 增长页英文版 + 博客文章真实 URL（2026-11-06，SEO 修复）
-# ---------------------------------------------------------------------------
-# 背景：academy/community/blog/podcast/summit/trust 的根路径文件内容本身即英文
-# （html lang="en"），但 sitemap 生成 /en/ 前缀 URL 时无对应路由 → 死链；
-# 博客文章此前只有 hash 路由（/#slug），搜索引擎无法索引。
-# 处理：逐页固定注册（不用 /en/{page} 通配，避免吞掉 /en/rules 等 I18N 页）；
-# 注册顺序必须在 gpsr/feature router 之后、`/{lang}/{page}` 之前。
-# zh 不做 SEO（2026-11-06 决策）：sitemap/hreflang 已整体移除 zh。
-EN_GROWTH_PAGES = ("blog", "academy", "community", "podcast", "summit", "trust")
-_EN_GROWTH_CACHE = {"Cache-Control": "no-cache, no-store, must-revalidate"}
-
-
-def _en_growth_page(page: str):
-    f = Path(__file__).parent / "static" / f"{page}.html"
-    if not f.is_file():
-        raise HTTPException(status_code=404)
-    return FileResponse(f, headers=_EN_GROWTH_CACHE)
-
-
-for _p in EN_GROWTH_PAGES:
-    def _handler(_page: str = _p):
-        return _en_growth_page(_page)
-    app.get(f"/en/{_p}", include_in_schema=False)(_handler)
-
-
-@app.get("/en/blog/{slug}", include_in_schema=False)
-def en_blog_post(slug: str):
-    """博客文章规范 URL（英文，SEO 可索引；正文服务端渲染 + Article JSON-LD）。"""
-    return blog_post_pages.render_post(slug)
-
-
-@app.get("/blog/{slug}", include_in_schema=False)
-def blog_post_root_redirect(slug: str):
-    """根路径文章 URL 归一：规范地址为 /en/blog/{slug}（英文首发）。"""
-    return RedirectResponse(f"/en/blog/{slug}", status_code=301)
-# ---------------------------------------------------------------------------
 app.include_router(compliance.router, prefix=f"{API_PREFIX}/compliance", tags=["compliance"])
 app.include_router(automation.router, prefix=f"{API_PREFIX}", tags=["automation"])
 app.include_router(listings.router, prefix=f"{API_PREFIX}", tags=["watch"])
 app.include_router(notifications.router, prefix=f"{API_PREFIX}", tags=["notifications"])
 app.include_router(connectors.router, prefix=f"{API_PREFIX}/platforms", tags=["connectors"])
+app.include_router(platform_auth.router, prefix=f"{API_PREFIX}/platform-auth", tags=["platform-auth"])
+app.include_router(entitlements.router, prefix=f"{API_PREFIX}/entitlements", tags=["entitlements"])
+app.include_router(platform_tasks.router, prefix=f"{API_PREFIX}/platform-tasks", tags=["platform-tasks"])
+app.include_router(incidents.router, prefix=f"{API_PREFIX}/incidents", tags=["incidents"])
+app.include_router(provenance.router, prefix=f"{API_PREFIX}/provenance", tags=["provenance"])
 
 # 社区 / 播客 / 峰会 —— 对标 Helium 10 Seller Connect Forum / Serious Sellers Podcast / Prosper Show
 app.include_router(community.router, prefix=f"{API_PREFIX}/community", tags=["community"])
@@ -447,6 +220,13 @@ app.include_router(summit.router, prefix=f"{API_PREFIX}/summit", tags=["summit"]
 app.include_router(blog.router, prefix=f"{API_PREFIX}/blog", tags=["blog"])
 app.include_router(trust.router, prefix=f"{API_PREFIX}/trust", tags=["trust"])
 app.include_router(academy.router, prefix=f"{API_PREFIX}/academy", tags=["academy"])
+# 能力地图新版：/zh/v2/** 与 /site-preview/**，必须早于 /{lang}/{page} 兜底
+app.include_router(site_preview.router)
+# 能力地图新版：/zh/v2/** 与 /site-preview/**，必须早于 /{lang}/{page} 兜底
+app.include_router(site_preview.router)
+app.include_router(home_page.router)  # /zh/home-assets/**（纯新增，不碰原站）
+from .routers import newsletter  # 政策周报订阅（纯新增）
+app.include_router(newsletter.router, prefix=f"{API_PREFIX}/newsletter", tags=["newsletter"])
 
 # 静态资源：/img/** 直接映射到 app/static/img/**（平台 logo、头像等）
 app.mount("/img", StaticFiles(directory=Path(__file__).parent / "static" / "img"), name="img")
@@ -528,81 +308,11 @@ def _feature_nav_html(lang: str = "zh") -> str:
             f'<div class="fdrop">{links}</div></div>')
 
 
-@app.get("/en/sitemap", include_in_schema=False)
-def html_sitemap():
-    """可索引的 HTML 站点地图（英文）：把全部可索引 URL 串成站内抓取枢纽。
-
-    2026-11-07 索引加速：Googlebot 从首页可达的链接出发，能一次性发现
-    13 个平台规则页与 5 篇高意图文章，比只依赖 sitemap.xml 更快。
-    页面自带 canonical + en-only hreflang，避免 middleware 注入 de/fr 死链。
-    """
-    from xml.sax.saxutils import escape
-    base = settings.site_url
-    canonical = f"{base}/en/sitemap"
-    blog_paths = [f"/blog/{s}" for s in _blog_slugs()]
-    rule_paths = [p for p in SITEMAP_PATHS if p.startswith("/rules/")]
-    feature_paths = [p for p in SITEMAP_PATHS if p.startswith("/features")]
-    core_paths = [p for p in SITEMAP_PATHS
-                  if not p.startswith(("/rules/", "/features"))
-                  and p != "/sitemap"]
-    groups = (
-        ("High-intent compliance guides", blog_paths),
-        ("Marketplace rule pages (13 platforms)", rule_paths),
-        ("Product capability pages", feature_paths),
-        ("Core pages", core_paths),
-    )
-
-    def _li(path: str) -> str:
-        url = _sitemap_loc("en", path)
-        label = url[len(base):] or "/"
-        return f'<li><a href="{escape(url)}">{escape(label)}</a></li>'
-
-    sections = []
-    for title, paths in groups:
-        if not paths:
-            continue
-        sections.append(
-            f'<section><h2>{escape(title)} <span class="n">{len(paths)}</span></h2>'
-            f'<ul class="cols">{"".join(_li(p) for p in paths)}</ul></section>')
-
-    page = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Site map | CrossAIO EU compliance guides &amp; marketplace rules</title>
-<link rel="canonical" href="{escape(canonical)}">
-<link rel="alternate" hreflang="en" href="{escape(canonical)}">
-<link rel="alternate" hreflang="x-default" href="{escape(canonical)}">
-<meta name="description" content="Browse every CrossAIO page: EU GPSR compliance guides, Error 5995 and takedown appeal SOPs, and native rule pages for 13 European marketplaces.">
-<style>
-body{{margin:0;background:#f6f7f9;color:#1b1f26;font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
-.wrap{{max-width:1000px;margin:0 auto;padding:36px 20px 70px}}
-h1{{font-size:26px;margin:0 0 6px}} p.sub{{color:#6b7280;margin:0 0 28px}}
-section{{background:#fff;border:1px solid #e6e8ec;border-radius:10px;padding:18px 20px;margin-bottom:16px}}
-h2{{font-size:16px;margin:0 0 12px}} h2 .n{{color:#6b7280;font-weight:400;font-size:13px}}
-ul.cols{{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:4px 20px}}
-li a{{color:#0f766e;text-decoration:none}} li a:hover{{text-decoration:underline}}
-footer{{margin-top:24px;color:#6b7280;font-size:13px}}
-@media(max-width:700px){{ul.cols{{grid-template-columns:1fr}}}}
-</style>
-</head>
-<body><div class="wrap">
-<h1>CrossAIO site map</h1>
-<p class="sub">All indexable English pages, grouped by intent. Updated {SITEMAP_LASTMOD}.</p>
-{''.join(sections)}
-<footer><a href="/en/">Home</a> · <a href="/sitemap.xml">XML sitemap</a> · CrossAIO © 2026</footer>
-</div></body></html>"""
-    return HTMLResponse(page, headers={"Cache-Control": "no-cache"})
-
-
-@app.get("/traffic", include_in_schema=False)
-def traffic_dashboard():
-    """内部访问量看板（noindex；数据接口需 X-Admin-Token）。"""
-    return FileResponse(
-        Path(__file__).parent / "static" / "traffic.html",
-        headers={"Cache-Control": "no-cache, no-store, must-revalidate"},
-    )
+def _feature_nav_html_all() -> str:
+    """工作台为单页多语言（前端胶囊切换），后端无法知道当前语言：
+    注入 zh/en/de/fr 四份「产品能力」下拉，外层 span[data-fnlang] 标记，
+    前端 applyI18n 按 LANG 用 display:contents 显示当前语言那份。"""
+    return ""  # 2026-11-11：按用户要求，工作台头部不再注入「产品能力」下拉（zh/en/de/fr 同步）
 
 
 @app.get("/app", include_in_schema=False)
@@ -614,7 +324,7 @@ def app_workbench():
     """
     html = (Path(__file__).parent / "static" / "index.html").read_text(encoding="utf-8")
     return HTMLResponse(
-        html.replace("<!--FEATURE_NAV-->", _feature_nav_html()),
+        html.replace("<!--FEATURE_NAV-->", _feature_nav_html_all()),
         headers={"Cache-Control": "no-cache, no-store, must-revalidate"},
     )
 
@@ -681,7 +391,7 @@ def summit_page():
 
 @app.get("/rules", include_in_schema=False)
 def rules_page():
-    """免费平台规则速查页（13 平台 SEO/社群获客资产，数据来自注册表 API）"""
+    """免费平台规则速查页（12 平台 SEO/社群获客资产，数据来自注册表 API）"""
     return FileResponse(Path(__file__).parent / "static" / "rules.html")
 
 
@@ -779,17 +489,12 @@ def lang_home(lang: str):
 
 @app.get("/{lang}/app", include_in_schema=False)
 def lang_app(lang: str):
-    """语言工作台：/en/app 等，注入对应语言的「产品能力」导航。"""
+    """旧版语言工作台已下线：301 到新版统一工作台 /app。"""
     if lang not in I18N_LANGS:
         raise HTTPException(status_code=404)
-    f = Path(__file__).parent / "static" / lang / "index.html"
-    if not f.is_file():
-        raise HTTPException(status_code=404)
-    html = f.read_text(encoding="utf-8")
-    return HTMLResponse(
-        html.replace("<!--FEATURE_NAV-->", _feature_nav_html(lang)),
-        headers={"Cache-Control": "no-cache, no-store, must-revalidate"},
-    )
+    # 旧版语言工作台已下线（static/{lang}/index.html 已移除）：
+    # 统一 301 到新版工作台 /app（内置 EN/DE/FR/中文 胶囊切换）
+    return RedirectResponse("/app", status_code=301)
 
 
 @app.get("/{lang}/{page}", include_in_schema=False)
@@ -814,81 +519,49 @@ SITEMAP_PATHS = (
     "/features/review-rewrite", "/features/ai-service",
     "/features/safety-redline", "/features/inbox", "/features/ad-copy",
     "/features/listing-watch",
-    # 平台原生规则落地页（2026-11-06 补齐 registry 全部 13 平台）
-    "/rules/amazon", "/rules/amazon_us", "/rules/ebay", "/rules/zalando",
-    "/rules/fruugo", "/rules/walmart", "/rules/tiktok",
+    # 平台原生规则落地页（6 平台）
     "/rules/allegro", "/rules/emag", "/rules/cdiscount", "/rules/otto",
     "/rules/kaufland", "/rules/bol",
     # 增长飞轮页（Academy / 社区 / 博客 / 播客 / 峰会 / 信任）
     "/academy", "/community", "/blog", "/podcast", "/summit", "/trust",
-    "/sitemap",  # HTML 站点地图：首页可达的抓取枢纽（2026-11-07 索引加速）
 )
-SITEMAP_LANGS = ("en", "de", "fr")  # 三语（2026-11-06 决策：zh 不做 SEO，不入 sitemap/hreflang）
-SITEMAP_LASTMOD = "2026-11-07"  # 索引加速：内容更新后改 lastmod，提示 Googlebot 重抓
-
-# 单语页面：仅英文版真实存在（内容即英文，见 /en/{page} 增长页路由），
-# sitemap 只收录 en；de/fr 无内容版，不得生成死链。
-SITEMAP_EN_ONLY_PATHS = ("/academy", "/community", "/blog", "/podcast",
-                         "/summit", "/trust", "/sitemap")
+SITEMAP_LANGS = ("en", "de", "fr", "zh")  # 英文优先，中文最后
+SITEMAP_LASTMOD = "2026-11-05"
 
 
 def _sitemap_loc(lang: str, path: str) -> str:
-    # 首页特例：英文=根路径（默认首页）；其余页面按语言前缀。
-    # zh 不做 SEO（2026-11-06 决策）：不再生成 /zh/ URL。
+    # 首页特例：英文=根路径（默认首页），中文=/zh/；其余页面中文无前缀
     if path == "/":
-        return settings.site_url + ("/" if lang == "en" else f"/{lang}/")
-    return settings.site_url + f"/{lang}/" + path.lstrip("/")
-
-
-def _path_langs(path: str) -> tuple:
-    """每路径收录语言：默认三语；单语页仅 en；博客文章页仅 en（英文首发）。"""
-    if path in SITEMAP_EN_ONLY_PATHS or path.startswith("/blog/"):
-        return ("en",)
-    return SITEMAP_LANGS
-
-
-def _blog_slugs() -> list[str]:
-    """已发布博客文章 slug（sitemap 动态收录 /blog/{slug}，规范 URL 为 /en/blog/{slug}）。
-
-    查询失败时返回空列表——sitemap 仍输出其余页面，不为内容库异常放大故障。
-    """
-    try:
-        from .database import SessionLocal
-        from .community_models import BlogPost
-        db = SessionLocal()
-        try:
-            return [s for (s,) in db.query(BlogPost.slug)
-                    .filter(BlogPost.is_published.is_(True))
-                    .order_by(BlogPost.published_at.desc()).all()]
-        finally:
-            db.close()
-    except Exception:
-        return []
+        if lang == "en":
+            return settings.site_url + "/"
+        if lang == "zh":
+            return settings.site_url + "/zh/"
+        return f"{settings.site_url}/{lang}/"
+    return settings.site_url + (path if lang == "zh"
+                                else f"/{lang}/" + path.lstrip("/"))
 
 
 @app.get("/sitemap.xml", include_in_schema=False)
 def sitemap_xml():
     """动态站点地图：基址取 settings.site_url（SEO 身份域名）；
-    每条 URL 携带该路径实际存在语言的 hreflang 互链（单语页仅 en + x-default）；
-    登录/注册/工作台不入图；博客文章随内容库动态收录。"""
+    每条 URL 携带 4 语言 hreflang 互链；登录/注册/工作台不入图。"""
     from xml.sax.saxutils import escape
 
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
-    paths = list(SITEMAP_PATHS) + [f"/blog/{s}" for s in _blog_slugs()]
-    for path in paths:
-        langs = _path_langs(path)
-        loc = _sitemap_loc(langs[0], path)
-        alts = "".join(
-            f'<xhtml:link rel="alternate" hreflang="{lg}" '
-            f'href="{escape(_sitemap_loc(lg, path))}"/>'
-            for lg in langs)
-        alts += (f'<xhtml:link rel="alternate" hreflang="x-default" '
-                 f'href="{escape(_sitemap_loc("en", path))}"/>')
-        out.append(
-            f"  <url><loc>{escape(loc)}</loc>"
-            f"<lastmod>{SITEMAP_LASTMOD}</lastmod>{alts}</url>")
+    for path in SITEMAP_PATHS:
+        for lang in SITEMAP_LANGS:
+            loc = _sitemap_loc(lang, path)
+            alts = "".join(
+                f'<xhtml:link rel="alternate" hreflang="{lg}" '
+                f'href="{escape(_sitemap_loc(lg, path))}"/>'
+                for lg in SITEMAP_LANGS)
+            alts += (f'<xhtml:link rel="alternate" hreflang="x-default" '
+                     f'href="{escape(_sitemap_loc("en", path))}"/>')
+            out.append(
+                f"  <url><loc>{escape(loc)}</loc>"
+                f"<lastmod>{SITEMAP_LASTMOD}</lastmod>{alts}</url>")
     out.append("</urlset>")
     return Response("\n".join(out), media_type="application/xml")
 

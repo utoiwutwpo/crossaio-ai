@@ -10,7 +10,7 @@ from ..auth import get_current_user
 from ..ebay_service import eBayService
 from ..billing import check_and_record_usage
 
-router = APIRouter(prefix="/ebay", tags=["eBay 接入"])
+router = APIRouter(tags=["eBay 接入"])  # 修复双重前缀：main.py 已挂 /api/v1/ebay
 ebay_svc = eBayService()
 
 
@@ -20,6 +20,10 @@ def get_ebay_auth_url(user: User = Depends(get_current_user)):
     前端调用此接口拿到授权 URL，跳转到 eBay OAuth 页
     卖家登录后 eBay 回调 /ebay/oauth/callback
     """
+
+    from ..config import settings
+    if not (getattr(settings, "ebay_client_id", "") and getattr(settings, "ebay_client_secret", "")):
+        raise HTTPException(400, "eBay 应用凭证未配置：请先在授权中心完成应用配置（EBAY_CLIENT_ID / EBAY_CLIENT_SECRET）")
     import secrets
     state = secrets.token_urlsafe(32)
     # TODO: 把 state 存到 session/DB 防 CSRF
@@ -76,7 +80,7 @@ async def ebay_message_webhook(
         raise HTTPException(status_code=400, detail="无法确定卖家身份")
 
     # 检查授权状态
-    conn = db.query(EBayConnection).filter_by(user_id=user_id).first()
+    conn = db.query(eBayConnection).filter_by(user_id=user_id).first()
     if not conn:
         raise HTTPException(status_code=403, detail="eBay 未授权，请先连接 eBay")
 
@@ -144,7 +148,7 @@ def get_ebay_connection_status(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    conn = db.query(EBayConnection).filter_by(user_id=user.id).first()
+    conn = db.query(eBayConnection).filter_by(user_id=user.id).first()
     if not conn:
         return {"connected": False}
     return {

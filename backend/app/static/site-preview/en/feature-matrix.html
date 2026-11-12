@@ -1,0 +1,424 @@
+<! DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>12 platform distribution at one time | CrossAIO</title>
+<style>:root{--ac:#06B6D4}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#0B1022;font-family:'Inter','PingFang SC','Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#site-nav,#site-nav *{box-sizing:border-box}
+.s-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.s-hero{position:relative;overflow:hidden;background:linear-gradient(116deg,#070A1C 0%,#120F35 46%,#2A1670 100%);color:#fff;padding:56px 0 0}
+.s-grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:72px 72px}
+.s-orb{position:absolute;width:520px;height:520px;border-radius:50%;right:-120px;top:-160px;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 65%);filter:blur(6px)}
+.s-in{position:relative;display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;padding-bottom:44px}
+.s-l{flex:1 1 520px;min-width:0}
+.s-kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;color:#B7C4FF;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px}
+.s-h1{font-size:44px;line-height:1.16;letter-spacing:-.02em;margin:18px 0 14px;font-weight:800}
+.s-sub{font-size:15px;line-height:1.8;color:#C6CBE0;max-width:640px}
+.s-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.s-bp{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(47,107,255,.35)}
+.s-bg2{border:1px solid rgba(255,255,255,.28);color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:999px;text-decoration:none}
+.s-chips{display:flex;gap:18px;margin-top:18px;font-size:12.5px;color:#9AA3BD;flex-wrap:wrap}
+.s-chips span::before{content:"✓";color:#5EEAD4;margin-right:6px}
+.s-r{flex:0 0 460px;min-width:0}
+.s-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.s-shot img{display:block;width:100%;height:268px;object-fit:cover}
+.s-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#5EEAD4,transparent);animation:scan 3.4s linear infinite;opacity:.8}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.s-hud{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(8,11,26,.86);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px;backdrop-filter:blur(8px)}
+.s-hud .h{display:flex;justify-content:space-between;font-size:10.5px;color:#8FA0C8;font-family:Consolas,monospace;margin-bottom:8px}
+.s-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);margin-bottom:7px;overflow:hidden}
+.s-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2F6BFF,var(--ac,#5EEAD4))}
+.s-bar b{display:flex;justify-content:space-between;font-size:10.5px;color:#C6CBE0;font-weight:400;margin-bottom:3px}
+.s-band{background:#FAFAFD;border-bottom:1px solid #EEF1F7;padding:22px 0}
+.s-band .row{display:flex;gap:28px;flex-wrap:wrap}
+.s-band .it{flex:1 1 200px}
+.s-band b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--ac,#2F6BFF)}
+.s-band span{display:block;font-size:12px;color:#7A8499;margin-top:4px}
+.s-sec{padding:60px 0}
+.s-sec.soft{background:#FAFAFD;border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7}
+.s-eyebrow{font-size:11px;letter-spacing:.2em;color:var(--ac,#2F6BFF);font-weight:800}
+.s-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.s-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.s-steps{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.s-step{flex:1 1 200px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;position:relative;transition:.18s}
+.s-step:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08);border-color:#CBD5F5}
+.s-step .n{font-size:10.5px;letter-spacing:.14em;color:#8A93A6}
+.s-step .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center;margin:8px 0 10px}
+.s-step h4{font-size:14px;margin:0 0 6px;color:#0B1022}
+.s-step p{font-size:12px;color:#5B6478;line-height:1.7;margin:0}
+.s-table{margin-top:24px;border:1px solid #E3E7F0;border-radius:14px;overflow:hidden;background:#fff}
+.s-table table{width:100%;border-collapse:collapse;font-size:12.5px}
+.s-table th{text-align:left;font-weight:700;color:#0B1022;background:#F7F9FF;padding:11px 14px;font-size:12px}
+.s-table td{padding:11px 14px;border-top:1px solid #EEF1F7;color:#5B6478}
+.s-table td b{color:#0B1022;font-weight:600}
+.s-tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px}
+.s-ok{background:#ECFDF5;color:#065F46}.s-mid{background:#FFF7ED;color:#9A3412}.s-no{background:#FFF1F2;color:#9F1239}
+.s-files{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-file{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:12px;padding:14px}
+.s-file .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#8A93A6}
+.s-file .nm{margin-top:8px;font-family:Consolas,monospace;font-size:12.5px;color:#0B1022;word-break:break-all}
+.s-file p{font-size:12px;color:#5B6478;line-height:1.7;margin:8px 0 0}
+.s-sib{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.s-card{flex:1 1 260px;min-width:0;background:#fff;border:1px solid #E3E7F0;border-radius:14px;padding:16px;text-decoration:none;color:inherit;display:block;transition:.18s}
+.s-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(23,20,64,.08)}
+.s-card .ic{width:30px;height:30px;border-radius:9px;background:#F2F5FF;display:flex;align-items:center;justify-content:center}
+.s-card h4{font-size:14px;margin:10px 0 5px}
+.s-card p{font-size:12px;color:#5B6478;line-height:1.7;margin:0 0 8px}
+.s-card .go{font-size:11.5px;font-weight:700;color:var(--ac,#2F6BFF)}
+.s-end{margin-top:44px;border-radius:18px;background:linear-gradient(120deg,#141033,#2A1670 60%,#4C1D95);padding:34px 38px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;color:#fff}
+.s-end h3{margin:0;font-size:22px;letter-spacing:-.01em}
+.s-end p{margin:8px 0 0;font-size:13px;color:#C6CBE0}
+.s-foot{background:#fff;border-top:1px solid #EEF1F7;padding:20px 0;font-size:12px;color:#8A93A6}
+.s-foot .row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.s-foot a{color:#2F6BFF;text-decoration:none;margin-left:14px}
+@media(max-width:1080px){
+ .s-in{flex-direction:column}.s-r{flex:1 1 auto;width:100%}
+ .s-h1{font-size:34px}.s-steps .s-step{flex:1 1 100%}
+}
+</style>
+
+
+
+
+<style id="hx-css">
+.hx{padding:0}
+.hx-sec{padding:64px 0;background:#fff;border-top:1px solid #EEF1F7}
+.hx-sec.alt{background:#FBFBFE}
+.hx-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.hx-eyebrow{font-size:11px;letter-spacing:.2em;color:#7C3AED;font-weight:800}
+.hx-h2{font-size:30px;letter-spacing:-.02em;margin:10px 0 8px;color:#0B1022}
+.hx-lead{font-size:14px;color:#5B6478;line-height:1.85;max-width:780px}
+.hx-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.hx-tab{border:1px solid #E3E7F0;background:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;color:#3D465C;cursor:pointer}
+.hx-tab.on{background:linear-gradient(120deg,#2F6BFF,#7C3AED);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(47,107,255,.28)}
+.hx-panel{display:none;margin-top:18px;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:22px;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.hx-panel.on{display:flex}
+.hx-pl{flex:1 1 420px;min-width:0}
+.hx-pl h4{font-size:16px;margin:0 0 10px;color:#0B1022}
+.hx-pl li{font-size:13px;color:#5B6478;line-height:1.9;margin-bottom:6px}
+.hx-pr{flex:0 1 300px;min-width:0;background:#0A0F24;border-radius:14px;padding:16px;color:#fff}
+.hx-pr .k{font-size:10.5px;letter-spacing:.16em;color:#8FA0C8}
+.hx-pr .v{font-size:26px;font-weight:800;margin:6px 0 2px;color:#fff}
+.hx-pr .u{font-size:12px;color:#A9B4D0}
+.hx-pr .b{height:5px;border-radius:99px;background:rgba(255,255,255,.12);margin-top:12px;overflow:hidden}
+.hx-pr .b i{display:block;height:100%;background:linear-gradient(90deg,#2F6BFF,#7C3AED)}
+.hx-viz{margin-top:22px;border-radius:16px;background:#0A0F24;padding:14px 16px;overflow:hidden}
+.hx-viz svg{display:block;width:100%;height:auto}
+.hx-nums{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.hx-num{flex:1 1 200px;min-width:0;border:1px solid #E3E7F0;border-radius:14px;padding:16px 18px;background:#fff}
+.hx-num b{display:block;font-size:30px;letter-spacing:-.02em;color:#0B1022}
+.hx-num span{display:block;font-size:12px;color:#7A8499;margin-top:2px}
+.hx-num em{display:block;font-size:11px;color:#0E9F6E;font-style:normal;margin-top:8px}
+.hx-marq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);border-top:1px solid #EEF1F7;border-bottom:1px solid #EEF1F7;padding:12px 0}
+.hx-marq .row{display:flex;gap:26px;white-space:nowrap;animation:hxscroll 26s linear infinite;font-size:12px;color:#7A8499;letter-spacing:.06em}
+@keyframes hxscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hx-gh{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;align-items:flex-start}
+.hx-heat{flex:1 1 560px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px}
+.hx-heat .hd{display:flex;justify-content:space-between;font-size:12px;color:#3D465C;margin-bottom:12px}
+.hx-svg{display:block;width:100%;height:auto}
+.hx-lg{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8A93A6}
+.hx-lg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.hx-rt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.hx-ci{border:1px solid #E3E7F0;border-radius:12px;background:#fff;padding:12px 14px;font-size:12.5px;color:#3D465C}
+.hx-ci .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hx-ci b{font-weight:600}
+.hx-ok{color:#0E9F6E}.hx-warn{color:#B45309}.hx-bad{color:#DC2626}
+.hx-diff{border:1px solid #E3E7F0;border-radius:12px;overflow:hidden;background:#0A0F24;font-family:Consolas,monospace;font-size:12px}
+.hx-diff .h{display:flex;justify-content:space-between;padding:8px 12px;background:#111834;color:#8FA0C8;font-size:11px}
+.hx-diff pre{margin:0;padding:12px;color:#C6CBE0;line-height:1.7;max-height:190px;overflow:auto}
+.hx-diff .a{color:#7EE2A8}.hx-diff .d{color:#FF9AA2}
+.hx-tl{margin-top:24px;border-left:2px solid #E3E7F0;padding-left:18px}
+.hx-tl .it{position:relative;margin-bottom:16px}
+.hx-tl .it::before{content:"";position:absolute;left:-25px;top:4px;width:8px;height:8px;border-radius:50%;background:#7C3AED}
+.hx-tl .d{font-size:11px;color:#8A93A6;letter-spacing:.08em}
+.hx-tl .t{font-size:13.5px;color:#0B1022;margin-top:2px}
+.hx-cases{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.hx-case{flex:1 1 300px;min-width:0;border:1px solid #E3E7F0;border-radius:16px;background:#fff;padding:18px;transition:.18s}
+.hx-case:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(23,20,64,.09)}
+.hx-case b{display:block;font-size:28px;letter-spacing:-.02em;color:#0B1022}
+.hx-case span{display:block;font-size:11.5px;color:#7A8499;margin-top:2px}
+.hx-case p{font-size:12.5px;color:#5B6478;line-height:1.8;margin:10px 0 12px}
+.hx-case a{font-size:12px;font-weight:700;color:#2F6BFF;text-decoration:none}
+.hx-faq{margin-top:24px;border-top:1px solid #EEF1F7}
+.hx-faq details{border-bottom:1px solid #EEF1F7;padding:14px 0}
+.hx-faq summary{cursor:pointer;font-size:14px;font-weight:600;color:#0B1022;list-style:none}
+.hx-faq summary::after{content:"+";float:right;color:#8A93A6}
+.hx-faq details[open] summary::after{content:"−"}
+.hx-faq p{font-size:13px;color:#5B6478;line-height:1.85;margin:10px 0 0}
+@media(max-width:1080px){.hx-pl,.hx-pr,.hx-heat,.hx-rt{flex:1 1 100%}}
+/* 17 个页面各自的动效，keyframe 名不重复 */
+@keyframes ax1{0%{transform:translateX(0);opacity:.35}45%{opacity:1}100%{transform:translateX(700px);opacity:.35}}
+@keyframes ax2{0%{stroke-dashoffset:520}100%{stroke-dashoffset:0}}
+@keyframes ax2p{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes ax3{0%{transform:scaleY(.05)}60%{transform:scaleY(1)}100%{transform:scaleY(.85)}}
+@keyframes ax4{0%{stroke-dashoffset:300}100%{stroke-dashoffset:60}}
+@keyframes ax5{0%{transform:translateY(-6px);opacity:.2}30%{opacity:1}100%{transform:translateY(150px);opacity:.2}}
+@keyframes ax6{0%{width:0}70%{width:100%}100%{width:72%}}
+@keyframes ax7{0%,15%{opacity:.18;r:7}40%,55%{opacity:1;r:11}85%,100%{opacity:.18;r:7}}
+@keyframes ax8{0%{width:0}100%{width:var(--w)}}
+@keyframes ax9{0%{transform:translateY(14px);opacity:0}30%{opacity:1;transform:translateY(0)}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ax10{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes ax10b{0%,100%{opacity:.22}50%{opacity:1}}
+@keyframes ax11{0%{transform:scaleX(.1);transform-origin:left}70%{transform:scaleX(1)}100%{transform:scaleX(.9)}}
+@keyframes ax12{0%{transform:translateY(-30px);opacity:.15}55%{opacity:1}100%{transform:translateY(40px);opacity:.15}}
+@keyframes ax13{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes ax14{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+@keyframes ax15{0%{stroke-dashoffset:440}100%{stroke-dashoffset:150}}
+@keyframes ax16{0%{width:0}100%{width:var(--w)}}
+@keyframes ax17{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+
+<style id="cx-foot-css">
+#cxfoot{position:relative;overflow:hidden;background:linear-gradient(180deg,#070A18 0%,#0C1029 58%,#0A0E22 100%);color:#C2CBE3;font-size:13px;line-height:1.65;border-top:1px solid rgba(255,255,255,.09);-webkit-font-smoothing:antialiased}
+#cxfoot .cx-g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);mask-image:radial-gradient(120% 92% at 18% 0,#000,transparent 76%);pointer-events:none}
+#cxfoot .cx-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 0;display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+#cxfoot .cx-brand{flex:0 1 320px;min-width:260px}
+#cxfoot .cx-logo{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+#cxfoot .cx-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F6BFF,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+#cxfoot .cx-tag{margin:12px 0 0;color:#8E98BA;font-size:12.5px;max-width:300px}
+#cxfoot .cx-badge{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 11px;border-radius:9px;border:1px solid rgba(79,123,255,.32);background:rgba(79,123,255,.10);color:#BFD0FF;font-size:11.5px;font-weight:600}
+#cxfoot .cx-badge i{width:6px;height:6px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+#cxfoot .cx-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;height:46px;padding:0 18px;border-radius:12px;background:linear-gradient(96deg,#4F7BFF,#7C3AED);color:#fff;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 10px 26px rgba(79,123,255,.28)}
+#cxfoot .cx-cta:hover{filter:brightness(1.08)}
+#cxfoot .cx-cols{flex:1 1 640px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 22px;min-width:0}
+#cxfoot h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#7E88AC;text-transform:uppercase}
+#cxfoot ul{list-style:none;margin:0;padding:0}
+#cxfoot li{margin:0}
+#cxfoot a.cx-l{display:block;padding:7px 0;min-height:30px;color:#B9C2DC;text-decoration:none;font-size:12.5px;word-break:break-word}
+#cxfoot a.cx-l:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(124,58,237,.7)}
+#cxfoot a.cx-l small{display:block;color:#6F7899;font-size:10.5px;line-height:1.5;margin-top:1px}
+#cxfoot .cx-bar{position:relative;z-index:2;max-width:1240px;margin:34px auto 0;padding:16px 24px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#7F88A8;font-size:11.5px}
+#cxfoot .cx-copy{color:#7F88A8}
+#cxfoot .cx-legal{display:flex;gap:4px;flex-wrap:wrap}
+#cxfoot .cx-legal a{color:#8E97B7;text-decoration:none;padding:8px 10px;border-radius:8px;min-height:32px;display:inline-flex;align-items:center}
+#cxfoot .cx-legal a:hover{color:#fff;background:rgba(255,255,255,.06)}
+#cxfoot .cx-ok{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#8FE3C0}
+#cxfoot .cx-ok i{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.14)}
+@media (max-width:1100px){#cxfoot .cx-in{padding:40px 18px 0;gap:34px}#cxfoot .cx-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#cxfoot .cx-in{flex-direction:column;padding:34px 16px 0;gap:26px}#cxfoot .cx-brand{flex:none;width:100%}#cxfoot .cx-cols{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:22px 16px}#cxfoot .cx-cols>div:last-child{grid-column:1/-1}#cxfoot .cx-cols>div:last-child ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}#cxfoot .cx-bar{margin-top:24px;padding:14px 16px 22px;gap:8px}#cxfoot .cx-ok{margin-left:0}#cxfoot a.cx-l{padding:10px 0;min-height:44px}#cxfoot .cx-legal a{min-height:44px}}
+
+</style><style id="cx-viz">
+.cx-viz{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.cx-viz .cv-chrome{position:absolute;left:0;right:0;top:0;height:24px;display:flex;align-items:center;gap:7px;
+padding:0 9px;background:linear-gradient(180deg,rgba(6,9,22,.86),rgba(6,9,22,.5));
+border-bottom:1px solid rgba(255,255,255,.09);font:700 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+color:#9FB0D6;letter-spacing:.02em}
+.cx-viz .cv-chrome b{color:#E6ECFF;font-weight:800}
+.cx-viz .cv-chrome .cv-d{display:inline-flex;gap:4px;margin-right:2px}
+.cx-viz .cv-chrome .cv-d i{width:6px;height:6px;border-radius:99px;background:#FF6B6B}
+.cx-viz .cv-chrome .cv-d i:nth-child(2){background:#F5C451}
+.cx-viz .cv-chrome .cv-d i:nth-child(3){background:#37D67A}
+
+.cx-viz .cv-mx{position:absolute;right:12px;top:40px;display:grid;grid-template-columns:repeat(4,6px);
+grid-auto-rows:6px;gap:5px;padding:8px;border-radius:9px;background:rgba(6,10,24,.62);
+border:1px solid rgba(124,58,237,.3)}
+.cx-viz .cv-mx i{border-radius:99px;background:#7C3AED;animation:cvMatrixWave 2.4s ease-in-out infinite}
+.cx-viz .cv-mx i:nth-child(4n+1){animation-delay:.1s}
+.cx-viz .cv-mx i:nth-child(4n+2){animation-delay:.35s}
+.cx-viz .cv-mx i:nth-child(4n+3){animation-delay:.6s}
+.cx-viz .cv-mx i:nth-child(4n){animation-delay:.85s}
+@keyframes cvMatrixWave{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+</style><style id="cx-hudfix">
+.s-shot img{height:330px}
+.s-hud{left:10px;right:10px;bottom:10px;padding:9px 11px}
+.s-hud .s-bar{height:auto;background:none;border-radius:0;overflow:visible;margin-bottom:4px}
+.s-hud .s-bar b{display:flex;justify-content:space-between;gap:8px;
+font:600 9.5px/1.4 -apple-system,"Segoe UI",Arial,sans-serif;color:#A9B6D2;letter-spacing:0;margin:0}
+.s-hud .s-bar b span:last-child{color:#F2F6FF;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-hud .s-bar i{display:block;height:3px;margin-top:3px;border-radius:99px;
+background:linear-gradient(90deg,rgba(47,107,255,.95),rgba(124,58,237,.9));box-shadow:0 0 8px rgba(47,107,255,.32)}
+</style>
+<style id="i18n-fit">
+.cv-checks{max-width:150px}
+.cv-checks p{white-space:normal;line-height:1.25;font-size:8px;overflow-wrap:anywhere}
+.s-hud .s-bar b{font-size:8.6px}
+.s-hud .s-bar b span{min-width:0}
+.s-hud .s-bar b span:first-child{flex:0 1 auto;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-hud .s-bar b span:last-child{flex:0 1 auto;max-width:54%;overflow:hidden;text-overflow:ellipsis}
+.b-met .v,.b-tag,.s-tag{max-width:100%;overflow-wrap:break-word}
+</style>
+<style id="cx-nav-fixed">/* 全站导航栏统一固定（吸顶）*/nav{position:-webkit-sticky!important;position:sticky!important;top:0!important;z-index:1000!important;background:#fff!important;box-shadow:0 1px 0 rgba(15,23,42,.07)!important}#site-nav,.site-nav{position:-webkit-sticky!important;position:sticky!important;top:-41px!important;z-index:1000!important}#site-nav nav,.site-nav nav{position:static!important;box-shadow:0 1px 0 rgba(15,23,42,.10)!important}</style>
+</head>
+<body>
+
+<div class="s-hero"><div class="s-grid"></div><div class="s-orb"></div>
+ <div class="s-wrap"><div class="s-in">
+  <div class="s-l">
+   <div class="s-kick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"/><path d="M16.8 13.6v6.4M13.6 16.8h6.4"/></svg> Product Capabilities 03 · Distribution</div>
+   <h1 class="s-h1">One input — <br>12 platforms, each done right</h1>
+   <p class="s-sub">Not mass mailing. The titles, languages, measurement units, and compliance blocks obtained by each platform are different, but they all come from the same source material.</p>
+   <div class="s-cta"><a class="s-bp" href="/en/signup">Try a batch for free</a><a class="s-bg2" href="/en/v2/platform/app">See access rating</a></div>
+   <div class="s-chips"><span>Enter once</span><span>Platform-by-platform verification</span><span>Retry if failed</span></div>
+  </div>
+  <div class="s-r"><div class="s-shot"><img src="/img/crossaio/sub-feature-matrix.jpg" alt=""><div class="s-scan"></div><div class="cx-viz"><div class="cv-chrome"><span class="cv-d"><i></i><i></i><i></i></span>crossaio · <b>/en/v2/feature/matrix</b></div><div class="cv-mx">
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+</div></div>
+<div class="s-hud"><div class="h"><span>Batch 2026-1110</span><span>12 / 12 Completed</span></div><div class="s-bar"><b><span>Allegro</span><span>OK</span></b><i style="width:100%"></i></div><div class="s-bar"><b><span>OTTO</span><span>OK</span></b><i style="width:100%"></i></div><div class="s-bar"><b><span>eMAG</span><span>Package has been generated</span></b><i style="width:70%"></i></div><div class="s-bar"><b><span>Zalando</span><span>Pending authorization</span></b><i style="width:45%"></i></div></div></div></div></div></div></div>
+<div class="s-band"><div class="s-wrap"><div class="row">
+  <div class="it"><b>12</b><span>platform</span></div><div class="it"><b>8</b><span>Language</span></div><div class="it"><b>1</b><span>source information</span></div><div class="it"><b>14</b><span>product documentation</span></div>
+</div></div></div>
+
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">02 / Five-step flow</div>
+ <h2 class="s-h2">Source data comes in, platform packages come out</h2>
+ <div class="s-lead">The middle layer does mapping and verification, not copying.</div>
+
+ <div class="s-steps"><div class="s-step"><div class="n">STEP 01</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v9L12 22 4 17.5z"/><path d="M4 8.5 12 13l8-4.5"/><path d="M12 13v9"/><path d="M8.6 6.4 12 8.3l3.4-1.9"/></svg></div><h4>Source data normalization</h4><p>Excel/ERP export is first grouped into a set of fields, and conflicting items are marked.</p></div><div class="s-step"><div class="n">STEP 02</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"/><path d="M16.8 13.6v6.4M13.6 16.8h6.4"/></svg></div><h4>platform mapping</h4><p>Mapping according to the field name and order of each platform, and length and type conversion one by one.</p></div><div class="s-step"><div class="n">STEP 03</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="4.4" width="15.2" height="15.2" rx="2"/><path d="M4.4 9.2h15.2"/><path d="M4.4 14h15.2"/><path d="M9.6 4.4v15.2"/></svg></div><h4>localization</h4><p>Language, units of measurement, currency, and banned words are handled on a site-by-site basis.</p></div><div class="s-step"><div class="n">STEP 04</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.4" width="3.6" height="8.8" rx="1"/><rect x="10.2" y="6.4" width="3.6" height="12.8" rx="1"/><rect x="16.4" y="3.4" width="3.6" height="15.8" rx="1"/><path d="M4 6.4h16"/></svg></div><h4>Submit on a platform-by-platform basis</h4><p>If you can directly transmit the API, if you can't, I will give you the package; if it fails, try again individually.</p></div><div class="s-step"><div class="n">STEP 05</div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5.4h5.6v13.2H6z"/><path d="M12.4 5.4H18v13.2h-5.6z"/><path d="M7.6 9.4h2.4M7.6 12h2.4M14 10.6l2.4 2.6M16.4 10.6l-2.4 2.6"/></svg></div><h4>Result reconciliation</h4><p>12-line result table: success, pending confirmation, failure reason.</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">03 / Boundary and caliber</div>
+ <h2 class="s-h2">Which step can be reached automatically? Write it down clearly.</h2>
+ <div class="s-lead">Class A fully automatic, Class B semi-automatic, Class C are included. This table is our commitment boundary.</div>
+ <div class="s-table"><table>
+  <thead><tr><th>platform</th><th>Grading</th><th>way</th><th>Status</th></tr></thead>
+  <tbody><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 97 26" width="97" height="26" role="img" aria-label="allegro" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="96" height="25" rx="3.25" fill="#FF5A00"/><g transform="scale(0.65)"><circle cx="24" cy="20" r="9" fill="none" stroke="#FFFFFF" stroke-width="2.4"/><path d="M24 12a8 8 0 010 16" stroke="#FFFFFF" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">allegro</text></svg></td><td>A</td><td>API direct transfer</td><td><span class="s-tag s-ok">Fully automatic</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 115 26" width="115" height="26" role="img" aria-label="TikTok Shop" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="114" height="25" rx="3.25" fill="#0B0B0F"/><g transform="scale(0.65)"><path d="M24 15v10a4 4 0 11-4-4" stroke="#FE2C55" stroke-width="2.8" fill="none"/><path d="M24 15c1 3 3 5 7 5" stroke="#FE2C55" stroke-width="2.2" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">TikTok Shop</text></svg></td><td>A</td><td>API (qualification required)</td><td><span class="s-tag s-ok">Fully automatic</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 104 26" width="104" height="26" role="img" aria-label="AMAZON" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="103" height="25" rx="3.25" fill="#131A22"/><g transform="scale(0.65)"><path d="M19 31c8 5.4 18 5.4 27 0" stroke="#FF9900" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M30 27l5-2.6 4 4.6" stroke="#FF9900" stroke-width="2.4" fill="none"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">AMAZON</text></svg></td><td>B</td><td>Permitted Messages</td><td><span class="s-tag s-mid">Semi-automatic</span></td></tr><tr><td><b>eBay</b></td><td>B</td><td>legacy interface</td><td><span class="s-tag s-mid">Semi-automatic</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 105 26" width="105" height="26" role="img" aria-label="Walmart" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="104" height="25" rx="3.25" fill="#0071CE"/><g transform="scale(0.65)"><g stroke="#FFC220" stroke-width="2.6" stroke-linecap="round"><path d="M24 10v8M24 26v8M10 22h8M30 22h8M14 12l5 5M29 25l5 5M34 12l-5 5M19 25l-5 5"/></g></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">Walmart</text></svg></td><td>B</td><td>To be verified</td><td><span class="s-tag s-mid">Semi-automatic</span></td></tr><tr><td><b>bol</b></td><td>B</td><td>To be verified</td><td><span class="s-tag s-mid">Semi-automatic</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 83 26" width="83" height="26" role="img" aria-label="OTTO" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="82" height="25" rx="3.25" fill="#E2001A"/><g transform="scale(0.65)"><rect x="15" y="14" width="15" height="15" rx="3" fill="#FFFFFF" opacity=".92"/><rect x="20" y="19" width="5" height="5" rx="1.4" fill="#0A0F24"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">OTTO</text></svg></td><td>C</td><td>Background import</td><td><span class="s-tag s-no">Give the package</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 85 26" width="85" height="26" role="img" aria-label="eMAG" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="84" height="25" rx="3.25" fill="#FF3C00"/><g transform="scale(0.65)"><path d="M17 24a8 8 0 1112 6" stroke="#FFFFFF" stroke-width="2.6" fill="none"/><circle cx="30" cy="30" r="2" fill="#FFFFFF"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">eMAG</text></svg></td><td>C</td><td>Background import</td><td><span class="s-tag s-no">Give the package</span></td></tr><tr><td style="padding-top:6px;padding-bottom:6px"><svg viewBox="0 0 89 26" width="89" height="26" role="img" aria-label="fruugo" style="vertical-align:middle;margin:2px 0"><rect x=".5" y=".5" width="88" height="25" rx="3.25" fill="#009FE3"/><g transform="scale(0.65)"><path d="M22 26V14h9M22 20h7" stroke="#FFFFFF" stroke-width="2.4" fill="none"/><path d="M34 15l7 7-7 7" stroke="#FFFFFF" stroke-width="2" opacity=".85"/></g><text x="29.900000000000002" y="16.38" font-family="Arial,Helvetica,sans-serif" font-size="8.775" font-weight="700" fill="#FFFFFF">fruugo</text></svg></td><td>C</td><td>Background import</td><td><span class="s-tag s-no">Give the package</span></td></tr></tbody>
+ </table></div>
+</div></div>
+
+<div class="s-sec"><div class="s-wrap">
+ <div class="s-eyebrow">04 / Ready-to-use products</div>
+ <h2 class="s-h2">Click to open the file, not the screenshot</h2>
+ <div class="s-lead">Each product can be submitted directly, complained directly, and accounted for directly.</div>
+ <div class="s-files"><div class="s-file"><div class="top"><span>ZIP</span><span style="color:#06B6D4">Whole batch</span></div><div class="nm">pack_12platforms_20261110.zip</div><p>12 Platform subcontracting + manifest + upload steps</p></div><div class="s-file"><div class="top"><span>CSV</span><span style="color:#06B6D4">Reconciliation</span></div><div class="nm">dispatch_result_1110.csv</div><p>Status and failure reasons by SKU and platform</p></div><div class="s-file"><div class="top"><span>MD</span><span style="color:#06B6D4">handover</span></div><div class="nm">upload_guide.md</div><p>Where to click and which file to upload on each platform</p></div></div>
+</div></div>
+
+<div class="s-sec soft"><div class="s-wrap">
+ <div class="s-eyebrow">05 / You may belong to another segment</div>
+ <h2 class="s-h2">Then go down, there is no need to go back to the homepage and start over.</h2>
+ <div class="s-sib"><a class="s-card" href="/en/v2/feature/listing"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 6.4h8.2M4.6 10.4h6"/><path d="M4.6 14.4h5.2"/><path d="M15.8 9.4l3.6 3.6-6.4 6.4-3.8.8.8-3.8z"/></svg></div><h4>Multi-platform copywriting generation</h4><p>There is copywriting first, then distribution.</p><div class="go">Read the copy →</div></a><a class="s-card" href="/en/v2/platform/limits"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.4" r="6.6"/><path d="M12 6.8V4.4M9.6 3.4h4.8"/><path d="M12 13.4l3-2.4"/><path d="M9.4 13.6l1.4 1.5 3.2-3.4"/></svg></div><h4>Word Count and Language Quick Facts</h4><p>12 Platforms can be checked in one page.</p><div class="go">See quick search →</div></a><a class="s-card" href="/en/v2/ops"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.6a7.6 7.6 0 0 1 15.2 0"/><path d="M12 16.6 15.6 10"/><circle cx="12" cy="16.6" r="1.5"/><path d="M4.8 12.4 6 13M18.6 12.4 19.2 13.6M9.6 7.6 10.4 8.9M14.4 7.6 13.6 8.9"/></svg></div><h4>Daily operations, 7×24 monitoring</h4><p>Distribution is followed by ongoing inspections.</p><div class="go">See operations →</div></a></div>
+ <div class="s-end">
+   <div><h3>Launched on 3 platforms initially and then expanded to 12</h3><p>The free version is 5 times per day, which is enough to verify the process.</p></div>
+   <div class="s-cta"><a class="s-bp" href="/en/signup">Try a batch for free</a></div>
+ </div>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="hx">
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">06 / Workbench Perspective · 12 Platform Distribution</div>
+  <h2 class="hx-h2">Once input, each of the 12 platforms will land.</h2>
+  <div class="hx-lead">Which company has direct transmission, which company provides package, and which company failed can be checked line by line. If it fails, only that line will be retried.</div>
+  <div class="hx-tabs"><button class="hx-tab on" data-i="0">Unify</button><button class="hx-tab" data-i="1">mapping</button><button class="hx-tab" data-i="2">Distribute</button><button class="hx-tab" data-i="3">Try again</button></div>
+  <div class="hx-panel on"><div class="hx-pl"><h4>Unify</h4><ul style="margin:0;padding-left:18px"><li>The source data is first normalized and conflicting fields are marked.</li><li>Images are rearranged according to platform size</li><li>No lossless overwriting, retain the original value</li></ul></div><div class="hx-pr"><div class="k">Field conflict</div><div class="v">3 places</div><div class="u">Marked for confirmation</div><div class="b"><i style="width:70%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>mapping</h4><ul style="margin:0;padding-left:18px"><li>46 field differences aligned one by one</li><li>Empty values do not fill in placeholders, prefer missing to false</li><li>Mapping table can be exported</li></ul></div><div class="hx-pr"><div class="k">mapping</div><div class="v">46 / 46</div><div class="u">Align all</div><div class="b"><i style="width:100%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Distribute</h4><ul style="margin:0;padding-left:18px"><li>Class A direct transmission, Class B semi-automatic, Class C package</li><li>Platform-by-platform response, not aggregated into one sentence of success</li><li>Retry alone if failed</li></ul></div><div class="hx-pr"><div class="k">success</div><div class="v">11 / 12</div><div class="u">1 pending authorization</div><div class="b"><i style="width:92%"></i></div></div></div><div class="hx-panel"><div class="hx-pl"><h4>Try again</h4><ul style="margin:0;padding-left:18px"><li>Only rerun failed platforms</li><li>Successful parts will not be rolled back</li><li>Record the number of retries and reasons</li></ul></div><div class="hx-pr"><div class="k">Try again</div><div class="v">1 time</div><div class="u">bol.com pending authorization</div><div class="b"><i style="width:100%"></i></div></div></div>
+  <div class="hx-viz"><svg viewBox="0 0 740 130"><circle cx="90" cy="28" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 0.0s infinite"/><text x="104" y="32" fill="#8FA0C8" font-size="9">P1</text><circle cx="240" cy="28" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 0.18s infinite"/><text x="254" y="32" fill="#8FA0C8" font-size="9">P2</text><circle cx="390" cy="28" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 0.36s infinite"/><text x="404" y="32" fill="#8FA0C8" font-size="9">P3</text><circle cx="540" cy="28" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 0.54s infinite"/><text x="554" y="32" fill="#8FA0C8" font-size="9">P4</text><circle cx="90" cy="60" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 0.72s infinite"/><text x="104" y="64" fill="#8FA0C8" font-size="9">P5</text><circle cx="240" cy="60" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 0.8999999999999999s infinite"/><text x="254" y="64" fill="#8FA0C8" font-size="9">P6</text><circle cx="390" cy="60" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 1.08s infinite"/><text x="404" y="64" fill="#8FA0C8" font-size="9">P7</text><circle cx="540" cy="60" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 1.26s infinite"/><text x="554" y="64" fill="#8FA0C8" font-size="9">P8</text><circle cx="90" cy="92" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 1.44s infinite"/><text x="104" y="96" fill="#8FA0C8" font-size="9">P9</text><circle cx="240" cy="92" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 1.6199999999999999s infinite"/><text x="254" y="96" fill="#8FA0C8" font-size="9">P10</text><circle cx="390" cy="92" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 1.7999999999999998s infinite"/><text x="404" y="96" fill="#8FA0C8" font-size="9">P11</text><circle cx="540" cy="92" r="7" fill="#06B6D4" style="animation:ax7 2.6s ease-in-out 1.98s infinite"/><text x="554" y="96" fill="#8FA0C8" font-size="9">P12</text></svg></div>
+  <div class="hx-nums"><div class="hx-num"><b>12</b><span>target platform</span><em>Enter once</em></div><div class="hx-num"><b>46</b><span>Field differences</span><em>Align one by one</em></div><div class="hx-num"><b>11</b><span>Successful direct transmission</span><em>1 pending authorization</em></div><div class="hx-num"><b>14</b><span>single batch file</span><em>CSV/JSON/Graph</em></div></div>
+  
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">07 / Traceability · Distribution receipt</div>
+  <h2 class="hx-h2">Every time you distribute, leave a verifiable distribution slip</h2>
+  <div class="hx-lead">Platform, status, failure reason, number of retries, all aligned in four columns, no need to look through chat history.</div>
+  <div class="hx-gh">
+    <div class="hx-heat"><div class="hd"><span>Distributed in the last 52 weeks</span><span>A total of 9,860 batches</span></div><svg class="hx-svg" viewBox="0 0 624 84" role="img" aria-label="Execution heat map over the past 52 weeks"><rect x="0" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="0" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="0" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="0" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="0" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="0" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="12" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="12" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="12" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="12" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="12" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="12" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="24" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="24" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="24" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="24" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="24" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="36" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="36" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="36" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="48" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="48" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="48" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="48" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="60" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="60" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="60" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="60" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="60" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="72" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="72" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="72" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="72" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="72" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="84" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="84" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="84" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="96" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="96" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="96" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="96" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="108" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="108" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="108" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="108" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="108" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="120" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="120" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="120" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="120" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="132" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="132" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="132" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="132" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="132" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="144" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="144" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="144" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="144" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="156" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="156" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="156" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="156" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="156" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="168" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="168" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="168" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="168" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="168" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="180" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="180" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="180" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="180" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="180" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="192" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="192" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="192" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="192" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="204" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="204" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="204" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="204" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="204" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="216" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="216" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="216" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="216" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="228" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="228" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="228" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="228" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="228" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="240" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="240" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="240" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="240" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="240" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="252" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="252" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="252" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="252" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="252" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="264" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="264" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="264" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="276" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="276" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="276" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="276" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="276" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="288" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="288" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="288" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="288" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="300" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="300" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="300" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="300" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="312" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="312" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="312" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="312" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="312" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="324" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="324" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="324" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="324" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="336" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="24" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="336" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="336" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="336" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="348" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="348" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="348" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="348" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="348" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="360" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="360" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="360" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="360" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="360" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="372" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="372" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="372" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="372" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="372" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="384" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="384" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="384" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="384" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="384" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="396" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="396" y="60" width="9" height="9" rx="2" fill="#0E4429"/><rect x="396" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="408" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="408" y="36" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="408" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="408" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="420" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="420" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="420" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="420" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="432" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="432" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="432" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="432" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="444" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="444" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="444" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="444" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="456" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="456" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="456" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="456" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="456" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="468" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="468" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="468" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="468" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="480" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="480" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="480" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="480" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="492" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="492" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="48" width="9" height="9" rx="2" fill="#26A641"/><rect x="492" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="492" y="72" width="9" height="9" rx="2" fill="#0E4429"/><rect x="504" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="504" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="504" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="504" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="516" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="516" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="516" y="48" width="9" height="9" rx="2" fill="#006D32"/><rect x="516" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="516" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="0" width="9" height="9" rx="2" fill="#0E4429"/><rect x="528" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="528" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="528" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="528" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="528" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="540" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="540" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="60" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="540" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="552" y="12" width="9" height="9" rx="2" fill="#0E4429"/><rect x="552" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="36" width="9" height="9" rx="2" fill="#26A641"/><rect x="552" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="552" y="60" width="9" height="9" rx="2" fill="#006D32"/><rect x="552" y="72" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="0" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="564" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="564" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="564" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="564" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="564" y="72" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="0" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="12" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="24" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="576" y="36" width="9" height="9" rx="2" fill="#006D32"/><rect x="576" y="48" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="576" y="60" width="9" height="9" rx="2" fill="#26A641"/><rect x="576" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="0" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="12" width="9" height="9" rx="2" fill="#26A641"/><rect x="588" y="24" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="588" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="588" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="588" y="72" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="600" y="12" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="24" width="9" height="9" rx="2" fill="#006D32"/><rect x="600" y="36" width="9" height="9" rx="2" fill="#0E4429"/><rect x="600" y="48" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="600" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="600" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="0" width="9" height="9" rx="2" fill="#26A641"/><rect x="612" y="12" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="24" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="36" width="9" height="9" rx="2" fill="#EBEDF0"/><rect x="612" y="48" width="9" height="9" rx="2" fill="#0E4429"/><rect x="612" y="60" width="9" height="9" rx="2" fill="#9BE9A8"/><rect x="612" y="72" width="9" height="9" rx="2" fill="#9BE9A8"/></svg>
+      <div class="hx-lg">less<i style="background:#EBEDF0"></i><i style="background:#9BE9A8"></i><i style="background:#26A641"></i><i style="background:#006D32"></i><i style="background:#0E4429"></i>Much</div>
+    </div>
+    <div class="hx-rt"><div class="hx-ci"><div class="row"><b>Direct transmission successful</b><span class="hx-warn">11 / 12</span></div><div style="color:#8A93A6;margin-top:4px">1 pending authorization</div></div><div class="hx-ci"><div class="row"><b>Field mapping</b><span class="hx-ok">Pass</span></div><div style="color:#8A93A6;margin-top:4px">46 items aligned</div></div><div class="hx-ci"><div class="row"><b>Retry on failure</b><span class="hx-ok">Pass</span></div><div style="color:#8A93A6;margin-top:4px">Retry alone without rollback</div></div>
+      <div class="hx-diff"><div class="h"><span>dispatch.20261110.diff</span><span>bb31f7c</span></div><pre><span class="a">+ platform: 11 ok</span>
+<span class="d">- platform: bol.com # Pending authorization</span>
+<span class="a">+ retry: bol.com queued</span>
+<span class="a">+ manifest: 14 files</span></pre></div>
+    </div>
+  </div>
+  <div class="hx-tl"><div class="it"><div class="d">2026-11-10 10:30</div><div class="t">The source data is normalized and 3 field conflicts are marked.</div></div><div class="it"><div class="d">2026-11-10 10:34</div><div class="t">12 Platform mapping and submission</div></div><div class="it"><div class="d">2026-11-10 10:41</div><div class="t">11 Success, bol.com queues to try again</div></div></div>
+</div></div>
+
+<div class="hx-sec"><div class="hx-wrap">
+  <div class="hx-eyebrow">08 / Real results · Distribute actual measurements</div>
+  <h2 class="hx-h2">The distribution success rate is calculated for you by platform.</h2>
+  <div class="hx-cases"><div class="hx-case"><b>11/12</b><span>The first round of distribution was successful</span><p>The only thing that failed was that the authorization was not completed, and it was not a system problem.</p><a href="/en/v2/tool/check">Check my store free →</a></div><div class="hx-case"><b>46</b><span>field alignment items</span><p>Each item can refer to the original text of the platform.</p><a href="/en/v2/platform/limits">See the next step →</a></div><div class="hx-case"><b>1 time</b><span>Try again</span><p>Only the failed platform will be re-run, and the rest will not be rolled back.</p><a href="/en/signup">Start free · 5 checks a day →</a></div></div>
+</div></div>
+
+<div class="hx-sec alt"><div class="hx-wrap">
+  <div class="hx-eyebrow">09 / FAQ</div>
+  <h2 class="hx-h2">Questions about distributing to 12 platforms at once</h2>
+  <div class="hx-faq"><details><summary>Will failure drag down the entire batch?</summary><p>No, it is independent by platform, and the successful part is retained.</p></details><details><summary>What does a C-level platform give?</summary><p>Provide a file package that can be uploaded directly + fill in the instructions field by field.</p></details><details><summary>Do the pictures need to be redone?</summary><p>Automatically crop according to the platform size and retain the original image.</p></details><details><summary>Can I only publish to some platforms?</summary><p>Yes, after checking, only the selected platform will be processed.</p></details></div>
+</div></div>
+<script>(function(){try{var t=document.querySelectorAll('.hx-tab'),p=document.querySelectorAll('.hx-panel');for(var i=0;i<t.length;i++){(function(k){t[k].addEventListener('click',function(){for(var j=0;j<t.length;j++){t[j].className='hx-tab'+(j===k?' on':'');p[j].className='hx-panel'+(j===k?' on':'');}});})(i);}}catch(e){}})();</script>
+</div>
+
+
+<div id="cxfoot">
+<div class="cx-g"></div>
+<div class="cx-in">
+  <div class="cx-brand">
+    <a class="cx-logo" href="/"><span class="cx-mark">🤖</span>CrossAIO</a>
+    <p class="cx-tag">The Listing quality and compliance engine for European cross-border sellers. One workspace, from first-pass check to post-incident rescue.</p>
+    <span class="cx-badge"><i></i>EU 2023/988 · GPSR now enforced</span>
+    <a class="cx-cta" href="/en/v2/tool/check">Check my store free · 30s <span>→</span></a>
+  </div>
+  <div class="cx-cols">
+    <div>
+      <h4>Capability map</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/launch">01 Before launch<small>One pass inspection · About 10 minutes</small></a></li>
+        <li><a class="cx-l" href="/en/v2/rescue">02 Accident<small>5 minutes qualitative · Trilingual appeal</small></a></li>
+        <li><a class="cx-l" href="/en/v2/ops">03 Daily operations<small>12 platforms × 6 automatic inspections</small></a></li>
+        <li><a class="cx-l" href="/en/v2/govern">04 Governance<small>A/B/C classification · Handling marks</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Product capabilities</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/feature/gpsr">GPSR Compliance Block<small>Responsible person · Warning words · Technical documents</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/listing">Listing quality<small>Field validation · Title word count</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/matrix">12 Platform verification<small>A2 / B5 / C5 classification</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/review">Word of mouth and reviews<small>Negative review · Reply template</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/ai-service">AI customer service<small>Pre-sale Q&A·After-sale comfort</small></a></li>
+        <li><a class="cx-l" href="/en/v2/feature/safety">Risk and safety<small>Account suspension warning · Complaint leaving traces</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Platforms covered</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/platform/rules">Differences in platform rules<small>12 platform comparison</small></a></li>
+        <li><a class="cx-l" href="/en/v2/platform/app">Access status classification<small>A fully automatic · B semi-automatic · C manual</small></a></li>
+        <li><a class="cx-l" href="/en/v2/platform/localize">Localization and Language<small>Native Language Policy · Units of Measurement</small></a></li>
+        <li><a class="cx-l" href="/en/v2/platform/limits">Word count and field limits<small>OTTO 70 / Amazon 200</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Free tools</h4>
+      <ul>
+        <li><a class="cx-l" href="/en/v2/tool/check">Compliance check<small>30 seconds · No binding to the store or authorization</small></a></li>
+        <li><a class="cx-l" href="/en/v2/tool/skills">Skills workflow<small>Connect to your ERP/forms</small></a></li>
+        <li><a class="cx-l" href="/en/v2/tool/trust">trust center<small>Data boundaries · Read-only authorization</small></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Community & resources</h4>
+      <ul>
+        <li><a class="cx-l" href="/academy">college<small>Compliance and Grievance Course</small></a></li>
+        <li><a class="cx-l" href="/community">community<small>European seller mutual assistance</small></a></li>
+        <li><a class="cx-l" href="/blog">Blog<small>Interpretation of platform rules changes</small></a></li>
+        <li><a class="cx-l" href="/podcast">Podcast<small>Cross-border compliance weekly update</small></a></li>
+        <li><a class="cx-l" href="/summit">summit<small>European Sellers Annual Meeting</small></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="cx-bar">
+  <span class="cx-copy">© 2026 CrossAIO · European full-platform Listing quality and compliance engine</span>
+  <span class="cx-legal">
+    <a href="/en/privacy">privacy policy</a>
+    <a href="/en/terms">Terms of Service</a>
+    <a href="/en/v2/tool/trust">Compliance statement</a>
+    <a href="/en/v2/tool/trust">Data processing</a>
+  </span>
+  <span class="cx-ok"><i></i>All systems operational · Chinese (Simplified)</span>
+</div>
+</div>
+<script id="cx-brand-root">/* 品牌商标统一指向站根（跟随当前域名）*/(function(){try{var o=location.origin+"/";var l=document.querySelectorAll('a.logo,a.cx-logo,a[class*="brand"]');for(var i=0;i<l.length;i++){var a=l[i];if(a.textContent.indexOf("CrossAIO")<0)continue;a.setAttribute("href",o);a.setAttribute("title",o);if(!a.dataset.cxBrand){a.dataset.cxBrand="1";a.addEventListener("click",function(e){e.preventDefault();location.href=o;});}}}catch(e){}})();</script>
+</body></html>

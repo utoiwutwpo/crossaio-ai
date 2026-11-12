@@ -1,9 +1,11 @@
 """产品描述生成与历史（含欧洲多平台市场矩阵）"""
+import json
 import time
 from collections import defaultdict
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from ..database import get_db, User, ProductDescription
@@ -261,6 +263,10 @@ def generate_description(
     db.commit()
     db.refresh(record)
     result.id = record.id
+    from ..experts.content_provenance import build_provenance
+    result.provenance = build_provenance(
+        f"{result.title}\n{result.description}", platform=req.platform,
+        kind="listing_description", source_id=record.id)
     if ctx["found"]:
         result.compliance_note = ctx["display_block"]["text"]
         result.related_audit_id = ctx["audit_id"]
@@ -325,6 +331,10 @@ def generate_market_matrix(
             db.commit()
             db.refresh(record)
             item.id = record.id
+            from ..experts.content_provenance import build_provenance
+            item.provenance = build_provenance(
+                f"{item.title}\n{item.description}", platform=platform,
+                kind="listing_description", source_id=record.id)
             if ctx["found"]:
                 item.compliance_note = ctx["display_block"]["text"]
                 item.related_audit_id = ctx["audit_id"]
@@ -461,3 +471,174 @@ def review_insights(
     # 复用生成额度（feature=product_desc），免费版 5 条/天同池
     check_and_record_usage(db, user, "product_desc")
     return review_expert.analyze(req)
+
+
+# ================= AI 商品内容 → 平台写回（第三档） =================
+
+class _PushReq(BaseModel):
+    platform: str
+    sku: str = ""
+    price: Optional[float] = None
+    currency: str = "EUR"
+    quantity: int = 10
+    dry_run: bool = True
+
+
+@router.post("/descriptions/{desc_id}/push", summary="生成稿写回平台（默认 dry-run，真推需凭证+映射）")
+async def push_description(desc_id: str, req: _PushReq,
+                           user: User = Depends(get_current_user),
+                           db: Session = Depends(get_db)):
+    from ..entitlements import can_act
+    from ..experts.listing_push import build_listing_payload
+    from ..database import PlatformCredential
+    from ..ebay_service import decrypt_secret
+    from ..connectors.channels.registry import adapter_for
+
+    rec = db.get(ProductDescription, desc_id)
+    if not rec or rec.user_id != user.id:
+        raise HTTPException(404, "生成稿不存在")
+    platform = (req.platform or rec.platform or "").strip().lower()
+
+    cred = (db.query(PlatformCredential)
+            .filter(PlatformCredential.user_id == user.id,
+                    PlatformCredential.platform == platform).first())
+    payload_cred = {}
+    if cred:
+        try:
+            raw = decrypt_secret(cred.payload)
+            payload_cred = json.loads(raw) if isinstance(raw, str) else (raw or {})
+        except Exception:
+            payload_cred = {}
+
+    lm = (payload_cred.get("listing_map") or {}).get(req.sku) or {}
+    if req.sku:
+        from ..database import ListingMap
+        row = (db.query(ListingMap)
+               .filter(ListingMap.user_id == user.id,
+                       ListingMap.platform == platform,
+                       ListingMap.sku == req.sku).first())
+        if row:
+            lm = {**(lm or {}),
+                  "offer_id": row.offer_id or (lm or {}).get("offer_id", ""),
+                  "unit_id": row.unit_id or (lm or {}).get("unit_id", ""),
+                  "ean": row.ean or (lm or {}).get("ean", ""),
+                  **json.loads(row.extra_json or "{}")}
+    built = build_listing_payload(platform, rec, sku=req.sku, mapping=lm,
+                                  price=req.price, currency=req.currency,
+                                  quantity=req.quantity)
+    if not built["supported"]:
+        raise HTTPException(409, detail={
+            "reason_code": "platform_unsupported", "hint": built["reason"],
+            "platform": platform, "action": "write_listing"})
+
+    decision = can_act(db, user, platform, "write_listing")
+    if not decision["allowed"]:
+        raise HTTPException(409, detail={
+            "reason_code": decision["reason_code"], "hint": decision["hint"],
+            "platform": platform, "action": "write_listing"})
+
+    if req.dry_run or not payload_cred:
+        return {"ok": True, "dry_run": True, "platform": platform,
+                "endpoint": built["endpoint"], "payload": built["payload"],
+                "warnings": built["warnings"],
+                "next": ("已生成待提交 payload；将 dry_run=false 并保存该平台凭证即可真实提交"
+                         if not payload_cred else "核对 payload 后再 dry_run=false 提交")}
+
+    adapter = adapter_for(platform, payload_cred)
+    try:
+        result = await adapter.push_listing(built["payload"])
+    except Exception as exc:
+        detail = exc.as_dict() if hasattr(exc, "as_dict") else {"reason_code": "platform_error",
+                                                               "hint": str(exc)[:300]}
+        raise HTTPException(409, detail=detail)
+    return {"ok": True, "dry_run": False, "platform": platform, "result": result}
+
+
+class _AgenticReq(BaseModel):
+    platform: str = "amazon"
+    description_id: str = ""
+    product_name: str = ""
+    keywords: List[str] = []
+    language: str = "en"
+    n: int = 8
+
+
+@router.post("/agentic/qa", summary="2026 Agentic：成稿转买家高频问答（Business）")
+def agentic_qa(req: _AgenticReq, user: User = Depends(get_current_user),
+               db: Session = Depends(get_db)):
+    from ..entitlements import can_act, ACTION_PLANS
+    from ..experts.agentic_feed import build_qa
+
+    platform = (req.platform or "amazon").strip().lower()
+    decision = can_act(db, user, platform, "agentic_feed")
+    if not decision["allowed"]:
+        raise HTTPException(402, detail={
+            "reason_code": decision["reason_code"],
+            "hint": decision["hint"],
+            "plan_required": sorted(ACTION_PLANS["agentic_feed"]),
+            "action": "agentic_feed"})
+
+    rec = None
+    if req.description_id:
+        rec = db.get(ProductDescription, req.description_id)
+        if rec and rec.user_id != user.id:
+            rec = None
+    if rec is None:
+        check_and_record_usage(db, user, "product_desc")
+        result = expert.generate(ProductDescriptionRequest(
+            product_name=req.product_name or "product",
+            keywords=req.keywords or ["product"],
+            platform=platform, language=req.language, tone="professional"))
+        rec = ProductDescription(user_id=user.id, product_name=req.product_name,
+                                 platform=platform, language=req.language,
+                                 title=result.title,
+                                 bullet_points=[b.model_dump() for b in result.bullet_points],
+                                 description=result.description,
+                                 search_terms=result.search_terms)
+    return build_qa(rec, platform=platform, language=req.language, n=req.n)
+
+
+# ---------- SKU → 平台对象映射（写回/库存的硬前置） ----------
+
+class _MapReq(BaseModel):
+    platform: str
+    sku: str
+    offer_id: str = ""
+    unit_id: str = ""
+    ean: str = ""
+    extra: Dict[str, str] = {}
+
+
+@router.post("/listing-map", summary="保存 SKU → 平台对象映射（offer_id/unit_id/EAN）")
+def save_listing_map(req: _MapReq, user: User = Depends(get_current_user),
+                     db: Session = Depends(get_db)):
+    from ..database import ListingMap
+    platform = (req.platform or "").strip().lower()
+    sku = (req.sku or "").strip()
+    if not platform or not sku:
+        raise HTTPException(422, "platform 与 sku 必填")
+    row = (db.query(ListingMap)
+           .filter(ListingMap.user_id == user.id, ListingMap.platform == platform,
+                   ListingMap.sku == sku).first())
+    if not row:
+        row = ListingMap(user_id=user.id, platform=platform, sku=sku)
+        db.add(row)
+    row.offer_id = (req.offer_id or "").strip()
+    row.unit_id = (req.unit_id or "").strip()
+    row.ean = (req.ean or "").strip()
+    row.extra_json = json.dumps(req.extra or {}, ensure_ascii=False)
+    db.commit()
+    return {"ok": True, "platform": platform, "sku": sku,
+            "mapping": {"offer_id": row.offer_id, "unit_id": row.unit_id, "ean": row.ean}}
+
+
+@router.get("/listing-map", summary="列出已保存的 SKU 映射")
+def list_listing_map(platform: str = "", user: User = Depends(get_current_user),
+                     db: Session = Depends(get_db)):
+    from ..database import ListingMap
+    q = db.query(ListingMap).filter(ListingMap.user_id == user.id)
+    if platform:
+        q = q.filter(ListingMap.platform == platform.strip().lower())
+    rows = q.order_by(ListingMap.updated_at.desc()).limit(200).all()
+    return {"items": [{"platform": r.platform, "sku": r.sku, "offer_id": r.offer_id,
+                       "unit_id": r.unit_id, "ean": r.ean} for r in rows]}
