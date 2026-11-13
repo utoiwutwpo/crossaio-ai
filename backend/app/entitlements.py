@@ -182,23 +182,45 @@ def fix_hint(platform: str, action: str, reason: str,
     return ""
 
 
+def fix_hint_key(action: str, reason: str) -> str:
+    """拒绝原因的结构化键：前端据此四语种本地化，不直接展示中文 hint/技术码。"""
+    if reason == "platform_unsupported":
+        return "unsupported"
+    if reason == "plan_required":
+        if action == "connect":
+            return "connect_slots"
+        return "business_only" if ACTION_PLANS.get(action, set()) == {"business"} else "pro_only"
+    if reason == "quota_exceeded":
+        return "quota"
+    if reason == "redline_hold":
+        return "redline"
+    if reason == "not_connected":
+        return "not_connected"
+    return ""
+
+
 def can_act(db, user, platform: str, action: str, *,
             redline_flags: Optional[List[str]] = None,
             quota_left: Optional[int] = None) -> Dict:
-    """返回 {allowed, reason_code, hint, platform, action, tier}。
+    """返回 {allowed, reason_code, hint, hint_key, platform, action, tier}。
 
     db 可为 None（纯单元测试时跳过接入位检查）。
     """
     p = (platform or "").strip().lower()
     act = (action or "").strip().lower()
     result = {
-        "allowed": False, "reason_code": "ok", "hint": "",
+        "allowed": False, "reason_code": "ok", "hint": "", "hint_key": "",
         "platform": p, "action": act, "tier": channel_tier(p),
+        "slots_used": 0, "slots_total": 0,
     }
 
     def deny(reason: str, **kw) -> Dict:
         result["reason_code"] = reason
         result["hint"] = fix_hint(p, act, reason, **kw)
+        result["hint_key"] = fix_hint_key(act, reason)
+        if kw.get("slots_total"):
+            result["slots_total"] = kw["slots_total"]
+            result["slots_used"] = kw.get("slots_used", 0)
         return result
 
     if act not in ACTION_CAPABILITY:

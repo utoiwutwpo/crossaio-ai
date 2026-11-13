@@ -627,9 +627,9 @@ header #sitelinks a:focus-visible{ outline:2px solid #22d3ee; outline-offset:3px
   <button class="navtab" data-tab="inbox">📥 <span data-i18n="nav_inbox">收件箱</span></button>
   <div class="sb-foot">
     <div class="sb-upg">
-      <div class="sb-upg-top"><span class="sb-plan">FREE</span><span class="sb-usage"><span data-i18n="sb_today">今日</span> <b id="sbUsed">0</b>/5<span data-i18n="sb_unit"> 次</span></span></div>
-      <div class="sb-upg-t">升级 PRO+</div>
-      <div class="sb-upg-d">解锁 AI 客服 · AI 商品内容 · 合规×事故 · Agentic 2026</div>
+      <div class="sb-upg-top"><span class="sb-plan" id="sbPlan">FREE</span><span class="sb-usage"><span data-i18n="sb_today">今日</span> <b id="sbUsed">0</b>/<span id="sbQuota">5</span> <span data-i18n="sb_unit">次</span></span></div>
+      <div class="sb-upg-t" id="sbUpgT">升级 PRO+</div>
+      <div class="sb-upg-d" id="sbUpgD">解锁 AI 客服 · AI 商品内容 · 合规×事故 · Agentic 2026</div>
       <button class="sb-up" onclick="gotoTab('bill')"><span data-i18n="sb_upgrade">查看订阅档位 →</span></button>
     </div>
   </div>
@@ -1608,6 +1608,28 @@ function renderUserbar(){
   const el = document.getElementById("userbar");
   el.innerHTML = ME ? `<span>${ME.email} · ${ME.plan.toUpperCase()}${ME.daily_limit?`（${WBT("ub_today","今日")} ${ME.usage_today??0}/${ME.daily_limit}）`:""}</span>
     <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()"><span data-i18n="btn_signout">退出</span></button>` : "";
+  refreshPlanBadge();
+}
+// 侧栏套餐徽标 / 今日额度：按真实订阅回填（付费档不再显示 FREE 与 /5）
+function refreshPlanBadge(){
+  try{
+    if(!ME) return;
+    const plan=String(ME.plan||"free").toUpperCase();
+    const planEl=document.getElementById("sbPlan");
+    if(planEl) planEl.textContent=plan;
+    const usedEl=document.getElementById("sbUsed");
+    if(usedEl) usedEl.textContent=String(ME.usage_today==null?0:ME.usage_today);
+    const quotaEl=document.getElementById("sbQuota");
+    if(quotaEl) quotaEl.textContent=String(ME.daily_limit==null?0:ME.daily_limit);
+    const t=document.getElementById("sbUpgT"), d=document.getElementById("sbUpgD");
+    if(plan!=="FREE"){
+      if(t) t.textContent=WBT("sb_manage","管理订阅")+" · "+plan;
+      if(d) d.textContent=WBT("sb_manage_d","续费、发票与档位切换都在订阅管理里完成");
+    }else{
+      if(t) t.textContent=WBT("sb_upgrade_t","升级 PRO+");
+      if(d) d.textContent=WBT("sb_upgrade_d","解锁 AI 客服 · AI 商品内容 · 合规×事故 · Agentic 2026");
+    }
+  }catch(e){}
 }
 function logout(){ localStorage.removeItem("cb_token"); localStorage.removeItem("crossaio_token"); location.reload(); }
 // 会话失效横幅：服务端已无当前账号（多见于部署后数据被重置）时显性提示重新登录
@@ -2983,6 +3005,10 @@ var PLATS=[["amazon","Amazon 欧+美"],["ebay","eBay"],["allegro","Allegro"],["e
 var I18N={
 en:{
 ob_finish:"Get started →",
+sb_manage:"Manage plan",
+sb_manage_d:"Renewal, invoices and tier changes are handled in subscription management",
+sb_upgrade_t:"Upgrade to PRO+",
+sb_upgrade_d:"Unlock AI customer service · AI product content · Compliance × Incidents · Agentic 2026",
 
 lbl_name:"Product name *",
 lbl_kw:"Core keywords (comma-separated) *",
@@ -3310,6 +3336,10 @@ tp_company:"EU RP company (must be established in the EU)",tp_addr:"EU RP addres
 tp_run:"Build 13-platform ZIP",tp_dl:"Download ZIP"},
 de:{
 ob_finish:"Los geht's →",
+sb_manage:"Tarif verwalten",
+sb_manage_d:"Verlängerung, Rechnungen und Tarifwechsel laufen über die Abonnement-Verwaltung",
+sb_upgrade_t:"Auf PRO+ upgraden",
+sb_upgrade_d:"KI-Kundenservice · KI-Produktinhalte · Compliance × Vorfälle · Agentic 2026 freischalten",
 
 lbl_name:"Produktname *",
 lbl_kw:"Kern-Keywords (kommagetrennt) *",
@@ -3637,6 +3667,10 @@ tp_company:"EU-RP Firma (Sitz in der EU nötig)",tp_addr:"EU-RP Adresse",tp_rows
 tp_run:"13-Plattform-ZIP erzeugen",tp_dl:"ZIP herunterladen"},
 fr:{
 ob_finish:"Commencer →",
+sb_manage:"Gérer l’offre",
+sb_manage_d:"Renouvellement, factures et changement d’offre se gèrent dans la section abonnement",
+sb_upgrade_t:"Passer à PRO+",
+sb_upgrade_d:"Débloquer le service client IA · les contenus produit IA · Conformité × Incidents · Agentic 2026",
 
 lbl_name:"Nom du produit *",
 lbl_kw:"Mots-clés principaux (séparés par des virgules) *",
@@ -5722,6 +5756,81 @@ window.__early=[];window.addEventListener('error',function(e){window.__early.pus
     if (d.detail && d.detail.hint) return (window.__uiLabel ? window.__uiLabel(d.detail.hint) : d.detail.hint);
     return JSON.stringify(d).slice(0, 240);
   }
+  // 门控拒绝文案：按 reason_code + 平台 + 动作，在四个语种本地化输出；
+  // 不再把中文 hint 与裸 reason_code 混排给 de/fr/en 用户看。
+  var _ACT_LBL={
+    read_messages:{zh:"读取买家消息",en:"read buyer messages",de:"Käufernachrichten lesen",fr:"lire les messages"},
+    send_message:{zh:"发送回复",en:"send replies",de:"Antworten senden",fr:"envoyer des réponses"},
+    auto_send:{zh:"自动发送",en:"auto-send",de:"automatisch senden",fr:"envoi automatique"},
+    write_listing:{zh:"写回 Listing",en:"write listings",de:"Listings schreiben",fr:"écrire les annonces"},
+    write_inventory:{zh:"写回库存",en:"write inventory",de:"Bestände schreiben",fr:"écrire les stocks"},
+    connect:{zh:"接入凭证",en:"connect credentials",de:"Zugangsdaten verbinden",fr:"connecter les identifiants"},
+    incident:{zh:"事故闭环",en:"incident closure",de:"Vorfall-Abschluss",fr:"clôture d’incident"},
+    agentic_feed:{zh:"Agentic Feed",en:"Agentic Feed",de:"Agentic Feed",fr:"Agentic Feed"},
+  };
+  function _lbl(a){
+    var row=_ACT_LBL[a];
+    return row ? (_uiLang(row)) : (a||"");
+  }
+  function _uiLang(row){
+    var lg=(document.documentElement.lang||"zh").slice(0,2);
+    return row[lg]||row.zh;
+  }
+  function gateText(d) {
+    d = d || {};
+    var det = (d.detail && typeof d.detail==="object") ? d.detail : d;
+    var rc = det.reason_code || "";
+    var p = det.platform || "";
+    var act = det.action || "";
+    var u = det.slots_used, t = det.slots_total;
+    var lg=(document.documentElement.lang||"zh").slice(0,2);
+    var L={
+      platform_unsupported:{
+        zh:"「"+_lbl(act)+"」在 "+p+" 不可用：该平台未开放这个接口。",
+        en:"“"+_lbl(act)+"” isn’t available on "+p+" — this platform doesn’t expose that API.",
+        de:"„"+_lbl(act)+"“ ist auf "+p+" nicht verfügbar – diese Plattform bietet die Schnittstelle nicht.",
+        fr:"« "+_lbl(act)+" » n’est pas disponible sur "+p+" — cette plateforme n’expose pas cette API."},
+      pro_only:{
+        zh:"「"+_lbl(act)+"」需 Pro 及以上套餐；免费/Starter 可先生成草稿，发送前人工确认。",
+        en:"“"+_lbl(act)+"” needs Pro or higher; Free/Starter can still draft it with manual confirmation.",
+        de:"„"+_lbl(act)+"“ erfordert Pro oder höher; Free/Starter können nur entwerfen und manuell bestätigen.",
+        fr:"« "+_lbl(act)+" » nécessite Pro ou plus ; Free/Starter peuvent seulement préparer un brouillon."},
+      business_only:{
+        zh:"「"+_lbl(act)+"」为 Business 专属能力，升级 Business 后可用。",
+        en:"“"+_lbl(act)+"” is exclusive to Business — upgrade to Business to unlock it.",
+        de:"„"+_lbl(act)+"“ ist nur im Business-Tarif verfügbar – dafür auf Business upgraden.",
+        fr:"« "+_lbl(act)+" » est réservé à Business — passez à Business pour l’activer."},
+      connect_slots:{
+        zh:"接入 "+p+" 需要的接入位不足：当前已用 "+(u||0)+"/"+(t||0)+"，请升级套餐或加购接入位。",
+        en:"Connecting "+p+" needs more slots: "+(u||0)+"/"+(t||0)+" already used — upgrade the plan or buy extra slots.",
+        de:"Für "+p+" werden mehr Slots benötigt: "+(u||0)+"/"+(t||0)+" belegt — Tarif upgraden oder Slots dazukaufen.",
+        fr:"Connecter "+p+" demande plus de slots : "+(u||0)+"/"+(t||0)+" déjà utilisés — changez d’offre ou achetez des slots."},
+      quota:{
+        zh:"今日/本月额度已用完，明日恢复，或升级套餐继续。",
+        en:"Today’s/monthly quota is used up — it resets tomorrow, or upgrade to continue now.",
+        de:"Tages-/Monatskontingent aufgebraucht — morgen wieder frei, oder jetzt upgraden.",
+        fr:"Quota du jour/mensuel épuisé — réinitialisation demain, ou passez à une offre supérieure."},
+      redline:{
+        zh:"命中红线或安全事件，AI 不得外发，请人工审核后再处理。",
+        en:"This hits a red line or an open incident — AI may not send it; review it manually first.",
+        de:"Rote Linie oder offener Vorfall — die KI darf nicht senden; bitte zuerst manuell prüfen.",
+        fr:"Ligne rouge ou incident en cours — l’IA ne peut pas envoyer ; vérifiez manuellement d’abord."},
+      not_connected:{
+        zh:p+" 尚未接入凭证，请先到「店铺授权与自动化」完成授权。",
+        en:p+" has no credentials yet — finish the authorization in “Store connections & automation”.",
+        de:p+" hat noch keine Zugangsdaten — zuerst unter „Shop-Verbindungen & Automatisierung“ autorisieren.",
+        fr:p+" n’a pas encore d’identifiants — terminez l’autorisation dans « Connexions boutiques & automatisation »."},
+    };
+    var key = rc;
+    if (rc === "plan_required") {
+      key = (act === "connect") ? "connect_slots"
+          : ((act === "agentic_feed" || act === "incident" || act === "compliance_docs") ? "business_only" : "pro_only");
+    }
+    var msg=(L[key]||{})[lg]||(L[key]||{}).zh||"";
+    if(!msg) return hintOf(d);
+    return msg;
+  }
+  window.__gateText=gateText;
   function badge(on, text) {
     var bg = on ? "rgba(82,196,26,.14)" : "rgba(234,102,104,.14)";
     var fg = on ? "#3C8B1E" : "#B03A3C";
@@ -6957,6 +7066,18 @@ window.__early=[];window.addEventListener('error',function(e){window.__early.pus
     });
   }
 
+  function gateHtml(d) {
+    var det = (d && d.detail && typeof d.detail === "object") ? d.detail : (d || {});
+    var rc = det.reason_code || "";
+    var txt = window.__gateText ? window.__gateText(d) : hintOf(d);
+    var lg = (document.documentElement.lang || "zh").slice(0, 2);
+    var up = {zh: "查看订阅档位 →", en: "View plans →", de: "Tarife ansehen →", fr: "Voir les offres →"}[lg] || "查看订阅档位 →";
+    var btn = (rc === "plan_required" || rc === "quota_exceeded")
+      ? ' <button class="btn ghost" style="margin-top:6px;padding:4px 10px;font-size:12px" onclick="gotoTab(\'bill\')">' + esc(up) + '</button>'
+      : "";
+    return '<div style="font-size:12px;color:#B03A3C;">' + AESC(txt) + btn + '</div>';
+  }
+
   function pushRun() {
     var id = ((el("aicPushId") || {}).value || "").trim() || window._aicLastId || "";
     var plat = (el("aicPushPlat") || {}).value || "amazon";
@@ -6971,9 +7092,8 @@ window.__early=[];window.addEventListener('error',function(e){window.__early.pus
       currency: "EUR", quantity: 10, dry_run: dry
     }}).then(function (r) {
       if (!r.ok) {
-        msg.textContent = "失败：" + hintOf(r.data);
-        out.innerHTML = '<div style="font-size:12px;color:#B03A3C;">reason_code：' +
-          AESC((r.data.detail && r.data.detail.reason_code) || "") + "</div>";
+        msg.textContent = "失败：" + (window.__gateText ? window.__gateText(r.data) : hintOf(r.data));
+        out.innerHTML = gateHtml(r.data);
         return;
       }
       msg.textContent = r.data.dry_run ? "已生成待提交 payload" : "已提交";
@@ -7031,9 +7151,8 @@ window.__early=[];window.addEventListener('error',function(e){window.__early.pus
       product_name: ((el("aicIncName") || {}).value || "").trim(), language: "en"
     }}).then(function (r) {
       if (!r.ok) {
-        note.textContent = "被门控拦下：" + hintOf(r.data);
-        out.innerHTML = '<div style="font-size:12px;color:#B03A3C;">reason_code：' +
-          AESC((r.data.detail && r.data.detail.reason_code) || "") + "</div>";
+        note.textContent = (window.__gateText ? window.__gateText(r.data) : hintOf(r.data));
+        out.innerHTML = gateHtml(r.data);
         return;
       }
       note.textContent = r.data.is_incident ? "已生成闭环产物" : "不是安全事件";
