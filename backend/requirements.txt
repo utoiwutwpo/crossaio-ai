@@ -10,4 +10,4 @@ stripe==11.4.1
 apscheduler==3.10.4
 pycryptodome==3.21.0
 requests==2.34.2
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.11
