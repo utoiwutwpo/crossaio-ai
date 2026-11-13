@@ -1635,12 +1635,20 @@ function logout(){ localStorage.removeItem("cb_token"); localStorage.removeItem(
 // 会话失效横幅：服务端已无当前账号（多见于部署后数据被重置）时显性提示重新登录
 function _sessionBar(){
   if(document.getElementById("cxSessionBar")) return;
-  var lg="zh"; try{ lg=document.documentElement.lang||"zh"; }catch(e){}
+  // 已回到登录卡（未进入工作台）时不再挂底部红条，避免登录页同时出现两条提示
+  var _app=document.getElementById("app"); if(_app && _app.classList.contains("hidden")) return;
+  var lg="zh"; try{ lg=(document.documentElement.lang||"zh").slice(0,2); }catch(e){}
+  var TXT={
+    zh:{msg:"登录状态已失效：本机令牌已过期，或账号在部署/迁移后不存在（服务端查无此账号）。重新登录后即可恢复。",btn:"退出并重新登录"},
+    en:{msg:"Your session is no longer valid: the local token has expired, or this account no longer exists on the server after a deployment/migration. Sign in again to restore access.",btn:"Sign in again"},
+    de:{msg:"Die Sitzung ist nicht mehr gültig: Das lokale Token ist abgelaufen oder das Konto existiert nach einem Deployment/einer Migration nicht mehr. Bitte erneut anmelden.",btn:"Abmelden und neu anmelden"},
+    fr:{msg:"Votre session n’est plus valide : le jeton local a expiré, ou le compte n’existe plus côté serveur après un déploiement/une migration. Reconnectez-vous pour restaurer l’accès.",btn:"Se déconnecter et se reconnecter"}
+  }[lg]||{msg:"登录状态已失效，请重新登录。",btn:"退出并重新登录"};
   var bar=document.createElement("div");
   bar.id="cxSessionBar";
-  bar.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:1200;background:#7f1d1d;color:#fff;padding:10px 16px;font-size:13px;display:flex;gap:12px;align-items:center;justify-content:center;box-shadow:0 -2px 12px rgba(0,0,0,.25)";
-  bar.innerHTML='<span>登录状态已失效（服务端查无此账号，通常是本机令牌过期或部署后数据被重置），部分功能会显示为空。</span>'
-    +'<button id="cxSessionBtn" style="background:#fff;color:#7f1d1d;border:0;padding:6px 14px;border-radius:8px;font-weight:700;cursor:pointer">退出并重新登录</button>';
+  bar.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:1200;background:#7f1d1d;color:#fff;padding:10px 16px;font-size:13px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 -2px 12px rgba(0,0,0,.25)";
+  bar.innerHTML='<span>'+esc(TXT.msg)+'</span>'
+    +'<button id="cxSessionBtn" style="background:#fff;color:#7f1d1d;border:0;padding:6px 14px;border-radius:8px;font-weight:700;cursor:pointer">'+esc(TXT.btn)+'</button>';
   document.body.appendChild(bar);
   var btn=document.getElementById("cxSessionBtn");
   if(btn) btn.onclick=function(){ try{ localStorage.removeItem("crossaio_token"); localStorage.removeItem("cb_token"); }catch(e){} location.href="/app?lang="+lg; };
@@ -2850,7 +2858,19 @@ if(TOKEN){
   var _restoreEnter=function(u){ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); loadCredStatus(); loadAutomationStatus();
     _fillAutoMeta(); pollUnread(); _maybeShowOnboardOnAppear(); };
   var _restoreFail=function(e){
-    if(e && e.status===401){ TOKEN=""; localStorage.removeItem("cb_token"); return; }
+    // 401（token 失效/过期）与 404（服务端查无此账号，常见于账号迁移或换库后）都是"必须重新登录"，
+    // 直接清 token 回登录卡并给出四语提示，而不是进工作台再挂一条英文页面配中文红条。
+    if(e && (e.status===401 || e.status===404)){
+      TOKEN=""; try{ localStorage.removeItem("cb_token"); localStorage.removeItem("crossaio_token"); }catch(_e){}
+      try{ var _b=document.getElementById("cxSessionBar"); if(_b) _b.remove(); }catch(_e){}
+      var lg=(document.documentElement.lang||"zh").slice(0,2);
+      var M={zh:"登录状态已失效（令牌过期，或账号在部署/迁移后不存在），请重新登录。",
+        en:"Your session is no longer valid (token expired, or the account no longer exists after a deployment/migration). Please sign in again.",
+        de:"Die Sitzung ist nicht mehr gültig (Token abgelaufen oder Konto nach Deployment/Migration nicht mehr vorhanden). Bitte erneut anmelden.",
+        fr:"Votre session n’est plus valide (jeton expiré, ou compte inexistant après un déploiement/une migration). Reconnectez-vous."}[lg]||"";
+      setMsg("authMsg", M, "info");
+      return;
+    }
     if(_restoreTries<1){ _restoreTries++; setTimeout(function(){ api("/users/me").then(_restoreEnter).catch(_restoreFail); },900); return; }
     // 重试仍失败：保留 token 并先进入工作台，提示稍后自动刷新
     showApp(); renderUserbar();
