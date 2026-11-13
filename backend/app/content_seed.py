@@ -1013,7 +1013,11 @@ def _ensure_content() -> None:
 
         # ---- 播客 ----
         # 迁移：video_url 列（create_all 不会给已有表加列，用 ALTER 兜底）
-        cols = {r[1] for r in db.execute(text("PRAGMA table_info(podcast_episodes)")).fetchall()}
+        if db.bind.dialect.name == "sqlite":
+            cols = {r[1] for r in db.execute(text("PRAGMA table_info(podcast_episodes)")).fetchall()}
+        else:
+            from sqlalchemy import inspect
+            cols = {c["name"] for c in inspect(db.bind).get_columns("podcast_episodes")}
         if "video_url" not in cols:
             db.execute(text("ALTER TABLE podcast_episodes ADD COLUMN video_url TEXT DEFAULT ''"))
 
