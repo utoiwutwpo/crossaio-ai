@@ -29,6 +29,7 @@ from .routers import (ads, analytics, billing, customer_service, ebay,
                       notifications, connectors, platform_auth,
                       entitlements, platform_tasks, incidents, provenance)
 from . import newsletter_models  # 注册政策周报订阅表（随 create_all 建表）
+from . import lead_models  # 2026-11-14: EU rule-change alert leads (create_all)
 from .routers import site_preview  # 能力地图新版（纯新增）
 from .routers.site_nav import FEATURE_ITEMS, FEATURE_I18N, NAV_I18N
 from .routers import home_page  # /zh 首页资产（纯新增）
@@ -419,6 +420,8 @@ app.include_router(site_preview.router)
 app.include_router(home_page.router)  # /zh/home-assets/**（纯新增，不碰原站）
 from .routers import newsletter  # 政策周报订阅（纯新增）
 app.include_router(newsletter.router, prefix=f"{API_PREFIX}/newsletter", tags=["newsletter"])
+from .routers import leads  # 2026-11-14: answer-then-ask leads (no automated email)
+app.include_router(leads.router, prefix=f"{API_PREFIX}/leads", tags=["leads"])
 
 # 静态资源：/img/** 直接映射到 app/static/img/**（平台 logo、头像等）
 app.mount("/img", StaticFiles(directory=Path(__file__).parent / "static" / "img"), name="img")
@@ -818,7 +821,7 @@ SITEMAP_PATHS = (
     "/resources/dpp-readiness",
 )
 SITEMAP_LANGS = ("en", "de", "fr")  # zh is not an SEO locale (2026-11-06 decision)
-SITEMAP_LASTMOD = "2026-11-12"
+SITEMAP_LASTMOD = "2026-11-14"  # answer-then-ask block + IndexNow key deploy
 
 
 def _sitemap_loc(lang: str, path: str) -> str:
@@ -888,6 +891,18 @@ def robots_txt():
     lines = ["User-agent: *", "Allow: /", "Disallow: /api/",
              f"Sitemap: {settings.site_url}/sitemap.xml", ""]
     return Response("\n".join(lines), media_type="text/plain")
+
+
+# 2026-11-14: IndexNow key file for Bing / ChatGPT Search ingestion.
+# robots.txt already uses "Allow: /" for every user agent, so no robots
+# change is required. The key file must be served at the site root.
+INDEXNOW_KEY = "cai0indexnow2026nov14a7f3e2b9"  # [A-Za-z0-9-], 29 chars
+
+
+@app.get("/" + INDEXNOW_KEY + ".txt", include_in_schema=False)
+def indexnow_key_file():
+    """IndexNow / Bing Webmaster ownership key (plain text, no HTML)."""
+    return Response(INDEXNOW_KEY, media_type="text/plain")
 
 
 @app.get("/{vfile}", include_in_schema=False)

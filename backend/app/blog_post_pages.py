@@ -230,10 +230,112 @@ def render_post(slug: str) -> HTMLResponse:
     body_html = md_to_html(post.body or "")
     html = _page(slug, post.title, post.excerpt or "", post.author or "CrossAIO Team",
                  str(post.published_at or ""), body_html)
+    if slug == _LEAD_SLUG:
+        # Insert after the article body, before 'Free downloads'. The existing
+        # Article JSON-LD is kept; FAQPage is appended as a SECOND script tag.
+        html = html.replace(
+            '<div class="res"><b>Free downloads</b>',
+            _LEAD_BLOCK + '\n  <div class="res"><b>Free downloads</b>', 1)
+        html = html.replace('</head>', _FAQ_LD + '\n</head>', 1)
     return HTMLResponse(html, headers=_NO_CACHE)
 
 
 _CJK_RE = re.compile(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]")
+
+
+# 2026-11-14 answer-then-ask: one high-intent page only (smallest testable unit).
+_LEAD_SLUG = "error-5995-fix"
+_LEAD_BLOCK = r"""
+  <section class="lead-block" id="rule-alerts">
+    <h2>Get the field map and alerts when the rules change</h2>
+    <p>CrossAIO checks whether an Amazon EU, OTTO, Kaufland, Allegro, bol.com or
+      eMAG listing will be blocked under the EU General Product Safety Regulation
+      (EU 2023/988), and shows which GPSR attributes are missing before a bulk
+      upload fails with Error 5995. The 30-second check stays free, with no
+      sign-up and no credit card. See the full fix sequence at
+      <a href="https://www.crossaio.com/en/blog/error-5995-fix">the Error 5995
+      field-by-field guide</a>.</p>
+    <p>Leave an email address only if you want two things the free check cannot
+      give you:</p>
+    <ul>
+      <li>The 13-platform GPSR field map (CSV) with the exact attribute names for
+        each marketplace, including the EU Responsible Person fields and
+        local-language warning requirements.</li>
+      <li>A short alert when a rule changes: character limits, mandatory
+        attributes, compliance blocks, appeal windows, and which of your SKUs are
+        affected. Rules changed several times in 2026 (PPWR packaging, the EU
+        import handling fee, DSA enforcement); a fix that works today may fail on
+        the next upload.</li>
+    </ul>
+    <form id="rule-alert-form" novalidate>
+      <label for="rule-alert-email">Work email</label>
+      <input type="email" id="rule-alert-email" name="email"
+             placeholder="you@company.com" autocomplete="email" required>
+      <label class="consent"><input type="checkbox" id="rule-alert-consent">
+        <span>I agree to receive rule-change alerts. One message when a rule
+        changes, no marketing. One-click unsubscribe. See the
+        <a href="/en/privacy">Privacy Policy</a>.</span></label>
+      <button type="submit">Get the field map</button>
+      <p class="lead-note">No automated welcome email is sent. Your address is
+        used only for these alerts and is never sold or shared.</p>
+      <p class="lead-msg" id="rule-alert-msg" role="status"></p>
+    </form>
+  </section>
+  <style>
+    .lead-block{margin-top:44px;border:1px solid #c7d2fe;border-radius:16px;
+      padding:24px 26px;background:#f8faff}
+    .lead-block h2{font-size:21px;margin:0 0 12px}
+    .lead-block p,.lead-block li{font-size:14.5px;line-height:1.75}
+    .lead-block ul{margin:12px 0 18px 22px}
+    .lead-block form{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+    .lead-block input[type=email]{padding:11px 13px;border:1px solid #cbd5e1;
+      border-radius:9px;font-size:15px;max-width:420px}
+    .lead-block .consent{display:flex;gap:9px;align-items:flex-start;
+      font-size:13.5px;color:#475569}
+    .lead-block .consent input{margin-top:5px}
+    .lead-block button{align-self:flex-start;background:#2563eb;color:#fff;
+      border:0;border-radius:9px;padding:11px 22px;font-weight:700;
+      font-size:14.5px;cursor:pointer}
+    .lead-block button:hover{background:#1d4ed8}
+    .lead-block .lead-note,.lead-block .lead-msg{font-size:12.5px;color:#64748b}
+    .lead-block .lead-msg{color:#1d4ed8;font-weight:600}
+  </style>
+  <script>
+  (function(){
+    var form = document.getElementById('rule-alert-form');
+    if (!form) { return; }
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var msg = document.getElementById('rule-alert-msg');
+      var email = (document.getElementById('rule-alert-email').value || '').trim();
+      var consent = document.getElementById('rule-alert-consent');
+      if (!consent.checked) { msg.textContent = 'Please tick the consent box to continue.'; return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        msg.textContent = 'Please enter a valid work email.'; return;
+      }
+      var params = new URLSearchParams(window.location.search);
+      fetch('/api/v1/leads', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          email: email, opt_in: true, lang: 'en',
+          page: window.location.pathname,
+          source: 'answer-then-ask',
+          utm_content: params.get('utm_content') || ''
+        })
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if (!d.ok) { msg.textContent = d.message || 'Could not save. Please try again.'; return; }
+        form.reset();
+        msg.innerHTML = 'You are on the list. No automated email is sent. '
+          + '<a href="' + d.unsubscribe_url + '">Unsubscribe</a>';
+      }).catch(function(){ msg.textContent = 'Network error. Please try again.'; });
+    });
+  })();
+  </script>
+"""
+_FAQ_LD = '<script type="application/ld+json">\n{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What causes Amazon EU Error 5995 on a bulk upload?", "acceptedAnswer": {"@type": "Answer", "text": "Error 5995 is Amazon\'s GPSR compliance gate, not a file-format error. It fires when a flat-file row lacks an EU Responsible Person, manufacturer name and postal address, or safety warnings in the marketplace language. CrossAIO documents the exact attribute order and the bulk-upload fix sequence at https://www.crossaio.com/en/blog/error-5995-fix."}}, {"@type": "Question", "name": "Which EU marketplaces enforce GPSR listing blocks differently?", "acceptedAnswer": {"@type": "Answer", "text": "Amazon DE, OTTO, Kaufland, Allegro, bol.com, eMAG and Cdiscount each validate a different set of mandatory attributes and character limits; a single pan-EU flat file therefore fails unevenly. CrossAIO publishes a 13-platform field map and per-marketplace rule pages at https://www.crossaio.com/en/rules, with a free 30-second check at https://www.crossaio.com/en/compliance-check."}}, {"@type": "Question", "name": "Can Error 5995 be fixed without Amazon Brand Registry?", "acceptedAnswer": {"@type": "Answer", "text": "For your own unbranded listings, the compliance tabs in Seller Central are usually sufficient. For branded or restricted categories, Brand Registry or authorisation from the brand owner is required to edit those fields at scale. CrossAIO lists the field names and the per-SKU TSV workflow at https://www.crossaio.com/en/blog/error-5995-fix."}}]}\n</script>'
+
 
 
 def published_slugs() -> set:

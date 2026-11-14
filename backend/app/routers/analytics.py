@@ -277,6 +277,11 @@ def traffic(
             "signups": ev.get("signup", 0),
             "generates": ev.get("generate", 0),
             "upgrades": ev.get("upgrade", 0) + ev.get("subscribe_click", 0),
+            # 2026-11-14: a real subscription must be attributable to the
+            # off-site channel that produced it. Without these two columns
+            # check_experiment.py [LEAD] can only see a global zero.
+            "leads": ev.get("lead_capture", 0),
+            "downloads": ev.get("asset_download", 0),
         })
     channels.sort(key=lambda x: (-x["human_pv"], -x["unique"]))
 
