@@ -235,7 +235,8 @@ def render_post(slug: str) -> HTMLResponse:
         # Article JSON-LD is kept; FAQPage is appended as a SECOND script tag.
         html = html.replace(
             '<div class="res"><b>Free downloads</b>',
-            _LEAD_BLOCK + '\n  <div class="res"><b>Free downloads</b>', 1)
+            _TOOL_CTA + '\n  ' + _LEAD_BLOCK
+            + '\n  <div class="res"><b>Free downloads</b>', 1)
         html = html.replace('</head>', _FAQ_LD + '\n</head>', 1)
     return HTMLResponse(html, headers=_NO_CACHE)
 
@@ -245,6 +246,16 @@ _CJK_RE = re.compile(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]")
 
 # 2026-11-14 answer-then-ask: one high-intent page only (smallest testable unit).
 _LEAD_SLUG = "error-5995-fix"
+
+# 2026-11-16: the answer must lead to an action, not only to a download.
+# Only injected on the Error 5995 article. No sign-up, no UTM on an internal link.
+_TOOL_CTA = r"""
+  <div class="cta"><b>Fix the flat file before the next upload - free, in your browser.</b><br>
+    Paste or select your marketplace TSV, see every row that will be rejected,
+    apply the fixes in one pass, and export a file you can upload again.
+    No sign-up, no credit card, no file leaves your browser.<br>
+    <a class="btn" href="/en/tools/tsv-repair">Open the TSV preflight repair tool &rarr;</a></div>
+"""
 _LEAD_BLOCK = r"""
   <section class="lead-block" id="rule-alerts">
     <h2>Get the field map and alerts when the rules change</h2>

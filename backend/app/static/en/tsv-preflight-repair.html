@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TSV Preflight Repair for Amazon EU Bulk Uploads | CrossAIO</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#16202e;--muted:#5c6b7e;--line:#e2e7ee;--red:#b42318;--redbg:#fef3f2;--amber:#b54708;--amberbg:#fffaeb;--green:#067647;--greenbg:#ecfdf3;--blue:#175cd3;--bluebg:#eff8ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 70px}
+h1{font-size:21px;font-weight:600;margin:0 0 6px}
+h2{font-size:15px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+.tag{display:inline-block;font-size:12px;font-weight:500;padding:2px 9px;border-radius:20px;background:var(--greenbg);color:var(--green);border:1px solid #abefc6}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.step{flex:1;min-width:170px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--muted)}
+.step b{display:block;color:var(--ink);font-size:13px;font-weight:600;margin-bottom:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--bluebg);color:var(--blue);align-items:center;justify-content:center;font-size:12px;font-weight:600}
+textarea,input,select{font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px 11px;width:100%}
+textarea{resize:vertical}
+label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>div{flex:1;min-width:170px}
+button{font:13px/1.4 inherit;font-weight:500;cursor:pointer;border-radius:7px;padding:9px 15px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+button:hover{background:#f2f5f9}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+button.primary:hover{background:#1249b0}
+button.warn{background:var(--amberbg);border-color:#fedf89;color:var(--amber)}
+button.ghost{background:transparent}
+button:disabled{opacity:.45;cursor:not-allowed}
+.btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:0 0 14px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:11px 13px}
+.stat .v{font-size:22px;font-weight:600;line-height:1.2}
+.stat .k{font-size:12px;color:var(--muted);margin-top:2px}
+.stat.bad .v{color:var(--red)} .stat.good .v{color:var(--green)} .stat.mid .v{color:var(--amber)}
+table{border-collapse:collapse;width:100%;font-size:12px}
+th,td{text-align:left;border-bottom:1px solid var(--line);padding:7px 9px;vertical-align:top}
+th{background:var(--bg);color:var(--muted);font-weight:500;position:sticky;top:0}
+td.mono,th.mono{font-family:ui-monospace,Consolas,monospace;font-size:11.5px}
+.scroll{max-height:330px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;font-weight:500}
+.pill.block{background:var(--redbg);color:var(--red)}
+.pill.warn{background:var(--amberbg);color:var(--amber)}
+.pill.ok{background:var(--greenbg);color:var(--green)}
+.note{font-size:12px;color:var(--muted);background:var(--bg);border-left:3px solid var(--line);padding:9px 12px;border-radius:0 6px 6px 0;margin-top:11px}
+.alert{font-size:12.5px;background:var(--amberbg);border:1px solid #fedf89;color:#7a2e0e;border-radius:8px;padding:11px 13px;margin-bottom:14px;line-height:1.65}
+.rule{display:grid;grid-template-columns:26px 1fr 200px 92px;gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.rule:last-child{border-bottom:0}
+.rule .rn{font-size:11px;color:var(--muted);line-height:1.45}
+.rule input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue)}
+.rule input[type=text]{padding:6px 8px;font-size:12px}
+.rule .sev{font-size:11px;text-align:right}
+.hd{display:grid;grid-template-columns:26px 1fr 200px 92px;gap:9px;font-size:11px;color:var(--muted);padding:0 0 6px}
+.out{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
+.chk{font-size:12.5px;display:flex;gap:8px;align-items:flex-start;padding:5px 0;color:var(--muted)}
+.chk input{width:15px;height:15px;margin-top:3px;accent-color:var(--green)}
+details{margin-top:12px;font-size:12.5px;color:var(--muted)}
+summary{cursor:pointer;font-weight:500;color:var(--ink)}
+details ul{padding-left:18px;margin:9px 0}
+details li{margin:5px 0}
+.log{font:11.5px/1.6 ui-monospace,Consolas,monospace;color:var(--muted);white-space:pre-wrap;max-height:150px;overflow:auto;background:var(--bg);border-radius:7px;padding:9px 11px;margin-top:10px}
+.hidden{display:none}
+footer{font-size:12px;color:var(--muted);text-align:center;padding:16px 0}
+</style>
+<meta name="description" content="Free browser-side TSV preflight repair for Amazon EU bulk uploads. Find rows that will be rejected, force PartialUpdate, clear restricted brand fields, fill EU Responsible Person columns per SKU and export a UTF-8 BOM TSV. No sign-up and no file upload.">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CrossAIO TSV Preflight Repair", "url": "https://www.crossaio.com/en/tools/tsv-repair", "applicationCategory": "BusinessApplication", "operatingSystem": "Any modern web browser", "description": "A free in-browser tool that diagnoses and repairs marketplace TSV flat files before an Amazon EU bulk upload. No account, no file upload, no external scripts.", "featureList": "Row-level blocking diagnostics, PartialUpdate enforcement, restricted brand column clearing, EU Responsible Person bulk fill, per-SKU overrides, German and French safety warning checks, split and batched TSV export with UTF-8 BOM", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>TSV preflight repair <span class="tag">Free · runs in your browser</span></h1>
+  <p class="sub">The step a seller cannot skip: take the marketplace template, find every SKU that will be rejected, fix them in one pass, and export a TSV you can upload again. Everything happens in this browser tab. Your file is never uploaded, never stored on a server, and never sent to Amazon. Close the tab and it is gone.</p>
+  <div class="steps">
+    <div class="step"><b>1 Load</b>Paste or choose a TSV / CSV</div>
+    <div class="step"><b>2 Diagnose</b>Locate blocking rows</div>
+    <div class="step"><b>3 Repair</b>Bulk values / per-SKU map</div>
+    <div class="step"><b>4 Export</b>Split by site, batches, UTF-8 BOM</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="n">1</span> Load the marketplace template</h2>
+  <div class="alert"><b>No false promises:</b> Error 5995 has three conflicting public explanations. Amazon Seller Forums describe an attempt to change an ASIN brand name, or a flat file using <code>Update</code> so empty columns are treated as deletions. euproof and digicloud9 describe restricted fields being edited without brand-owner rights. Our own article describes missing GPSR compliance data. This tool does not claim that repairing a file makes 5995 disappear. It clears every blocking condition that can be verified before upload, and lists the items that only Seller Central can confirm. Column names are common aliases: check them against your own template and edit them below if needed.</div>
+  <label>Paste TSV content (first row must be the header)</label>
+  <textarea id="raw" rows="6" placeholder="sku	marketplace	update_type	brand_name	gpsr_eu_responsible_person_name	..."></textarea>
+  <div class="btnrow">
+    <button class="primary" id="btnParse">Parse and diagnose</button>
+    <button id="btnFile">Choose a .tsv / .csv file</button>
+    <input type="file" id="file" accept=".tsv,.csv,.txt" class="hidden">
+    <button class="warn" id="btnDemo">Load 2,480 demo rows</button>
+    <button class="ghost" id="btnClear">Clear</button>
+  </div>
+  <div class="note">The demo deliberately mixes real-world problems: misuse of Update, a populated restricted brand column, a missing Responsible Person, unsplit address columns, missing local-language warnings and mixed marketplaces. Demo fill values contain the word DEMO and must be replaced before any real upload.</div>
+</div>
+
+<div class="card" id="cardDiag">
+  <h2><span class="n">2</span> Diagnosis</h2>
+  <div id="diagEmpty" class="note">No file loaded yet.</div>
+  <div id="diagBody" class="hidden">
+    <div class="stats" id="stats"></div>
+    <div id="ruleHits"></div>
+    <div class="scroll" style="margin-top:12px"><table id="issueTable"></table></div>
+    <div class="note" id="colMap"></div>
+  </div>
+</div>
+
+<div class="card" id="cardFix">
+  <h2><span class="n">3</span> Repair rules and bulk values</h2>
+  <div class="hd"><span></span><span>Rule / source</span><span>Column name (editable)</span><span>Severity</span></div>
+  <div id="rules"></div>
+  <div class="btnrow"><button id="btnRuleReset">Restore default rules</button></div>
+
+  <h2 style="margin-top:22px"><span class="n">3b</span> Bulk fill values</h2>
+  <p class="sub" style="margin:0 0 12px">Leave a value empty and the field stays "needs manual input" - the tool will not pretend it was fixed. In real catalogues the EU Responsible Person is usually one account-level value, with a few SKUs or suppliers differing. Both cases are supported below.</p>
+  <div class="row" id="fillRow"></div>
+  <div class="btnrow">
+    <button id="btnDemoFill">Fill demo values (demo only, never upload)</button>
+    <button id="btnClearFill">Clear fill values</button>
+  </div>
+
+  <label style="margin-top:16px">Per-SKU override (optional): one <code>SKU&lt;TAB&gt;value</code> per line, applied to the field selected below</label>
+  <div class="row">
+    <div style="flex:0 0 230px"><label>Target field</label><select id="mapField"></select></div>
+    <div style="flex:2"><textarea id="skuMap" rows="3" placeholder="SKU-00012&#9;EU Compliance Services GmbH&#10;SKU-00013&#9;Another RP GmbH"></textarea></div>
+  </div>
+  <div class="btnrow">
+    <button class="primary" id="btnFixAll">Repair everything that can be automated</button>
+    <button id="btnApplyMap">Apply SKU map</button>
+    <button id="btnRediag">Re-diagnose</button>
+  </div>
+  <div class="log" id="log">Waiting for input.</div>
+</div>
+
+<div class="card" id="cardOut">
+  <h2><span class="n">4</span> Export and re-upload checks</h2>
+  <div id="outState" class="note">Nothing repaired yet.</div>
+  <div class="out" id="outButtons"></div>
+  <div id="splitBox" class="hidden" style="margin-top:14px">
+    <label>Download split by marketplace (one site / one product type per file)</label>
+    <div class="out" id="splitButtons"></div>
+  </div>
+  <div id="batchBox" class="hidden" style="margin-top:14px">
+    <label>Above 500 rows, upload in batches (start with a 20-row test)</label>
+    <div class="out" id="batchButtons"></div>
+  </div>
+  <div style="margin-top:18px">
+    <label>Confirm each item before uploading to Seller Central</label>
+    <div class="chk"><input type="checkbox" id="c1"><span>The account-level EU Responsible Person is active in Manage Your Compliance and has synced across sites (usually 1-3 days). Until then the whole batch is rejected regardless of file quality.</span></div>
+    <div class="chk"><input type="checkbox" id="c2"><span>Each file contains one product type and one marketplace, and warnings are in that site's language.</span></div>
+    <div class="chk"><input type="checkbox" id="c3"><span>The file is TSV, UTF-8 with BOM (this tool adds it), not Excel; addresses are split into street / city / postcode / country columns.</span></div>
+    <div class="chk"><input type="checkbox" id="c4"><span>The key is SKU / manufacturer reference, not ASIN; test with 20 rows first and read the processing report line by line.</span></div>
+    <div class="chk"><input type="checkbox" id="c5"><span>Every DEMO placeholder has been replaced with real data; this tool does not connect to Amazon and does not guarantee that 5995 disappears.</span></div>
+  </div>
+  <details>
+    <summary>Rule sources (verifiable)</summary>
+    <ul>
+      <li>Amazon Seller Forums, <code>Error 5995 (Possible Solution)</code>: 5995 can mean an attempt to change an ASIN brand name; a flat file using <code>Update</code> treats empty columns as deletions, so use <code>PartialUpdate</code> and leave the brand name column empty.</li>
+      <li>euproof, <i>GPSR for Amazon FBA: Bulk Compliance for Large Catalogs</i>: submit at SKU level rather than ASIN level, one product type and one site per file, save as .TSV, hidden Safety and compliance columns, Manage Your Compliance entry point.</li>
+      <li>digicloud9, <i>GPSR Bulk Upload is Broken: A Practical Guide for Resellers with 5,000 SKUs</i>: 5995 / 8541 are permission and field conflicts, TSV beats Excel, batch by revenue priority.</li>
+      <li>Agence Octo, <i>How to bulk upload GPSR safety certificates to Amazon EU listings in 2026</i>: account-level RP is a prerequisite, the master sheet is keyed on manufacturer reference, eight language columns, UTF-8 with BOM, split address columns, read the error report row by row.</li>
+      <li>CrossAIO <code>/en/blog/error-5995-fix</code>: the GPSR compliance gate, one missing local-language warning fails the whole row, restricted attributes, Brand Registry limits.</li>
+    </ul>
+  </details>
+</div>
+
+<footer>Single page, no external scripts, no account, no file upload. Your data stays in this tab. Anonymous counters (rows repaired / files exported) are sent to CrossAIO so we can tell whether this tool is useful; no file content, SKU, email or personal data is ever transmitted.</footer>
+</div>
+
+<script>
+"use strict";
+var S={raw:"",delim:"\t",headers:[],rows:[],issues:[],idx:{},rules:[],fills:{},log:[]};
+
+var ALIASES={
+ sku:["sku","seller_sku","seller-sku","merchant_sku","sku_id"],
+ marketplace:["marketplace","store","site","country","marketplace_id","sales_channel"],
+ update_type:["update_type","operation","operation_type","update_delete","action","feed_operation_type"],
+ brand_name:["brand_name","brand","brandname","brand-name"],
+ rp_name:["gpsr_eu_responsible_person_name","eu_responsible_person_name","responsible_person_name","eu_responsible_person","gpsr_responsible_person_name","responsible_person"],
+ rp_street:["gpsr_eu_responsible_person_address_street","responsible_person_address_street","rp_address_street","responsible_person_street"],
+ rp_city:["gpsr_eu_responsible_person_address_city","responsible_person_address_city","rp_address_city","responsible_person_city"],
+ rp_zip:["gpsr_eu_responsible_person_address_postcode","responsible_person_address_postcode","rp_address_postcode","responsible_person_postcode"],
+ rp_country:["gpsr_eu_responsible_person_address_country","responsible_person_address_country","rp_address_country","responsible_person_country"],
+ manufacturer_name:["gpsr_manufacturer_name","manufacturer_name","manufacturer"],
+ warn_de:["gpsr_safety_warning_de","safety_warning_de","warning_de","safety_warning_german"],
+ warn_fr:["gpsr_safety_warning_fr","safety_warning_fr","warning_fr","safety_warning_french"],
+ country_origin:["country_of_origin","country_of_origin_code","origin_country"]
+};
+var PREFERRED={
+ sku:"sku",marketplace:"marketplace",update_type:"update_type",brand_name:"brand_name",
+ rp_name:"gpsr_eu_responsible_person_name",rp_street:"gpsr_eu_responsible_person_address_street",
+ rp_city:"gpsr_eu_responsible_person_address_city",rp_zip:"gpsr_eu_responsible_person_address_postcode",
+ rp_country:"gpsr_eu_responsible_person_address_country",manufacturer_name:"gpsr_manufacturer_name",
+ warn_de:"gpsr_safety_warning_de",warn_fr:"gpsr_safety_warning_fr",country_origin:"country_of_origin"
+};
+var LABELS={
+ sku:"SKU",marketplace:"Marketplace",update_type:"Update mode",brand_name:"Brand name (restricted)",
+ rp_name:"EU Responsible Person name",rp_street:"EU RP street",rp_city:"EU RP city",
+ rp_zip:"EU RP postcode",rp_country:"EU RP country",manufacturer_name:"Manufacturer name",
+ warn_de:"German safety warning",warn_fr:"French safety warning",country_origin:"Country of origin"
+};
+var DEFAULT_RULES=[
+ {id:"partial",label:"Force Update to PartialUpdate",key:"update_type",mode:"force",value:"PartialUpdate",sev:"BLOCK",on:true,note:"Amazon Seller Forums: Update treats empty columns as deletions and triggers the 5995 guard."},
+ {id:"brand",label:"Clear restricted brand_name column",key:"brand_name",mode:"clear",sev:"BLOCK",on:true,note:"Classic 5995 means an attempt to change an ASIN brand name; leaving the column empty avoids that."},
+ {id:"rp_name",label:"EU Responsible Person name required",key:"rp_name",mode:"require",sev:"BLOCK",on:true,note:"Mandatory GPSR attribute; the account-level RP must be active in Manage Your Compliance first."},
+ {id:"rp_street",label:"RP street required (split column)",key:"rp_street",mode:"require",sev:"BLOCK",on:true,note:"Addresses cannot be one concatenated line; the Amazon parser requires split columns."},
+ {id:"rp_city",label:"RP city required",key:"rp_city",mode:"require",sev:"BLOCK",on:true,note:"Same as above: split columns."},
+ {id:"rp_zip",label:"RP postcode required",key:"rp_zip",mode:"require",sev:"BLOCK",on:true,note:"Same as above: split columns."},
+ {id:"rp_country",label:"RP country required",key:"rp_country",mode:"require",sev:"BLOCK",on:true,note:"Must be inside the EU."},
+ {id:"manufacturer_name",label:"Manufacturer name required",key:"manufacturer_name",mode:"require",sev:"BLOCK",on:true,note:"Mandatory GPSR attribute."},
+ {id:"warn_de",label:"amazon.de rows need a German warning",key:"warn_de",mode:"require_market",market:"DE",sev:"BLOCK",on:true,note:"One missing language fails the whole row; an English warning is not accepted on DE."},
+ {id:"warn_fr",label:"amazon.fr rows need a French warning",key:"warn_fr",mode:"require_market",market:"FR",sev:"BLOCK",on:true,note:"Same as above."},
+ {id:"country_origin",label:"Country of origin required",key:"country_origin",mode:"require",sev:"WARN",on:true,note:"Common GPSR requirement; missing values usually produce processing-report warnings."}
+];
+var REQUIRE_KEYS=["rp_name","rp_street","rp_city","rp_zip","rp_country","manufacturer_name","warn_de","warn_fr","country_origin"];
+var DEMO_FILL={
+ rp_name:"EU Compliance Services GmbH (DEMO - replace)",
+ rp_street:"Musterstrasse 12 (DEMO)",
+ rp_city:"Berlin (DEMO)",
+ rp_zip:"10115",
+ rp_country:"DE",
+ manufacturer_name:"Demo Manufacturer Ltd (DEMO - replace)",
+ warn_de:"Achtung: Nur fuer den Gebrauch durch Erwachsene. (DEMO)",
+ warn_fr:"Attention : reserve a un usage adulte. (DEMO)",
+ country_origin:"DE"
+};
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function log(s){S.log.push(new Date().toLocaleTimeString()+"  "+s);$("log").textContent=S.log.slice(-40).join("\n")}
+function norm(s){return String(s==null?"":s).trim().toLowerCase().replace(/[^a-z0-9]/g,"")}
+function findCol(headers,aliases){for(var i=0;i<headers.length;i++){var h=norm(headers[i]);for(var j=0;j<aliases.length;j++){if(h===norm(aliases[j]))return i}}return -1}
+function buildIdx(){S.idx={};for(var k in ALIASES){S.idx[k]=findCol(S.headers,ALIASES[k])}}
+function val(row,key){var i=S.idx[key];return i<0?"":String(row[i]==null?"":row[i]).trim()}
+function setVal(row,key,v){var i=S.idx[key];if(i>=0)row[i]=v}
+function ensureCol(key){if(S.idx[key]>=0)return;S.headers.push(PREFERRED[key]);for(var r=0;r<S.rows.length;r++)S.rows[r].push("");S.idx[key]=S.headers.length-1;log("Added missing column: "+PREFERRED[key])}
+function splitLine(line,delim){
+ if(delim==="\t")return line.split("\t");
+ var out=[],cur="",q=false;
+ for(var i=0;i<line.length;i++){var c=line[i];
+  if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++}else q=!q}
+  else if(c===delim&&!q){out.push(cur);cur=""}
+  else cur+=c}
+ out.push(cur);return out
+}
+function parse(){
+ var raw=S.raw.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+ var lines=raw.split("\n");while(lines.length&&!lines[lines.length-1].trim())lines.pop();
+ if(!lines.length){alert("No content");return false}
+ var first=lines[0];S.delim=(first.split("\t").length-1)>=(first.split(",").length-1)?"\t":",";
+ S.headers=splitLine(first,S.delim).map(function(x){return x.replace(/^\uFEFF/,"").trim()});
+ S.rows=[];
+ for(var i=1;i<lines.length;i++){var c=splitLine(lines[i],S.delim);while(c.length<S.headers.length)c.push("");S.rows.push(c.slice(0,S.headers.length))}
+ buildIdx();log("Parsed: "+S.rows.length+" rows / "+S.headers.length+" columns / delimiter="+(S.delim==="\t"?"TAB":"comma"));
+ return true
+}
+function marketOf(row){var m=val(row,"marketplace").toUpperCase();
+ if(/DE|GERMANY|AMAZON\.DE/.test(m))return "DE";
+ if(/FR|FRANCE|AMAZON\.FR/.test(m))return "FR";
+ return m||"UNKNOWN"}
+function diagnose(){
+ S.issues=[];
+ if(!S.rows.length)return;
+ var counts={},blocked={};
+ for(var r=0;r<S.rows.length;r++){var row=S.rows[r];
+  for(var q=0;q<S.rules.length;q++){var rule=S.rules[q];if(!rule.on)continue;
+   var i=S.idx[rule.key],missing=(i<0),cur=missing?"":String(row[i]==null?"":row[i]).trim(),bad=false,msg="";
+   if(rule.mode==="force"){if(cur.toUpperCase().replace(/[^A-Z]/g,"")!==String(rule.value).toUpperCase().replace(/[^A-Z]/g,"")){bad=true;msg="found="+(cur||"empty")+" -> expected "+rule.value}}
+   else if(rule.mode==="clear"){if(cur){bad=true;msg="restricted column has a value: "+cur.slice(0,28)}}
+   else if(rule.mode==="require"||rule.mode==="require_market"){
+    if(rule.mode==="require_market"&&marketOf(row)!==rule.market)continue;
+    if(!cur){bad=true;msg=missing?"missing column "+PREFERRED[rule.key]:"field is empty"}
+   }
+   if(bad){S.issues.push({r:r,key:rule.key,rule:rule.label,sev:rule.sev,msg:msg,missing:missing});
+    counts[rule.label]=(counts[rule.label]||0)+1;
+    if(rule.sev==="BLOCK")blocked[r]=1}
+  }
+ }
+ var nb=Object.keys(blocked).length,tot=S.rows.length;
+ var st=[{k:"Total SKU rows",v:tot,c:""},{k:"Blocking rows",v:nb,c:nb?"bad":"good"},{k:"Rows ready to re-upload",v:tot-nb,c:"good"},{k:"Total issues",v:S.issues.length,c:S.issues.length?"mid":"good"},{k:"Zero blocking rows",v:nb===0?"yes":"no",c:nb?"bad":"good"}];
+ $("stats").innerHTML=st.map(function(x){return '<div class="stat '+x.c+'"><div class="v">'+x.v+'</div><div class="k">'+x.k+'</div></div>'}).join("");
+ var cs=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});
+ $("ruleHits").innerHTML=cs.length?'<div class="note">Rules hit: '+cs.map(function(k){return esc(k)+" <b>"+counts[k]+"</b>"}).join(" · ")+"</div>":'<div class="note">No enabled rule matched.</div>';
+ var show=S.issues.slice(0,50);
+ $("issueTable").innerHTML='<thead><tr><th>Row</th><th>SKU</th><th>Site</th><th>Rule</th><th class="mono">Reason</th><th>Severity</th></tr></thead><tbody>'+
+  (show.length?show.map(function(x){var row=S.rows[x.r];return '<tr><td>'+(x.r+2)+'</td><td class="mono">'+esc(val(row,"sku")||"—")+'</td><td>'+esc(marketOf(row))+'</td><td>'+esc(x.rule)+'</td><td class="mono">'+esc(x.msg)+'</td><td><span class="pill '+(x.sev==="BLOCK"?"block":"warn")+'">'+x.sev+'</span></td></tr>'}).join(""):'<tr><td colspan="6">No issues found.</td></tr>')+'</tbody>'+
+  (S.issues.length>50?'<tfoot><tr><td colspan="6" style="color:var(--muted)">Showing first 50 of '+S.issues.length+' issues; a full re-check runs before export.</td></tr></tfoot>':"");
+ var mapped=Object.keys(S.idx).map(function(k){return LABELS[k]+"="+(S.idx[k]<0?"<span style='color:var(--red)'>missing</span>":esc(S.headers[S.idx[k]]))}).join(" · ");
+ $("colMap").innerHTML="<b>Column mapping:</b>"+mapped;
+ $("diagEmpty").classList.add("hidden");$("diagBody").classList.remove("hidden");
+ renderOut(nb);
+ return nb
+}
+function renderRules(){
+ $("rules").innerHTML=S.rules.map(function(rule,i){
+  return '<div class="rule"><input type="checkbox" data-i="'+i+'" class="ron" '+(rule.on?"checked":"")+'>'+
+   '<div><div style="font-size:13px;font-weight:500">'+esc(rule.label)+'</div><div class="rn">'+esc(rule.note)+'</div></div>'+
+   '<input type="text" class="rname" data-i="'+i+'" value="'+esc(PREFERRED[rule.key])+'">'+
+   '<div class="sev"><span class="pill '+(rule.sev==="BLOCK"?"block":"warn")+'">'+rule.sev+'</span></div></div>'
+ }).join("");
+ Array.prototype.forEach.call(document.querySelectorAll(".ron"),function(el){el.onchange=function(){S.rules[+el.dataset.i].on=el.checked;diagnose()}});
+ Array.prototype.forEach.call(document.querySelectorAll(".rname"),function(el){el.onchange=function(){
+  var k=S.rules[+el.dataset.i].key,name=el.value.trim();if(!name){el.value=PREFERRED[k];return}
+  PREFERRED[k]=name;if(S.idx[k]>=0)S.headers[S.idx[k]]=name;buildIdx();diagnose();log("Column renamed: "+k+" -> "+name)
+ }});
+ var sel=$("mapField");sel.innerHTML=REQUIRE_KEYS.map(function(k){return '<option value="'+k+'">'+esc(LABELS[k])+" · "+esc(PREFERRED[k])+'</option>'}).join("")
+}
+function renderFills(){
+ $("fillRow").innerHTML=REQUIRE_KEYS.map(function(k){
+  return '<div><label>'+esc(LABELS[k])+' <span style="font-family:monospace;font-size:11px">'+esc(PREFERRED[k])+'</span></label><input type="text" class="fill" data-k="'+k+'" value="'+esc(S.fills[k]||"")+'" placeholder="empty = needs manual input"></div>'
+ }).join("");
+ Array.prototype.forEach.call(document.querySelectorAll(".fill"),function(el){el.oninput=function(){S.fills[el.dataset.k]=el.value}})
+}
+function applyDemoData(){
+ var sites=["DE","FR","IT","ES","NL","PL","SE","BE"],cats=["Electric Toothbrush","Hair Dryer","Water Flosser","Shaver","Massage Gun","Kids Puzzle","USB Charger","Desk Lamp"];
+ var heads=["sku","product_name","marketplace","update_type","brand_name",
+  "gpsr_eu_responsible_person_name","gpsr_eu_responsible_person_address_street","gpsr_eu_responsible_person_address_city",
+  "gpsr_eu_responsible_person_address_postcode","gpsr_eu_responsible_person_address_country","gpsr_manufacturer_name",
+  "gpsr_safety_warning_de","gpsr_safety_warning_fr","country_of_origin"];
+ var L=[heads.join("\t")],seed=20261116;
+ function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff}
+ for(var i=1;i<=2480;i++){
+  var sku="SKU-"+String(i).padStart(5,"0"),site=sites[Math.floor(rnd()*sites.length)],cat=cats[Math.floor(rnd()*cats.length)];
+  var rp=rnd()<0.4?"":"EU Compliance Services GmbH",st=rnd()<0.45?"":"Musterstrasse 12";
+  var row=[sku,cat+" "+String(100+Math.floor(rnd()*900)),site,
+   rnd()<0.35?"Update":"PartialUpdate",
+   rnd()<0.3?"NordicCare":"",
+   rp,st,st?"Berlin":"",st?"10115":"",st?"DE":"",
+   rnd()<0.3?"":"NordicCare Manufacturing AB",
+   site==="DE"?(rnd()<0.6?"":"Achtung: Nur fuer Erwachsene."):"",
+   site==="FR"?(rnd()<0.6?"":"Attention : usage adulte."):"",
+   rnd()<0.25?"":"DE"];
+  L.push(row.join("\t"))
+ }
+ S.raw=L.join("\n");$("raw").value=S.raw;log("Generated 2,480 demo rows (offline)")
+}
+function ensureAllColumns(){
+ S.rules.forEach(function(rule){if(rule.on&&rule.mode!=="clear")ensureCol(rule.key)})
+}
+function fixAll(){
+ if(!S.rows.length){alert("Load and parse a file first");return}
+ ensureAllColumns();
+ var nForce=0,nClear=0,nFill=0,pending=0;
+ S.rules.forEach(function(rule){if(!rule.on)return;
+  if(rule.mode==="force"||rule.mode==="clear"){
+   for(var r=0;r<S.rows.length;r++){
+    if(rule.mode==="force"){setVal(S.rows[r],rule.key,rule.value);nForce++}
+    else{var i=S.idx[rule.key];if(i>=0&&S.rows[r][i]){S.rows[r][i]="";nClear++}}
+   }
+  } else {
+   var f=S.fills[rule.key];
+   if(!f){pending++;return}
+   for(var r2=0;r2<S.rows.length;r2++){
+    if(rule.mode==="require_market"&&marketOf(S.rows[r2])!==rule.market)continue;
+    if(!val(S.rows[r2],rule.key)){setVal(S.rows[r2],rule.key,f);nFill++}
+   }
+  }
+ });
+ log("Repair: PartialUpdate/forced "+nForce+" values, cleared restricted column "+nClear+" cells, bulk fill "+nFill+" values");
+ if(pending)log("Note: "+pending+" required fields have no fill value; they stay empty, nothing is faked.");
+ var nb=diagnose();log(nb===0?"Full re-check: 0 blocking rows -> file is ready to re-upload (Seller Central checks still apply)":"Full re-check: still "+nb+" blocking rows");
+}
+function applySkuMap(){
+ if(!S.rows.length){alert("Load and parse a file first");return}
+ var key=$("mapField").value,txt=$("skuMap").value.trim();
+ if(!txt){alert("Paste SKU<TAB>value lines first");return}
+ ensureCol(key);
+ var map={},lines=txt.replace(/\r/g,"").split("\n"),c=0;
+ lines.forEach(function(l){var p=l.split("\t");if(p.length>=2&&p[0].trim())map[norm(p[0])]=p.slice(1).join("\t").trim()});
+ for(var r=0;r<S.rows.length;r++){var sku=norm(val(S.rows[r],"sku"));if(map[sku]!==undefined){setVal(S.rows[r],key,map[sku]);c++}}
+ log("SKU map: "+Object.keys(map).length+" rules -> matched "+c+" rows, field "+PREFERRED[key]);
+ diagnose()
+}
+function tsvCell(v){v=String(v==null?"":v);return /[\t\n\r"]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+function buildTsv(headers,rows){return "\uFEFF"+[headers.map(tsvCell).join("\t")].concat(rows.map(function(r){return r.map(tsvCell).join("\t")})).join("\r\n")+"\r\n"}
+function download(name,content){
+ var b=new Blob([content],{type:"text/tab-separated-values;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");
+ a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u)},1500);
+ log("Exported "+name+" ("+content.length+" chars, UTF-8 BOM)")
+}
+function stamp(){var d=new Date(),p=function(n){return String(n).padStart(2,"0")};return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+"_"+p(d.getHours())+p(d.getMinutes())}
+function renderOut(nb){
+ var box=$("outState");
+ if(!S.rows.length){box.className="note";box.textContent="Nothing repaired yet.";$("outButtons").innerHTML="";return}
+ box.className=nb===0?"alert":"note";
+ box.style.background=nb===0?"var(--greenbg)":"";
+ box.style.borderColor=nb===0?"#abefc6":"";
+ box.innerHTML=nb===0?"<b>0 blocking rows - the file is ready to re-upload.</b> This is a file-side judgement only: account-level RP, Brand Registry rights and language coverage still need the checklist below. This tool does not connect to Amazon and does not guarantee that 5995 disappears.":"<b>Still "+nb+" blocking rows.</b> You can still export for diagnosis, but fill the fields marked as needing manual input above first. Do not upload empty values.";
+ var html='<button class="primary" id="btnMain">Export repaired TSV (main file)</button>';
+ $("outButtons").innerHTML=html;
+ $("btnMain").onclick=function(){download("crossaio_fixed_"+stamp()+".tsv",buildTsv(S.headers,S.rows))};
+ var mi=S.idx.marketplace;
+ if(mi>=0){
+  var groups={};S.rows.forEach(function(r){var m=(r[mi]||"UNKNOWN").trim().toUpperCase();(groups[m]=groups[m]||[]).push(r)});
+  var keys=Object.keys(groups).sort();
+  $("splitBox").classList.remove("hidden");
+  $("splitButtons").innerHTML=keys.map(function(k,i){return '<button data-k="'+i+'">'+esc(k)+" · "+groups[k].length+" rows</button>"}).join("");
+  Array.prototype.forEach.call($("splitButtons").querySelectorAll("button"),function(b){b.onclick=function(){var k=keys[+b.dataset.k];download("crossaio_fixed_"+k.toLowerCase()+"_"+stamp()+".tsv",buildTsv(S.headers,groups[k]))}})
+ } else $("splitBox").classList.add("hidden");
+ if(S.rows.length>500){
+  $("batchBox").classList.remove("hidden");
+  var n=Math.ceil(S.rows.length/500),btns=[];
+  for(var i=0;i<n;i++)btns.push('<button data-b="'+i+'">Batch '+(i+1)+"/"+n+" of "+Math.min(500,S.rows.length-i*500)+" rows</button>");
+  $("batchButtons").innerHTML=btns.join("");
+  Array.prototype.forEach.call($("batchButtons").querySelectorAll("button"),function(b){b.onclick=function(){var i=+b.dataset.b;download("crossaio_fixed_batch"+(i+1)+"_"+stamp()+".tsv",buildTsv(S.headers,S.rows.slice(i*500,(i+1)*500)))}})
+ } else $("batchBox").classList.add("hidden")
+}
+function resetRules(){S.rules=DEFAULT_RULES.map(function(r){return Object.assign({},r)});renderRules();diagnose();log("Default rules restored")}
+function init(){
+ S.rules=DEFAULT_RULES.map(function(r){return Object.assign({},r)});
+ renderRules();renderFills();
+ $("btnParse").onclick=function(){S.raw=$("raw").value;if(parse()){diagnose();log("Diagnosis complete")}};
+ $("btnFile").onclick=function(){$("file").click()};
+ $("file").onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){S.raw=rd.result;$("raw").value=S.raw;if(parse()){diagnose();log("Read local file "+f.name)}};rd.readAsText(f,"UTF-8")};
+ $("btnDemo").onclick=function(){applyDemoData();if(parse()){diagnose()}};
+ $("btnClear").onclick=function(){S.raw="";S.rows=[];S.headers=[];S.issues=[];S.log=[];$("raw").value="";$("diagEmpty").classList.remove("hidden");$("diagBody").classList.add("hidden");renderOut(0);$("log").textContent="Cleared."};
+ $("btnDemoFill").onclick=function(){S.fills=Object.assign({},DEMO_FILL);renderFills();log("Demo values filled; replace them with real data before any upload")};
+ $("btnClearFill").onclick=function(){S.fills={};renderFills();log("Fill values cleared")};
+ $("btnRuleReset").onclick=resetRules;
+ $("btnFixAll").onclick=fixAll;
+ $("btnApplyMap").onclick=applySkuMap;
+ $("btnRediag").onclick=function(){diagnose();log("Re-diagnosis complete")};
+ renderOut(0)
+}
+init();
+</script>
+
+<script>
+/* Anonymous, non-personal completion counters. No file content, SKU or email is sent. */
+(function(){
+  function blocking(){var n=0;try{for(var i=0;i<S.issues.length;i++){if(S.issues[i].sev==="BLOCK")n++}}catch(e){}return n}
+  function ping(kind){
+    try{
+      fetch('/api/v1/analytics/track',{method:'POST',
+        headers:{'Content-Type':'application/json'},credentials:'same-origin',
+        body:JSON.stringify({event_type:kind,platform:'tsv_repair',
+          meta:{rows:S.rows.length,blocking_issues:blocking(),demo:JSON.stringify(S.fills).indexOf('DEMO')>=0}})
+      }).catch(function(){});
+    }catch(e){}
+  }
+  document.addEventListener('click',function(ev){
+    var t=ev.target;if(!t)return;
+    var id=t.id||'';
+    if(id==='btnFixAll'){ping('tool_repair');return}
+    if(id==='btnMain'||t.getAttribute('data-k')!==null||t.getAttribute('data-b')!==null){ping('tool_export')}
+  },true);
+})();
+</script>
+</body>
+</html>

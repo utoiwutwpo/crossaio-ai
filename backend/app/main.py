@@ -90,6 +90,9 @@ SEO_PAGE_DESC = {
         "de": "CrossAIO Preise: Starter 29 €/Monat, Pro 49 €/Monat, Business 149 €/Monat — mit Jahresabo sparen. Inklusive GPSR-Compliance, KI-Texte und mehrsprachigem Support.",
         "fr": "Tarifs CrossAIO : Starter 29 €/mois, Pro 49 €/mois, Business 149 €/mois — économisez avec l'abonnement annuel. Conformité GPSR, descriptions IA et support multilingue inclus.",
     },
+    "/tools/tsv-repair": {
+        "en": "Free in-browser TSV preflight repair for Amazon EU bulk uploads: find rejected rows, force PartialUpdate, fill EU Responsible Person fields per SKU and export a ready-to-upload TSV. No sign-up, no file upload.",
+    },
     "/gpsr-check": {
         "zh": "免费 GPSR 合规自查：上传产品信息，按欧盟通用产品安全法规逐项检查，生成整改清单，覆盖 27 国要求。",
         "en": "Free GPSR compliance check: upload your product data and get an itemized EU General Product Safety Regulation report with a remediation checklist for all 27 member states.",
@@ -106,6 +109,8 @@ SITEMAP_EN_ONLY_PATHS = (
     "/resources/appeal-pack",
     "/resources/weekly-checklist",
     "/resources/dpp-readiness",
+    # 2026-11-16 browser-side TSV repair tool (no de/fr counterpart)
+    "/tools/tsv-repair",
 )
 
 
@@ -601,6 +606,19 @@ def en_blog_index():
     """
     return blog_post_pages.render_index()
 
+@app.get("/en/tools/tsv-repair", include_in_schema=False)
+def en_tsv_repair_tool():
+    """Free browser-side TSV preflight repair tool (indexable, no sign-up).
+
+    MUST be registered before the /{lang}/{page} catch-all. The page is a
+    single self-contained HTML file: no external scripts, no file upload,
+    no server-side processing of seller data.
+    """
+    return FileResponse(
+        Path(__file__).parent / "static" / "en" / "tsv-preflight-repair.html",
+        headers=_NO_CACHE_HEADERS)
+
+
 @app.get("/en/resources/{slug}", include_in_schema=False)
 def en_resource_page(slug: str):
     """English-only downloadable asset page (FAQPage + BreadcrumbList JSON-LD)."""
@@ -819,9 +837,11 @@ SITEMAP_PATHS = (
     "/resources/appeal-pack",
     "/resources/weekly-checklist",
     "/resources/dpp-readiness",
+    # 2026-11-16: the only page that actually performs seller work.
+    "/tools/tsv-repair",
 )
 SITEMAP_LANGS = ("en", "de", "fr")  # zh is not an SEO locale (2026-11-06 decision)
-SITEMAP_LASTMOD = "2026-11-14"  # answer-then-ask block + IndexNow key deploy
+SITEMAP_LASTMOD = "2026-11-16"  # TSV preflight repair tool
 
 
 def _sitemap_loc(lang: str, path: str) -> str:

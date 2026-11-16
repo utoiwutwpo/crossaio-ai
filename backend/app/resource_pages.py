@@ -395,6 +395,7 @@ _PAGE = """<!DOCTYPE html>
 </main>
 <footer>CrossAIO &mdash; Listing quality and compliance tooling for European cross-border sellers.<br>
   <a href="/en/privacy">Privacy</a> &middot; <a href="/en/terms">Terms</a> &middot;
+  <a href="/en/tools/tsv-repair">TSV preflight repair tool</a> &middot;
   <a href="/en/sitemap">Sitemap</a><br>
   <span data-cta="disclaimer">@@DISCLAIMER_EN@@</span></footer>
 <script>

@@ -31,6 +31,9 @@ VALID_EVENTS = {
     "page_view",
     # 2026-11-12 P1: downloadable assets / lead capture (wired after 11-14)
     "asset_view", "asset_download", "lead_capture",
+    # 2026-11-16: anonymous task-completion events for the TSV repair tool.
+    # Meta contains row counts only; no file content, SKU or email.
+    "tool_repair", "tool_export",
 }
 
 
